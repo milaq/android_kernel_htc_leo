@@ -1562,6 +1562,7 @@ static int parse_station_flags(struct genl_info *info,
 	return 0;
 }
 
+<<<<<<< HEAD
 static u16 nl80211_calculate_bitrate(struct rate_info *rate)
 {
 	int modulation, streams, bitrate;
@@ -1593,6 +1594,35 @@ static u16 nl80211_calculate_bitrate(struct rate_info *rate)
 
 	/* do NOT round down here */
 	return (bitrate + 50000) / 100000;
+=======
+static bool nl80211_put_sta_rate(struct sk_buff *msg, struct rate_info *info,
+				 int attr)
+{
+	struct nlattr *rate;
+	u16 bitrate;
+
+	rate = nla_nest_start(msg, attr);
+	if (!rate)
+		goto nla_put_failure;
+
+	/* cfg80211_calculate_bitrate will return 0 for mcs >= 32 */
+	bitrate = cfg80211_calculate_bitrate(info);
+	if (bitrate > 0)
+		NLA_PUT_U16(msg, NL80211_RATE_INFO_BITRATE, bitrate);
+
+	if (info->flags & RATE_INFO_FLAGS_MCS)
+		NLA_PUT_U8(msg, NL80211_RATE_INFO_MCS, info->mcs);
+	if (info->flags & RATE_INFO_FLAGS_40_MHZ_WIDTH)
+		NLA_PUT_FLAG(msg, NL80211_RATE_INFO_40_MHZ_WIDTH);
+	if (info->flags & RATE_INFO_FLAGS_SHORT_GI)
+		NLA_PUT_FLAG(msg, NL80211_RATE_INFO_SHORT_GI);
+
+	nla_nest_end(msg, rate);
+	return true;
+
+nla_put_failure:
+	return false;
+>>>>>>> 61c912c... cfg80211: add a field for the bitrate of the last rx data packet from a station
 }
 
 static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
@@ -1600,8 +1630,7 @@ static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
 				u8 *mac_addr, struct station_info *sinfo)
 {
 	void *hdr;
-	struct nlattr *sinfoattr, *txrate;
-	u16 bitrate;
+	struct nlattr *sinfoattr;
 
 	hdr = nl80211hdr_put(msg, pid, seq, flags, NL80211_CMD_NEW_STATION);
 	if (!hdr)
@@ -1637,9 +1666,15 @@ static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
 		NLA_PUT_U8(msg, NL80211_STA_INFO_SIGNAL,
 			   sinfo->signal);
 	if (sinfo->filled & STATION_INFO_TX_BITRATE) {
-		txrate = nla_nest_start(msg, NL80211_STA_INFO_TX_BITRATE);
-		if (!txrate)
+		if (!nl80211_put_sta_rate(msg, &sinfo->txrate,
+					  NL80211_STA_INFO_TX_BITRATE))
 			goto nla_put_failure;
+	}
+	if (sinfo->filled & STATION_INFO_RX_BITRATE) {
+		if (!nl80211_put_sta_rate(msg, &sinfo->rxrate,
+					  NL80211_STA_INFO_RX_BITRATE))
+			goto nla_put_failure;
+<<<<<<< HEAD
 
 		/* nl80211_calculate_bitrate will return 0 for mcs >= 32 */
 		bitrate = nl80211_calculate_bitrate(&sinfo->txrate);
@@ -1655,6 +1690,8 @@ static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
 			NLA_PUT_FLAG(msg, NL80211_RATE_INFO_SHORT_GI);
 
 		nla_nest_end(msg, txrate);
+=======
+>>>>>>> 61c912c... cfg80211: add a field for the bitrate of the last rx data packet from a station
 	}
 	if (sinfo->filled & STATION_INFO_RX_PACKETS)
 		NLA_PUT_U32(msg, NL80211_STA_INFO_RX_PACKETS,
