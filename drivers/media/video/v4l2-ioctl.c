@@ -414,6 +414,12 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
 		p->error_idx = p->count;
 		user_ptr = (void __user *)p->controls;
 		if (p->count) {
+<<<<<<< HEAD
+=======
+			err = -EINVAL;
+			if (p->count > V4L2_CID_MAX_CTRLS)
+				goto out_ext_ctrl;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ctrls_size = sizeof(struct v4l2_ext_control) * p->count;
 			/* Note: v4l2_ext_controls fits in sbuf[] so mbuf is still NULL. */
 			mbuf = kmalloc(ctrls_size, GFP_KERNEL);
@@ -1600,6 +1606,11 @@ static long __video_do_ioctl(struct file *file,
 		if (!ops->vidioc_g_tuner)
 			break;
 
+<<<<<<< HEAD
+=======
+		p->type = (vfd->vfl_type == VFL_TYPE_RADIO) ?
+			V4L2_TUNER_RADIO : V4L2_TUNER_ANALOG_TV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = ops->vidioc_g_tuner(file, fh, p);
 		if (!ret)
 			dbgarg(cmd, "index=%d, name=%s, type=%d, "
@@ -1618,6 +1629,11 @@ static long __video_do_ioctl(struct file *file,
 
 		if (!ops->vidioc_s_tuner)
 			break;
+<<<<<<< HEAD
+=======
+		p->type = (vfd->vfl_type == VFL_TYPE_RADIO) ?
+			V4L2_TUNER_RADIO : V4L2_TUNER_ANALOG_TV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		dbgarg(cmd, "index=%d, name=%s, type=%d, "
 				"capability=0x%x, rangelow=%d, "
 				"rangehigh=%d, signal=%d, afc=%d, "
@@ -1636,6 +1652,11 @@ static long __video_do_ioctl(struct file *file,
 		if (!ops->vidioc_g_frequency)
 			break;
 
+<<<<<<< HEAD
+=======
+		p->type = (vfd->vfl_type == VFL_TYPE_RADIO) ?
+			V4L2_TUNER_RADIO : V4L2_TUNER_ANALOG_TV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = ops->vidioc_g_frequency(file, fh, p);
 		if (!ret)
 			dbgarg(cmd, "tuner=%d, type=%d, frequency=%d\n",
@@ -1906,6 +1927,12 @@ long video_ioctl2(struct file *file,
 		p->error_idx = p->count;
 		user_ptr = (void __user *)p->controls;
 		if (p->count) {
+<<<<<<< HEAD
+=======
+			err = -EINVAL;
+			if (p->count > V4L2_CID_MAX_CTRLS)
+				goto out_ext_ctrl;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ctrls_size = sizeof(struct v4l2_ext_control) * p->count;
 			/* Note: v4l2_ext_controls fits in sbuf[] so mbuf is still NULL. */
 			mbuf = kmalloc(ctrls_size, GFP_KERNEL);

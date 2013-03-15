@@ -90,6 +90,11 @@ static struct task_struct *thread_therm = NULL;
 
 static void write_both_fan_speed(struct thermostat *th, int speed);
 static void write_fan_speed(struct thermostat *th, int speed, int fan);
+<<<<<<< HEAD
+=======
+static void thermostat_create_files(void);
+static void thermostat_remove_files(void);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int
 write_reg(struct thermostat* th, int reg, u8 data)
@@ -161,6 +166,11 @@ remove_thermostat(struct i2c_client *client)
 	struct thermostat *th = i2c_get_clientdata(client);
 	int i;
 	
+<<<<<<< HEAD
+=======
+	thermostat_remove_files();
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (thread_therm != NULL) {
 		kthread_stop(thread_therm);
 	}
@@ -449,6 +459,11 @@ static int probe_thermostat(struct i2c_client *client,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
+=======
+	thermostat_create_files();
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 
@@ -566,7 +581,10 @@ thermostat_init(void)
 	struct device_node* np;
 	const u32 *prop;
 	int i = 0, offset = 0;
+<<<<<<< HEAD
 	int err;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	np = of_find_node_by_name(NULL, "fan");
 	if (!np)
@@ -633,6 +651,20 @@ thermostat_init(void)
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
+=======
+#ifndef CONFIG_I2C_POWERMAC
+	request_module("i2c-powermac");
+#endif
+
+	return i2c_add_driver(&thermostat_driver);
+}
+
+static void thermostat_create_files(void)
+{
+	int err;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = device_create_file(&of_dev->dev, &dev_attr_sensor1_temperature);
 	err |= device_create_file(&of_dev->dev, &dev_attr_sensor2_temperature);
 	err |= device_create_file(&of_dev->dev, &dev_attr_sensor1_limit);
@@ -647,6 +679,7 @@ thermostat_init(void)
 	if (err)
 		printk(KERN_WARNING
 			"Failed to create tempertaure attribute file(s).\n");
+<<<<<<< HEAD
 
 #ifndef CONFIG_I2C_POWERMAC
 	request_module("i2c-powermac");
@@ -657,6 +690,11 @@ thermostat_init(void)
 
 static void __exit
 thermostat_exit(void)
+=======
+}
+
+static void thermostat_remove_files(void)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (of_dev) {
 		device_remove_file(&of_dev->dev, &dev_attr_sensor1_temperature);
@@ -673,9 +711,20 @@ thermostat_exit(void)
 			device_remove_file(&of_dev->dev,
 					   &dev_attr_sensor2_fan_speed);
 
+<<<<<<< HEAD
 		of_device_unregister(of_dev);
 	}
 	i2c_del_driver(&thermostat_driver);
+=======
+	}
+}
+
+static void __exit
+thermostat_exit(void)
+{
+	i2c_del_driver(&thermostat_driver);
+	of_device_unregister(of_dev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_init(thermostat_init);

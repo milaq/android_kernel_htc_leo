@@ -156,6 +156,12 @@ void cpu_idle(void)
 #endif
 
 			local_irq_disable();
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_PL310_ERRATA_769419
+			wmb();
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (hlt_counter) {
 				local_irq_enable();
 				cpu_relax();
@@ -206,6 +212,7 @@ void machine_restart(char *cmd)
 	arm_pm_restart(reboot_mode, cmd);
 }
 
+<<<<<<< HEAD
 /*
  * dump a block of kernel memory from around the given address
  */
@@ -277,6 +284,8 @@ static void show_extra_register_data(struct pt_regs *regs, int nbytes)
 	set_fs(fs);
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void __show_regs(struct pt_regs *regs)
 {
 	unsigned long flags;
@@ -335,8 +344,11 @@ void __show_regs(struct pt_regs *regs)
 		printk("Control: %08x%s\n", ctrl, buf);
 	}
 #endif
+<<<<<<< HEAD
 
 	show_extra_register_data(regs, 128);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void show_regs(struct pt_regs * regs)

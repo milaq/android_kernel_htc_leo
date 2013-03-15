@@ -131,7 +131,11 @@ static inline void dma_sync_single_range_for_cpu(struct device *dev,
 		debug_dma_sync_single_range_for_cpu(dev, addr, offset, size, dir);
 
 	} else
+<<<<<<< HEAD
 		dma_sync_single_for_cpu(dev, addr, size, dir);
+=======
+		dma_sync_single_for_cpu(dev, addr + offset, size, dir);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void dma_sync_single_range_for_device(struct device *dev,
@@ -148,7 +152,11 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
 		debug_dma_sync_single_range_for_device(dev, addr, offset, size, dir);
 
 	} else
+<<<<<<< HEAD
 		dma_sync_single_for_device(dev, addr, size, dir);
+=======
+		dma_sync_single_for_device(dev, addr + offset, size, dir);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void

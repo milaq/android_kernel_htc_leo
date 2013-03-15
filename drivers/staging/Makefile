@@ -25,7 +25,11 @@ obj-$(CONFIG_RTL8192SU)		+= rtl8192su/
 obj-$(CONFIG_RTL8192E)		+= rtl8192e/
 obj-$(CONFIG_TRANZPORT)		+= frontier/
 obj-$(CONFIG_ANDROID)		+= android/
+<<<<<<< HEAD
 obj-$(CONFIG_STAGING_DREAM)	+= dream/
+=======
+obj-$(CONFIG_ANDROID)		+= dream/
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 obj-$(CONFIG_DST)		+= dst/
 obj-$(CONFIG_POHMELFS)		+= pohmelfs/
 obj-$(CONFIG_B3DFG)		+= b3dfg/
@@ -43,7 +47,10 @@ obj-$(CONFIG_VME_BUS)		+= vme/
 obj-$(CONFIG_RAR_REGISTER)	+= rar/
 obj-$(CONFIG_DX_SEP)		+= sep/
 obj-$(CONFIG_IIO)		+= iio/
+<<<<<<< HEAD
 obj-$(CONFIG_ZRAM)		+= zram/
 obj-$(CONFIG_XVMALLOC)		+= zram/
 obj-$(CONFIG_SNAPPY_COMPRESS)   += snappy/
 obj-$(CONFIG_SNAPPY_DECOMPRESS) += snappy/
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

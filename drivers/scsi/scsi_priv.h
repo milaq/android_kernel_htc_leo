@@ -107,6 +107,10 @@ extern void scsi_exit_procfs(void);
 #endif /* CONFIG_PROC_FS */
 
 /* scsi_scan.c */
+<<<<<<< HEAD
+=======
+extern int scsi_complete_async_scans(void);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int scsi_scan_host_selected(struct Scsi_Host *, unsigned int,
 				   unsigned int, unsigned int, int);
 extern void scsi_forget_host(struct Scsi_Host *);

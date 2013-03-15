@@ -44,7 +44,10 @@ nlm_fopen(struct svc_rqst *rqstp, struct nfs_fh *f, struct file **filp)
 	exp_readlock();
 	nfserr = nfsd_open(rqstp, &fh, S_IFREG, NFSD_MAY_LOCK, filp);
 	fh_put(&fh);
+<<<<<<< HEAD
 	rqstp->rq_client = NULL;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	exp_readunlock();
  	/* We return nlm error codes as nlm doesn't know
 	 * about nfsd, but nfsd does know about nlm..

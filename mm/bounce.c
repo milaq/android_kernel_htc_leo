@@ -115,8 +115,13 @@ static void copy_to_high_bio_irq(struct bio *to, struct bio *from)
 		 */
 		vfrom = page_address(fromvec->bv_page) + tovec->bv_offset;
 
+<<<<<<< HEAD
 		flush_dcache_page(tovec->bv_page);
 		bounce_copy_vec(tovec, vfrom);
+=======
+		bounce_copy_vec(tovec, vfrom);
+		flush_dcache_page(tovec->bv_page);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 

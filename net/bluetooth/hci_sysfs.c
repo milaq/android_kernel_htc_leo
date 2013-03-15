@@ -166,9 +166,15 @@ void hci_conn_del_sysfs(struct hci_conn *conn)
 	queue_work(bt_workq, &conn->work_del);
 }
 
+<<<<<<< HEAD
 static inline char *host_bustostr(int bus)
 {
 	switch (bus) {
+=======
+static inline char *host_typetostr(int type)
+{
+	switch (type) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case HCI_VIRTUAL:
 		return "VIRTUAL";
 	case HCI_USB:
@@ -188,10 +194,17 @@ static inline char *host_bustostr(int bus)
 	}
 }
 
+<<<<<<< HEAD
 static ssize_t show_bus(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	struct hci_dev *hdev = dev_get_drvdata(dev);
 	return sprintf(buf, "%s\n", host_bustostr(hdev->bus));
+=======
+static ssize_t show_type(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	struct hci_dev *hdev = dev_get_drvdata(dev);
+	return sprintf(buf, "%s\n", host_typetostr(hdev->type));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static ssize_t show_name(struct device *dev, struct device_attribute *attr, char *buf)
@@ -355,7 +368,11 @@ static ssize_t store_sniff_min_interval(struct device *dev, struct device_attrib
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR(bus, S_IRUGO, show_bus, NULL);
+=======
+static DEVICE_ATTR(type, S_IRUGO, show_type, NULL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DEVICE_ATTR(name, S_IRUGO, show_name, NULL);
 static DEVICE_ATTR(class, S_IRUGO, show_class, NULL);
 static DEVICE_ATTR(address, S_IRUGO, show_address, NULL);
@@ -373,7 +390,11 @@ static DEVICE_ATTR(sniff_min_interval, S_IRUGO | S_IWUSR,
 				show_sniff_min_interval, store_sniff_min_interval);
 
 static struct attribute *bt_host_attrs[] = {
+<<<<<<< HEAD
 	&dev_attr_bus.attr,
+=======
+	&dev_attr_type.attr,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	&dev_attr_name.attr,
 	&dev_attr_class.attr,
 	&dev_attr_address.attr,
@@ -414,7 +435,11 @@ int hci_register_sysfs(struct hci_dev *hdev)
 	struct device *dev = &hdev->dev;
 	int err;
 
+<<<<<<< HEAD
 	BT_DBG("%p name %s bus %d", hdev, hdev->name, hdev->bus);
+=======
+	BT_DBG("%p name %s type %d", hdev, hdev->name, hdev->type);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dev->type = &bt_host;
 	dev->class = bt_class;
@@ -433,7 +458,11 @@ int hci_register_sysfs(struct hci_dev *hdev)
 
 void hci_unregister_sysfs(struct hci_dev *hdev)
 {
+<<<<<<< HEAD
 	BT_DBG("%p name %s bus %d", hdev, hdev->name, hdev->bus);
+=======
+	BT_DBG("%p name %s type %d", hdev, hdev->name, hdev->type);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	device_del(&hdev->dev);
 }

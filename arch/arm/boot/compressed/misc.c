@@ -33,7 +33,11 @@ static void putstr(const char *ptr);
 
 #ifdef CONFIG_DEBUG_ICEDCC
 
+<<<<<<< HEAD
 #if defined(CONFIG_CPU_V6) || defined(CONFIG_CPU_V7)
+=======
+#ifdef CONFIG_CPU_V6
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static void icedcc_putc(int ch)
 {

@@ -44,6 +44,7 @@ struct rand_pool_info {
 
 #ifdef __KERNEL__
 
+<<<<<<< HEAD
 extern void rand_initialize_irq(int irq);
 
 extern void add_input_randomness(unsigned int type, unsigned int code,
@@ -64,6 +65,17 @@ extern __u32 secure_tcpv6_sequence_number(__be32 *saddr, __be32 *daddr,
 extern u64 secure_dccp_sequence_number(__be32 saddr, __be32 daddr,
 				       __be16 sport, __be16 dport);
 
+=======
+extern void add_device_randomness(const void *, unsigned int);
+extern void add_input_randomness(unsigned int type, unsigned int code,
+				 unsigned int value);
+extern void add_interrupt_randomness(int irq, int irq_flags);
+
+extern void get_random_bytes(void *buf, int nbytes);
+extern void get_random_bytes_arch(void *buf, int nbytes);
+void generate_random_uuid(unsigned char uuid_out[16]);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifndef MODULE
 extern const struct file_operations random_fops, urandom_fops;
 #endif
@@ -74,6 +86,22 @@ unsigned long randomize_range(unsigned long start, unsigned long end, unsigned l
 u32 random32(void);
 void srandom32(u32 seed);
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_ARCH_RANDOM
+# include <asm/archrandom.h>
+#else
+static inline int arch_get_random_long(unsigned long *v)
+{
+	return 0;
+}
+static inline int arch_get_random_int(unsigned int *v)
+{
+	return 0;
+}
+#endif
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* __KERNEL___ */
 
 #endif /* _LINUX_RANDOM_H */

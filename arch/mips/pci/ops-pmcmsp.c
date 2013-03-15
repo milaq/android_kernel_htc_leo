@@ -944,6 +944,10 @@ static struct pci_controller msp_pci_controller = {
 	.pci_ops	= &msp_pci_ops,
 	.mem_resource	= &pci_mem_resource,
 	.mem_offset	= 0,
+<<<<<<< HEAD
+=======
+	.io_map_base	= MSP_PCI_IOSPACE_BASE,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.io_resource	= &pci_io_resource,
 	.io_offset	= 0
 };

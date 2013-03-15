@@ -554,6 +554,11 @@ static int eql_g_master_cfg(struct net_device *dev, master_config_t __user *mcp)
 	equalizer_t *eql;
 	master_config_t mc;
 
+<<<<<<< HEAD
+=======
+	memset(&mc, 0, sizeof(master_config_t));
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (eql_is_master(dev)) {
 		eql = netdev_priv(dev);
 		mc.max_slaves = eql->max_slaves;

@@ -420,6 +420,7 @@ int saa7134_set_dmabits(struct saa7134_dev *dev)
 		ctrl |= SAA7134_MAIN_CTRL_TE5;
 		irq  |= SAA7134_IRQ1_INTE_RA2_1 |
 			SAA7134_IRQ1_INTE_RA2_0;
+<<<<<<< HEAD
 
 		/* dma: setup channel 5 (= TS) */
 
@@ -433,6 +434,8 @@ int saa7134_set_dmabits(struct saa7134_dev *dev)
 		saa_writel(SAA7134_RS_CONTROL(5), SAA7134_RS_CONTROL_BURST_16 |
 						  SAA7134_RS_CONTROL_ME |
 						  (dev->ts.pt_ts.dma >> 12));
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* set task conditions + field handling */

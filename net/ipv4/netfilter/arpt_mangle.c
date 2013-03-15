@@ -9,7 +9,11 @@ MODULE_AUTHOR("Bart De Schuymer <bdschuym@pandora.be>");
 MODULE_DESCRIPTION("arptables arp payload mangle target");
 
 static unsigned int
+<<<<<<< HEAD
 target(struct sk_buff *skb, const struct xt_action_param *par)
+=======
+target(struct sk_buff *skb, const struct xt_target_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct arpt_mangle *mangle = par->targinfo;
 	const struct arphdr *arp;

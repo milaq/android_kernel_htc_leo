@@ -28,10 +28,13 @@ struct ctl_table_header;
 struct net_generic;
 struct sock;
 
+<<<<<<< HEAD
 
 #define NETDEV_HASHBITS    8
 #define NETDEV_HASHENTRIES (1 << NETDEV_HASHBITS)
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct net {
 	atomic_t		count;		/* To decided when the network
 						 *  namespace should be freed.
@@ -42,8 +45,12 @@ struct net {
 						 */
 #endif
 	struct list_head	list;		/* list of network namespaces */
+<<<<<<< HEAD
 	struct list_head	cleanup_list;	/* namespaces on death row */
 	struct list_head	exit_list;	/* Use only net_mutex */
+=======
+	struct work_struct	work;		/* work struct for freeing */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct proc_dir_entry 	*proc_net;
 	struct proc_dir_entry 	*proc_net_stat;
@@ -81,8 +88,11 @@ struct net {
 #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
 	struct netns_ct		ct;
 #endif
+<<<<<<< HEAD
 	struct sock		*nfnl;
 	struct sock		*nfnl_stash;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 #ifdef CONFIG_XFRM
 	struct netns_xfrm	xfrm;
@@ -239,9 +249,12 @@ struct pernet_operations {
 	struct list_head list;
 	int (*init)(struct net *net);
 	void (*exit)(struct net *net);
+<<<<<<< HEAD
 	void (*exit_batch)(struct list_head *net_exit_list);
 	int *id;
 	size_t size;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /*

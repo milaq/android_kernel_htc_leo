@@ -115,9 +115,16 @@ config GENERIC_LOCKBREAK
 
 config RWSEM_GENERIC_SPINLOCK
 	bool
+<<<<<<< HEAD
 
 config RWSEM_XCHGADD_ALGORITHM
 	def_bool y
+=======
+	default y
+
+config RWSEM_XCHGADD_ALGORITHM
+	bool
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config ARCH_HAS_ILOG2_U32
 	bool
@@ -560,6 +567,7 @@ config ARCH_PXA
 	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
 
 config ARCH_MSM
+<<<<<<< HEAD
 	bool "Qualcomm MSM/QSD"
 	select ARCH_HAS_CPUFREQ
 	select GENERIC_GPIO
@@ -572,6 +580,17 @@ config ARCH_MSM
 	  shared memory interface to the ARM9 modem processor which
 	  runs the baseband stack and controls some vital subsystems
 	  (clock and power control, etc).
+=======
+	bool "Qualcomm MSM"
+	select CPU_V6
+	select GENERIC_TIME
+	select GENERIC_CLOCKEVENTS
+	help
+	  Support for Qualcomm MSM7K based systems.  This runs on the ARM11
+	  apps processor of the MSM7K and depends on a shared memory
+	  interface to the ARM9 modem processor which runs the baseband stack
+	  and controls some vital subsystems (clock and power control, etc).
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config ARCH_RPC
 	bool "RiscPC"
@@ -889,6 +908,21 @@ config ARM_ERRATA_460075
 	  ACTLR register. Note that setting specific bits in the ACTLR register
 	  may not be available in non-secure mode.
 
+<<<<<<< HEAD
+=======
+config ARM_ERRATA_720789
+	bool "ARM errata: TLBIASIDIS and TLBIMVAIS operations can broadcast a faulty ASID"
+	depends on CPU_V7 && SMP
+	help
+	  This option enables the workaround for the 720789 Cortex-A9 (prior to
+	  r2p0) erratum. A faulty ASID can be sent to the other CPUs for the
+	  broadcasted CP15 TLB maintenance operations TLBIASIDIS and TLBIMVAIS.
+	  As a consequence of this erratum, some TLB entries which should be
+	  invalidated are not, resulting in an incoherency in the system page
+	  tables. The workaround changes the TLB flushing routines to invalidate
+	  entries regardless of the ASID.
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endmenu
 
 source "arch/arm/common/Kconfig"
@@ -1139,6 +1173,7 @@ config HIGHPTE
 	depends on HIGHMEM
 	depends on !OUTER_CACHE
 
+<<<<<<< HEAD
 config VMALLOC_RESERVE
 	hex "Reserved vmalloc space"
 	default 0x08000000
@@ -1146,6 +1181,8 @@ config VMALLOC_RESERVE
 	help
 	  Reserved vmalloc space if not specified on the kernel commandline.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 source "mm/Kconfig"
 
 config LEDS
@@ -1329,6 +1366,21 @@ config ATAGS_PROC
 	  Should the atags used to boot the kernel be exported in an "atags"
 	  file in procfs. Useful with kexec.
 
+<<<<<<< HEAD
+=======
+config PL310_ERRATA_769419
+	bool "PL310 errata: no automatic Store Buffer drain"
+	depends on CACHE_L2X0
+	help
+	  On revisions of the PL310 prior to r3p2, the Store Buffer does
+	  not automatically drain. This can cause normal, non-cacheable
+	  writes to be retained when the memory system is idle, leading
+	  to suboptimal I/O performance for drivers using coherent DMA.
+	  This option adds a write barrier to the cpu_idle loop so that,
+	  on systems with an outer cache, the store buffer is drained
+	  explicitly.
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endmenu
 
 menu "CPU Power Management"

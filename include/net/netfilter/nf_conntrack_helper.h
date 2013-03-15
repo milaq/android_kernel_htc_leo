@@ -41,18 +41,26 @@ struct nf_conntrack_helper
 };
 
 extern struct nf_conntrack_helper *
+<<<<<<< HEAD
 __nf_conntrack_helper_find(const char *name, u16 l3num, u8 protonum);
 
 extern struct nf_conntrack_helper *
 nf_conntrack_helper_try_module_get(const char *name, u16 l3num, u8 protonum);
+=======
+__nf_conntrack_helper_find_byname(const char *name);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern int nf_conntrack_helper_register(struct nf_conntrack_helper *);
 extern void nf_conntrack_helper_unregister(struct nf_conntrack_helper *);
 
 extern struct nf_conn_help *nf_ct_helper_ext_add(struct nf_conn *ct, gfp_t gfp);
 
+<<<<<<< HEAD
 extern int __nf_ct_try_assign_helper(struct nf_conn *ct, struct nf_conn *tmpl,
 				     gfp_t flags);
+=======
+extern int __nf_ct_try_assign_helper(struct nf_conn *ct, gfp_t flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern void nf_ct_helper_destroy(struct nf_conn *ct);
 

@@ -357,11 +357,15 @@ struct cpu_vfs_cap_data {
 
 #define CAP_MAC_ADMIN        33
 
+<<<<<<< HEAD
 /* Allow configuring the kernel's syslog (printk behaviour) */
 
 #define CAP_SYSLOG           34
 
 #define CAP_LAST_CAP         CAP_SYSLOG
+=======
+#define CAP_LAST_CAP         CAP_MAC_ADMIN
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
 

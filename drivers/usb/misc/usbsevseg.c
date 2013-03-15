@@ -24,7 +24,11 @@
 
 #define VENDOR_ID	0x0fc5
 #define PRODUCT_ID	0x1227
+<<<<<<< HEAD
 #define MAXLEN		6
+=======
+#define MAXLEN		8
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* table of devices that work with this driver */
 static struct usb_device_id id_table[] = {
@@ -185,7 +189,11 @@ static ssize_t set_attr_##name(struct device *dev, 		\
 								\
 	return count;						\
 }								\
+<<<<<<< HEAD
 static DEVICE_ATTR(name, S_IWUGO | S_IRUGO, show_attr_##name, set_attr_##name);
+=======
+static DEVICE_ATTR(name, S_IRUGO | S_IWUSR, show_attr_##name, set_attr_##name);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static ssize_t show_attr_text(struct device *dev,
 	struct device_attribute *attr, char *buf)
@@ -216,7 +224,11 @@ static ssize_t set_attr_text(struct device *dev,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR(text, S_IWUGO | S_IRUGO, show_attr_text, set_attr_text);
+=======
+static DEVICE_ATTR(text, S_IRUGO | S_IWUSR, show_attr_text, set_attr_text);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static ssize_t show_attr_decimals(struct device *dev,
 	struct device_attribute *attr, char *buf)
@@ -265,8 +277,12 @@ static ssize_t set_attr_decimals(struct device *dev,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR(decimals, S_IWUGO | S_IRUGO,
 	show_attr_decimals, set_attr_decimals);
+=======
+static DEVICE_ATTR(decimals, S_IRUGO | S_IWUSR, show_attr_decimals, set_attr_decimals);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static ssize_t show_attr_textmode(struct device *dev,
 	struct device_attribute *attr, char *buf)
@@ -312,8 +328,12 @@ static ssize_t set_attr_textmode(struct device *dev,
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR(textmode, S_IWUGO | S_IRUGO,
 	show_attr_textmode, set_attr_textmode);
+=======
+static DEVICE_ATTR(textmode, S_IRUGO | S_IWUSR, show_attr_textmode, set_attr_textmode);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 MYDEV_ATTR_SIMPLE_UNSIGNED(powered, update_display_powered);

@@ -128,7 +128,11 @@ static void *ocfs2_fast_follow_link(struct dentry *dentry,
 	}
 
 	/* Fast symlinks can't be large */
+<<<<<<< HEAD
 	len = strlen(target);
+=======
+	len = strnlen(target, ocfs2_fast_symlink_chars(inode->i_sb));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	link = kzalloc(len + 1, GFP_NOFS);
 	if (!link) {
 		status = -ENOMEM;

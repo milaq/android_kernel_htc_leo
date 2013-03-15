@@ -50,8 +50,15 @@
 #define IXGBE_DEV_ID_82598EB_XF_LR       0x10F4
 #define IXGBE_DEV_ID_82599_KX4           0x10F7
 #define IXGBE_DEV_ID_82599_KX4_MEZZ      0x1514
+<<<<<<< HEAD
 #define IXGBE_DEV_ID_82599_CX4           0x10F9
 #define IXGBE_DEV_ID_82599_SFP           0x10FB
+=======
+#define IXGBE_DEV_ID_82599_KR            0x1517
+#define IXGBE_DEV_ID_82599_CX4           0x10F9
+#define IXGBE_DEV_ID_82599_SFP           0x10FB
+#define IXGBE_DEV_ID_82599_SFP_EM        0x1507
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define IXGBE_DEV_ID_82599_XAUI_LOM      0x10FC
 #define IXGBE_DEV_ID_82599_COMBO_BACKPLANE 0x10F8
 

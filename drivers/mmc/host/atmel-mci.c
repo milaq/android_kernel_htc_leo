@@ -530,9 +530,16 @@ static void atmci_dma_cleanup(struct atmel_mci *host)
 {
 	struct mmc_data			*data = host->data;
 
+<<<<<<< HEAD
 	dma_unmap_sg(&host->pdev->dev, data->sg, data->sg_len,
 		     ((data->flags & MMC_DATA_WRITE)
 		      ? DMA_TO_DEVICE : DMA_FROM_DEVICE));
+=======
+	if (data)
+		dma_unmap_sg(&host->pdev->dev, data->sg, data->sg_len,
+			     ((data->flags & MMC_DATA_WRITE)
+			      ? DMA_TO_DEVICE : DMA_FROM_DEVICE));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void atmci_stop_dma(struct atmel_mci *host)
@@ -1037,8 +1044,13 @@ static void atmci_command_complete(struct atmel_mci *host,
 			"command error: status=0x%08x\n", status);
 
 		if (cmd->data) {
+<<<<<<< HEAD
 			host->data = NULL;
 			atmci_stop_dma(host);
+=======
+			atmci_stop_dma(host);
+			host->data = NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			mci_writel(host, IDR, MCI_NOTBUSY
 					| MCI_TXRDY | MCI_RXRDY
 					| ATMCI_DATA_ERROR_FLAGS);
@@ -1229,6 +1241,10 @@ static void atmci_tasklet_func(unsigned long priv)
 			} else {
 				data->bytes_xfered = data->blocks * data->blksz;
 				data->error = 0;
+<<<<<<< HEAD
+=======
+				mci_writel(host, IDR, ATMCI_DATA_ERROR_FLAGS);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			}
 
 			if (!data->stop) {
@@ -1669,13 +1685,21 @@ static int __init atmci_probe(struct platform_device *pdev)
 	ret = -ENODEV;
 	if (pdata->slot[0].bus_width) {
 		ret = atmci_init_slot(host, &pdata->slot[0],
+<<<<<<< HEAD
 				MCI_SDCSEL_SLOT_A, 0);
+=======
+				0, MCI_SDCSEL_SLOT_A);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!ret)
 			nr_slots++;
 	}
 	if (pdata->slot[1].bus_width) {
 		ret = atmci_init_slot(host, &pdata->slot[1],
+<<<<<<< HEAD
 				MCI_SDCSEL_SLOT_B, 1);
+=======
+				1, MCI_SDCSEL_SLOT_B);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!ret)
 			nr_slots++;
 	}

@@ -394,12 +394,15 @@ static void p4_fill_in_addresses(struct op_msrs * const msrs)
 	setup_num_counters();
 	stag = get_stagger();
 
+<<<<<<< HEAD
 	/* initialize some registers */
 	for (i = 0; i < num_counters; ++i)
 		msrs->counters[i].addr = 0;
 	for (i = 0; i < num_controls; ++i)
 		msrs->controls[i].addr = 0;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* the counter & cccr registers we pay attention to */
 	for (i = 0; i < num_counters; ++i) {
 		addr = p4_counters[VIRT_CTR(stag, i)].counter_address;

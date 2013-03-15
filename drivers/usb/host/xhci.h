@@ -232,7 +232,11 @@ struct xhci_op_regs {
  * notification type that matches a bit set in this bit field.
  */
 #define	DEV_NOTE_MASK		(0xffff)
+<<<<<<< HEAD
 #define ENABLE_DEV_NOTE(x)	(1 << x)
+=======
+#define ENABLE_DEV_NOTE(x)	(1 << (x))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Most of the device notification types should only be used for debug.
  * SW does need to pay attention to function wake notifications.
  */
@@ -579,11 +583,19 @@ struct xhci_ep_ctx {
 #define EP_STATE_STOPPED	3
 #define EP_STATE_ERROR		4
 /* Mult - Max number of burtst within an interval, in EP companion desc. */
+<<<<<<< HEAD
 #define EP_MULT(p)		((p & 0x3) << 8)
 /* bits 10:14 are Max Primary Streams */
 /* bit 15 is Linear Stream Array */
 /* Interval - period between requests to an endpoint - 125u increments. */
 #define EP_INTERVAL(p)		((p & 0xff) << 16)
+=======
+#define EP_MULT(p)		(((p) & 0x3) << 8)
+/* bits 10:14 are Max Primary Streams */
+/* bit 15 is Linear Stream Array */
+/* Interval - period between requests to an endpoint - 125u increments. */
+#define EP_INTERVAL(p)		(((p) & 0xff) << 16)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define EP_INTERVAL_TO_UFRAMES(p)		(1 << (((p) >> 16) & 0xff))
 
 /* ep_info2 bitmasks */
@@ -609,6 +621,13 @@ struct xhci_ep_ctx {
 #define MAX_PACKET_MASK		(0xffff << 16)
 #define MAX_PACKET_DECODED(p)	(((p) >> 16) & 0xffff)
 
+<<<<<<< HEAD
+=======
+/* tx_info bitmasks */
+#define AVG_TRB_LENGTH_FOR_EP(p)	((p) & 0xffff)
+#define MAX_ESIT_PAYLOAD_FOR_EP(p)	(((p) & 0xffff) << 16)
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * struct xhci_input_control_context

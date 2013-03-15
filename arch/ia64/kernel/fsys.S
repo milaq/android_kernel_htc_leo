@@ -420,6 +420,7 @@ EX(.fail_efault, ld8 r14=[r33])			// r14 <- *set
 	;;
 
 	RSM_PSR_I(p0, r18, r19)			// mask interrupt delivery
+<<<<<<< HEAD
 	mov ar.ccv=0
 	andcm r14=r14,r17			// filter out SIGKILL & SIGSTOP
 
@@ -436,6 +437,33 @@ EX(.fail_efault, ld8 r14=[r33])			// r14 <- *set
 #else
 	ld8 r3=[r2]			// re-read current->blocked now that we hold the lock
 	mov r8=EINVAL			// default to EINVAL
+=======
+	andcm r14=r14,r17			// filter out SIGKILL & SIGSTOP
+	mov r8=EINVAL			// default to EINVAL
+
+#ifdef CONFIG_SMP
+	// __ticket_spin_trylock(r31)
+	ld4 r17=[r31]
+	;;
+	mov.m ar.ccv=r17
+	extr.u r9=r17,17,15
+	adds r19=1,r17
+	extr.u r18=r17,0,15
+	;;
+	cmp.eq p6,p7=r9,r18
+	;;
+(p6)	cmpxchg4.acq r9=[r31],r19,ar.ccv
+(p6)	dep.z r20=r19,1,15		// next serving ticket for unlock
+(p7)	br.cond.spnt.many .lock_contention
+	;;
+	cmp4.eq p0,p7=r9,r17
+	adds r31=2,r31
+(p7)	br.cond.spnt.many .lock_contention
+	ld8 r3=[r2]			// re-read current->blocked now that we hold the lock
+	;;
+#else
+	ld8 r3=[r2]			// re-read current->blocked now that we hold the lock
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 	add r18=IA64_TASK_PENDING_OFFSET+IA64_SIGPENDING_SIGNAL_OFFSET,r16
 	add r19=IA64_TASK_SIGNAL_OFFSET,r16
@@ -490,7 +518,13 @@ EX(.fail_efault, ld8 r14=[r33])			// r14 <- *set
 (p6)	br.cond.spnt.few 1b			// yes -> retry
 
 #ifdef CONFIG_SMP
+<<<<<<< HEAD
 	st4.rel [r31]=r0			// release the lock
+=======
+	// __ticket_spin_unlock(r31)
+	st2.rel [r31]=r20
+	mov r20=0					// i must not leak kernel bits...
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 	SSM_PSR_I(p0, p9, r31)
 	;;
@@ -512,7 +546,12 @@ EX(.fail_efault, (p15) st8 [r34]=r3)
 
 .sig_pending:
 #ifdef CONFIG_SMP
+<<<<<<< HEAD
 	st4.rel [r31]=r0			// release the lock
+=======
+	// __ticket_spin_unlock(r31)
+	st2.rel [r31]=r20			// release the lock
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 	SSM_PSR_I(p0, p9, r17)
 	;;

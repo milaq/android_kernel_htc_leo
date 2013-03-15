@@ -238,7 +238,12 @@ struct sock_xprt {
 	 * State of TCP reply receive
 	 */
 	__be32			tcp_fraghdr,
+<<<<<<< HEAD
 				tcp_xid;
+=======
+				tcp_xid,
+				tcp_calldir;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	u32			tcp_offset,
 				tcp_reclen;
@@ -492,7 +497,11 @@ static int xs_nospace(struct rpc_task *task)
 	struct rpc_rqst *req = task->tk_rqstp;
 	struct rpc_xprt *xprt = req->rq_xprt;
 	struct sock_xprt *transport = container_of(xprt, struct sock_xprt, xprt);
+<<<<<<< HEAD
 	int ret = 0;
+=======
+	int ret = -EAGAIN;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dprintk("RPC: %5u xmit incomplete (%u left of %u)\n",
 			task->tk_pid, req->rq_slen - req->rq_bytes_sent,
@@ -504,7 +513,10 @@ static int xs_nospace(struct rpc_task *task)
 	/* Don't race with disconnect */
 	if (xprt_connected(xprt)) {
 		if (test_bit(SOCK_ASYNC_NOSPACE, &transport->sock->flags)) {
+<<<<<<< HEAD
 			ret = -EAGAIN;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/*
 			 * Notify TCP that we're limited by the application
 			 * window size
@@ -563,8 +575,11 @@ static int xs_udp_send_request(struct rpc_task *task)
 		/* Still some bytes left; set up for a retry later. */
 		status = -EAGAIN;
 	}
+<<<<<<< HEAD
 	if (!transport->sock)
 		goto out;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (status) {
 	case -ENOTSOCK:
@@ -584,7 +599,11 @@ static int xs_udp_send_request(struct rpc_task *task)
 		 * prompts ECONNREFUSED. */
 		clear_bit(SOCK_ASYNC_NOSPACE, &transport->sock->flags);
 	}
+<<<<<<< HEAD
 out:
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return status;
 }
 
@@ -666,8 +685,11 @@ static int xs_tcp_send_request(struct rpc_task *task)
 		status = -EAGAIN;
 		break;
 	}
+<<<<<<< HEAD
 	if (!transport->sock)
 		goto out;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (status) {
 	case -ENOTSOCK:
@@ -687,7 +709,11 @@ static int xs_tcp_send_request(struct rpc_task *task)
 	case -ENOTCONN:
 		clear_bit(SOCK_ASYNC_NOSPACE, &transport->sock->flags);
 	}
+<<<<<<< HEAD
 out:
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return status;
 }
 
@@ -742,6 +768,11 @@ static void xs_reset_transport(struct sock_xprt *transport)
 	if (sk == NULL)
 		return;
 
+<<<<<<< HEAD
+=======
+	transport->srcport = 0;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	write_lock_bh(&sk->sk_callback_lock);
 	transport->inet = NULL;
 	transport->sock = NULL;
@@ -961,7 +992,11 @@ static inline void xs_tcp_read_calldir(struct sock_xprt *transport,
 {
 	size_t len, used;
 	u32 offset;
+<<<<<<< HEAD
 	__be32	calldir;
+=======
+	char *p;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * We want transport->tcp_offset to be 8 at the end of this routine
@@ -970,19 +1005,30 @@ static inline void xs_tcp_read_calldir(struct sock_xprt *transport,
 	 * transport->tcp_offset is 4 (after having already read the xid).
 	 */
 	offset = transport->tcp_offset - sizeof(transport->tcp_xid);
+<<<<<<< HEAD
 	len = sizeof(calldir) - offset;
 	dprintk("RPC:       reading CALL/REPLY flag (%Zu bytes)\n", len);
 	used = xdr_skb_read_bits(desc, &calldir, len);
+=======
+	len = sizeof(transport->tcp_calldir) - offset;
+	dprintk("RPC:       reading CALL/REPLY flag (%Zu bytes)\n", len);
+	p = ((char *) &transport->tcp_calldir) + offset;
+	used = xdr_skb_read_bits(desc, p, len);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	transport->tcp_offset += used;
 	if (used != len)
 		return;
 	transport->tcp_flags &= ~TCP_RCV_READ_CALLDIR;
+<<<<<<< HEAD
 	transport->tcp_flags |= TCP_RCV_COPY_CALLDIR;
 	transport->tcp_flags |= TCP_RCV_COPY_DATA;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * We don't yet have the XDR buffer, so we will write the calldir
 	 * out after we get the buffer from the 'struct rpc_rqst'
 	 */
+<<<<<<< HEAD
 	if (ntohl(calldir) == RPC_REPLY)
 		transport->tcp_flags |= TCP_RPC_REPLY;
 	else
@@ -990,6 +1036,23 @@ static inline void xs_tcp_read_calldir(struct sock_xprt *transport,
 	dprintk("RPC:       reading %s CALL/REPLY flag %08x\n",
 			(transport->tcp_flags & TCP_RPC_REPLY) ?
 				"reply for" : "request with", calldir);
+=======
+	switch (ntohl(transport->tcp_calldir)) {
+	case RPC_REPLY:
+		transport->tcp_flags |= TCP_RCV_COPY_CALLDIR;
+		transport->tcp_flags |= TCP_RCV_COPY_DATA;
+		transport->tcp_flags |= TCP_RPC_REPLY;
+		break;
+	case RPC_CALL:
+		transport->tcp_flags |= TCP_RCV_COPY_CALLDIR;
+		transport->tcp_flags |= TCP_RCV_COPY_DATA;
+		transport->tcp_flags &= ~TCP_RPC_REPLY;
+		break;
+	default:
+		dprintk("RPC:       invalid request message type\n");
+		xprt_force_disconnect(&transport->xprt);
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xs_tcp_check_fraghdr(transport);
 }
 
@@ -1009,12 +1072,19 @@ static inline void xs_tcp_read_common(struct rpc_xprt *xprt,
 		/*
 		 * Save the RPC direction in the XDR buffer
 		 */
+<<<<<<< HEAD
 		__be32	calldir = transport->tcp_flags & TCP_RPC_REPLY ?
 					htonl(RPC_REPLY) : 0;
 
 		memcpy(rcvbuf->head[0].iov_base + transport->tcp_copied,
 			&calldir, sizeof(calldir));
 		transport->tcp_copied += sizeof(calldir);
+=======
+		memcpy(rcvbuf->head[0].iov_base + transport->tcp_copied,
+			&transport->tcp_calldir,
+			sizeof(transport->tcp_calldir));
+		transport->tcp_copied += sizeof(transport->tcp_calldir);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		transport->tcp_flags &= ~TCP_RCV_COPY_CALLDIR;
 	}
 
@@ -1335,10 +1405,18 @@ static void xs_tcp_state_change(struct sock *sk)
 	if (!(xprt = xprt_from_sock(sk)))
 		goto out;
 	dprintk("RPC:       xs_tcp_state_change client %p...\n", xprt);
+<<<<<<< HEAD
 	dprintk("RPC:       state %x conn %d dead %d zapped %d\n",
 			sk->sk_state, xprt_connected(xprt),
 			sock_flag(sk, SOCK_DEAD),
 			sock_flag(sk, SOCK_ZAPPED));
+=======
+	dprintk("RPC:       state %x conn %d dead %d zapped %d sk_shutdown %d\n",
+			sk->sk_state, xprt_connected(xprt),
+			sock_flag(sk, SOCK_DEAD),
+			sock_flag(sk, SOCK_ZAPPED),
+			sk->sk_shutdown);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (sk->sk_state) {
 	case TCP_ESTABLISHED:
@@ -1372,7 +1450,10 @@ static void xs_tcp_state_change(struct sock *sk)
 	case TCP_CLOSE_WAIT:
 		/* The server initiated a shutdown of the socket */
 		xprt_force_disconnect(xprt);
+<<<<<<< HEAD
 	case TCP_SYN_SENT:
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		xprt->connect_cookie++;
 	case TCP_CLOSING:
 		/*
@@ -1809,16 +1890,42 @@ static void xs_tcp_reuse_connection(struct rpc_xprt *xprt, struct sock_xprt *tra
 {
 	unsigned int state = transport->inet->sk_state;
 
+<<<<<<< HEAD
 	if (state == TCP_CLOSE && transport->sock->state == SS_UNCONNECTED)
 		return;
 	if ((1 << state) & (TCPF_ESTABLISHED|TCPF_SYN_SENT))
 		return;
+=======
+	if (state == TCP_CLOSE && transport->sock->state == SS_UNCONNECTED) {
+		/* we don't need to abort the connection if the socket
+		 * hasn't undergone a shutdown
+		 */
+		if (transport->inet->sk_shutdown == 0)
+			return;
+		dprintk("RPC:       %s: TCP_CLOSEd and sk_shutdown set to %d\n",
+				__func__, transport->inet->sk_shutdown);
+	}
+	if ((1 << state) & (TCPF_ESTABLISHED|TCPF_SYN_SENT)) {
+		/* we don't need to abort the connection if the socket
+		 * hasn't undergone a shutdown
+		 */
+		if (transport->inet->sk_shutdown == 0)
+			return;
+		dprintk("RPC:       %s: ESTABLISHED/SYN_SENT "
+				"sk_shutdown set to %d\n",
+				__func__, transport->inet->sk_shutdown);
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xs_abort_connection(xprt, transport);
 }
 
 static int xs_tcp_finish_connecting(struct rpc_xprt *xprt, struct socket *sock)
 {
 	struct sock_xprt *transport = container_of(xprt, struct sock_xprt, xprt);
+<<<<<<< HEAD
+=======
+	int ret = -ENOTCONN;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!transport->inet) {
 		struct sock *sk = sock->sk;
@@ -1850,12 +1957,30 @@ static int xs_tcp_finish_connecting(struct rpc_xprt *xprt, struct socket *sock)
 	}
 
 	if (!xprt_bound(xprt))
+<<<<<<< HEAD
 		return -ENOTCONN;
+=======
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Tell the socket layer to start connecting... */
 	xprt->stat.connect_count++;
 	xprt->stat.connect_start = jiffies;
+<<<<<<< HEAD
 	return kernel_connect(sock, xs_addr(xprt), xprt->addrlen, O_NONBLOCK);
+=======
+	ret = kernel_connect(sock, xs_addr(xprt), xprt->addrlen, O_NONBLOCK);
+	switch (ret) {
+	case 0:
+	case -EINPROGRESS:
+		/* SYN_SENT! */
+		xprt->connect_cookie++;
+		if (xprt->reestablish_timeout < XS_TCP_INIT_REEST_TO)
+			xprt->reestablish_timeout = XS_TCP_INIT_REEST_TO;
+	}
+out:
+	return ret;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -1926,6 +2051,14 @@ static void xs_tcp_setup_socket(struct rpc_xprt *xprt,
 	case -EALREADY:
 		xprt_clear_connecting(xprt);
 		return;
+<<<<<<< HEAD
+=======
+	case -EINVAL:
+		/* Happens, for instance, if the user specified a link
+		 * local IPv6 address without a scope-id.
+		 */
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 out_eagain:
 	status = -EAGAIN;

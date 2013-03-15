@@ -203,6 +203,11 @@ static void drop_futex_key_refs(union futex_key *key)
  * @uaddr:	virtual address of the futex
  * @fshared:	0 for a PROCESS_PRIVATE futex, 1 for PROCESS_SHARED
  * @key:	address where result is stored.
+<<<<<<< HEAD
+=======
+ * @rw:		mapping needs to be read/write (values: VERIFY_READ,
+ *              VERIFY_WRITE)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * Returns a negative error code or 0
  * The key words are stored in *key on success.
@@ -214,13 +219,21 @@ static void drop_futex_key_refs(union futex_key *key)
  * lock_page() might sleep, the caller should not hold a spinlock.
  */
 static int
+<<<<<<< HEAD
 get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key)
+=======
+get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key, int rw)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned long address = (unsigned long)uaddr;
 	struct mm_struct *mm = current->mm;
 	struct page *page;
+<<<<<<< HEAD
 	int err;
 	struct vm_area_struct *vma;
+=======
+	int err, ro = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * The futex address must be "naturally" aligned.
@@ -246,6 +259,7 @@ get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * The futex is hashed differently depending on whether
 	 * it's in a shared or private mapping.  So check vma first.
@@ -288,6 +302,48 @@ again:
 		unlock_page(page);
 		put_page(page);
 		goto again;
+=======
+again:
+	err = get_user_pages_fast(address, 1, 1, &page);
+	/*
+	 * If write access is not required (eg. FUTEX_WAIT), try
+	 * and get read-only access.
+	 */
+	if (err == -EFAULT && rw == VERIFY_READ) {
+		err = get_user_pages_fast(address, 1, 0, &page);
+		ro = 1;
+	}
+	if (err < 0)
+		return err;
+	else
+		err = 0;
+
+	page = compound_head(page);
+	lock_page(page);
+
+	/*
+	 * If page->mapping is NULL, then it cannot be a PageAnon
+	 * page; but it might be the ZERO_PAGE or in the gate area or
+	 * in a special mapping (all cases which we are happy to fail);
+	 * or it may have been a good file page when get_user_pages_fast
+	 * found it, but truncated or holepunched or subjected to
+	 * invalidate_complete_page2 before we got the page lock (also
+	 * cases which we are happy to fail).  And we hold a reference,
+	 * so refcount care in invalidate_complete_page's remove_mapping
+	 * prevents drop_caches from setting mapping to NULL beneath us.
+	 *
+	 * The case we do have to guard against is when memory pressure made
+	 * shmem_writepage move it from filecache to swapcache beneath us:
+	 * an unlikely race, but we do need to retry for page->mapping.
+	 */
+	if (!page->mapping) {
+		int shmem_swizzled = PageSwapCache(page);
+		unlock_page(page);
+		put_page(page);
+		if (shmem_swizzled)
+			goto again;
+		return -EFAULT;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*
@@ -298,6 +354,18 @@ again:
 	 * the object not the particular process.
 	 */
 	if (PageAnon(page)) {
+<<<<<<< HEAD
+=======
+		/*
+		 * A RO anonymous page will never change and thus doesn't make
+		 * sense for futex operations.
+		 */
+		if (ro) {
+			err = -EFAULT;
+			goto out;
+		}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
 		key->private.mm = mm;
 		key->private.address = address;
@@ -309,9 +377,16 @@ again:
 
 	get_futex_key_refs(key);
 
+<<<<<<< HEAD
 	unlock_page(page);
 	put_page(page);
 	return 0;
+=======
+out:
+	unlock_page(page);
+	put_page(page);
+	return err;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline
@@ -461,6 +536,7 @@ static void free_pi_state(struct futex_pi_state *pi_state)
 static struct task_struct * futex_find_get_task(pid_t pid)
 {
 	struct task_struct *p;
+<<<<<<< HEAD
 	const struct cred *cred = current_cred(), *pcred;
 
 	rcu_read_lock();
@@ -475,6 +551,13 @@ static struct task_struct * futex_find_get_task(pid_t pid)
 		else
 			get_task_struct(p);
 	}
+=======
+
+	rcu_read_lock();
+	p = find_task_by_vpid(pid);
+	if (p)
+		get_task_struct(p);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	rcu_read_unlock();
 
@@ -596,8 +679,13 @@ lookup_pi_state(u32 uval, struct futex_hash_bucket *hb,
 	if (!pid)
 		return -ESRCH;
 	p = futex_find_get_task(pid);
+<<<<<<< HEAD
 	if (IS_ERR(p))
 		return PTR_ERR(p);
+=======
+	if (!p)
+		return -ESRCH;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * We need to look at the task state flags to figure out,
@@ -921,7 +1009,11 @@ static int futex_wake(u32 __user *uaddr, int fshared, int nr_wake, u32 bitset)
 	if (!bitset)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr, fshared, &key);
+=======
+	ret = get_futex_key(uaddr, fshared, &key, VERIFY_READ);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out;
 
@@ -967,10 +1059,17 @@ futex_wake_op(u32 __user *uaddr1, int fshared, u32 __user *uaddr2,
 	int ret, op_ret;
 
 retry:
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr1, fshared, &key1);
 	if (unlikely(ret != 0))
 		goto out;
 	ret = get_futex_key(uaddr2, fshared, &key2);
+=======
+	ret = get_futex_key(uaddr1, fshared, &key1, VERIFY_READ);
+	if (unlikely(ret != 0))
+		goto out;
+	ret = get_futex_key(uaddr2, fshared, &key2, VERIFY_WRITE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out_put_key1;
 
@@ -1229,10 +1328,18 @@ retry:
 		pi_state = NULL;
 	}
 
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr1, fshared, &key1);
 	if (unlikely(ret != 0))
 		goto out;
 	ret = get_futex_key(uaddr2, fshared, &key2);
+=======
+	ret = get_futex_key(uaddr1, fshared, &key1, VERIFY_READ);
+	if (unlikely(ret != 0))
+		goto out;
+	ret = get_futex_key(uaddr2, fshared, &key2,
+			    requeue_pi ? VERIFY_WRITE : VERIFY_READ);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out_put_key1;
 
@@ -1404,7 +1511,10 @@ static inline struct futex_hash_bucket *queue_lock(struct futex_q *q)
 {
 	struct futex_hash_bucket *hb;
 
+<<<<<<< HEAD
 	get_futex_key_refs(&q->key);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	hb = hash_futex(&q->key);
 	q->lock_ptr = &hb->lock;
 
@@ -1416,7 +1526,10 @@ static inline void
 queue_unlock(struct futex_q *q, struct futex_hash_bucket *hb)
 {
 	spin_unlock(&hb->lock);
+<<<<<<< HEAD
 	drop_futex_key_refs(&q->key);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -1521,8 +1634,11 @@ static void unqueue_me_pi(struct futex_q *q)
 	q->pi_state = NULL;
 
 	spin_unlock(q->lock_ptr);
+<<<<<<< HEAD
 
 	drop_futex_key_refs(&q->key);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1791,7 +1907,11 @@ static int futex_wait_setup(u32 __user *uaddr, u32 val, int fshared,
 	 */
 retry:
 	q->key = FUTEX_KEY_INIT;
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr, fshared, &q->key);
+=======
+	ret = get_futex_key(uaddr, fshared, &q->key, VERIFY_READ);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		return ret;
 
@@ -1853,7 +1973,14 @@ static int futex_wait(u32 __user *uaddr, int fshared,
 	}
 
 retry:
+<<<<<<< HEAD
 	/* Prepare to wait on uaddr. */
+=======
+	/*
+	 * Prepare to wait on uaddr. On success, holds hb lock and increments
+	 * q.key refs.
+	 */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ret = futex_wait_setup(uaddr, val, fshared, &q, &hb);
 	if (ret)
 		goto out;
@@ -1863,16 +1990,26 @@ retry:
 
 	/* If we were woken (and unqueued), we succeeded, whatever. */
 	ret = 0;
+<<<<<<< HEAD
 	if (!unqueue_me(&q))
 		goto out_put_key;
 	ret = -ETIMEDOUT;
 	if (to && !to->task)
 		goto out_put_key;
+=======
+	/* unqueue_me() drops q.key ref */
+	if (!unqueue_me(&q))
+		goto out;
+	ret = -ETIMEDOUT;
+	if (to && !to->task)
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * We expect signal_pending(current), but we might be the
 	 * victim of a spurious wakeup as well.
 	 */
+<<<<<<< HEAD
 	if (!signal_pending(current)) {
 		put_futex_key(fshared, &q.key);
 		goto retry;
@@ -1881,6 +2018,14 @@ retry:
 	ret = -ERESTARTSYS;
 	if (!abs_time)
 		goto out_put_key;
+=======
+	if (!signal_pending(current))
+		goto retry;
+
+	ret = -ERESTARTSYS;
+	if (!abs_time)
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	restart = &current_thread_info()->restart_block;
 	restart->fn = futex_wait_restart;
@@ -1897,8 +2042,11 @@ retry:
 
 	ret = -ERESTART_RESTARTBLOCK;
 
+<<<<<<< HEAD
 out_put_key:
 	put_futex_key(fshared, &q.key);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out:
 	if (to) {
 		hrtimer_cancel(&to->timer);
@@ -1957,7 +2105,11 @@ static int futex_lock_pi(u32 __user *uaddr, int fshared,
 	q.requeue_pi_key = NULL;
 retry:
 	q.key = FUTEX_KEY_INIT;
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr, fshared, &q.key);
+=======
+	ret = get_futex_key(uaddr, fshared, &q.key, VERIFY_WRITE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out;
 
@@ -2076,7 +2228,11 @@ retry:
 	if ((uval & FUTEX_TID_MASK) != task_pid_vnr(current))
 		return -EPERM;
 
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr, fshared, &key);
+=======
+	ret = get_futex_key(uaddr, fshared, &key, VERIFY_WRITE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out;
 
@@ -2207,11 +2363,19 @@ int handle_early_requeue_pi_wakeup(struct futex_hash_bucket *hb,
  * @uaddr2:	the pi futex we will take prior to returning to user-space
  *
  * The caller will wait on uaddr and will be requeued by futex_requeue() to
+<<<<<<< HEAD
  * uaddr2 which must be PI aware.  Normal wakeup will wake on uaddr2 and
  * complete the acquisition of the rt_mutex prior to returning to userspace.
  * This ensures the rt_mutex maintains an owner when it has waiters; without
  * one, the pi logic wouldn't know which task to boost/deboost, if there was a
  * need to.
+=======
+ * uaddr2 which must be PI aware and unique from uaddr.  Normal wakeup will wake
+ * on uaddr2 and complete the acquisition of the rt_mutex prior to returning to
+ * userspace.  This ensures the rt_mutex maintains an owner when it has waiters;
+ * without one, the pi logic would not know which task to boost/deboost, if
+ * there was a need to.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * We call schedule in futex_wait_queue_me() when we enqueue and return there
  * via the following:
@@ -2248,6 +2412,12 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 	struct futex_q q;
 	int res, ret;
 
+<<<<<<< HEAD
+=======
+	if (uaddr == uaddr2)
+		return -EINVAL;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!bitset)
 		return -EINVAL;
 
@@ -2268,7 +2438,11 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 	rt_waiter.task = NULL;
 
 	key2 = FUTEX_KEY_INIT;
+<<<<<<< HEAD
 	ret = get_futex_key(uaddr2, fshared, &key2);
+=======
+	ret = get_futex_key(uaddr2, fshared, &key2, VERIFY_WRITE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(ret != 0))
 		goto out;
 
@@ -2277,7 +2451,14 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 	q.rt_waiter = &rt_waiter;
 	q.requeue_pi_key = &key2;
 
+<<<<<<< HEAD
 	/* Prepare to wait on uaddr. */
+=======
+	/*
+	 * Prepare to wait on uaddr. On success, increments q.key (key1) ref
+	 * count.
+	 */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ret = futex_wait_setup(uaddr, val, fshared, &q, &hb);
 	if (ret)
 		goto out_key2;
@@ -2295,7 +2476,13 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 	 * In order for us to be here, we know our q.key == key2, and since
 	 * we took the hb->lock above, we also know that futex_requeue() has
 	 * completed and we no longer have to concern ourselves with a wakeup
+<<<<<<< HEAD
 	 * race with the atomic proxy lock acquition by the requeue code.
+=======
+	 * race with the atomic proxy lock acquisition by the requeue code. The
+	 * futex_requeue dropped our key1 reference and incremented our key2
+	 * reference count.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 */
 
 	/* Check if the requeue code acquired the second futex for us. */
@@ -2316,7 +2503,11 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 		 * signal.  futex_unlock_pi() will not destroy the lock_ptr nor
 		 * the pi_state.
 		 */
+<<<<<<< HEAD
 		WARN_ON(!&q.pi_state);
+=======
+		WARN_ON(!q.pi_state);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pi_mutex = &q.pi_state->pi_mutex;
 		ret = rt_mutex_finish_proxy_lock(pi_mutex, to, &rt_waiter, 1);
 		debug_rt_mutex_free_waiter(&rt_waiter);
@@ -2343,7 +2534,11 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, int fshared,
 	 * fault, unlock the rt_mutex and return the fault to userspace.
 	 */
 	if (ret == -EFAULT) {
+<<<<<<< HEAD
 		if (rt_mutex_owner(pi_mutex) == current)
+=======
+		if (pi_mutex && rt_mutex_owner(pi_mutex) == current)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			rt_mutex_unlock(pi_mutex);
 	} else if (ret == -EINTR) {
 		/*

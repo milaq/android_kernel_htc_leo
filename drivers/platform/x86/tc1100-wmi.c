@@ -177,7 +177,11 @@ set_bool_##value(struct device *dev, struct device_attribute *attr, \
 			return -EINVAL; \
 	return count; \
 } \
+<<<<<<< HEAD
 static DEVICE_ATTR(value, S_IWUGO | S_IRUGO | S_IWUSR, \
+=======
+static DEVICE_ATTR(value, S_IRUGO | S_IWUSR, \
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	show_bool_##value, set_bool_##value);
 
 show_set_bool(wireless, TC1100_INSTANCE_WIRELESS);

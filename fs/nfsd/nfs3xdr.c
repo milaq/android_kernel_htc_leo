@@ -273,9 +273,17 @@ void fill_post_wcc(struct svc_fh *fhp)
 	err = vfs_getattr(fhp->fh_export->ex_path.mnt, fhp->fh_dentry,
 			&fhp->fh_post_attr);
 	fhp->fh_post_change = fhp->fh_dentry->d_inode->i_version;
+<<<<<<< HEAD
 	if (err)
 		fhp->fh_post_saved = 0;
 	else
+=======
+	if (err) {
+		fhp->fh_post_saved = 0;
+		/* Grab the ctime anyway - set_change_info might use it */
+		fhp->fh_post_attr.ctime = fhp->fh_dentry->d_inode->i_ctime;
+	} else
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		fhp->fh_post_saved = 1;
 }
 

@@ -244,7 +244,11 @@ static struct sk_buff *bcsp_prepare_pkt(struct bcsp_struct *bcsp, u8 *data,
 	if (rel) {
 		hdr[0] |= 0x80 + bcsp->msgq_txseq;
 		BT_DBG("Sending packet with seqno %u", bcsp->msgq_txseq);
+<<<<<<< HEAD
 		bcsp->msgq_txseq = (bcsp->msgq_txseq + 1) & 0x07;
+=======
+		bcsp->msgq_txseq = ++(bcsp->msgq_txseq) & 0x07;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (bcsp->use_crc)
@@ -739,7 +743,11 @@ static struct hci_uart_proto bcsp = {
 	.flush		= bcsp_flush
 };
 
+<<<<<<< HEAD
 int __init bcsp_init(void)
+=======
+int bcsp_init(void)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int err = hci_uart_register_proto(&bcsp);
 
@@ -751,7 +759,11 @@ int __init bcsp_init(void)
 	return err;
 }
 
+<<<<<<< HEAD
 int __exit bcsp_deinit(void)
+=======
+int bcsp_deinit(void)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return hci_uart_unregister_proto(&bcsp);
 }

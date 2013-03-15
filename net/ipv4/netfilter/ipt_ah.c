@@ -5,7 +5,11 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
+<<<<<<< HEAD
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/in.h>
 #include <linux/module.h>
 #include <linux/skbuff.h>
@@ -18,11 +22,21 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Yon Uriarte <yon@astaro.de>");
 MODULE_DESCRIPTION("Xtables: IPv4 IPsec-AH SPI match");
 
+<<<<<<< HEAD
+=======
+#ifdef DEBUG_CONNTRACK
+#define duprintf(format, args...) printk(format , ## args)
+#else
+#define duprintf(format, args...)
+#endif
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Returns 1 if the spi is matched by the range, 0 otherwise */
 static inline bool
 spi_match(u_int32_t min, u_int32_t max, u_int32_t spi, bool invert)
 {
 	bool r;
+<<<<<<< HEAD
 	pr_debug("spi_match:%c 0x%x <= 0x%x <= 0x%x\n",
 		 invert ? '!' : ' ', min, spi, max);
 	r=(spi >= min && spi <= max) ^ invert;
@@ -31,6 +45,16 @@ spi_match(u_int32_t min, u_int32_t max, u_int32_t spi, bool invert)
 }
 
 static bool ah_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+	duprintf("ah spi_match:%c 0x%x <= 0x%x <= 0x%x",invert? '!':' ',
+		min,spi,max);
+	r=(spi >= min && spi <= max) ^ invert;
+	duprintf(" result %s\n",r? "PASS" : "FAILED");
+	return r;
+}
+
+static bool ah_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct ip_auth_hdr _ahdr;
 	const struct ip_auth_hdr *ah;
@@ -45,7 +69,11 @@ static bool ah_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 		/* We've been asked to examine this packet, and we
 		 * can't.  Hence, no choice but to drop.
 		 */
+<<<<<<< HEAD
 		pr_debug("Dropping evil AH tinygram.\n");
+=======
+		duprintf("Dropping evil AH tinygram.\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*par->hotdrop = true;
 		return 0;
 	}
@@ -55,13 +83,21 @@ static bool ah_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 			 !!(ahinfo->invflags & IPT_AH_INV_SPI));
 }
 
+<<<<<<< HEAD
 static int ah_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool ah_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ipt_ah *ahinfo = par->matchinfo;
 
 	/* Must specify no unknown invflags */
 	if (ahinfo->invflags & ~IPT_AH_INV_MASK) {
+<<<<<<< HEAD
 		pr_debug("unknown flags %X\n", ahinfo->invflags);
+=======
+		duprintf("ipt_ah: unknown flags %X\n", ahinfo->invflags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return false;
 	}
 	return true;

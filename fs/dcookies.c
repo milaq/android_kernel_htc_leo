@@ -178,6 +178,11 @@ SYSCALL_DEFINE(lookup_dcookie)(u64 cookie64, char __user * buf, size_t len)
 	/* FIXME: (deleted) ? */
 	path = d_path(&dcs->path, kbuf, PAGE_SIZE);
 
+<<<<<<< HEAD
+=======
+	mutex_unlock(&dcookie_mutex);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (IS_ERR(path)) {
 		err = PTR_ERR(path);
 		goto out_free;
@@ -194,6 +199,10 @@ SYSCALL_DEFINE(lookup_dcookie)(u64 cookie64, char __user * buf, size_t len)
 
 out_free:
 	kfree(kbuf);
+<<<<<<< HEAD
+=======
+	return err;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out:
 	mutex_unlock(&dcookie_mutex);
 	return err;

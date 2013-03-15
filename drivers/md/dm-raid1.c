@@ -659,7 +659,11 @@ static void do_writes(struct mirror_set *ms, struct bio_list *writes)
 	/*
 	 * Dispatch io.
 	 */
+<<<<<<< HEAD
 	if (unlikely(ms->log_failure)) {
+=======
+	if (unlikely(ms->log_failure) && errors_handled(ms)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock_irq(&ms->lock);
 		bio_list_merge(&ms->failures, &sync);
 		spin_unlock_irq(&ms->lock);

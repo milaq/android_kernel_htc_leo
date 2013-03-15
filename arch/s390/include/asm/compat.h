@@ -171,6 +171,7 @@ static inline int is_compat_task(void)
 	return test_thread_flag(TIF_31BIT);
 }
 
+<<<<<<< HEAD
 #else
 
 static inline int is_compat_task(void)
@@ -181,6 +182,11 @@ static inline int is_compat_task(void)
 #endif
 
 static inline void __user *compat_alloc_user_space(long len)
+=======
+#endif
+
+static inline void __user *arch_compat_alloc_user_space(long len)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned long stack;
 

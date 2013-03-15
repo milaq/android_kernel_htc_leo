@@ -480,7 +480,11 @@ ds1511_nvram_write(struct kobject *kobj, struct bin_attribute *bin_attr,
 static struct bin_attribute ds1511_nvram_attr = {
 	.attr = {
 		.name = "nvram",
+<<<<<<< HEAD
 		.mode = S_IRUGO | S_IWUGO,
+=======
+		.mode = S_IRUGO | S_IWUSR,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	},
 	.size = DS1511_RAM_MAX,
 	.read = ds1511_nvram_read,

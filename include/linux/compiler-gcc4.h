@@ -36,7 +36,10 @@
    the kernel context */
 #define __cold			__attribute__((__cold__))
 
+<<<<<<< HEAD
 /* Mark a function definition as prohibited from being cloned. */
 #define __noclone      __attribute__((__noclone__))
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif

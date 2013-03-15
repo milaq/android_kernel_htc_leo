@@ -165,6 +165,10 @@ struct be_drvr_stats {
 	ulong be_tx_jiffies;
 	u64 be_tx_bytes;
 	u64 be_tx_bytes_prev;
+<<<<<<< HEAD
+=======
+	u64 be_tx_pkts;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 be_tx_rate;
 
 	u32 cache_barrier[16];
@@ -176,6 +180,10 @@ struct be_drvr_stats {
 	ulong be_rx_jiffies;
 	u64 be_rx_bytes;
 	u64 be_rx_bytes_prev;
+<<<<<<< HEAD
+=======
+	u64 be_rx_pkts;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 be_rx_rate;
 	/* number of non ether type II frames dropped where
 	 * frame len > length field of Mac Hdr */

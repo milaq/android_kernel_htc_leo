@@ -1161,6 +1161,7 @@ static long snd_mixart_BA0_read(struct snd_info_entry *entry, void *file_private
 				unsigned long count, unsigned long pos)
 {
 	struct mixart_mgr *mgr = entry->private_data;
+<<<<<<< HEAD
 
 	count = count & ~3; /* make sure the read size is a multiple of 4 bytes */
 	if(count <= 0)
@@ -1168,6 +1169,17 @@ static long snd_mixart_BA0_read(struct snd_info_entry *entry, void *file_private
 	if(pos + count > MIXART_BA0_SIZE)
 		count = (long)(MIXART_BA0_SIZE - pos);
 	if(copy_to_user_fromio(buf, MIXART_MEM( mgr, pos ), count))
+=======
+	unsigned long maxsize;
+
+	if (pos >= MIXART_BA0_SIZE)
+		return 0;
+	maxsize = MIXART_BA0_SIZE - pos;
+	if (count > maxsize)
+		count = maxsize;
+	count = count & ~3; /* make sure the read size is a multiple of 4 bytes */
+	if (copy_to_user_fromio(buf, MIXART_MEM(mgr, pos), count))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EFAULT;
 	return count;
 }
@@ -1180,6 +1192,7 @@ static long snd_mixart_BA1_read(struct snd_info_entry *entry, void *file_private
 				unsigned long count, unsigned long pos)
 {
 	struct mixart_mgr *mgr = entry->private_data;
+<<<<<<< HEAD
 
 	count = count & ~3; /* make sure the read size is a multiple of 4 bytes */
 	if(count <= 0)
@@ -1187,6 +1200,17 @@ static long snd_mixart_BA1_read(struct snd_info_entry *entry, void *file_private
 	if(pos + count > MIXART_BA1_SIZE)
 		count = (long)(MIXART_BA1_SIZE - pos);
 	if(copy_to_user_fromio(buf, MIXART_REG( mgr, pos ), count))
+=======
+	unsigned long maxsize;
+
+	if (pos > MIXART_BA1_SIZE)
+		return 0;
+	maxsize = MIXART_BA1_SIZE - pos;
+	if (count > maxsize)
+		count = maxsize;
+	count = count & ~3; /* make sure the read size is a multiple of 4 bytes */
+	if (copy_to_user_fromio(buf, MIXART_REG(mgr, pos), count))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EFAULT;
 	return count;
 }

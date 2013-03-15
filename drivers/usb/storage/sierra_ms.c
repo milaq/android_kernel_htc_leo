@@ -120,7 +120,11 @@ static ssize_t show_truinst(struct device *dev, struct device_attribute *attr,
 	}
 	return result;
 }
+<<<<<<< HEAD
 static DEVICE_ATTR(truinst, S_IWUGO | S_IRUGO, show_truinst, NULL);
+=======
+static DEVICE_ATTR(truinst, S_IRUGO, show_truinst, NULL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int sierra_ms_init(struct us_data *us)
 {

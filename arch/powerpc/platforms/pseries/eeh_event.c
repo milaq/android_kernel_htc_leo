@@ -80,7 +80,11 @@ static int eeh_event_handler(void * dummy)
 	eeh_mark_slot(event->dn, EEH_MODE_RECOVERING);
 
 	printk(KERN_INFO "EEH: Detected PCI bus error on device %s\n",
+<<<<<<< HEAD
 	       pci_name(event->dev));
+=======
+	       eeh_pci_name(event->dev));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pdn = handle_eeh_events(event);
 

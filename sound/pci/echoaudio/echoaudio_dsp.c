@@ -474,7 +474,11 @@ static int load_firmware(struct echoaudio *chip)
 	const struct firmware *fw;
 	int box_type, err;
 
+<<<<<<< HEAD
 	if (snd_BUG_ON(!chip->dsp_code_to_load || !chip->comm_page))
+=======
+	if (snd_BUG_ON(!chip->comm_page))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EPERM;
 
 	/* See if the ASIC is present and working - only if the DSP is already loaded */

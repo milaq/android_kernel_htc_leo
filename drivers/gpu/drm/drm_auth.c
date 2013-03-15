@@ -102,7 +102,11 @@ static int drm_add_magic(struct drm_master *master, struct drm_file *priv,
  * Searches and unlinks the entry in drm_device::magiclist with the magic
  * number hash key, while holding the drm_device::struct_mutex lock.
  */
+<<<<<<< HEAD
 static int drm_remove_magic(struct drm_master *master, drm_magic_t magic)
+=======
+int drm_remove_magic(struct drm_master *master, drm_magic_t magic)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct drm_magic_entry *pt;
 	struct drm_hash_item *hash;
@@ -137,6 +141,11 @@ static int drm_remove_magic(struct drm_master *master, drm_magic_t magic)
  * If there is a magic number in drm_file::magic then use it, otherwise
  * searches an unique non-zero magic number and add it associating it with \p
  * file_priv.
+<<<<<<< HEAD
+=======
+ * This ioctl needs protection by the drm_global_mutex, which protects
+ * struct drm_file::magic and struct drm_magic_entry::priv.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
 {
@@ -174,6 +183,11 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
  * \return zero if authentication successed, or a negative number otherwise.
  *
  * Checks if \p file_priv is associated with the magic number passed in \arg.
+<<<<<<< HEAD
+=======
+ * This ioctl needs protection by the drm_global_mutex, which protects
+ * struct drm_file::magic and struct drm_magic_entry::priv.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 int drm_authmagic(struct drm_device *dev, void *data,
 		  struct drm_file *file_priv)

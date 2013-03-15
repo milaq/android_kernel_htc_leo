@@ -369,6 +369,10 @@ stall:
 					ctrlrequest->wIndex & 0x0f;
 				struct musb_ep		*musb_ep;
 				struct musb_hw_ep	*ep;
+<<<<<<< HEAD
+=======
+				struct musb_request	*request;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				void __iomem		*regs;
 				int			is_in;
 				u16			csr;
@@ -411,6 +415,17 @@ stall:
 							csr);
 				}
 
+<<<<<<< HEAD
+=======
+				/* Maybe start the first request in the queue */
+				request = to_musb_request(
+						next_request(musb_ep));
+				if (!musb_ep->busy && request) {
+					DBG(3, "restarting the request\n");
+					musb_ep_restart(musb, request);
+				}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				/* select ep0 again */
 				musb_ep_select(mbase, 0);
 				handled = 1;

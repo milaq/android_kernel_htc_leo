@@ -25,8 +25,12 @@ MODULE_LICENSE("GPL");
 MODULE_ALIAS("ipt_ttl");
 MODULE_ALIAS("ip6t_hl");
 
+<<<<<<< HEAD
 static bool ttl_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool ttl_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ipt_ttl_info *info = par->matchinfo;
 	const u8 ttl = ip_hdr(skb)->ttl;
@@ -49,8 +53,12 @@ static bool ttl_mt(const struct sk_buff *skb,
 	return false;
 }
 
+<<<<<<< HEAD
 static bool hl_mt6(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool hl_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ip6t_hl_info *info = par->matchinfo;
 	const struct ipv6hdr *ip6h = ipv6_hdr(skb);

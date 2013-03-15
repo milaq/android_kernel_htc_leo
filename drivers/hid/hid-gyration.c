@@ -53,10 +53,20 @@ static int gyration_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 static int gyration_event(struct hid_device *hdev, struct hid_field *field,
 		struct hid_usage *usage, __s32 value)
 {
+<<<<<<< HEAD
 	struct input_dev *input = field->hidinput->input;
 
 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_GENDESK &&
 			(usage->hid & 0xff) == 0x82) {
+=======
+
+	if (!(hdev->claimed & HID_CLAIMED_INPUT) || !field->hidinput)
+		return 0;
+
+	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_GENDESK &&
+			(usage->hid & 0xff) == 0x82) {
+		struct input_dev *input = field->hidinput->input;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		input_event(input, usage->type, usage->code, 1);
 		input_sync(input);
 		input_event(input, usage->type, usage->code, 0);
@@ -70,6 +80,10 @@ static int gyration_event(struct hid_device *hdev, struct hid_field *field,
 static const struct hid_device_id gyration_devices[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_GYRATION, USB_DEVICE_ID_GYRATION_REMOTE) },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_GYRATION, USB_DEVICE_ID_GYRATION_REMOTE_2) },
+<<<<<<< HEAD
+=======
+	{ HID_USB_DEVICE(USB_VENDOR_ID_GYRATION, USB_DEVICE_ID_GYRATION_REMOTE_3) },
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ }
 };
 MODULE_DEVICE_TABLE(hid, gyration_devices);

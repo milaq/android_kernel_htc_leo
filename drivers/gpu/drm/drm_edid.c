@@ -85,6 +85,11 @@ static struct edid_quirk {
 
 	/* Envision Peripherals, Inc. EN-7100e */
 	{ "EPI", 59264, EDID_QUIRK_135_CLOCK_TOO_HIGH },
+<<<<<<< HEAD
+=======
+	/* Envision EN2028 */
+	{ "EPI", 8232, EDID_QUIRK_PREFER_LARGE_60 },
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Funai Electronics PM36B */
 	{ "FCM", 13600, EDID_QUIRK_PREFER_LARGE_75 |
@@ -322,7 +327,11 @@ static struct drm_display_mode drm_dmt_modes[] = {
 		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
 	/* 1024x768@85Hz */
 	{ DRM_MODE("1024x768", DRM_MODE_TYPE_DRIVER, 94500, 1024, 1072,
+<<<<<<< HEAD
 		   1072, 1376, 0, 768, 769, 772, 808, 0,
+=======
+		   1168, 1376, 0, 768, 769, 772, 808, 0,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
 	/* 1152x864@75Hz */
 	{ DRM_MODE("1152x864", DRM_MODE_TYPE_DRIVER, 108000, 1152, 1216,
@@ -563,8 +572,13 @@ struct drm_display_mode *drm_mode_std(struct drm_device *dev,
 		mode = drm_cvt_mode(dev, hsize, vsize, vrefresh_rate, 0, 0,
 				    false);
 		mode->hdisplay = 1366;
+<<<<<<< HEAD
 		mode->vsync_start = mode->vsync_start - 1;
 		mode->vsync_end = mode->vsync_end - 1;
+=======
+		mode->hsync_start = mode->hsync_start - 1;
+		mode->hsync_end = mode->hsync_end - 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return mode;
 	}
 	mode = NULL;
@@ -653,6 +667,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
 	mode->vsync_end = mode->vsync_start + vsync_pulse_width;
 	mode->vtotal = mode->vdisplay + vblank;
 
+<<<<<<< HEAD
 	/* perform the basic check for the detailed timing */
 	if (mode->hsync_end > mode->htotal ||
 		mode->vsync_end > mode->vtotal) {
@@ -662,6 +677,8 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
 		return NULL;
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Some EDIDs have bogus h/vtotal values */
 	if (mode->hsync_end > mode->htotal)
 		mode->htotal = mode->hsync_end + 1;
@@ -834,8 +851,62 @@ static int add_standard_modes(struct drm_connector *connector, struct edid *edid
 	return modes;
 }
 
+<<<<<<< HEAD
 /**
  * add_detailed_modes - get detailed mode info from EDID data
+=======
+static int add_detailed_modes(struct drm_connector *connector,
+			      struct detailed_timing *timing,
+			      struct edid *edid, u32 quirks, int preferred)
+{
+	int i, modes = 0;
+	struct detailed_non_pixel *data = &timing->data.other_data;
+	int timing_level = standard_timing_level(edid);
+	struct drm_display_mode *newmode;
+	struct drm_device *dev = connector->dev;
+
+	if (timing->pixel_clock) {
+		newmode = drm_mode_detailed(dev, edid, timing, quirks);
+		if (!newmode)
+			return 0;
+
+		if (preferred)
+			newmode->type |= DRM_MODE_TYPE_PREFERRED;
+
+		drm_mode_probed_add(connector, newmode);
+		return 1;
+	}
+
+	/* other timing types */
+	switch (data->type) {
+	case EDID_DETAIL_MONITOR_RANGE:
+		/* Get monitor range data */
+		break;
+	case EDID_DETAIL_STD_MODES:
+		/* Six modes per detailed section */
+		for (i = 0; i < 6; i++) {
+			struct std_timing *std;
+			struct drm_display_mode *newmode;
+
+			std = &data->data.timings[i];
+			newmode = drm_mode_std(dev, std, edid->revision,
+					       timing_level);
+			if (newmode) {
+				drm_mode_probed_add(connector, newmode);
+				modes++;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	return modes;
+}
+
+/**
+ * add_detailed_info - get detailed mode info from EDID data
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * @connector: attached connector
  * @edid: EDID block to scan
  * @quirks: quirks to apply
@@ -846,6 +917,7 @@ static int add_standard_modes(struct drm_connector *connector, struct edid *edid
 static int add_detailed_info(struct drm_connector *connector,
 			     struct edid *edid, u32 quirks)
 {
+<<<<<<< HEAD
 	struct drm_device *dev = connector->dev;
 	int i, j, modes = 0;
 	int timing_level;
@@ -903,10 +975,29 @@ static int add_detailed_info(struct drm_connector *connector,
 
 			modes++;
 		}
+=======
+	int i, modes = 0;
+
+	for (i = 0; i < EDID_DETAILED_TIMINGS; i++) {
+		struct detailed_timing *timing = &edid->detailed_timings[i];
+		int preferred = (i == 0) && (edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING);
+
+		/* In 1.0, only timings are allowed */
+		if (!timing->pixel_clock && edid->version == 1 &&
+			edid->revision == 0)
+			continue;
+
+		modes += add_detailed_modes(connector, timing, edid, quirks,
+					    preferred);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return modes;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * add_detailed_mode_eedid - get detailed mode info from addtional timing
  * 			EDID block
@@ -920,12 +1011,18 @@ static int add_detailed_info(struct drm_connector *connector,
 static int add_detailed_info_eedid(struct drm_connector *connector,
 			     struct edid *edid, u32 quirks)
 {
+<<<<<<< HEAD
 	struct drm_device *dev = connector->dev;
 	int i, j, modes = 0;
 	char *edid_ext = NULL;
 	struct detailed_timing *timing;
 	struct detailed_non_pixel *data;
 	struct drm_display_mode *newmode;
+=======
+	int i, modes = 0;
+	char *edid_ext = NULL;
+	struct detailed_timing *timing;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int edid_ext_num;
 	int start_offset, end_offset;
 	int timing_level;
@@ -976,6 +1073,7 @@ static int add_detailed_info_eedid(struct drm_connector *connector,
 	for (i = start_offset; i < end_offset;
 			i += sizeof(struct detailed_timing)) {
 		timing = (struct detailed_timing *)(edid_ext + i);
+<<<<<<< HEAD
 		data = &timing->data.other_data;
 		/* Detailed mode timing */
 		if (timing->pixel_clock) {
@@ -1021,6 +1119,9 @@ static int add_detailed_info_eedid(struct drm_connector *connector,
 		default:
 			break;
 		}
+=======
+		modes += add_detailed_modes(connector, timing, edid, quirks, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return modes;

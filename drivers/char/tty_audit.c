@@ -94,8 +94,15 @@ static void tty_audit_buf_push(struct task_struct *tsk, uid_t loginuid,
 {
 	if (buf->valid == 0)
 		return;
+<<<<<<< HEAD
 	if (audit_enabled == 0)
 		return;
+=======
+	if (audit_enabled == 0) {
+		buf->valid = 0;
+		return;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tty_audit_log("tty", tsk, loginuid, sessionid, buf->major, buf->minor,
 		      buf->data, buf->valid);
 	buf->valid = 0;

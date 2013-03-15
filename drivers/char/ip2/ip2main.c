@@ -183,6 +183,11 @@ static void ip2_hangup(PTTY);
 static int  ip2_tiocmget(struct tty_struct *tty, struct file *file);
 static int  ip2_tiocmset(struct tty_struct *tty, struct file *file,
 			 unsigned int set, unsigned int clear);
+<<<<<<< HEAD
+=======
+static int ip2_get_icount(struct tty_struct *tty,
+		struct serial_icounter_struct *icount);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static void set_irq(int, int);
 static void ip2_interrupt_bh(struct work_struct *work);
@@ -448,6 +453,10 @@ static const struct tty_operations ip2_ops = {
 	.hangup          = ip2_hangup,
 	.tiocmget	 = ip2_tiocmget,
 	.tiocmset	 = ip2_tiocmset,
+<<<<<<< HEAD
+=======
+	.get_icount	 = ip2_get_icount,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops	 = &ip2_proc_fops,
 };
 
@@ -2112,7 +2121,10 @@ ip2_ioctl ( PTTY tty, struct file *pFile, UINT cmd, ULONG arg )
 	i2ChanStrPtr pCh = DevTable[tty->index];
 	i2eBordStrPtr pB;
 	struct async_icount cprev, cnow;	/* kernel counter temps */
+<<<<<<< HEAD
 	struct serial_icounter_struct __user *p_cuser;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int rc = 0;
 	unsigned long flags;
 	void __user *argp = (void __user *)arg;
@@ -2281,6 +2293,7 @@ ip2_ioctl ( PTTY tty, struct file *pFile, UINT cmd, ULONG arg )
 		break;
 
 	/*
+<<<<<<< HEAD
 	 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 	 * Return: write counters to the user passed counter struct
 	 * NB: both 1->0 and 0->1 transitions are counted except for RI where
@@ -2309,6 +2322,8 @@ ip2_ioctl ( PTTY tty, struct file *pFile, UINT cmd, ULONG arg )
 		break;
 
 	/*
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 * The rest are not supported by this driver. By returning -ENOIOCTLCMD they
 	 * will be passed to the line discipline for it to handle.
 	 */
@@ -2332,6 +2347,49 @@ ip2_ioctl ( PTTY tty, struct file *pFile, UINT cmd, ULONG arg )
 	return rc;
 }
 
+<<<<<<< HEAD
+=======
+static int ip2_get_icount(struct tty_struct *tty,
+		struct serial_icounter_struct *icount)
+{
+	i2ChanStrPtr pCh = DevTable[tty->index];
+	i2eBordStrPtr pB;
+	struct async_icount cnow;	/* kernel counter temp */
+	unsigned long flags;
+
+	if ( pCh == NULL )
+		return -ENODEV;
+
+	pB = pCh->pMyBord;
+
+	/*
+	 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
+	 * Return: write counters to the user passed counter struct
+	 * NB: both 1->0 and 0->1 transitions are counted except for RI where
+	 * only 0->1 is counted. The controller is quite capable of counting
+	 * both, but this done to preserve compatibility with the standard
+	 * serial driver.
+	 */
+
+	write_lock_irqsave(&pB->read_fifo_spinlock, flags);
+	cnow = pCh->icount;
+	write_unlock_irqrestore(&pB->read_fifo_spinlock, flags);
+
+	icount->cts = cnow.cts;
+	icount->dsr = cnow.dsr;
+	icount->rng = cnow.rng;
+	icount->dcd = cnow.dcd;
+	icount->rx = cnow.rx;
+	icount->tx = cnow.tx;
+	icount->frame = cnow.frame;
+	icount->overrun = cnow.overrun;
+	icount->parity = cnow.parity;
+	icount->brk = cnow.brk;
+	icount->buf_overrun = cnow.buf_overrun;
+	return 0;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /******************************************************************************/
 /* Function:   GetSerialInfo()                                                */
 /* Parameters: Pointer to channel structure                                   */

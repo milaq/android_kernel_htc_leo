@@ -1000,8 +1000,13 @@ static inline int ata_ok(u8 status)
 
 static inline int lba_28_ok(u64 block, u32 n_block)
 {
+<<<<<<< HEAD
 	/* check the ending block number */
 	return ((block + n_block) < ((u64)1 << 28)) && (n_block <= 256);
+=======
+	/* check the ending block number: must be LESS THAN 0x0fffffff */
+	return ((block + n_block) < ((1 << 28) - 1)) && (n_block <= 256);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline int lba_48_ok(u64 block, u32 n_block)

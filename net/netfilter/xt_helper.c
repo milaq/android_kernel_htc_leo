@@ -24,7 +24,11 @@ MODULE_ALIAS("ip6t_helper");
 
 
 static bool
+<<<<<<< HEAD
 helper_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+helper_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_helper_info *info = par->matchinfo;
 	const struct nf_conn *ct;
@@ -54,7 +58,11 @@ helper_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int helper_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool helper_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_helper_info *info = par->matchinfo;
 

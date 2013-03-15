@@ -1001,6 +1001,7 @@ static int asus_hotk_add_fs(struct acpi_device *device)
 	struct proc_dir_entry *proc;
 	mode_t mode;
 
+<<<<<<< HEAD
 	/*
 	 * If parameter uid or gid is not changed, keep the default setting for
 	 * our proc entries (-rw-rw-rw-) else, it means we care about security,
@@ -1009,6 +1010,10 @@ static int asus_hotk_add_fs(struct acpi_device *device)
 
 	if ((asus_uid == 0) && (asus_gid == 0)) {
 		mode = S_IFREG | S_IRUGO | S_IWUGO;
+=======
+	if ((asus_uid == 0) && (asus_gid == 0)) {
+		mode = S_IFREG | S_IRUGO | S_IWUSR | S_IWGRP;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else {
 		mode = S_IFREG | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP;
 		printk(KERN_WARNING "  asus_uid and asus_gid parameters are "

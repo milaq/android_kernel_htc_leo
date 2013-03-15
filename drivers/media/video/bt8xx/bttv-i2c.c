@@ -388,7 +388,16 @@ int __devinit init_bttv_i2c(struct bttv *btv)
 	if (0 == btv->i2c_rc && i2c_scan)
 		do_i2c_scan(btv->c.v4l2_dev.name, &btv->i2c_client);
 
+<<<<<<< HEAD
 	/* Instantiate the IR receiver device, if present */
+=======
+	return btv->i2c_rc;
+}
+
+/* Instantiate the I2C IR receiver device, if present */
+void __devinit init_bttv_i2c_ir(struct bttv *btv)
+{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (0 == btv->i2c_rc) {
 		struct i2c_board_info info;
 		/* The external IR receiver is at i2c address 0x34 (0x35 for
@@ -408,7 +417,10 @@ int __devinit init_bttv_i2c(struct bttv *btv)
 		strlcpy(info.type, "ir_video", I2C_NAME_SIZE);
 		i2c_new_probed_device(&btv->c.i2c_adap, &info, addr_list);
 	}
+<<<<<<< HEAD
 	return btv->i2c_rc;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int __devexit fini_bttv_i2c(struct bttv *btv)

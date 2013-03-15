@@ -84,9 +84,13 @@ static const u8 ds2482_chan_rd[8] =
 static int ds2482_probe(struct i2c_client *client,
 			const struct i2c_device_id *id);
 static int ds2482_remove(struct i2c_client *client);
+<<<<<<< HEAD
 static int ds2482_suspend(struct i2c_client *client,
 			  pm_message_t mesg);
 static int ds2482_resume(struct i2c_client *client);
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * Driver data (common to all clients)
@@ -103,8 +107,11 @@ static struct i2c_driver ds2482_driver = {
 	},
 	.probe		= ds2482_probe,
 	.remove		= ds2482_remove,
+<<<<<<< HEAD
 	.suspend	= ds2482_suspend,
 	.resume		= ds2482_resume,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.id_table	= ds2482_id,
 };
 
@@ -134,6 +141,7 @@ struct ds2482_data {
 	u8			reg_config;
 };
 
+<<<<<<< HEAD
 static int ds2482_write_byte(struct ds2482_data *pdev, u8 cmd)
 {
 	int ret;
@@ -180,6 +188,8 @@ static int ds2482_read_byte(struct ds2482_data *pdev)
 	} while(retry--);
 	return ret;
 }
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * Sets the read pointer.
@@ -190,7 +200,12 @@ static int ds2482_read_byte(struct ds2482_data *pdev)
 static inline int ds2482_select_register(struct ds2482_data *pdev, u8 read_ptr)
 {
 	if (pdev->read_prt != read_ptr) {
+<<<<<<< HEAD
 		if (ds2482_write_byte_data(pdev, DS2482_CMD_SET_READ_PTR,
+=======
+		if (i2c_smbus_write_byte_data(pdev->client,
+					      DS2482_CMD_SET_READ_PTR,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					      read_ptr) < 0)
 			return -1;
 
@@ -209,7 +224,11 @@ static inline int ds2482_select_register(struct ds2482_data *pdev, u8 read_ptr)
  */
 static inline int ds2482_send_cmd(struct ds2482_data *pdev, u8 cmd)
 {
+<<<<<<< HEAD
 	if (ds2482_write_byte(pdev, cmd) < 0)
+=======
+	if (i2c_smbus_write_byte(pdev->client, cmd) < 0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -1;
 
 	pdev->read_prt = DS2482_PTR_CODE_STATUS;
@@ -229,7 +248,11 @@ static inline int ds2482_send_cmd(struct ds2482_data *pdev, u8 cmd)
 static inline int ds2482_send_cmd_data(struct ds2482_data *pdev,
 				       u8 cmd, u8 byte)
 {
+<<<<<<< HEAD
 	if (ds2482_write_byte_data(pdev, cmd, byte) < 0)
+=======
+	if (i2c_smbus_write_byte_data(pdev->client, cmd, byte) < 0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -1;
 
 	/* all cmds leave in STATUS, except CONFIG */
@@ -280,13 +303,21 @@ static int ds2482_wait_1wire_idle(struct ds2482_data *pdev)
  */
 static int ds2482_set_channel(struct ds2482_data *pdev, u8 channel)
 {
+<<<<<<< HEAD
 	if (ds2482_write_byte_data(pdev, DS2482_CMD_CHANNEL_SELECT,
+=======
+	if (i2c_smbus_write_byte_data(pdev->client, DS2482_CMD_CHANNEL_SELECT,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				      ds2482_chan_wr[channel]) < 0)
 		return -1;
 
 	pdev->read_prt = DS2482_PTR_CODE_CHANNEL;
 	pdev->channel = -1;
+<<<<<<< HEAD
 	if (ds2482_read_byte(pdev) == ds2482_chan_rd[channel]) {
+=======
+	if (i2c_smbus_read_byte(pdev->client) == ds2482_chan_rd[channel]) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pdev->channel = channel;
 		return 0;
 	}
@@ -410,7 +441,11 @@ static u8 ds2482_w1_read_byte(void *data)
 	ds2482_select_register(pdev, DS2482_PTR_CODE_DATA);
 
 	/* Read the data byte */
+<<<<<<< HEAD
 	result = ds2482_read_byte(pdev);
+=======
+	result = i2c_smbus_read_byte(pdev->client);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	mutex_unlock(&pdev->access_lock);
 
@@ -457,6 +492,7 @@ static u8 ds2482_w1_reset_bus(void *data)
 }
 
 
+<<<<<<< HEAD
 static int ds2482_suspend(struct i2c_client *client,
 			  pm_message_t mesg)
 {
@@ -482,6 +518,8 @@ static int ds2482_resume(struct i2c_client *client)
 	return 0;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int ds2482_probe(struct i2c_client *client,
 			const struct i2c_device_id *id)
 {
@@ -513,7 +551,11 @@ static int ds2482_probe(struct i2c_client *client,
 	ndelay(525);
 
 	/* Read the status byte - only reset bit and line should be set */
+<<<<<<< HEAD
 	temp1 = ds2482_read_byte(data);
+=======
+	temp1 = i2c_smbus_read_byte(client);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (temp1 != (DS2482_REG_STS_LL | DS2482_REG_STS_RST)) {
 		dev_warn(&client->dev, "DS2482 reset status "
 			 "0x%02X - not a DS2482\n", temp1);

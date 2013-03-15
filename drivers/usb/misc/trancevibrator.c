@@ -85,7 +85,11 @@ static ssize_t set_speed(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR(speed, S_IWUGO | S_IRUGO, show_speed, set_speed);
+=======
+static DEVICE_ATTR(speed, S_IRUGO | S_IWUSR, show_speed, set_speed);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int tv_probe(struct usb_interface *interface,
 		    const struct usb_device_id *id)

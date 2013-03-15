@@ -34,7 +34,11 @@
 #define ACPI_POWER_METER_NAME		"power_meter"
 ACPI_MODULE_NAME(ACPI_POWER_METER_NAME);
 #define ACPI_POWER_METER_DEVICE_NAME	"Power Meter"
+<<<<<<< HEAD
 #define ACPI_POWER_METER_CLASS		"power_meter_resource"
+=======
+#define ACPI_POWER_METER_CLASS		"pwr_meter_resource"
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define NUM_SENSORS			17
 

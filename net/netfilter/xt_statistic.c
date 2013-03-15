@@ -29,7 +29,11 @@ MODULE_ALIAS("ip6t_statistic");
 static DEFINE_SPINLOCK(nth_lock);
 
 static bool
+<<<<<<< HEAD
 statistic_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+statistic_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_statistic_info *info = par->matchinfo;
 	bool ret = info->flags & XT_STATISTIC_INVERT;
@@ -52,7 +56,11 @@ statistic_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int statistic_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool statistic_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_statistic_info *info = par->matchinfo;
 

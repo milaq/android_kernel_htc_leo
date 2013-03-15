@@ -310,9 +310,20 @@ static void deliver_recv_msg(struct smi_info *smi_info,
 {
 	/* Deliver the message to the upper layer with the lock
 	   released. */
+<<<<<<< HEAD
 	spin_unlock(&(smi_info->si_lock));
 	ipmi_smi_msg_received(smi_info->intf, msg);
 	spin_lock(&(smi_info->si_lock));
+=======
+
+	if (smi_info->run_to_completion) {
+		ipmi_smi_msg_received(smi_info->intf, msg);
+	} else {
+		spin_unlock(&(smi_info->si_lock));
+		ipmi_smi_msg_received(smi_info->intf, msg);
+		spin_lock(&(smi_info->si_lock));
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void return_hosed_msg(struct smi_info *smi_info, int cCode)

@@ -53,6 +53,7 @@ static int ehea_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 		cmd->duplex = -1;
 	}
 
+<<<<<<< HEAD
 	cmd->supported = (SUPPORTED_10000baseT_Full | SUPPORTED_1000baseT_Full
 		       | SUPPORTED_100baseT_Full |  SUPPORTED_100baseT_Half
 		       | SUPPORTED_10baseT_Full | SUPPORTED_10baseT_Half
@@ -62,6 +63,22 @@ static int ehea_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 			 | ADVERTISED_FIBRE);
 
 	cmd->port = PORT_FIBRE;
+=======
+	if (cmd->speed == SPEED_10000) {
+		cmd->supported = (SUPPORTED_10000baseT_Full | SUPPORTED_FIBRE);
+		cmd->advertising = (ADVERTISED_10000baseT_Full | ADVERTISED_FIBRE);
+		cmd->port = PORT_FIBRE;
+	} else {
+		cmd->supported = (SUPPORTED_1000baseT_Full | SUPPORTED_100baseT_Full
+			       | SUPPORTED_100baseT_Half | SUPPORTED_10baseT_Full
+			       | SUPPORTED_10baseT_Half | SUPPORTED_Autoneg
+			       | SUPPORTED_TP);
+		cmd->advertising = (ADVERTISED_1000baseT_Full | ADVERTISED_Autoneg
+				 | ADVERTISED_TP);
+		cmd->port = PORT_TP;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cmd->autoneg = port->autoneg == 1 ? AUTONEG_ENABLE : AUTONEG_DISABLE;
 
 	return 0;

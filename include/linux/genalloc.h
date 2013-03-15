@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ifdef CONFIG_MSM_KGSL
 /*
  * Basic general purpose allocator for managing special purpose memory
@@ -62,6 +63,8 @@ static inline int __must_check gen_pool_add(struct gen_pool *pool, unsigned long
 
 #else
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Basic general purpose allocator for managing special purpose memory
  * not managed by the regular kmalloc/kfree interface.
@@ -98,5 +101,8 @@ extern int gen_pool_add(struct gen_pool *, unsigned long, size_t, int);
 extern void gen_pool_destroy(struct gen_pool *);
 extern unsigned long gen_pool_alloc(struct gen_pool *, size_t);
 extern void gen_pool_free(struct gen_pool *, unsigned long, size_t);
+<<<<<<< HEAD
 
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

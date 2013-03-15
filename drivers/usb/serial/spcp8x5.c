@@ -137,7 +137,11 @@ struct spcp8x5_usb_ctrl_arg {
 
 /* how come ??? */
 #define UART_STATE			0x08
+<<<<<<< HEAD
 #define UART_STATE_TRANSIENT_MASK	0x74
+=======
+#define UART_STATE_TRANSIENT_MASK	0x75
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define UART_DCD			0x01
 #define UART_DSR			0x02
 #define UART_BREAK_ERROR		0x04
@@ -734,6 +738,13 @@ static void spcp8x5_read_bulk_callback(struct urb *urb)
 			tty_insert_flip_char(tty, data[i], tty_flag);
 		tty_flip_buffer_push(tty);
 	}
+<<<<<<< HEAD
+=======
+
+	if (status & UART_DCD)
+		usb_serial_handle_dcd_change(port, tty,
+			   priv->line_status & MSR_STATUS_LINE_DCD);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tty_kref_put(tty);
 
 	/* Schedule the next read _if_ we are still open */

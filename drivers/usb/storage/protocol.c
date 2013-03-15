@@ -58,7 +58,13 @@
 
 void usb_stor_pad12_command(struct scsi_cmnd *srb, struct us_data *us)
 {
+<<<<<<< HEAD
 	/* Pad the SCSI command with zeros out to 12 bytes
+=======
+	/*
+	 * Pad the SCSI command with zeros out to 12 bytes.  If the
+	 * command already is 12 bytes or longer, leave it alone.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 *
 	 * NOTE: This only works because a scsi_cmnd struct field contains
 	 * a unsigned char cmnd[16], so we know we have storage available
@@ -66,9 +72,12 @@ void usb_stor_pad12_command(struct scsi_cmnd *srb, struct us_data *us)
 	for (; srb->cmd_len<12; srb->cmd_len++)
 		srb->cmnd[srb->cmd_len] = 0;
 
+<<<<<<< HEAD
 	/* set command length to 12 bytes */
 	srb->cmd_len = 12;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* send the command to the transport layer */
 	usb_stor_invoke_transport(srb, us);
 }

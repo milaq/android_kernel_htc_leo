@@ -27,6 +27,39 @@ MODULE_DESCRIPTION("iptables security table, for MAC rules");
 				(1 << NF_INET_FORWARD) | \
 				(1 << NF_INET_LOCAL_OUT)
 
+<<<<<<< HEAD
+=======
+static const struct
+{
+	struct ipt_replace repl;
+	struct ipt_standard entries[3];
+	struct ipt_error term;
+} initial_table __net_initdata = {
+	.repl = {
+		.name = "security",
+		.valid_hooks = SECURITY_VALID_HOOKS,
+		.num_entries = 4,
+		.size = sizeof(struct ipt_standard) * 3 + sizeof(struct ipt_error),
+		.hook_entry = {
+			[NF_INET_LOCAL_IN] 	= 0,
+			[NF_INET_FORWARD] 	= sizeof(struct ipt_standard),
+			[NF_INET_LOCAL_OUT] 	= sizeof(struct ipt_standard) * 2,
+		},
+		.underflow = {
+			[NF_INET_LOCAL_IN] 	= 0,
+			[NF_INET_FORWARD] 	= sizeof(struct ipt_standard),
+			[NF_INET_LOCAL_OUT] 	= sizeof(struct ipt_standard) * 2,
+		},
+	},
+	.entries = {
+		IPT_STANDARD_INIT(NF_ACCEPT),	/* LOCAL_IN */
+		IPT_STANDARD_INIT(NF_ACCEPT),	/* FORWARD */
+		IPT_STANDARD_INIT(NF_ACCEPT),	/* LOCAL_OUT */
+	},
+	.term = IPT_ERROR_INIT,			/* ERROR */
+};
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static const struct xt_table security_table = {
 	.name		= "security",
 	.valid_hooks	= SECURITY_VALID_HOOKS,
@@ -97,6 +130,7 @@ static struct nf_hook_ops ipt_ops[] __read_mostly = {
 
 static int __net_init iptable_security_net_init(struct net *net)
 {
+<<<<<<< HEAD
 	struct ipt_replace *repl;
 
 	repl = ipt_alloc_initial_table(&security_table);
@@ -105,6 +139,11 @@ static int __net_init iptable_security_net_init(struct net *net)
 	net->ipv4.iptable_security =
 		ipt_register_table(net, &security_table, repl);
 	kfree(repl);
+=======
+	net->ipv4.iptable_security =
+		ipt_register_table(net, &security_table, &initial_table.repl);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (IS_ERR(net->ipv4.iptable_security))
 		return PTR_ERR(net->ipv4.iptable_security);
 
@@ -113,7 +152,11 @@ static int __net_init iptable_security_net_init(struct net *net)
 
 static void __net_exit iptable_security_net_exit(struct net *net)
 {
+<<<<<<< HEAD
 	ipt_unregister_table(net, net->ipv4.iptable_security);
+=======
+	ipt_unregister_table(net->ipv4.iptable_security);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct pernet_operations iptable_security_net_ops = {

@@ -363,7 +363,11 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			error = ops->confirm(pipe, buf);
 			if (error) {
 				if (!ret)
+<<<<<<< HEAD
 					error = ret;
+=======
+					ret = error;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				break;
 			}
 

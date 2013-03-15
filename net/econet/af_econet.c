@@ -30,6 +30,10 @@
 #include <linux/wireless.h>
 #include <linux/skbuff.h>
 #include <linux/udp.h>
+<<<<<<< HEAD
+=======
+#include <linux/vmalloc.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/sock.h>
 #include <net/inet_common.h>
 #include <linux/stat.h>
@@ -275,12 +279,21 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 #endif
 #ifdef CONFIG_ECONET_AUNUDP
 	struct msghdr udpmsg;
+<<<<<<< HEAD
 	struct iovec iov[msg->msg_iovlen+1];
 	struct aunhdr ah;
 	struct sockaddr_in udpdest;
 	__kernel_size_t size;
 	int i;
 	mm_segment_t oldfs;
+=======
+	struct iovec iov[2];
+	struct aunhdr ah;
+	struct sockaddr_in udpdest;
+	__kernel_size_t size;
+	mm_segment_t oldfs;
+	char *userbuf;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 	/*
@@ -296,6 +309,7 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 
 	mutex_lock(&econet_mutex);
 
+<<<<<<< HEAD
 	if (saddr == NULL) {
 		struct econet_sock *eo = ec_sk(sk);
 
@@ -313,6 +327,16 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 		port = saddr->port;
 		cb = saddr->cb;
 	}
+=======
+        if (saddr == NULL || msg->msg_namelen < sizeof(struct sockaddr_ec)) {
+                mutex_unlock(&econet_mutex);
+                return -EINVAL;
+        }
+        addr.station = saddr->addr.station;
+        addr.net = saddr->addr.net;
+        port = saddr->port;
+        cb = saddr->cb;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Look for a device with the right network number. */
 	dev = net2dev_map[addr.net];
@@ -327,17 +351,28 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 		}
 	}
 
+<<<<<<< HEAD
 	if (len + 15 > dev->mtu) {
 		mutex_unlock(&econet_mutex);
 		return -EMSGSIZE;
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (dev->type == ARPHRD_ECONET) {
 		/* Real hardware Econet.  We're not worthy etc. */
 #ifdef CONFIG_ECONET_NATIVE
 		unsigned short proto = 0;
 		int res;
 
+<<<<<<< HEAD
+=======
+		if (len + 15 > dev->mtu) {
+			mutex_unlock(&econet_mutex);
+			return -EMSGSIZE;
+		}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		dev_hold(dev);
 
 		skb = sock_alloc_send_skb(sk, len+LL_ALLOCATED_SPACE(dev),
@@ -350,7 +385,10 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 
 		eb = (struct ec_cb *)&skb->cb;
 
+<<<<<<< HEAD
 		/* BUG: saddr may be NULL */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		eb->cookie = saddr->cookie;
 		eb->sec = *saddr;
 		eb->sent = ec_tx_done;
@@ -414,6 +452,14 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 		return -ENETDOWN;		/* No socket - can't send */
 	}
 
+<<<<<<< HEAD
+=======
+	if (len > 32768) {
+		err = -E2BIG;
+		goto error;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Make up a UDP datagram and hand it off to some higher intellect. */
 
 	memset(&udpdest, 0, sizeof(udpdest));
@@ -438,6 +484,7 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 		udpdest.sin_addr.s_addr = htonl(network | addr.station);
 	}
 
+<<<<<<< HEAD
 	ah.port = port;
 	ah.cb = cb & 0x7f;
 	ah.code = 2;		/* magic */
@@ -475,6 +522,35 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 		mutex_unlock(&econet_mutex);
 		return err;
 	}
+=======
+	memset(&ah, 0, sizeof(ah));
+	ah.port = port;
+	ah.cb = cb & 0x7f;
+	ah.code = 2;		/* magic */
+
+	/* tack our header on the front of the iovec */
+	size = sizeof(struct aunhdr);
+	iov[0].iov_base = (void *)&ah;
+	iov[0].iov_len = size;
+
+	userbuf = vmalloc(len);
+	if (userbuf == NULL) {
+		err = -ENOMEM;
+		goto error;
+	}
+
+	iov[1].iov_base = userbuf;
+	iov[1].iov_len = len;
+	err = memcpy_fromiovec(userbuf, msg->msg_iov, len);
+	if (err)
+		goto error_free_buf;
+
+	/* Get a skbuff (no data, just holds our cb information) */
+	if ((skb = sock_alloc_send_skb(sk, 0,
+				       msg->msg_flags & MSG_DONTWAIT,
+				       &err)) == NULL)
+		goto error_free_buf;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	eb = (struct ec_cb *)&skb->cb;
 
@@ -490,7 +566,11 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 	udpmsg.msg_name = (void *)&udpdest;
 	udpmsg.msg_namelen = sizeof(udpdest);
 	udpmsg.msg_iov = &iov[0];
+<<<<<<< HEAD
 	udpmsg.msg_iovlen = msg->msg_iovlen + 1;
+=======
+	udpmsg.msg_iovlen = 2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	udpmsg.msg_control = NULL;
 	udpmsg.msg_controllen = 0;
 	udpmsg.msg_flags=0;
@@ -498,9 +578,19 @@ static int econet_sendmsg(struct kiocb *iocb, struct socket *sock,
 	oldfs = get_fs(); set_fs(KERNEL_DS);	/* More privs :-) */
 	err = sock_sendmsg(udpsock, &udpmsg, size);
 	set_fs(oldfs);
+<<<<<<< HEAD
 #else
 	err = -EPROTOTYPE;
 #endif
+=======
+
+error_free_buf:
+	vfree(userbuf);
+#else
+	err = -EPROTOTYPE;
+#endif
+	error:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&econet_mutex);
 
 	return err;
@@ -669,6 +759,12 @@ static int ec_dev_ioctl(struct socket *sock, unsigned int cmd, void __user *arg)
 	err = 0;
 	switch (cmd) {
 	case SIOCSIFADDR:
+<<<<<<< HEAD
+=======
+		if (!capable(CAP_NET_ADMIN))
+			return -EPERM;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		edev = dev->ec_ptr;
 		if (edev == NULL) {
 			/* Magic up a new one. */
@@ -850,9 +946,19 @@ static void aun_incoming(struct sk_buff *skb, struct aunhdr *ah, size_t len)
 {
 	struct iphdr *ip = ip_hdr(skb);
 	unsigned char stn = ntohl(ip->saddr) & 0xff;
+<<<<<<< HEAD
 	struct sock *sk;
 	struct sk_buff *newskb;
 	struct ec_device *edev = skb->dev->ec_ptr;
+=======
+	struct dst_entry *dst = skb_dst(skb);
+	struct ec_device *edev = NULL;
+	struct sock *sk;
+	struct sk_buff *newskb;
+
+	if (dst)
+		edev = dst->dev->ec_ptr;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (! edev)
 		goto bad;

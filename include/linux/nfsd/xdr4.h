@@ -480,6 +480,7 @@ static inline bool nfsd4_not_cached(struct nfsd4_compoundres *resp)
 static inline void
 set_change_info(struct nfsd4_change_info *cinfo, struct svc_fh *fhp)
 {
+<<<<<<< HEAD
 	BUG_ON(!fhp->fh_pre_saved || !fhp->fh_post_saved);
 	cinfo->atomic = 1;
 	cinfo->change_supported = IS_I_VERSION(fhp->fh_dentry->d_inode);
@@ -492,6 +493,19 @@ set_change_info(struct nfsd4_change_info *cinfo, struct svc_fh *fhp)
 		cinfo->after_ctime_sec = fhp->fh_post_attr.ctime.tv_sec;
 		cinfo->after_ctime_nsec = fhp->fh_post_attr.ctime.tv_nsec;
 	}
+=======
+	BUG_ON(!fhp->fh_pre_saved);
+	cinfo->atomic = fhp->fh_post_saved;
+	cinfo->change_supported = IS_I_VERSION(fhp->fh_dentry->d_inode);
+
+	cinfo->before_change = fhp->fh_pre_change;
+	cinfo->after_change = fhp->fh_post_change;
+	cinfo->before_ctime_sec = fhp->fh_pre_ctime.tv_sec;
+	cinfo->before_ctime_nsec = fhp->fh_pre_ctime.tv_nsec;
+	cinfo->after_ctime_sec = fhp->fh_post_attr.ctime.tv_sec;
+	cinfo->after_ctime_nsec = fhp->fh_post_attr.ctime.tv_nsec;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int nfs4svc_encode_voidres(struct svc_rqst *, __be32 *, void *);

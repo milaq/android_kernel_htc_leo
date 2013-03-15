@@ -610,6 +610,10 @@ static int dvb_fini(struct em28xx *dev)
 
 	if (dev->dvb) {
 		unregister_dvb(dev->dvb);
+<<<<<<< HEAD
+=======
+		kfree(dev->dvb);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		dev->dvb = NULL;
 	}
 

@@ -21,9 +21,13 @@
 #include <linux/interrupt.h>
 #include <linux/wait.h>
 #include <linux/clk.h>
+<<<<<<< HEAD
 #include <linux/timer.h>
 #include <linux/file.h>
 #include <linux/android_pmem.h>
+=======
+#include <linux/file.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/major.h>
 
 #include <mach/msm_iomap.h>
@@ -31,6 +35,7 @@
 #include <linux/platform_device.h>
 
 #include "mdp_hw.h"
+<<<<<<< HEAD
 #include "mdp_ppp.h"
 #include <asm/mach-types.h>
 
@@ -118,6 +123,52 @@ static int enable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
 	spin_lock_irqsave(&mdp->lock, flags);
 	ret = locked_enable_mdp_irq(mdp, mask);
 	spin_unlock_irqrestore(&mdp->lock, flags);
+=======
+
+struct class *mdp_class;
+
+#define MDP_CMD_DEBUG_ACCESS_BASE (0x10000)
+
+static uint16_t mdp_default_ccs[] = {
+	0x254, 0x000, 0x331, 0x254, 0xF38, 0xE61, 0x254, 0x409, 0x000,
+	0x010, 0x080, 0x080
+};
+
+static DECLARE_WAIT_QUEUE_HEAD(mdp_dma2_waitqueue);
+static DECLARE_WAIT_QUEUE_HEAD(mdp_ppp_waitqueue);
+static struct msmfb_callback *dma_callback;
+static struct clk *clk;
+static unsigned int mdp_irq_mask;
+static DEFINE_SPINLOCK(mdp_lock);
+DEFINE_MUTEX(mdp_mutex);
+
+static int enable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
+{
+	unsigned long irq_flags;
+	int ret = 0;
+
+	BUG_ON(!mask);
+
+	spin_lock_irqsave(&mdp_lock, irq_flags);
+	/* if the mask bits are already set return an error, this interrupt
+	 * is already enabled */
+	if (mdp_irq_mask & mask) {
+		printk(KERN_ERR "mdp irq already on already on %x %x\n",
+		       mdp_irq_mask, mask);
+		ret = -1;
+	}
+	/* if the mdp irq is not already enabled enable it */
+	if (!mdp_irq_mask) {
+		if (clk)
+			clk_enable(clk);
+		enable_irq(mdp->irq);
+	}
+
+	/* update the irq mask to reflect the fact that the interrupt is
+	 * enabled */
+	mdp_irq_mask |= mask;
+	spin_unlock_irqrestore(&mdp_lock, irq_flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -132,6 +183,7 @@ static int locked_disable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
 	/* update the irq mask to reflect the fact that the interrupt is
 	 * disabled */
 	mdp_irq_mask &= ~(mask);
+<<<<<<< HEAD
 	mdp_writel(mdp, mdp_irq_mask, MDP_INTR_ENABLE);
 
 	/* if no one is waiting on the interrupt, disable it */
@@ -142,10 +194,18 @@ static int locked_disable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
 		if (!(mdp->state & MDP_STATE_STANDBY))
 			mod_timer(&mdp->standby_timer,
 				jiffies + msecs_to_jiffies(200));
+=======
+	/* if no one is waiting on the interrupt, disable it */
+	if (!mdp_irq_mask) {
+		disable_irq(mdp->irq);
+		if (clk)
+			clk_disable(clk);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return 0;
 }
 
+<<<<<<< HEAD
 int disable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
 {
 	unsigned long irq_flags=0;
@@ -154,21 +214,39 @@ int disable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
 	spin_lock_irqsave(&mdp->lock, irq_flags);
 	ret = locked_disable_mdp_irq(mdp, mask);
 	spin_unlock_irqrestore(&mdp->lock, irq_flags);
+=======
+static int disable_mdp_irq(struct mdp_info *mdp, uint32_t mask)
+{
+	unsigned long irq_flags;
+	int ret;
+
+	spin_lock_irqsave(&mdp_lock, irq_flags);
+	ret = locked_disable_mdp_irq(mdp, mask);
+	spin_unlock_irqrestore(&mdp_lock, irq_flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
 static irqreturn_t mdp_isr(int irq, void *data)
 {
 	uint32_t status;
+<<<<<<< HEAD
 	unsigned long irq_flags=0;
 	struct mdp_info *mdp = data;
 	int i;
 
 	spin_lock_irqsave(&mdp->lock, irq_flags);
+=======
+	unsigned long irq_flags;
+	struct mdp_info *mdp = data;
+
+	spin_lock_irqsave(&mdp_lock, irq_flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	status = mdp_readl(mdp, MDP_INTR_STATUS);
 	mdp_writel(mdp, status, MDP_INTR_CLEAR);
 
+<<<<<<< HEAD
 //	pr_info("%s: status=%08x (irq_mask=%08x)\n", __func__, status,
 //		mdp_irq_mask);
 
@@ -301,15 +379,67 @@ int mdp_wait(struct mdp_info *mdp, uint32_t mask, wait_queue_head_t *wq)
 //		pr_info("%s: SUCCESS waiting for 0x%x\n", __func__, mask);
 	}
 	spin_unlock_irqrestore(&mdp->lock, irq_flags);
+=======
+	status &= mdp_irq_mask;
+	if (status & DL0_DMA2_TERM_DONE) {
+		if (dma_callback) {
+			dma_callback->func(dma_callback);
+			dma_callback = NULL;
+		}
+		wake_up(&mdp_dma2_waitqueue);
+	}
+
+	if (status & DL0_ROI_DONE)
+		wake_up(&mdp_ppp_waitqueue);
+
+	if (status)
+		locked_disable_mdp_irq(mdp, status);
+
+	spin_unlock_irqrestore(&mdp_lock, irq_flags);
+	return IRQ_HANDLED;
+}
+
+static uint32_t mdp_check_mask(uint32_t mask)
+{
+	uint32_t ret;
+	unsigned long irq_flags;
+
+	spin_lock_irqsave(&mdp_lock, irq_flags);
+	ret = mdp_irq_mask & mask;
+	spin_unlock_irqrestore(&mdp_lock, irq_flags);
+	return ret;
+}
+
+static int mdp_wait(struct mdp_info *mdp, uint32_t mask, wait_queue_head_t *wq)
+{
+	int ret = 0;
+	unsigned long irq_flags;
+
+	wait_event_timeout(*wq, !mdp_check_mask(mask), HZ);
+
+	spin_lock_irqsave(&mdp_lock, irq_flags);
+	if (mdp_irq_mask & mask) {
+		locked_disable_mdp_irq(mdp, mask);
+		printk(KERN_WARNING "timeout waiting for mdp to complete %x\n",
+		       mask);
+		ret = -ETIMEDOUT;
+	}
+	spin_unlock_irqrestore(&mdp_lock, irq_flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return ret;
 }
 
+<<<<<<< HEAD
 static void mdp_dma_wait(struct mdp_device *mdp_dev, int interface)
+=======
+void mdp_dma_wait(struct mdp_device *mdp_dev)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 #define MDP_MAX_TIMEOUTS 20
 	static int timeout_count;
 	struct mdp_info *mdp = container_of(mdp_dev, struct mdp_info, mdp_dev);
+<<<<<<< HEAD
 	unsigned int mask = 0;
 	wait_queue_head_t *wq;
 
@@ -328,6 +458,10 @@ static void mdp_dma_wait(struct mdp_device *mdp_dev, int interface)
 	}
 
 	if (mdp_wait(mdp, mask, wq) == -ETIMEDOUT)
+=======
+
+	if (mdp_wait(mdp, DL0_DMA2_TERM_DONE, &mdp_dma2_waitqueue) == -ETIMEDOUT)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		timeout_count++;
 	else
 		timeout_count = 0;
@@ -338,11 +472,16 @@ static void mdp_dma_wait(struct mdp_device *mdp_dev, int interface)
 		BUG();
 	}
 }
+<<<<<<< HEAD
 /*
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int mdp_ppp_wait(struct mdp_info *mdp)
 {
 	return mdp_wait(mdp, DL0_ROI_DONE, &mdp_ppp_waitqueue);
 }
+<<<<<<< HEAD
 */
 #ifndef CONFIG_MSM_MDP40
 static void mdp_dmas_to_mddi(void *priv, uint32_t addr, uint32_t stride,
@@ -430,11 +569,36 @@ static void mdp_dma_to_mddi(void *priv, uint32_t addr, uint32_t stride,
 		dma2_cfg |= DMA_PACK_PATTERN_BGR;
 	else
 		dma2_cfg |= DMA_PACK_PATTERN_RGB;
+=======
+
+void mdp_dma_to_mddi(struct mdp_info *mdp, uint32_t addr, uint32_t stride,
+		     uint32_t width, uint32_t height, uint32_t x, uint32_t y,
+		     struct msmfb_callback *callback)
+{
+	uint32_t dma2_cfg;
+	uint16_t ld_param = 0; /* 0=PRIM, 1=SECD, 2=EXT */
+
+	if (enable_mdp_irq(mdp, DL0_DMA2_TERM_DONE)) {
+		printk(KERN_ERR "mdp_dma_to_mddi: busy\n");
+		return;
+	}
+
+	dma_callback = callback;
+
+	dma2_cfg = DMA_PACK_TIGHT |
+		DMA_PACK_ALIGN_LSB |
+		DMA_PACK_PATTERN_RGB |
+		DMA_OUT_SEL_AHB |
+		DMA_IBUF_NONCONTIGUOUS;
+
+	dma2_cfg |= DMA_IBUF_FORMAT_RGB565;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dma2_cfg |= DMA_OUT_SEL_MDDI;
 
 	dma2_cfg |= DMA_MDDI_DMAOUT_LCD_SEL_PRIMARY;
 
+<<<<<<< HEAD
 #if !defined(CONFIG_MSM_MDP30)
 	dma2_cfg |= DMA_DITHER_EN;
 #endif
@@ -464,22 +628,37 @@ static void mdp_dma_to_mddi(void *priv, uint32_t addr, uint32_t stride,
 	/* start DMA2 */
 	writel(0, mdp->base + 0x0044);
 #elif defined(CONFIG_MSM_MDP22)
+=======
+	dma2_cfg |= DMA_DITHER_EN;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* setup size, address, and stride */
 	mdp_writel(mdp, (height << 16) | (width),
 		   MDP_CMD_DEBUG_ACCESS_BASE + 0x0184);
 	mdp_writel(mdp, addr, MDP_CMD_DEBUG_ACCESS_BASE + 0x0188);
 	mdp_writel(mdp, stride, MDP_CMD_DEBUG_ACCESS_BASE + 0x018C);
 
+<<<<<<< HEAD
 	/* set y & x offset and MDDI transaction parameters */
 	mdp_writel(mdp, (y << 16) | (x), MDP_CMD_DEBUG_ACCESS_BASE + 0x0194);
 	mdp_writel(mdp, ld_param, MDP_CMD_DEBUG_ACCESS_BASE + 0x01a0);
 	mdp_writel(mdp, (video_packet_parameter << 16) | MDDI_VDO_PACKET_PRIM,
+=======
+	/* 666 18BPP */
+	dma2_cfg |= DMA_DSTC0G_6BITS | DMA_DSTC1B_6BITS | DMA_DSTC2R_6BITS;
+
+	/* set y & x offset and MDDI transaction parameters */
+	mdp_writel(mdp, (y << 16) | (x), MDP_CMD_DEBUG_ACCESS_BASE + 0x0194);
+	mdp_writel(mdp, ld_param, MDP_CMD_DEBUG_ACCESS_BASE + 0x01a0);
+	mdp_writel(mdp, (MDDI_VDO_PACKET_DESC << 16) | MDDI_VDO_PACKET_PRIM,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		   MDP_CMD_DEBUG_ACCESS_BASE + 0x01a4);
 
 	mdp_writel(mdp, dma2_cfg, MDP_CMD_DEBUG_ACCESS_BASE + 0x0180);
 
 	/* start DMA2 */
 	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0044);
+<<<<<<< HEAD
 #else
 	/* setup size, address, and stride */
 	mdp_writel(mdp, (height << 16) | (width), MDP_DMA_P_SIZE);
@@ -497,12 +676,16 @@ static void mdp_dma_to_mddi(void *priv, uint32_t addr, uint32_t stride,
 #endif
 }
 #endif	/* ifndef CONFIG_MSM_MDP40 */
+=======
+}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 void mdp_dma(struct mdp_device *mdp_dev, uint32_t addr, uint32_t stride,
 	     uint32_t width, uint32_t height, uint32_t x, uint32_t y,
 	     struct msmfb_callback *callback, int interface)
 {
 	struct mdp_info *mdp = container_of(mdp_dev, struct mdp_info, mdp_dev);
+<<<<<<< HEAD
 	struct mdp_out_interface *out_if;
 	unsigned long flags;
 
@@ -603,11 +786,45 @@ int mdp_set_output_format(struct mdp_device *mdp_dev, int bpp)
 	}
 
 	return 0;
+=======
+
+	if (interface == MSM_MDDI_PMDH_INTERFACE) {
+		mdp_dma_to_mddi(mdp, addr, stride, width, height, x, y,
+				callback);
+	}
+}
+
+int get_img(struct mdp_img *img, struct fb_info *info,
+	    unsigned long *start, unsigned long *len,
+	    struct file **filep)
+{
+	int put_needed, ret = 0;
+	struct file *file;
+	unsigned long vstart;
+
+	file = fget_light(img->memory_id, &put_needed);
+	if (file == NULL)
+		return -1;
+
+	if (MAJOR(file->f_dentry->d_inode->i_rdev) == FB_MAJOR) {
+		*start = info->fix.smem_start;
+		*len = info->fix.smem_len;
+	} else
+		ret = -1;
+	fput_light(file, put_needed);
+
+	return ret;
+}
+
+void put_img(struct file *src_file, struct file *dst_file)
+{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int mdp_blit(struct mdp_device *mdp_dev, struct fb_info *fb,
 	     struct mdp_blit_req *req)
 {
+<<<<<<< HEAD
 	struct mdp_info *mdp = container_of(mdp_dev, struct mdp_info, mdp_dev);
 	timeout_req = req;
 	return mdp_ppp_blit(mdp, fb, req);
@@ -693,6 +910,95 @@ int mdp_out_if_req_irq(struct mdp_device *mdp_dev, int interface,
 done:
 	spin_unlock_irqrestore(&mdp->lock, flags);
 	return ret;
+=======
+	int ret;
+	unsigned long src_start = 0, src_len = 0, dst_start = 0, dst_len = 0;
+	struct mdp_info *mdp = container_of(mdp_dev, struct mdp_info, mdp_dev);
+	struct file *src_file = 0, *dst_file = 0;
+
+	/* WORKAROUND FOR HARDWARE BUG IN BG TILE FETCH */
+	if (unlikely(req->src_rect.h == 0 ||
+		     req->src_rect.w == 0)) {
+		printk(KERN_ERR "mpd_ppp: src img of zero size!\n");
+		return -EINVAL;
+	}
+	if (unlikely(req->dst_rect.h == 0 ||
+		     req->dst_rect.w == 0))
+		return -EINVAL;
+
+	/* do this first so that if this fails, the caller can always
+	 * safely call put_img */
+	if (unlikely(get_img(&req->src, fb, &src_start, &src_len, &src_file))) {
+		printk(KERN_ERR "mpd_ppp: could not retrieve src image from "
+				"memory\n");
+		return -EINVAL;
+	}
+
+	if (unlikely(get_img(&req->dst, fb, &dst_start, &dst_len, &dst_file))) {
+		printk(KERN_ERR "mpd_ppp: could not retrieve dst image from "
+				"memory\n");
+		return -EINVAL;
+	}
+	mutex_lock(&mdp_mutex);
+
+	/* transp_masking unimplemented */
+	req->transp_mask = MDP_TRANSP_NOP;
+	if (unlikely((req->transp_mask != MDP_TRANSP_NOP ||
+		      req->alpha != MDP_ALPHA_NOP ||
+		      HAS_ALPHA(req->src.format)) &&
+		     (req->flags & MDP_ROT_90 &&
+		      req->dst_rect.w <= 16 && req->dst_rect.h >= 16))) {
+		int i;
+		unsigned int tiles = req->dst_rect.h / 16;
+		unsigned int remainder = req->dst_rect.h % 16;
+		req->src_rect.w = 16*req->src_rect.w / req->dst_rect.h;
+		req->dst_rect.h = 16;
+		for (i = 0; i < tiles; i++) {
+			enable_mdp_irq(mdp, DL0_ROI_DONE);
+			ret = mdp_ppp_blit(mdp, req, src_file, src_start,
+					   src_len, dst_file, dst_start,
+					   dst_len);
+			if (ret)
+				goto err_bad_blit;
+			ret = mdp_ppp_wait(mdp);
+			if (ret)
+				goto err_wait_failed;
+			req->dst_rect.y += 16;
+			req->src_rect.x += req->src_rect.w;
+		}
+		if (!remainder)
+			goto end;
+		req->src_rect.w = remainder*req->src_rect.w / req->dst_rect.h;
+		req->dst_rect.h = remainder;
+	}
+	enable_mdp_irq(mdp, DL0_ROI_DONE);
+	ret = mdp_ppp_blit(mdp, req, src_file, src_start, src_len, dst_file,
+			   dst_start,
+			   dst_len);
+	if (ret)
+		goto err_bad_blit;
+	ret = mdp_ppp_wait(mdp);
+	if (ret)
+		goto err_wait_failed;
+end:
+	put_img(src_file, dst_file);
+	mutex_unlock(&mdp_mutex);
+	return 0;
+err_bad_blit:
+	disable_mdp_irq(mdp, DL0_ROI_DONE);
+err_wait_failed:
+	put_img(src_file, dst_file);
+	mutex_unlock(&mdp_mutex);
+	return ret;
+}
+
+void mdp_set_grp_disp(struct mdp_device *mdp_dev, unsigned disp_id)
+{
+	struct mdp_info *mdp = container_of(mdp_dev, struct mdp_info, mdp_dev);
+
+	disp_id &= 0xf;
+	mdp_writel(mdp, disp_id, MDP_FULL_BYPASS_WORD43);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int register_mdp_client(struct class_interface *cint)
@@ -705,12 +1011,24 @@ int register_mdp_client(struct class_interface *cint)
 	return class_interface_register(cint);
 }
 
+<<<<<<< HEAD
 int mdp_probe(struct platform_device *pdev)
 {
 	struct resource *resource;
 	int ret = -EINVAL;
 	struct mdp_info *mdp;
 	struct msm_mdp_platform_data *pdata = pdev->dev.platform_data;
+=======
+#include "mdp_csc_table.h"
+#include "mdp_scale_tables.h"
+
+int mdp_probe(struct platform_device *pdev)
+{
+	struct resource *resource;
+	int ret;
+	int n;
+	struct mdp_info *mdp;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	resource = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	if (!resource) {
@@ -722,8 +1040,11 @@ int mdp_probe(struct platform_device *pdev)
 	if (!mdp)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	spin_lock_init(&mdp->lock);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mdp->irq = platform_get_irq(pdev, 0);
 	if (mdp->irq < 0) {
 		pr_err("mdp: can not get mdp irq\n");
@@ -742,6 +1063,7 @@ int mdp_probe(struct platform_device *pdev)
 	mdp->mdp_dev.dma = mdp_dma;
 	mdp->mdp_dev.dma_wait = mdp_dma_wait;
 	mdp->mdp_dev.blit = mdp_blit;
+<<<<<<< HEAD
 #ifdef CONFIG_FB_MSM_OVERLAY
 	mdp->mdp_dev.overlay_get = mdp4_overlay_get;
 	mdp->mdp_dev.overlay_set = mdp4_overlay_set;
@@ -806,10 +1128,21 @@ int mdp_probe(struct platform_device *pdev)
                 goto error_get_ebi1_clk;
         }
 
+=======
+	mdp->mdp_dev.set_grp_disp = mdp_set_grp_disp;
+
+	clk = clk_get(&pdev->dev, "mdp_clk");
+	if (IS_ERR(clk)) {
+		printk(KERN_INFO "mdp: failed to get mdp clk");
+		return PTR_ERR(clk);
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ret = request_irq(mdp->irq, mdp_isr, IRQF_DISABLED, "msm_mdp", mdp);
 	if (ret)
 		goto error_request_irq;
 	disable_irq(mdp->irq);
+<<<<<<< HEAD
 
 	clk_enable(mdp->clk);
 	mdp_clk_to_disable_later = mdp->clk;
@@ -839,6 +1172,61 @@ int mdp_probe(struct platform_device *pdev)
 	mdp->mdp_dev.dev.parent = &pdev->dev;
 	mdp->mdp_dev.dev.class = mdp_class;
 	dev_set_name(&mdp->mdp_dev.dev, "mdp%d", pdev->id);
+=======
+	mdp_irq_mask = 0;
+
+	/* debug interface write access */
+	mdp_writel(mdp, 1, 0x60);
+
+	mdp_writel(mdp, MDP_ANY_INTR_MASK, MDP_INTR_ENABLE);
+	mdp_writel(mdp, 1, MDP_EBI2_PORTMAP_MODE);
+
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01f8);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01fc);
+
+	for (n = 0; n < ARRAY_SIZE(csc_table); n++)
+		mdp_writel(mdp, csc_table[n].val, csc_table[n].reg);
+
+	/* clear up unused fg/main registers */
+	/* comp.plane 2&3 ystride */
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0120);
+
+	/* unpacked pattern */
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x012c);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0130);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0134);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0158);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x015c);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0160);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0170);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0174);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x017c);
+
+	/* comp.plane 2 & 3 */
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0114);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x0118);
+
+	/* clear unused bg registers */
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01c8);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01d0);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01dc);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01e0);
+	mdp_writel(mdp, 0, MDP_CMD_DEBUG_ACCESS_BASE + 0x01e4);
+
+	for (n = 0; n < ARRAY_SIZE(mdp_upscale_table); n++)
+		mdp_writel(mdp, mdp_upscale_table[n].val,
+		       mdp_upscale_table[n].reg);
+
+	for (n = 0; n < 9; n++)
+		mdp_writel(mdp, mdp_default_ccs[n], 0x40440 + 4 * n);
+	mdp_writel(mdp, mdp_default_ccs[9], 0x40500 + 4 * 0);
+	mdp_writel(mdp, mdp_default_ccs[10], 0x40500 + 4 * 0);
+	mdp_writel(mdp, mdp_default_ccs[11], 0x40500 + 4 * 0);
+
+	/* register mdp device */
+	mdp->mdp_dev.dev.parent = &pdev->dev;
+	mdp->mdp_dev.dev.class = mdp_class;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* if you can remove the platform device you'd have to implement
 	 * this:
@@ -847,6 +1235,7 @@ int mdp_probe(struct platform_device *pdev)
 	ret = device_register(&mdp->mdp_dev.dev);
 	if (ret)
 		goto error_device_register;
+<<<<<<< HEAD
 
 	setup_timer(&mdp->standby_timer, mdp_do_standby_timer, (unsigned long )mdp);
 	setup_timer(&mdp->dma_timer, mdp_do_dma_timer, (unsigned long )mdp);
@@ -854,11 +1243,14 @@ int mdp_probe(struct platform_device *pdev)
 
 	pr_info("%s: initialized\n", __func__);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 
 error_device_register:
 	free_irq(mdp->irq, mdp);
 error_request_irq:
+<<<<<<< HEAD
 	clk_put(mdp->ebi1_clk);
 error_get_ebi1_clk:
 	clk_put(mdp->clk);
@@ -867,6 +1259,11 @@ error_mddi_pmdh_register:
 	iounmap(mdp->base);
 error_ioremap:
 error_get_irq:
+=======
+	iounmap(mdp->base);
+error_get_irq:
+error_ioremap:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(mdp);
 	return ret;
 }
@@ -876,6 +1273,7 @@ static struct platform_driver msm_mdp_driver = {
 	.driver = {.name = "msm_mdp"},
 };
 
+<<<<<<< HEAD
 static int __init mdp_lateinit(void)
 {
 	if (mdp_clk_to_disable_later)
@@ -883,6 +1281,8 @@ static int __init mdp_lateinit(void)
 	return 0;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int __init mdp_init(void)
 {
 	mdp_class = class_create(THIS_MODULE, "msm_mdp");
@@ -894,4 +1294,7 @@ static int __init mdp_init(void)
 }
 
 subsys_initcall(mdp_init);
+<<<<<<< HEAD
 late_initcall(mdp_lateinit);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

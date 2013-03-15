@@ -72,6 +72,10 @@
 #define		APIC_DEST_LOGICAL	0x00800
 #define		APIC_DEST_PHYSICAL	0x00000
 #define		APIC_DM_FIXED		0x00000
+<<<<<<< HEAD
+=======
+#define		APIC_DM_FIXED_MASK	0x00700
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define		APIC_DM_LOWEST		0x00100
 #define		APIC_DM_SMI		0x00200
 #define		APIC_DM_REMRD		0x00300

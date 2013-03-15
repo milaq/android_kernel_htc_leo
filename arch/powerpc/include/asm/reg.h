@@ -858,6 +858,10 @@
 #define PV_970		0x0039
 #define PV_POWER5	0x003A
 #define PV_POWER5p	0x003B
+<<<<<<< HEAD
+=======
+#define PV_POWER7	0x003F
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define PV_970FX	0x003C
 #define PV_630		0x0040
 #define PV_630p	0x0041
@@ -869,7 +873,12 @@
 /* Macros for setting and retrieving special purpose registers */
 #ifndef __ASSEMBLY__
 #define mfmsr()		({unsigned long rval; \
+<<<<<<< HEAD
 			asm volatile("mfmsr %0" : "=r" (rval)); rval;})
+=======
+			asm volatile("mfmsr %0" : "=r" (rval) : \
+						: "memory"); rval;})
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_PPC64
 #define __mtmsrd(v, l)	asm volatile("mtmsrd %0," __stringify(l) \
 				     : : "r" (v) : "memory")

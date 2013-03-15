@@ -327,6 +327,7 @@ static void part_release(struct device *dev)
 	kfree(p);
 }
 
+<<<<<<< HEAD
 static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
 	/*struct gendisk *disk = dev_to_disk(dev);*/ /*Mark unused variable to remove warning message*/
@@ -336,11 +337,16 @@ static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
 	return 0;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct device_type part_type = {
 	.name		= "partition",
 	.groups		= part_attr_groups,
 	.release	= part_release,
+<<<<<<< HEAD
 	.uevent		= part_uevent,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static void delete_partition_rcu_cb(struct rcu_head *head)

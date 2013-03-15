@@ -44,6 +44,10 @@ extern struct pci_ops pnx8550_pci_ops;
 
 static struct pci_controller pnx8550_controller = {
 	.pci_ops	= &pnx8550_pci_ops,
+<<<<<<< HEAD
+=======
+	.io_map_base	= PNX8550_PORT_BASE,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.io_resource	= &pci_io_resource,
 	.mem_resource	= &pci_mem_resource,
 };

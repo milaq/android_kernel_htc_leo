@@ -116,7 +116,12 @@
 */
 
 DEFINE_RWLOCK(tipc_net_lock);
+<<<<<<< HEAD
 struct network tipc_net = { NULL };
+=======
+struct _zone *tipc_zones[256] = { NULL, };
+struct network tipc_net = { tipc_zones };
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct tipc_node *tipc_net_select_remote_node(u32 addr, u32 ref)
 {
@@ -158,6 +163,7 @@ void tipc_net_send_external_routes(u32 dest)
 	}
 }
 
+<<<<<<< HEAD
 static int net_init(void)
 {
 	memset(&tipc_net, 0, sizeof(tipc_net));
@@ -168,10 +174,13 @@ static int net_init(void)
 	return 0;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void net_stop(void)
 {
 	u32 z_num;
 
+<<<<<<< HEAD
 	if (!tipc_net.zones)
 		return;
 
@@ -180,6 +189,10 @@ static void net_stop(void)
 	}
 	kfree(tipc_net.zones);
 	tipc_net.zones = NULL;
+=======
+	for (z_num = 1; z_num <= tipc_max_zones; z_num++)
+		tipc_zone_delete(tipc_net.zones[z_num]);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void net_route_named_msg(struct sk_buff *buf)
@@ -282,9 +295,13 @@ int tipc_net_start(u32 addr)
 	tipc_named_reinit();
 	tipc_port_reinit();
 
+<<<<<<< HEAD
 	if ((res = tipc_bearer_init()) ||
 	    (res = net_init()) ||
 	    (res = tipc_cltr_init()) ||
+=======
+	if ((res = tipc_cltr_init()) ||
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    (res = tipc_bclink_init())) {
 		return res;
 	}

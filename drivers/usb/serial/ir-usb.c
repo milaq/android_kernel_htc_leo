@@ -312,6 +312,10 @@ static int ir_open(struct tty_struct *tty, struct usb_serial_port *port)
 		kfree(port->read_urb->transfer_buffer);
 		port->read_urb->transfer_buffer = buffer;
 		port->read_urb->transfer_buffer_length = buffer_size;
+<<<<<<< HEAD
+=======
+		port->bulk_in_buffer = buffer;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		buffer = kmalloc(buffer_size, GFP_KERNEL);
 		if (!buffer) {
@@ -321,6 +325,10 @@ static int ir_open(struct tty_struct *tty, struct usb_serial_port *port)
 		kfree(port->write_urb->transfer_buffer);
 		port->write_urb->transfer_buffer = buffer;
 		port->write_urb->transfer_buffer_length = buffer_size;
+<<<<<<< HEAD
+=======
+		port->bulk_out_buffer = buffer;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		port->bulk_out_size = buffer_size;
 	}
 

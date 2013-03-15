@@ -503,13 +503,21 @@ static struct rpc_procinfo mnt3_procedures[] = {
 
 static struct rpc_version mnt_version1 = {
 	.number		= 1,
+<<<<<<< HEAD
 	.nrprocs	= 2,
+=======
+	.nrprocs	= ARRAY_SIZE(mnt_procedures),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.procs		= mnt_procedures,
 };
 
 static struct rpc_version mnt_version3 = {
 	.number		= 3,
+<<<<<<< HEAD
 	.nrprocs	= 2,
+=======
+	.nrprocs	= ARRAY_SIZE(mnt3_procedures),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.procs		= mnt3_procedures,
 };
 

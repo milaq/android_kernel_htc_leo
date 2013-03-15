@@ -155,6 +155,7 @@ void hci_setup_sync(struct hci_conn *conn, __u16 handle)
 	hci_send_cmd(hdev, HCI_OP_SETUP_SYNC_CONN, sizeof(cp), &cp);
 }
 
+<<<<<<< HEAD
 /* Device _must_ be locked */
 void hci_sco_setup(struct hci_conn *conn, __u8 status)
 {
@@ -176,6 +177,8 @@ void hci_sco_setup(struct hci_conn *conn, __u8 status)
 	}
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void hci_conn_timeout(unsigned long arg)
 {
 	struct hci_conn *conn = (void *) arg;
@@ -217,8 +220,12 @@ static void hci_conn_idle(unsigned long arg)
 	hci_conn_enter_sniff_mode(conn);
 }
 
+<<<<<<< HEAD
 struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type,
 					__u16 pkt_type, bdaddr_t *dst)
+=======
+struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type, bdaddr_t *dst)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct hci_conn *conn;
 
@@ -237,13 +244,17 @@ struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type,
 
 	conn->power_save = 1;
 	conn->disc_timeout = HCI_DISCONN_TIMEOUT;
+<<<<<<< HEAD
 	wake_lock_init(&conn->idle_lock, WAKE_LOCK_SUSPEND, "bt_idle");
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (type) {
 	case ACL_LINK:
 		conn->pkt_type = hdev->pkt_type & ACL_PTYPE_MASK;
 		break;
 	case SCO_LINK:
+<<<<<<< HEAD
 		if (!pkt_type)
 			pkt_type = SCO_ESCO_MASK;
 	case ESCO_LINK:
@@ -260,6 +271,16 @@ struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type,
 			conn->pkt_type = (pkt_type << 5) & hdev->pkt_type &
 					SCO_PTYPE_MASK;
 		}
+=======
+		if (lmp_esco_capable(hdev))
+			conn->pkt_type = (hdev->esco_type & SCO_ESCO_MASK) |
+					(hdev->esco_type & EDR_ESCO_MASK);
+		else
+			conn->pkt_type = hdev->pkt_type & SCO_PTYPE_MASK;
+		break;
+	case ESCO_LINK:
+		conn->pkt_type = hdev->esco_type & ~EDR_ESCO_MASK;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	}
 
@@ -293,11 +314,17 @@ int hci_conn_del(struct hci_conn *conn)
 
 	BT_DBG("%s conn %p handle %d", hdev->name, conn, conn->handle);
 
+<<<<<<< HEAD
 	/* Make sure no timers are running */
 	del_timer(&conn->idle_timer);
 	wake_lock_destroy(&conn->idle_lock);
 	del_timer(&conn->disc_timer);
 	del_timer(&conn->auto_accept_timer);
+=======
+	del_timer(&conn->idle_timer);
+
+	del_timer(&conn->disc_timer);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (conn->type == ACL_LINK) {
 		struct hci_conn *sco = conn->link;
@@ -373,9 +400,13 @@ EXPORT_SYMBOL(hci_get_route);
 
 /* Create SCO or ACL connection.
  * Device _must_ be locked */
+<<<<<<< HEAD
 struct hci_conn *hci_connect(struct hci_dev *hdev, int type,
 					__u16 pkt_type, bdaddr_t *dst,
 					__u8 sec_level, __u8 auth_type)
+=======
+struct hci_conn *hci_connect(struct hci_dev *hdev, int type, bdaddr_t *dst, __u8 sec_level, __u8 auth_type)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct hci_conn *acl;
 	struct hci_conn *sco;
@@ -383,7 +414,11 @@ struct hci_conn *hci_connect(struct hci_dev *hdev, int type,
 	BT_DBG("%s dst %s", hdev->name, batostr(dst));
 
 	if (!(acl = hci_conn_hash_lookup_ba(hdev, ACL_LINK, dst))) {
+<<<<<<< HEAD
 		if (!(acl = hci_conn_add(hdev, ACL_LINK, 0, dst)))
+=======
+		if (!(acl = hci_conn_add(hdev, ACL_LINK, dst)))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return NULL;
 	}
 
@@ -399,7 +434,11 @@ struct hci_conn *hci_connect(struct hci_dev *hdev, int type,
 		return acl;
 
 	if (!(sco = hci_conn_hash_lookup_ba(hdev, type, dst))) {
+<<<<<<< HEAD
 		if (!(sco = hci_conn_add(hdev, type, pkt_type, dst))) {
+=======
+		if (!(sco = hci_conn_add(hdev, type, dst))) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			hci_conn_put(acl);
 			return NULL;
 		}
@@ -412,9 +451,12 @@ struct hci_conn *hci_connect(struct hci_dev *hdev, int type,
 
 	if (acl->state == BT_CONNECTED &&
 			(sco->state == BT_OPEN || sco->state == BT_CLOSED)) {
+<<<<<<< HEAD
 		acl->power_save = 1;
 		hci_conn_enter_active_mode(acl);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (lmp_esco_capable(hdev))
 			hci_setup_sync(sco, acl->handle);
 		else
@@ -535,7 +577,11 @@ void hci_conn_enter_active_mode(struct hci_conn *conn)
 	if (test_bit(HCI_RAW, &hdev->flags))
 		return;
 
+<<<<<<< HEAD
 	if (conn->mode != HCI_CM_SNIFF /* || !conn->power_save */)
+=======
+	if (conn->mode != HCI_CM_SNIFF || !conn->power_save)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto timer;
 
 	if (!test_and_set_bit(HCI_CONN_MODE_CHANGE_PEND, &conn->pend)) {
@@ -545,11 +591,17 @@ void hci_conn_enter_active_mode(struct hci_conn *conn)
 	}
 
 timer:
+<<<<<<< HEAD
 	if (hdev->idle_timeout > 0) {
 		mod_timer(&conn->idle_timer,
 			jiffies + msecs_to_jiffies(hdev->idle_timeout));
 		wake_lock(&conn->idle_lock);
 	}
+=======
+	if (hdev->idle_timeout > 0)
+		mod_timer(&conn->idle_timer,
+			jiffies + msecs_to_jiffies(hdev->idle_timeout));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Enter sniff mode */
@@ -676,6 +728,7 @@ int hci_get_conn_list(void __user *arg)
 		(ci + n)->out   = c->out;
 		(ci + n)->state = c->state;
 		(ci + n)->link_mode = c->link_mode;
+<<<<<<< HEAD
 		if (c->type == SCO_LINK) {
 			(ci + n)->mtu = hdev->sco_mtu;
 			(ci + n)->cnt = hdev->sco_cnt;
@@ -685,6 +738,8 @@ int hci_get_conn_list(void __user *arg)
 			(ci + n)->cnt = hdev->acl_cnt;
 			(ci + n)->pkts = hdev->acl_pkts;
 		}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (++n >= req.conn_num)
 			break;
 	}
@@ -721,6 +776,7 @@ int hci_get_conn_info(struct hci_dev *hdev, void __user *arg)
 		ci.out   = conn->out;
 		ci.state = conn->state;
 		ci.link_mode = conn->link_mode;
+<<<<<<< HEAD
 		if (req.type == SCO_LINK) {
 			ci.mtu = hdev->sco_mtu;
 			ci.cnt = hdev->sco_cnt;
@@ -730,6 +786,8 @@ int hci_get_conn_info(struct hci_dev *hdev, void __user *arg)
 			ci.cnt = hdev->acl_cnt;
 			ci.pkts = hdev->acl_pkts;
 		}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	hci_dev_unlock_bh(hdev);
 

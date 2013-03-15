@@ -411,8 +411,13 @@ static struct xfrm_algo_desc ealg_list[] = {
 	.desc = {
 		.sadb_alg_id = SADB_X_EALG_AESCTR,
 		.sadb_alg_ivlen	= 8,
+<<<<<<< HEAD
 		.sadb_alg_minbits = 128,
 		.sadb_alg_maxbits = 256
+=======
+		.sadb_alg_minbits = 160,
+		.sadb_alg_maxbits = 288
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 },
 };

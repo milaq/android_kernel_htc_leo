@@ -160,6 +160,10 @@ extern int io_apic_get_redir_entries(int ioapic);
 struct io_apic_irq_attr;
 extern int io_apic_set_pci_routing(struct device *dev, int irq,
 		 struct io_apic_irq_attr *irq_attr);
+<<<<<<< HEAD
+=======
+void setup_IO_APIC_irq_extra(u32 gsi);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int (*ioapic_renumber_irq)(int ioapic, int irq);
 extern void ioapic_init_mappings(void);
 extern void ioapic_insert_resources(void);

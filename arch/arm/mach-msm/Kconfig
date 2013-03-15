@@ -1,5 +1,6 @@
 if ARCH_MSM
 
+<<<<<<< HEAD
 choice
 	prompt "Qualcomm MSM SoC Type"
 	default ARCH_MSM7X00A
@@ -207,10 +208,19 @@ comment "MSM Board Type"
 config MACH_HALIBUT
 	depends on ARCH_MSM7X00A
 	default n
+=======
+comment "MSM Board Type"
+	depends on ARCH_MSM
+
+config MACH_HALIBUT
+	depends on ARCH_MSM
+	default y
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bool "Halibut Board (QCT SURF7201A)"
 	help
 	  Support for the Qualcomm SURF7201A eval board.
 
+<<<<<<< HEAD
 config MACH_TROUT
 	depends on ARCH_MSM7X00A
 	default n
@@ -1168,3 +1178,6 @@ choice
 	help
 		Works in standard Linux distros. Tested in GNOME.
 endchoice
+=======
+endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

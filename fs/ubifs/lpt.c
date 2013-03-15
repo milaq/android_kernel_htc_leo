@@ -1269,10 +1269,16 @@ static int read_pnode(struct ubifs_info *c, struct ubifs_nnode *parent, int iip)
 	lnum = branch->lnum;
 	offs = branch->offs;
 	pnode = kzalloc(sizeof(struct ubifs_pnode), GFP_NOFS);
+<<<<<<< HEAD
 	if (!pnode) {
 		err = -ENOMEM;
 		goto out;
 	}
+=======
+	if (!pnode)
+		return -ENOMEM;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (lnum == 0) {
 		/*
 		 * This pnode was not written which just means that the LEB

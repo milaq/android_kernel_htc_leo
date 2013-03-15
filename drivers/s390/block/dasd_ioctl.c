@@ -13,6 +13,10 @@
 #define KMSG_COMPONENT "dasd"
 
 #include <linux/interrupt.h>
+<<<<<<< HEAD
+=======
+#include <linux/compat.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/major.h>
 #include <linux/fs.h>
 #include <linux/blkpg.h>

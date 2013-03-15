@@ -40,18 +40,24 @@ struct gserial {
 
 	/* REVISIT avoid this CDC-ACM support harder ... */
 	struct usb_cdc_line_coding port_line_coding;	/* 9600-8-N-1 etc */
+<<<<<<< HEAD
 	u16				serial_state;
 
 	/* control signal callbacks*/
 	unsigned int (*get_dtr)(struct gserial *p);
 	unsigned int (*get_rts)(struct gserial *p);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* notification callbacks */
 	void (*connect)(struct gserial *p);
 	void (*disconnect)(struct gserial *p);
 	int (*send_break)(struct gserial *p, int duration);
+<<<<<<< HEAD
 	unsigned int (*send_carrier_detect)(struct gserial *p, unsigned int);
 	unsigned int (*send_ring_indicator)(struct gserial *p, unsigned int);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /* utilities to allocate/free request and buffer */

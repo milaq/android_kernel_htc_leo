@@ -541,7 +541,11 @@ static int gfs2_bmap_alloc(struct inode *inode, const sector_t lblock,
 				*ptr++ = cpu_to_be64(bn++);
 			break;
 		}
+<<<<<<< HEAD
 	} while (state != ALLOC_DATA);
+=======
+	} while ((state != ALLOC_DATA) || !dblock);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ip->i_height = height;
 	gfs2_add_inode_blocks(&ip->i_inode, alloced);

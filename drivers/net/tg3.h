@@ -2759,6 +2759,12 @@ struct tg3 {
 #define TG3_FLG3_TOGGLE_10_100_L1PLLPD	0x00008000
 #define TG3_FLG3_PHY_IS_FET		0x00010000
 #define TG3_FLG3_ENABLE_RSS		0x00020000
+<<<<<<< HEAD
+=======
+#define TG3_FLG3_4G_DMA_BNDRY_BUG      0x00080000
+#define TG3_FLG3_40BIT_DMA_LIMIT_BUG   0x00100000
+#define TG3_FLG3_SHORT_DMA_BUG  0x00200000
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct timer_list		timer;
 	u16				timer_counter;

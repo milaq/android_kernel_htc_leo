@@ -21,7 +21,10 @@
 
 #include <asm/memory.h>
 #include <mach/vmalloc.h>
+<<<<<<< HEAD
 #include <mach/memory.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/pgtable-hwdef.h>
 
 /*
@@ -312,8 +315,11 @@ static inline pte_t pte_mkspecial(pte_t pte) { return pte; }
 	__pgprot((pgprot_val(prot) & ~L_PTE_MT_MASK) | L_PTE_MT_UNCACHED)
 #define pgprot_writecombine(prot) \
 	__pgprot((pgprot_val(prot) & ~L_PTE_MT_MASK) | L_PTE_MT_BUFFERABLE)
+<<<<<<< HEAD
 #define pgprot_device(prot) \
 	__pgprot((pgprot_val(prot) & ~L_PTE_MT_MASK) | L_PTE_MT_DEV_NONSHARED)
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define pmd_none(pmd)		(!pmd_val(pmd))
 #define pmd_present(pmd)	(pmd_val(pmd))
@@ -444,6 +450,7 @@ extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
  * remap a physical page `pfn' of size `size' with page protection `prot'
  * into virtual address `from'
  */
+<<<<<<< HEAD
 
 
 #ifndef HAS_ARCH_IO_REMAP_PFN_RANGE
@@ -455,6 +462,10 @@ extern int arch_io_remap_pfn_range(struct vm_area_struct *vma, unsigned long add
 	arch_io_remap_pfn_range(vma,from,pfn,size,prot)
 #endif
 
+=======
+#define io_remap_pfn_range(vma,from,pfn,size,prot) \
+		remap_pfn_range(vma, from, pfn, size, prot)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define pgtable_cache_init() do { } while (0)
 

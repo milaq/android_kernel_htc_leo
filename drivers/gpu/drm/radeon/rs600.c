@@ -57,7 +57,11 @@ void rs600_gart_tlb_flush(struct radeon_device *rdev)
 	WREG32_MC(R_000100_MC_PT0_CNTL, tmp);
 
 	tmp = RREG32_MC(R_000100_MC_PT0_CNTL);
+<<<<<<< HEAD
 	tmp |= S_000100_INVALIDATE_ALL_L1_TLBS(1) & S_000100_INVALIDATE_L2_CACHE(1);
+=======
+	tmp |= S_000100_INVALIDATE_ALL_L1_TLBS(1) | S_000100_INVALIDATE_L2_CACHE(1);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	WREG32_MC(R_000100_MC_PT0_CNTL, tmp);
 
 	tmp = RREG32_MC(R_000100_MC_PT0_CNTL);
@@ -270,9 +274,13 @@ int rs600_irq_process(struct radeon_device *rdev)
 			WREG32(RADEON_BUS_CNTL, msi_rearm | RS600_MSI_REARM);
 			break;
 		default:
+<<<<<<< HEAD
 			msi_rearm = RREG32(RADEON_MSI_REARM_EN) & ~RV370_MSI_REARM_EN;
 			WREG32(RADEON_MSI_REARM_EN, msi_rearm);
 			WREG32(RADEON_MSI_REARM_EN, msi_rearm | RV370_MSI_REARM_EN);
+=======
+			WREG32(RADEON_MSI_REARM_EN, RV370_MSI_REARM_EN);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 		}
 	}

@@ -191,9 +191,12 @@ static void usb_release_dev(struct device *dev)
 	hcd = bus_to_hcd(udev->bus);
 
 	usb_destroy_configuration(udev);
+<<<<<<< HEAD
 	/* Root hubs aren't real devices, so don't free HCD resources */
 	if (hcd->driver->free_dev && udev->parent)
 		hcd->driver->free_dev(hcd, udev);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	usb_put_hcd(hcd);
 	kfree(udev->product);
 	kfree(udev->manufacturer);

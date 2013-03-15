@@ -12,6 +12,18 @@ struct user_struct;
 #include <linux/shm.h>
 #include <asm/tlbflush.h>
 
+<<<<<<< HEAD
+=======
+struct hugepage_subpool {
+	spinlock_t lock;
+	long count;
+	long max_hpages, used_hpages;
+};
+
+struct hugepage_subpool *hugepage_new_subpool(long nr_blocks);
+void hugepage_put_subpool(struct hugepage_subpool *spool);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int PageHuge(struct page *page);
 
 static inline int is_vm_hugetlb_page(struct vm_area_struct *vma)
@@ -138,12 +150,19 @@ struct hugetlbfs_config {
 };
 
 struct hugetlbfs_sb_info {
+<<<<<<< HEAD
 	long	max_blocks;   /* blocks allowed */
 	long	free_blocks;  /* blocks free */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	long	max_inodes;   /* inodes allowed */
 	long	free_inodes;  /* inodes free */
 	spinlock_t	stat_lock;
 	struct hstate *hstate;
+<<<<<<< HEAD
+=======
+	struct hugepage_subpool *spool;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 
@@ -166,8 +185,11 @@ extern const struct file_operations hugetlbfs_file_operations;
 extern const struct vm_operations_struct hugetlb_vm_ops;
 struct file *hugetlb_file_setup(const char *name, size_t size, int acct,
 				struct user_struct **user, int creat_flags);
+<<<<<<< HEAD
 int hugetlb_get_quota(struct address_space *mapping, long delta);
 void hugetlb_put_quota(struct address_space *mapping, long delta);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline int is_file_hugepages(struct file *file)
 {

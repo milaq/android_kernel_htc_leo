@@ -18,7 +18,10 @@
 #include <net/netfilter/nf_conntrack_tuple.h>
 #include <net/netfilter/nf_conntrack_l4proto.h>
 #include <net/netfilter/nf_conntrack_core.h>
+<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/netfilter/nf_log.h>
 
 static unsigned int nf_ct_icmp_timeout __read_mostly = 30*HZ;
@@ -115,14 +118,21 @@ static bool icmp_new(struct nf_conn *ct, const struct sk_buff *skb,
 
 /* Returns conntrack if it dealt with ICMP, and filled in skb fields */
 static int
+<<<<<<< HEAD
 icmp_error_message(struct net *net, struct nf_conn *tmpl, struct sk_buff *skb,
+=======
+icmp_error_message(struct net *net, struct sk_buff *skb,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		 enum ip_conntrack_info *ctinfo,
 		 unsigned int hooknum)
 {
 	struct nf_conntrack_tuple innertuple, origtuple;
 	const struct nf_conntrack_l4proto *innerproto;
 	const struct nf_conntrack_tuple_hash *h;
+<<<<<<< HEAD
 	u16 zone = tmpl ? nf_ct_zone(tmpl) : NF_CT_DEFAULT_ZONE;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	NF_CT_ASSERT(skb->nfct == NULL);
 
@@ -148,7 +158,11 @@ icmp_error_message(struct net *net, struct nf_conn *tmpl, struct sk_buff *skb,
 
 	*ctinfo = IP_CT_RELATED;
 
+<<<<<<< HEAD
 	h = nf_conntrack_find_get(net, zone, &innertuple);
+=======
+	h = nf_conntrack_find_get(net, &innertuple);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!h) {
 		pr_debug("icmp_error_message: no match\n");
 		return -NF_ACCEPT;
@@ -165,8 +179,12 @@ icmp_error_message(struct net *net, struct nf_conn *tmpl, struct sk_buff *skb,
 
 /* Small and modified version of icmp_rcv */
 static int
+<<<<<<< HEAD
 icmp_error(struct net *net, struct nf_conn *tmpl,
 	   struct sk_buff *skb, unsigned int dataoff,
+=======
+icmp_error(struct net *net, struct sk_buff *skb, unsigned int dataoff,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	   enum ip_conntrack_info *ctinfo, u_int8_t pf, unsigned int hooknum)
 {
 	const struct icmphdr *icmph;
@@ -211,7 +229,11 @@ icmp_error(struct net *net, struct nf_conn *tmpl,
 	    && icmph->type != ICMP_REDIRECT)
 		return NF_ACCEPT;
 
+<<<<<<< HEAD
 	return icmp_error_message(net, tmpl, skb, ctinfo, hooknum);
+=======
+	return icmp_error_message(net, skb, ctinfo, hooknum);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #if defined(CONFIG_NF_CT_NETLINK) || defined(CONFIG_NF_CT_NETLINK_MODULE)

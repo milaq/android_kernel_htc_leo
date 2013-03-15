@@ -432,7 +432,16 @@ int scsi_dh_activate(struct request_queue *q)
 
 	spin_lock_irqsave(q->queue_lock, flags);
 	sdev = q->queuedata;
+<<<<<<< HEAD
 	if (sdev && sdev->scsi_dh_data)
+=======
+	if (!sdev) {
+		spin_unlock_irqrestore(q->queue_lock, flags);
+		return SCSI_DH_NOSYS;
+	}
+
+	if (sdev->scsi_dh_data)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		scsi_dh = sdev->scsi_dh_data->scsi_dh;
 	if (!scsi_dh || !get_device(&sdev->sdev_gendev))
 		err = SCSI_DH_NOSYS;

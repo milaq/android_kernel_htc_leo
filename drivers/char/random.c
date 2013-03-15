@@ -125,13 +125,30 @@
  * The current exported interfaces for gathering environmental noise
  * from the devices are:
  *
+<<<<<<< HEAD
  * 	void add_input_randomness(unsigned int type, unsigned int code,
  *                                unsigned int value);
  * 	void add_interrupt_randomness(int irq);
+=======
+ *	void add_device_randomness(const void *buf, unsigned int size);
+ * 	void add_input_randomness(unsigned int type, unsigned int code,
+ *                                unsigned int value);
+ *	void add_interrupt_randomness(int irq, int irq_flags);
+ * 	void add_disk_randomness(struct gendisk *disk);
+ *
+ * add_device_randomness() is for adding data to the random pool that
+ * is likely to differ between two devices (or possibly even per boot).
+ * This would be things like MAC addresses or serial numbers, or the
+ * read-out of the RTC. This does *not* add any actual entropy to the
+ * pool, but it initializes the pool to different values for devices
+ * that might otherwise be identical and have very little entropy
+ * available to them (particularly common in the embedded world).
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * add_input_randomness() uses the input layer interrupt timing, as well as
  * the event type information from the hardware.
  *
+<<<<<<< HEAD
  * add_interrupt_randomness() uses the inter-interrupt timing as random
  * inputs to the entropy pool.  Note that not all interrupts are good
  * sources of randomness!  For example, the timer interrupts is not a
@@ -139,6 +156,17 @@
  * regular, and hence predictable to an attacker.  Disk interrupts are
  * a better measure, since the timing of the disk interrupts are more
  * unpredictable.
+=======
+ * add_interrupt_randomness() uses the interrupt timing as random
+ * inputs to the entropy pool. Using the cycle counters and the irq source
+ * as inputs, it feeds the randomness roughly once a second.
+ *
+ * add_disk_randomness() uses what amounts to the seek time of block
+ * layer request events, on a per-disk_devt basis, as input to the
+ * entropy pool. Note that high-speed solid state drives with very low
+ * seek times do not make for good sources of entropy, as their seek
+ * times are usually fairly consistent.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * All of these routines try to estimate how many bits of randomness a
  * particular randomness source.  They do this by keeping track of the
@@ -241,6 +269,11 @@
 #include <linux/percpu.h>
 #include <linux/cryptohash.h>
 #include <linux/fips.h>
+<<<<<<< HEAD
+=======
+#include <linux/ptrace.h>
+#include <linux/kmemcheck.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_GENERIC_HARDIRQS
 # include <linux/irq.h>
@@ -249,6 +282,10 @@
 #include <asm/processor.h>
 #include <asm/uaccess.h>
 #include <asm/irq.h>
+<<<<<<< HEAD
+=======
+#include <asm/irq_regs.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/io.h>
 
 /*
@@ -257,6 +294,12 @@
 #define INPUT_POOL_WORDS 128
 #define OUTPUT_POOL_WORDS 32
 #define SEC_XFER_SIZE 512
+<<<<<<< HEAD
+=======
+#define EXTRACT_SIZE 10
+
+#define LONGS(x) (((x) + sizeof(unsigned long) - 1)/sizeof(unsigned long))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * The minimum number of bits of entropy before we wake up a read on
@@ -406,15 +449,28 @@ struct entropy_store {
 	struct poolinfo *poolinfo;
 	__u32 *pool;
 	const char *name;
+<<<<<<< HEAD
 	int limit;
 	struct entropy_store *pull;
+=======
+	struct entropy_store *pull;
+	int limit;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* read-write data: */
 	spinlock_t lock;
 	unsigned add_ptr;
+<<<<<<< HEAD
 	int entropy_count;
 	int input_rotate;
 	__u8 *last_data;
+=======
+	unsigned input_rotate;
+	int entropy_count;
+	int entropy_total;
+	unsigned int initialized:1;
+	__u8 last_data[EXTRACT_SIZE];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static __u32 input_pool_data[INPUT_POOL_WORDS];
@@ -446,6 +502,13 @@ static struct entropy_store nonblocking_pool = {
 	.pool = nonblocking_pool_data
 };
 
+<<<<<<< HEAD
+=======
+static __u32 const twist_table[8] = {
+	0x00000000, 0x3b6e20c8, 0x76dc4190, 0x4db26158,
+	0xedb88320, 0xd6d6a3e8, 0x9b64c2b0, 0xa00ae278 };
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * This function adds bytes into the entropy "pool".  It does not
  * update the entropy estimate.  The caller should call
@@ -456,29 +519,45 @@ static struct entropy_store nonblocking_pool = {
  * it's cheap to do so and helps slightly in the expected case where
  * the entropy is concentrated in the low-order bits.
  */
+<<<<<<< HEAD
 static void mix_pool_bytes_extract(struct entropy_store *r, const void *in,
 				   int nbytes, __u8 out[64])
 {
 	static __u32 const twist_table[8] = {
 		0x00000000, 0x3b6e20c8, 0x76dc4190, 0x4db26158,
 		0xedb88320, 0xd6d6a3e8, 0x9b64c2b0, 0xa00ae278 };
+=======
+static void __mix_pool_bytes(struct entropy_store *r, const void *in,
+			     int nbytes, __u8 out[64])
+{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long i, j, tap1, tap2, tap3, tap4, tap5;
 	int input_rotate;
 	int wordmask = r->poolinfo->poolwords - 1;
 	const char *bytes = in;
 	__u32 w;
+<<<<<<< HEAD
 	unsigned long flags;
 
 	/* Taps are constant, so we can load them without holding r->lock.  */
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tap1 = r->poolinfo->tap1;
 	tap2 = r->poolinfo->tap2;
 	tap3 = r->poolinfo->tap3;
 	tap4 = r->poolinfo->tap4;
 	tap5 = r->poolinfo->tap5;
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&r->lock, flags);
 	input_rotate = r->input_rotate;
 	i = r->add_ptr;
+=======
+	smp_rmb();
+	input_rotate = ACCESS_ONCE(r->input_rotate);
+	i = ACCESS_ONCE(r->add_ptr);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* mix one byte at a time to simplify size handling and churn faster */
 	while (nbytes--) {
@@ -505,12 +584,19 @@ static void mix_pool_bytes_extract(struct entropy_store *r, const void *in,
 		input_rotate += i ? 7 : 14;
 	}
 
+<<<<<<< HEAD
 	r->input_rotate = input_rotate;
 	r->add_ptr = i;
+=======
+	ACCESS_ONCE(r->input_rotate) = input_rotate;
+	ACCESS_ONCE(r->add_ptr) = i;
+	smp_wmb();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (out)
 		for (j = 0; j < 16; j++)
 			((__u32 *)out)[j] = r->pool[(i - j) & wordmask];
+<<<<<<< HEAD
 
 	spin_unlock_irqrestore(&r->lock, flags);
 }
@@ -518,6 +604,48 @@ static void mix_pool_bytes_extract(struct entropy_store *r, const void *in,
 static void mix_pool_bytes(struct entropy_store *r, const void *in, int bytes)
 {
        mix_pool_bytes_extract(r, in, bytes, NULL);
+=======
+}
+
+static void mix_pool_bytes(struct entropy_store *r, const void *in,
+			     int nbytes, __u8 out[64])
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&r->lock, flags);
+	__mix_pool_bytes(r, in, nbytes, out);
+	spin_unlock_irqrestore(&r->lock, flags);
+}
+
+struct fast_pool {
+	__u32		pool[4];
+	unsigned long	last;
+	unsigned short	count;
+	unsigned char	rotate;
+	unsigned char	last_timer_intr;
+};
+
+/*
+ * This is a fast mixing routine used by the interrupt randomness
+ * collector.  It's hardcoded for an 128 bit pool and assumes that any
+ * locks that might be needed are taken by the caller.
+ */
+static void fast_mix(struct fast_pool *f, const void *in, int nbytes)
+{
+	const char	*bytes = in;
+	__u32		w;
+	unsigned	i = f->count;
+	unsigned	input_rotate = f->rotate;
+
+	while (nbytes--) {
+		w = rol32(*bytes++, input_rotate & 31) ^ f->pool[i & 3] ^
+			f->pool[(i + 1) & 3];
+		f->pool[i & 3] = (w >> 3) ^ twist_table[w & 7];
+		input_rotate += (i++ & 3) ? 7 : 14;
+	}
+	f->count = i;
+	f->rotate = input_rotate;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -525,30 +653,54 @@ static void mix_pool_bytes(struct entropy_store *r, const void *in, int bytes)
  */
 static void credit_entropy_bits(struct entropy_store *r, int nbits)
 {
+<<<<<<< HEAD
 	unsigned long flags;
 	int entropy_count;
+=======
+	int entropy_count, orig;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!nbits)
 		return;
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&r->lock, flags);
 
 	DEBUG_ENT("added %d entropy credits to %s\n", nbits, r->name);
 	entropy_count = r->entropy_count;
+=======
+	DEBUG_ENT("added %d entropy credits to %s\n", nbits, r->name);
+retry:
+	entropy_count = orig = ACCESS_ONCE(r->entropy_count);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	entropy_count += nbits;
 	if (entropy_count < 0) {
 		DEBUG_ENT("negative entropy/overflow\n");
 		entropy_count = 0;
 	} else if (entropy_count > r->poolinfo->POOLBITS)
 		entropy_count = r->poolinfo->POOLBITS;
+<<<<<<< HEAD
 	r->entropy_count = entropy_count;
+=======
+	if (cmpxchg(&r->entropy_count, orig, entropy_count) != orig)
+		goto retry;
+
+	if (!r->initialized && nbits > 0) {
+		r->entropy_total += nbits;
+		if (r->entropy_total > 128)
+			r->initialized = 1;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* should we wake readers? */
 	if (r == &input_pool && entropy_count >= random_read_wakeup_thresh) {
 		wake_up_interruptible(&random_read_wait);
 		kill_fasync(&fasync, SIGIO, POLL_IN);
 	}
+<<<<<<< HEAD
 	spin_unlock_irqrestore(&r->lock, flags);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*********************************************************************
@@ -564,6 +716,7 @@ struct timer_rand_state {
 	unsigned dont_count_entropy:1;
 };
 
+<<<<<<< HEAD
 #ifndef CONFIG_GENERIC_HARDIRQS
 
 static struct timer_rand_state *irq_timer_state[NR_IRQS];
@@ -600,6 +753,26 @@ static void set_timer_rand_state(unsigned int irq,
 	desc->timer_rand_state = state;
 }
 #endif
+=======
+/*
+ * Add device- or boot-specific data to the input and nonblocking
+ * pools to help initialize them to unique values.
+ *
+ * None of this adds any entropy, it is meant to avoid the
+ * problem of the nonblocking pool having similar initial state
+ * across largely identical devices.
+ */
+void add_device_randomness(const void *buf, unsigned int size)
+{
+	unsigned long time = get_cycles() ^ jiffies;
+
+	mix_pool_bytes(&input_pool, buf, size, NULL);
+	mix_pool_bytes(&input_pool, &time, sizeof(time), NULL);
+	mix_pool_bytes(&nonblocking_pool, buf, size, NULL);
+	mix_pool_bytes(&nonblocking_pool, &time, sizeof(time), NULL);
+}
+EXPORT_SYMBOL(add_device_randomness);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static struct timer_rand_state input_timer_state;
 
@@ -616,8 +789,13 @@ static struct timer_rand_state input_timer_state;
 static void add_timer_randomness(struct timer_rand_state *state, unsigned num)
 {
 	struct {
+<<<<<<< HEAD
 		cycles_t cycles;
 		long jiffies;
+=======
+		long jiffies;
+		unsigned cycles;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		unsigned num;
 	} sample;
 	long delta, delta2, delta3;
@@ -631,7 +809,11 @@ static void add_timer_randomness(struct timer_rand_state *state, unsigned num)
 	sample.jiffies = jiffies;
 	sample.cycles = get_cycles();
 	sample.num = num;
+<<<<<<< HEAD
 	mix_pool_bytes(&input_pool, &sample, sizeof(sample));
+=======
+	mix_pool_bytes(&input_pool, &sample, sizeof(sample), NULL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Calculate number of bits of randomness we probably added.
@@ -688,6 +870,7 @@ void add_input_randomness(unsigned int type, unsigned int code,
 }
 EXPORT_SYMBOL_GPL(add_input_randomness);
 
+<<<<<<< HEAD
 void add_interrupt_randomness(int irq)
 {
 	struct timer_rand_state *state;
@@ -699,6 +882,50 @@ void add_interrupt_randomness(int irq)
 
 	DEBUG_ENT("irq event %d\n", irq);
 	add_timer_randomness(state, 0x100 + irq);
+=======
+static DEFINE_PER_CPU(struct fast_pool, irq_randomness);
+
+void add_interrupt_randomness(int irq, int irq_flags)
+{
+	struct entropy_store	*r;
+	struct fast_pool	*fast_pool = &__get_cpu_var(irq_randomness);
+	struct pt_regs		*regs = get_irq_regs();
+	unsigned long		now = jiffies;
+	__u32			input[4], cycles = get_cycles();
+
+	input[0] = cycles ^ jiffies;
+	input[1] = irq;
+	if (regs) {
+		__u64 ip = instruction_pointer(regs);
+		input[2] = ip;
+		input[3] = ip >> 32;
+	}
+
+	fast_mix(fast_pool, input, sizeof(input));
+
+	if ((fast_pool->count & 1023) &&
+	    !time_after(now, fast_pool->last + HZ))
+		return;
+
+	fast_pool->last = now;
+
+	r = nonblocking_pool.initialized ? &input_pool : &nonblocking_pool;
+	__mix_pool_bytes(r, &fast_pool->pool, sizeof(fast_pool->pool), NULL);
+	/*
+	 * If we don't have a valid cycle counter, and we see
+	 * back-to-back timer interrupts, then skip giving credit for
+	 * any entropy.
+	 */
+	if (cycles == 0) {
+		if (irq_flags & __IRQF_TIMER) {
+			if (fast_pool->last_timer_intr)
+				return;
+			fast_pool->last_timer_intr = 1;
+		} else
+			fast_pool->last_timer_intr = 0;
+	}
+	credit_entropy_bits(r, 1);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_BLOCK
@@ -714,8 +941,11 @@ void add_disk_randomness(struct gendisk *disk)
 }
 #endif
 
+<<<<<<< HEAD
 #define EXTRACT_SIZE 10
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*********************************************************************
  *
  * Entropy extraction routines
@@ -732,7 +962,11 @@ static ssize_t extract_entropy(struct entropy_store *r, void *buf,
  */
 static void xfer_secondary_pool(struct entropy_store *r, size_t nbytes)
 {
+<<<<<<< HEAD
 	__u32 tmp[OUTPUT_POOL_WORDS];
+=======
+	__u32	tmp[OUTPUT_POOL_WORDS];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (r->pull && r->entropy_count < nbytes * 8 &&
 	    r->entropy_count < r->poolinfo->POOLBITS) {
@@ -751,7 +985,11 @@ static void xfer_secondary_pool(struct entropy_store *r, size_t nbytes)
 
 		bytes = extract_entropy(r->pull, tmp, bytes,
 					random_read_wakeup_thresh / 8, rsvd);
+<<<<<<< HEAD
 		mix_pool_bytes(r, tmp, bytes);
+=======
+		mix_pool_bytes(r, tmp, bytes, NULL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		credit_entropy_bits(r, bytes*8);
 	}
 }
@@ -810,6 +1048,7 @@ static size_t account(struct entropy_store *r, size_t nbytes, int min,
 static void extract_buf(struct entropy_store *r, __u8 *out)
 {
 	int i;
+<<<<<<< HEAD
 	__u32 hash[5], workspace[SHA_WORKSPACE_WORDS];
 	__u8 extract[64];
 
@@ -817,6 +1056,21 @@ static void extract_buf(struct entropy_store *r, __u8 *out)
 	sha_init(hash);
 	for (i = 0; i < r->poolinfo->poolwords; i += 16)
 		sha_transform(hash, (__u8 *)(r->pool + i), workspace);
+=======
+	union {
+		__u32 w[5];
+		unsigned long l[LONGS(EXTRACT_SIZE)];
+	} hash;
+	__u32 workspace[SHA_WORKSPACE_WORDS];
+	__u8 extract[64];
+	unsigned long flags;
+
+	/* Generate a hash across the pool, 16 words (512 bits) at a time */
+	sha_init(hash.w);
+	spin_lock_irqsave(&r->lock, flags);
+	for (i = 0; i < r->poolinfo->poolwords; i += 16)
+		sha_transform(hash.w, (__u8 *)(r->pool + i), workspace);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * We mix the hash back into the pool to prevent backtracking
@@ -827,13 +1081,22 @@ static void extract_buf(struct entropy_store *r, __u8 *out)
 	 * brute-forcing the feedback as hard as brute-forcing the
 	 * hash.
 	 */
+<<<<<<< HEAD
 	mix_pool_bytes_extract(r, hash, sizeof(hash), extract);
+=======
+	__mix_pool_bytes(r, hash.w, sizeof(hash.w), extract);
+	spin_unlock_irqrestore(&r->lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * To avoid duplicates, we atomically extract a portion of the
 	 * pool while mixing, and hash one final time.
 	 */
+<<<<<<< HEAD
 	sha_transform(hash, extract, workspace);
+=======
+	sha_transform(hash.w, extract, workspace);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	memset(extract, 0, sizeof(extract));
 	memset(workspace, 0, sizeof(workspace));
 
@@ -842,6 +1105,7 @@ static void extract_buf(struct entropy_store *r, __u8 *out)
 	 * pattern, we fold it in half. Thus, we always feed back
 	 * twice as much data as we output.
 	 */
+<<<<<<< HEAD
 	hash[0] ^= hash[3];
 	hash[1] ^= hash[4];
 	hash[2] ^= rol32(hash[2], 16);
@@ -855,6 +1119,32 @@ static ssize_t extract_entropy(struct entropy_store *r, void *buf,
 	ssize_t ret = 0, i;
 	__u8 tmp[EXTRACT_SIZE];
 	unsigned long flags;
+=======
+	hash.w[0] ^= hash.w[3];
+	hash.w[1] ^= hash.w[4];
+	hash.w[2] ^= rol32(hash.w[2], 16);
+
+	/*
+	 * If we have a architectural hardware random number
+	 * generator, mix that in, too.
+	 */
+	for (i = 0; i < LONGS(EXTRACT_SIZE); i++) {
+		unsigned long v;
+		if (!arch_get_random_long(&v))
+			break;
+		hash.l[i] ^= v;
+	}
+
+	memcpy(out, &hash, EXTRACT_SIZE);
+	memset(&hash, 0, sizeof(hash));
+}
+
+static ssize_t extract_entropy(struct entropy_store *r, void *buf,
+				 size_t nbytes, int min, int reserved)
+{
+	ssize_t ret = 0, i;
+	__u8 tmp[EXTRACT_SIZE];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	xfer_secondary_pool(r, nbytes);
 	nbytes = account(r, nbytes, min, reserved);
@@ -862,7 +1152,13 @@ static ssize_t extract_entropy(struct entropy_store *r, void *buf,
 	while (nbytes) {
 		extract_buf(r, tmp);
 
+<<<<<<< HEAD
 		if (r->last_data) {
+=======
+		if (fips_enabled) {
+			unsigned long flags;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			spin_lock_irqsave(&r->lock, flags);
 			if (!memcmp(tmp, r->last_data, EXTRACT_SIZE))
 				panic("Hardware RNG duplicated output!\n");
@@ -921,8 +1217,14 @@ static ssize_t extract_entropy_user(struct entropy_store *r, void __user *buf,
 
 /*
  * This function is the exported kernel interface.  It returns some
+<<<<<<< HEAD
  * number of good random numbers, suitable for seeding TCP sequence
  * numbers, etc.
+=======
+ * number of good random numbers, suitable for key generation, seeding
+ * TCP sequence numbers, etc.  It does not use the hw random number
+ * generator, if available; use get_random_bytes_arch() for that.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 void get_random_bytes(void *buf, int nbytes)
 {
@@ -931,6 +1233,41 @@ void get_random_bytes(void *buf, int nbytes)
 EXPORT_SYMBOL(get_random_bytes);
 
 /*
+<<<<<<< HEAD
+=======
+ * This function will use the architecture-specific hardware random
+ * number generator if it is available.  The arch-specific hw RNG will
+ * almost certainly be faster than what we can do in software, but it
+ * is impossible to verify that it is implemented securely (as
+ * opposed, to, say, the AES encryption of a sequence number using a
+ * key known by the NSA).  So it's useful if we need the speed, but
+ * only if we're willing to trust the hardware manufacturer not to
+ * have put in a back door.
+ */
+void get_random_bytes_arch(void *buf, int nbytes)
+{
+	char *p = buf;
+
+	while (nbytes) {
+		unsigned long v;
+		int chunk = min(nbytes, (int)sizeof(unsigned long));
+
+		if (!arch_get_random_long(&v))
+			break;
+
+		memcpy(p, &v, chunk);
+		p += chunk;
+		nbytes -= chunk;
+	}
+
+	if (nbytes)
+		extract_entropy(&nonblocking_pool, p, nbytes, 0, 0);
+}
+EXPORT_SYMBOL(get_random_bytes_arch);
+
+
+/*
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * init_std_data - initialize pool with system data
  *
  * @r: pool to initialize
@@ -941,6 +1278,7 @@ EXPORT_SYMBOL(get_random_bytes);
  */
 static void init_std_data(struct entropy_store *r)
 {
+<<<<<<< HEAD
 	ktime_t now;
 	unsigned long flags;
 
@@ -956,6 +1294,33 @@ static void init_std_data(struct entropy_store *r)
 		r->last_data = kmalloc(EXTRACT_SIZE, GFP_KERNEL);
 }
 
+=======
+	int i;
+	ktime_t now = ktime_get_real();
+	unsigned long rv;
+
+	r->entropy_count = 0;
+	r->entropy_total = 0;
+	mix_pool_bytes(r, &now, sizeof(now), NULL);
+	for (i = r->poolinfo->POOLBYTES; i > 0; i -= sizeof(rv)) {
+		if (!arch_get_random_long(&rv))
+			break;
+		mix_pool_bytes(r, &rv, sizeof(rv), NULL);
+	}
+	mix_pool_bytes(r, utsname(), sizeof(*(utsname())), NULL);
+}
+
+/*
+ * Note that setup_arch() may call add_device_randomness()
+ * long before we get here. This allows seeding of the pools
+ * with some platform dependent data very early in the boot
+ * process. But it limits our options here. We must use
+ * statically allocated structures that already have all
+ * initializations complete at compile time. We should also
+ * take care not to overwrite the precious per platform data
+ * we were given.
+ */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int rand_initialize(void)
 {
 	init_std_data(&input_pool);
@@ -965,6 +1330,7 @@ static int rand_initialize(void)
 }
 module_init(rand_initialize);
 
+<<<<<<< HEAD
 void rand_initialize_irq(int irq)
 {
 	struct timer_rand_state *state;
@@ -983,6 +1349,8 @@ void rand_initialize_irq(int irq)
 		set_timer_rand_state(irq, state);
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_BLOCK
 void rand_initialize_disk(struct gendisk *disk)
 {
@@ -1090,7 +1458,11 @@ write_pool(struct entropy_store *r, const char __user *buffer, size_t count)
 		count -= bytes;
 		p += bytes;
 
+<<<<<<< HEAD
 		mix_pool_bytes(r, buf, bytes);
+=======
+		mix_pool_bytes(r, buf, bytes, NULL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		cond_resched();
 	}
 
@@ -1231,10 +1603,22 @@ static int proc_do_uuid(ctl_table *table, int write,
 	uuid = table->data;
 	if (!uuid) {
 		uuid = tmp_uuid;
+<<<<<<< HEAD
 		uuid[8] = 0;
 	}
 	if (uuid[8] == 0)
 		generate_random_uuid(uuid);
+=======
+		generate_random_uuid(uuid);
+	} else {
+		static DEFINE_SPINLOCK(bootid_spinlock);
+
+		spin_lock(&bootid_spinlock);
+		if (!uuid[8])
+			generate_random_uuid(uuid);
+		spin_unlock(&bootid_spinlock);
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	sprintf(buf, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-"
 		"%02x%02x%02x%02x%02x%02x",
@@ -1339,6 +1723,7 @@ ctl_table random_table[] = {
 };
 #endif 	/* CONFIG_SYSCTL */
 
+<<<<<<< HEAD
 /********************************************************************
  *
  * Random funtions for networking
@@ -1663,6 +2048,16 @@ EXPORT_SYMBOL(secure_dccp_sequence_number);
 
 #endif /* CONFIG_INET */
 
+=======
+static u32 random_int_secret[MD5_MESSAGE_BYTES / 4] ____cacheline_aligned;
+
+static int __init random_int_secret_init(void)
+{
+	get_random_bytes(random_int_secret, sizeof(random_int_secret));
+	return 0;
+}
+late_initcall(random_int_secret_init);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * Get a random word for internal kernel use only. Similar to urandom but
@@ -1670,6 +2065,7 @@ EXPORT_SYMBOL(secure_dccp_sequence_number);
  * value is not cryptographically secure but for several uses the cost of
  * depleting entropy is too high
  */
+<<<<<<< HEAD
 DEFINE_PER_CPU(__u32 [4], get_random_int_hash);
 unsigned int get_random_int(void)
 {
@@ -1681,6 +2077,22 @@ unsigned int get_random_int(void)
 	hash[0] += current->pid + jiffies + get_cycles();
 
 	ret = half_md4_transform(hash, keyptr->secret);
+=======
+DEFINE_PER_CPU(__u32 [MD5_DIGEST_WORDS], get_random_int_hash);
+unsigned int get_random_int(void)
+{
+	__u32 *hash;
+	unsigned int ret;
+
+	if (arch_get_random_int(&ret))
+		return ret;
+
+	hash = get_cpu_var(get_random_int_hash);
+
+	hash[0] += current->pid + jiffies + get_cycles();
+	md5_transform(hash, random_int_secret);
+	ret = hash[0];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	put_cpu_var(get_random_int_hash);
 
 	return ret;

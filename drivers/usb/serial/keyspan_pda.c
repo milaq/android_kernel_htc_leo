@@ -663,6 +663,7 @@ static void keyspan_pda_dtr_rts(struct usb_serial_port *port, int on)
 	}
 }
 
+<<<<<<< HEAD
 static int keyspan_pda_carrier_raised(struct usb_serial_port *port)
 {
 	struct usb_serial *serial = port->serial;
@@ -679,6 +680,8 @@ static int keyspan_pda_carrier_raised(struct usb_serial_port *port)
 	return 1;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int keyspan_pda_open(struct tty_struct *tty,
 					struct usb_serial_port *port)
@@ -854,7 +857,10 @@ static struct usb_serial_driver keyspan_pda_device = {
 	.id_table =		id_table_std,
 	.num_ports =		1,
 	.dtr_rts =		keyspan_pda_dtr_rts,
+<<<<<<< HEAD
 	.carrier_raised	=	keyspan_pda_carrier_raised,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.open =			keyspan_pda_open,
 	.close =		keyspan_pda_close,
 	.write =		keyspan_pda_write,

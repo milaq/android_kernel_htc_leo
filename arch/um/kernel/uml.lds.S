@@ -22,7 +22,11 @@ SECTIONS
   _text = .;
   _stext = .;
   __init_begin = .;
+<<<<<<< HEAD
   INIT_TEXT_SECTION(PAGE_SIZE)
+=======
+  INIT_TEXT_SECTION(0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
   . = ALIGN(PAGE_SIZE);
 
   .text      :
@@ -43,6 +47,26 @@ SECTIONS
 	__syscall_stub_end = .;
   }
 
+<<<<<<< HEAD
+=======
+  /*
+   * These are needed even in a static link, even if they wind up being empty.
+   * Newer glibc needs these __rel{,a}_iplt_{start,end} symbols.
+   */
+  .rel.plt : {
+	*(.rel.plt)
+	PROVIDE_HIDDEN(__rel_iplt_start = .);
+	*(.rel.iplt)
+	PROVIDE_HIDDEN(__rel_iplt_end = .);
+  }
+  .rela.plt : {
+	*(.rela.plt)
+	PROVIDE_HIDDEN(__rela_iplt_start = .);
+	*(.rela.iplt)
+	PROVIDE_HIDDEN(__rela_iplt_end = .);
+  }
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
   #include "asm/common.lds.S"
 
   init.data : { INIT_DATA }

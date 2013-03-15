@@ -40,11 +40,15 @@
 #define UART_MR2_PARITY_MODE		0x3
 
 #define UART_CSR	0x0008
+<<<<<<< HEAD
 #if defined(CONFIG_ARCH_MSM7227)
 #define UART_CSR_115200	0xCC
 #else
 #define UART_CSR_115200	0xFF
 #endif
+=======
+#define UART_CSR_115200	0xFF
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define UART_CSR_57600	0xEE
 #define UART_CSR_38400	0xDD
 #define UART_CSR_28800	0xCC

@@ -120,7 +120,11 @@ static inline void down_spin(struct spinaphore *ss)
 	ia64_invala();
 
 	for (;;) {
+<<<<<<< HEAD
 		asm volatile ("ld4.c.nc %0=[%1]" : "=r"(serve) : "r"(&ss->serve) : "memory");
+=======
+		asm volatile ("ld8.c.nc %0=[%1]" : "=r"(serve) : "r"(&ss->serve) : "memory");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (time_before(t, serve))
 			return;
 		cpu_relax();

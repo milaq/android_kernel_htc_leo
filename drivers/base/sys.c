@@ -23,7 +23,10 @@
 #include <linux/device.h>
 #include <linux/mutex.h>
 #include <linux/interrupt.h>
+<<<<<<< HEAD
 #include <linux/resume-trace.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include "base.h"
 
@@ -348,6 +351,7 @@ static void __sysdev_resume(struct sys_device *dev)
 	struct sysdev_driver *drv;
 
 	/* First, call the class-specific one */
+<<<<<<< HEAD
 	if (cls->resume) {
 		TRACE_MASK(TRACE_SYSDEV_RESUME,
 			"%s %s: %s sysdev class resume\n",
@@ -355,11 +359,16 @@ static void __sysdev_resume(struct sys_device *dev)
 			cls->name);
 		cls->resume(dev);
 	}
+=======
+	if (cls->resume)
+		cls->resume(dev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	WARN_ONCE(!irqs_disabled(),
 		"Interrupts enabled after %pF\n", cls->resume);
 
 	/* Call auxillary drivers next. */
 	list_for_each_entry(drv, &cls->drivers, entry) {
+<<<<<<< HEAD
 		if (drv->resume) {
 			TRACE_MASK(TRACE_SYSDEV_RESUME,
 				"%s %s: %p sysdev driver resume\n",
@@ -367,6 +376,10 @@ static void __sysdev_resume(struct sys_device *dev)
 				kobject_name(&dev->kobj),	drv);
 			drv->resume(dev);
 		}
+=======
+		if (drv->resume)
+			drv->resume(dev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		WARN_ONCE(!irqs_disabled(),
 			"Interrupts enabled after %pF\n", drv->resume);
 	}
@@ -413,10 +426,13 @@ int sysdev_suspend(pm_message_t state)
 			/* Call auxillary drivers first */
 			list_for_each_entry(drv, &cls->drivers, entry) {
 				if (drv->suspend) {
+<<<<<<< HEAD
 					TRACE_MASK(TRACE_SYSDEV_SUSPEND,
 						"%s %s: %p sysdev driver suspend\n",
 						kobject_name(&cls->kset.kobj),
 						kobject_name(&sysdev->kobj), drv);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					ret = drv->suspend(sysdev, state);
 					if (ret)
 						goto aux_driver;
@@ -428,10 +444,13 @@ int sysdev_suspend(pm_message_t state)
 
 			/* Now call the generic one */
 			if (cls->suspend) {
+<<<<<<< HEAD
 				TRACE_MASK(TRACE_SYSDEV_SUSPEND,
 					"%s %s: %s sysdev class suspend\n",
 					kobject_name(&cls->kset.kobj),
 					kobject_name(&sysdev->kobj), cls->name);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				ret = cls->suspend(sysdev, state);
 				if (ret)
 					goto cls_driver;
@@ -490,6 +509,15 @@ int sysdev_resume(void)
 {
 	struct sysdev_class *cls;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Called from syscore in mainline but called directly here
+	 * since syscore does not exist in this tree.
+	 */
+	irq_pm_syscore_resume();
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	WARN_ONCE(!irqs_disabled(),
 		"Interrupts enabled while resuming system devices\n");
 

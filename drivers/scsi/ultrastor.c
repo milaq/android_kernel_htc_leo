@@ -306,7 +306,11 @@ static inline int find_and_clear_bit_16(unsigned long *field)
 	"0: bsfw %1,%w0\n\t"
 	"btr %0,%1\n\t"
 	"jnc 0b"
+<<<<<<< HEAD
 	: "=&r" (rv), "=m" (*field) :);
+=======
+	: "=&r" (rv), "+m" (*field) :);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
   return rv;
 }

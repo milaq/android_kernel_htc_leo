@@ -103,7 +103,11 @@ qh_update (struct ehci_hcd *ehci, struct ehci_qh *qh, struct ehci_qtd *qtd)
 	if (!(hw->hw_info1 & cpu_to_hc32(ehci, 1 << 14))) {
 		unsigned	is_out, epnum;
 
+<<<<<<< HEAD
 		is_out = !(qtd->hw_token & cpu_to_hc32(ehci, 1 << 8));
+=======
+		is_out = qh->is_out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		epnum = (hc32_to_cpup(ehci, &hw->hw_info1) >> 8) & 0x0f;
 		if (unlikely (!usb_gettoggle (qh->dev, epnum, is_out))) {
 			hw->hw_token &= ~cpu_to_hc32(ehci, QTD_TOGGLE);
@@ -315,7 +319,10 @@ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
 	int			stopped;
 	unsigned		count = 0;
 	u8			state;
+<<<<<<< HEAD
 	const __le32		halt = HALT_BIT(ehci);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct ehci_qh_hw	*hw = qh->hw;
 
 	if (unlikely (list_empty (&qh->qtd_list)))
@@ -422,7 +429,10 @@ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
 					&& !(qtd->hw_alt_next
 						& EHCI_LIST_END(ehci))) {
 				stopped = 1;
+<<<<<<< HEAD
 				goto halt;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			}
 
 		/* stop scanning when we reach qtds the hc is using */
@@ -456,6 +466,7 @@ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
 				 */
 				ehci_clear_tt_buffer(ehci, qh, urb, token);
 			}
+<<<<<<< HEAD
 
 			/* force halt for unlinked or blocked qh, so we'll
 			 * patch the qh later and so that completions can't
@@ -466,6 +477,8 @@ halt:
 				hw->hw_token |= halt;
 				wmb ();
 			}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		/* unless we already know the urb's status, collect qtd status
@@ -935,6 +948,10 @@ done:
 	hw = qh->hw;
 	hw->hw_info1 = cpu_to_hc32(ehci, info1);
 	hw->hw_info2 = cpu_to_hc32(ehci, info2);
+<<<<<<< HEAD
+=======
+	qh->is_out = !is_input;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	usb_settoggle (urb->dev, usb_pipeendpoint (urb->pipe), !is_input, 1);
 	qh_refresh (ehci, qh);
 	return qh;
@@ -1236,24 +1253,42 @@ static void start_unlink_async (struct ehci_hcd *ehci, struct ehci_qh *qh)
 
 static void scan_async (struct ehci_hcd *ehci)
 {
+<<<<<<< HEAD
+=======
+	bool			stopped;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct ehci_qh		*qh;
 	enum ehci_timer_action	action = TIMER_IO_WATCHDOG;
 
 	ehci->stamp = ehci_readl(ehci, &ehci->regs->frame_index);
 	timer_action_done (ehci, TIMER_ASYNC_SHRINK);
 rescan:
+<<<<<<< HEAD
+=======
+	stopped = !HC_IS_RUNNING(ehci_to_hcd(ehci)->state);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	qh = ehci->async->qh_next.qh;
 	if (likely (qh != NULL)) {
 		do {
 			/* clean any finished work for this qh */
+<<<<<<< HEAD
 			if (!list_empty (&qh->qtd_list)
 					&& qh->stamp != ehci->stamp) {
+=======
+			if (!list_empty(&qh->qtd_list) && (stopped ||
+					qh->stamp != ehci->stamp)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				int temp;
 
 				/* unlinks could happen here; completion
 				 * reporting drops the lock.  rescan using
 				 * the latest schedule, but don't rescan
+<<<<<<< HEAD
 				 * qhs we already finished (no looping).
+=======
+				 * qhs we already finished (no looping)
+				 * unless the controller is stopped.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				 */
 				qh = qh_get (qh);
 				qh->stamp = ehci->stamp;
@@ -1274,9 +1309,15 @@ rescan:
 			 */
 			if (list_empty(&qh->qtd_list)
 					&& qh->qh_state == QH_STATE_LINKED) {
+<<<<<<< HEAD
 				if (!ehci->reclaim
 					&& ((ehci->stamp - qh->stamp) & 0x1fff)
 						>= (EHCI_SHRINK_FRAMES * 8))
+=======
+				if (!ehci->reclaim && (stopped ||
+					((ehci->stamp - qh->stamp) & 0x1fff)
+						>= EHCI_SHRINK_FRAMES * 8))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					start_unlink_async(ehci, qh);
 				else
 					action = TIMER_ASYNC_SHRINK;

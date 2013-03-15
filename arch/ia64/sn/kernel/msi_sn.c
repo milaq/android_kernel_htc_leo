@@ -174,7 +174,11 @@ static int sn_set_msi_irq_affinity(unsigned int irq,
 	 * Release XIO resources for the old MSI PCI address
 	 */
 
+<<<<<<< HEAD
 	read_msi_msg(irq, &msg);
+=======
+	get_cached_msi_msg(irq, &msg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
         sn_pdev = (struct pcidev_info *)sn_irq_info->irq_pciioinfo;
 	pdev = sn_pdev->pdi_linux_pcidev;
 	provider = SN_PCIDEV_BUSPROVIDER(pdev);

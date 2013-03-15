@@ -20,6 +20,7 @@
 #define atomic64_set(v, i)	(((v)->counter) = i)
 
 extern void atomic_add(int, atomic_t *);
+<<<<<<< HEAD
 extern void atomic64_add(int, atomic64_t *);
 extern void atomic_sub(int, atomic_t *);
 extern void atomic64_sub(int, atomic64_t *);
@@ -28,6 +29,16 @@ extern int atomic_add_ret(int, atomic_t *);
 extern int atomic64_add_ret(int, atomic64_t *);
 extern int atomic_sub_ret(int, atomic_t *);
 extern int atomic64_sub_ret(int, atomic64_t *);
+=======
+extern void atomic64_add(long, atomic64_t *);
+extern void atomic_sub(int, atomic_t *);
+extern void atomic64_sub(long, atomic64_t *);
+
+extern int atomic_add_ret(int, atomic_t *);
+extern long atomic64_add_ret(long, atomic64_t *);
+extern int atomic_sub_ret(int, atomic_t *);
+extern long atomic64_sub_ret(long, atomic64_t *);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define atomic_dec_return(v) atomic_sub_ret(1, v)
 #define atomic64_dec_return(v) atomic64_sub_ret(1, v)
@@ -91,7 +102,11 @@ static inline int atomic_add_unless(atomic_t *v, int a, int u)
 	((__typeof__((v)->counter))cmpxchg(&((v)->counter), (o), (n)))
 #define atomic64_xchg(v, new) (xchg(&((v)->counter), new))
 
+<<<<<<< HEAD
 static inline int atomic64_add_unless(atomic64_t *v, long a, long u)
+=======
+static inline long atomic64_add_unless(atomic64_t *v, long a, long u)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	long c, old;
 	c = atomic64_read(v);

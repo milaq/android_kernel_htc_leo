@@ -271,14 +271,22 @@ static int olpc_bat_get_property(struct power_supply *psy,
 		if (ret)
 			return ret;
 
+<<<<<<< HEAD
 		val->intval = (int)be16_to_cpu(ec_word) * 9760L / 32;
+=======
+		val->intval = (s16)be16_to_cpu(ec_word) * 9760L / 32;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_AVG:
 		ret = olpc_ec_cmd(EC_BAT_CURRENT, NULL, 0, (void *)&ec_word, 2);
 		if (ret)
 			return ret;
 
+<<<<<<< HEAD
 		val->intval = (int)be16_to_cpu(ec_word) * 15625L / 120;
+=======
+		val->intval = (s16)be16_to_cpu(ec_word) * 15625L / 120;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case POWER_SUPPLY_PROP_CAPACITY:
 		ret = olpc_ec_cmd(EC_BAT_SOC, NULL, 0, &ec_byte, 1);
@@ -299,7 +307,11 @@ static int olpc_bat_get_property(struct power_supply *psy,
 		if (ret)
 			return ret;
 
+<<<<<<< HEAD
 		val->intval = (int)be16_to_cpu(ec_word) * 100 / 256;
+=======
+		val->intval = (s16)be16_to_cpu(ec_word) * 100 / 256;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case POWER_SUPPLY_PROP_TEMP_AMBIENT:
 		ret = olpc_ec_cmd(EC_AMB_TEMP, NULL, 0, (void *)&ec_word, 2);
@@ -313,7 +325,11 @@ static int olpc_bat_get_property(struct power_supply *psy,
 		if (ret)
 			return ret;
 
+<<<<<<< HEAD
 		val->intval = (int)be16_to_cpu(ec_word) * 6250 / 15;
+=======
+		val->intval = (s16)be16_to_cpu(ec_word) * 6250 / 15;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case POWER_SUPPLY_PROP_SERIAL_NUMBER:
 		ret = olpc_ec_cmd(EC_BAT_SERIAL, NULL, 0, (void *)&ser_buf, 8);

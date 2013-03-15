@@ -1707,6 +1707,10 @@ struct snd_emu10k1 {
 	unsigned int card_type;			/* EMU10K1_CARD_* */
 	unsigned int ecard_ctrl;		/* ecard control bits */
 	unsigned long dma_mask;			/* PCI DMA mask */
+<<<<<<< HEAD
+=======
+	unsigned int delay_pcm_irq;		/* in samples */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int max_cache_pages;			/* max memory size / PAGE_SIZE */
 	struct snd_dma_buffer silent_page;	/* silent page */
 	struct snd_dma_buffer ptb_pages;	/* page table pages */

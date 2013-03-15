@@ -29,6 +29,7 @@
  *
  */
 
+<<<<<<< HEAD
 #include <linux/kernel.h>
 #include <linux/kobject.h>
 #include <linux/memory.h>
@@ -45,6 +46,13 @@
 #include <linux/fs.h>
 #include <linux/swap.h>
 #endif
+=======
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/mm.h>
+#include <linux/oom.h>
+#include <linux/sched.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static uint32_t lowmem_debug_level = 2;
 static int lowmem_adj[6] = {
@@ -62,6 +70,7 @@ static size_t lowmem_minfree[6] = {
 };
 static int lowmem_minfree_size = 4;
 
+<<<<<<< HEAD
 static size_t lowmem_minfree_notif_trigger;
 
 static unsigned int offlining;
@@ -73,12 +82,15 @@ static struct kobject *lowmem_kobj;
 static int fudgeswap = 512;
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define lowmem_print(level, x...)			\
 	do {						\
 		if (lowmem_debug_level >= (level))	\
 			printk(x);			\
 	} while (0)
 
+<<<<<<< HEAD
 static int
 task_notify_func(struct notifier_block *self, unsigned long val, void *data);
 
@@ -158,6 +170,8 @@ static inline void get_free_ram(int *other_free, int *other_file)
 	}
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 {
 	struct task_struct *p;
@@ -169,6 +183,7 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 	int selected_tasksize = 0;
 	int selected_oom_adj;
 	int array_size = ARRAY_SIZE(lowmem_adj);
+<<<<<<< HEAD
 	int other_free;
 	int other_file;
 	/*
@@ -188,6 +203,10 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 			other_file < lowmem_minfree_notif_trigger) {
 		lowmem_notify_killzone_approach();
 	}
+=======
+	int other_free = global_page_state(NR_FREE_PAGES);
+	int other_file = global_page_state(NR_FILE_PAGES);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (lowmem_adj_size < array_size)
 		array_size = lowmem_adj_size;
@@ -218,17 +237,28 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 	read_lock(&tasklist_lock);
 	for_each_process(p) {
 		struct mm_struct *mm;
+<<<<<<< HEAD
 		struct signal_struct *sig;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		int oom_adj;
 
 		task_lock(p);
 		mm = p->mm;
+<<<<<<< HEAD
 		sig = p->signal;
 		if (!mm || !sig) {
 			task_unlock(p);
 			continue;
 		}
 		oom_adj = sig->oom_adj;
+=======
+		if (!mm) {
+			task_unlock(p);
+			continue;
+		}
+		oom_adj = mm->oom_adj;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (oom_adj < min_adj) {
 			task_unlock(p);
 			continue;
@@ -254,8 +284,11 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 		lowmem_print(1, "send sigkill to %d (%s), adj %d, size %d\n",
 			     selected->pid, selected->comm,
 			     selected_oom_adj, selected_tasksize);
+<<<<<<< HEAD
 		lowmem_deathpending = selected;
 		lowmem_deathpending_timeout = jiffies + HZ;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		force_sig(SIGKILL, selected);
 		rem -= selected_tasksize;
 	}
@@ -270,6 +303,7 @@ static struct shrinker lowmem_shrinker = {
 	.seeks = DEFAULT_SEEKS * 16
 };
 
+<<<<<<< HEAD
 static void lowmem_notify_killzone_approach(void)
 {
 	lowmem_print(3, "notification trigger activated\n");
@@ -349,14 +383,24 @@ err:
 	task_free_unregister(&task_nb);
 
 	return rc;
+=======
+static int __init lowmem_init(void)
+{
+	register_shrinker(&lowmem_shrinker);
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __exit lowmem_exit(void)
 {
+<<<<<<< HEAD
 	kobject_put(lowmem_kobj);
 	kfree(lowmem_kobj);
 	unregister_shrinker(&lowmem_shrinker);
 	task_free_unregister(&task_nb);
+=======
+	unregister_shrinker(&lowmem_shrinker);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_param_named(cost, lowmem_shrinker.seeks, int, S_IRUGO | S_IWUSR);
@@ -365,12 +409,16 @@ module_param_array_named(adj, lowmem_adj, int, &lowmem_adj_size,
 module_param_array_named(minfree, lowmem_minfree, uint, &lowmem_minfree_size,
 			 S_IRUGO | S_IWUSR);
 module_param_named(debug_level, lowmem_debug_level, uint, S_IRUGO | S_IWUSR);
+<<<<<<< HEAD
 module_param_named(notify_trigger, lowmem_minfree_notif_trigger, uint,
 			 S_IRUGO | S_IWUSR);
 
 #ifdef CONFIG_SWAP
 module_param_named(fudgeswap, fudgeswap, int, S_IRUGO | S_IWUSR);
 #endif
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 module_init(lowmem_init);
 module_exit(lowmem_exit);
 

@@ -551,6 +551,7 @@ static inline int pageblock_free(struct page *page)
 /* Return the start of the next active pageblock after a given page */
 static struct page *next_active_pageblock(struct page *page)
 {
+<<<<<<< HEAD
 	int pageblocks_stride;
 
 	/* Ensure the starting page is pageblock-aligned */
@@ -564,6 +565,21 @@ static struct page *next_active_pageblock(struct page *page)
 		pageblocks_stride += page_order(page) - pageblock_order;
 
 	return page + (pageblocks_stride * pageblock_nr_pages);
+=======
+	/* Ensure the starting page is pageblock-aligned */
+	BUG_ON(page_to_pfn(page) & (pageblock_nr_pages - 1));
+
+	/* If the entire pageblock is free, move to the end of free page */
+	if (pageblock_free(page)) {
+		int order;
+		/* be careful. we don't have locks, page_order can be changed.*/
+		order = page_order(page);
+		if ((order < MAX_ORDER) && (order >= pageblock_order))
+			return page + (1 << order);
+	}
+
+	return page + pageblock_nr_pages;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Checks if this range of memory is likely to be hot-removable. */
@@ -626,7 +642,11 @@ static int test_pages_in_a_zone(unsigned long start_pfn, unsigned long end_pfn)
  * Scanning pfn is much easier than scanning lru list.
  * Scan pfn from start to end and Find LRU page.
  */
+<<<<<<< HEAD
 int scan_lru_pages(unsigned long start, unsigned long end)
+=======
+unsigned long scan_lru_pages(unsigned long start, unsigned long end)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned long pfn;
 	struct page *page;

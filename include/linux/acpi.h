@@ -251,7 +251,10 @@ int acpi_check_mem_region(resource_size_t start, resource_size_t n,
 void __init acpi_no_s4_hw_signature(void);
 void __init acpi_old_suspend_ordering(void);
 void __init acpi_s4_no_nvs(void);
+<<<<<<< HEAD
 void __init acpi_set_sci_en_on_resume(void);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_PM_SLEEP */
 
 struct acpi_osc_context {

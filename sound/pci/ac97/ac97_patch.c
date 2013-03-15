@@ -1867,12 +1867,20 @@ static unsigned int ad1981_jacks_blacklist[] = {
 	0x10140523, /* Thinkpad R40 */
 	0x10140534, /* Thinkpad X31 */
 	0x10140537, /* Thinkpad T41p */
+<<<<<<< HEAD
+=======
+	0x1014053e, /* Thinkpad R40e */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	0x10140554, /* Thinkpad T42p/R50p */
 	0x10140567, /* Thinkpad T43p 2668-G7U */
 	0x10140581, /* Thinkpad X41-2527 */
 	0x10280160, /* Dell Dimension 2400 */
 	0x104380b0, /* Asus A7V8X-MX */
 	0x11790241, /* Toshiba Satellite A-15 S127 */
+<<<<<<< HEAD
+=======
+	0x1179ff10, /* Toshiba P500 */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	0x144dc01a, /* Samsung NP-X20C004/SEG */
 	0 /* end */
 };
@@ -1913,6 +1921,10 @@ static unsigned int ad1981_jacks_whitelist[] = {
 	0x103c0944, /* HP nc6220 */
 	0x103c0934, /* HP nc8220 */
 	0x103c006d, /* HP nx9105 */
+<<<<<<< HEAD
+=======
+	0x103c300d, /* HP Compaq dc5100 SFF(PT003AW) */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	0x17340088, /* FSC Scenic-W */
 	0 /* end */
 };

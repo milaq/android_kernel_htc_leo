@@ -85,8 +85,12 @@ struct smsc911x_data {
 	 */
 	spinlock_t mac_lock;
 
+<<<<<<< HEAD
 	/* spinlock to ensure 16-bit accesses are serialised.
 	 * unused with a 32-bit bus */
+=======
+	/* spinlock to ensure register accesses are serialised */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spinlock_t dev_lock;
 
 	struct phy_device *phy_dev;
@@ -119,16 +123,21 @@ struct smsc911x_data {
 	unsigned int hashlo;
 };
 
+<<<<<<< HEAD
 /* The 16-bit access functions are significantly slower, due to the locking
  * necessary.  If your bus hardware can be configured to do this for you
  * (in response to a single 32-bit operation from software), you should use
  * the 32-bit access functions instead. */
 
 static inline u32 smsc911x_reg_read(struct smsc911x_data *pdata, u32 reg)
+=======
+static inline u32 __smsc911x_reg_read(struct smsc911x_data *pdata, u32 reg)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (pdata->config.flags & SMSC911X_USE_32BIT)
 		return readl(pdata->ioaddr + reg);
 
+<<<<<<< HEAD
 	if (pdata->config.flags & SMSC911X_USE_16BIT) {
 		u32 data;
 		unsigned long flags;
@@ -143,13 +152,35 @@ static inline u32 smsc911x_reg_read(struct smsc911x_data *pdata, u32 reg)
 
 		return data;
 	}
+=======
+	if (pdata->config.flags & SMSC911X_USE_16BIT)
+		return ((readw(pdata->ioaddr + reg) & 0xFFFF) |
+			((readw(pdata->ioaddr + reg + 2) & 0xFFFF) << 16));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	BUG();
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline void smsc911x_reg_write(struct smsc911x_data *pdata, u32 reg,
 				      u32 val)
+=======
+static inline u32 smsc911x_reg_read(struct smsc911x_data *pdata, u32 reg)
+{
+	u32 data;
+	unsigned long flags;
+
+	spin_lock_irqsave(&pdata->dev_lock, flags);
+	data = __smsc911x_reg_read(pdata, reg);
+	spin_unlock_irqrestore(&pdata->dev_lock, flags);
+
+	return data;
+}
+
+static inline void __smsc911x_reg_write(struct smsc911x_data *pdata, u32 reg,
+					u32 val)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (pdata->config.flags & SMSC911X_USE_32BIT) {
 		writel(val, pdata->ioaddr + reg);
@@ -157,6 +188,7 @@ static inline void smsc911x_reg_write(struct smsc911x_data *pdata, u32 reg,
 	}
 
 	if (pdata->config.flags & SMSC911X_USE_16BIT) {
+<<<<<<< HEAD
 		unsigned long flags;
 
 		/* these two 16-bit writes must be performed consecutively, so
@@ -166,35 +198,78 @@ static inline void smsc911x_reg_write(struct smsc911x_data *pdata, u32 reg,
 		writew(val & 0xFFFF, pdata->ioaddr + reg);
 		writew((val >> 16) & 0xFFFF, pdata->ioaddr + reg + 2);
 		spin_unlock_irqrestore(&pdata->dev_lock, flags);
+=======
+		writew(val & 0xFFFF, pdata->ioaddr + reg);
+		writew((val >> 16) & 0xFFFF, pdata->ioaddr + reg + 2);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 	}
 
 	BUG();
 }
 
+<<<<<<< HEAD
+=======
+static inline void smsc911x_reg_write(struct smsc911x_data *pdata, u32 reg,
+				      u32 val)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&pdata->dev_lock, flags);
+	__smsc911x_reg_write(pdata, reg, val);
+	spin_unlock_irqrestore(&pdata->dev_lock, flags);
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Writes a packet to the TX_DATA_FIFO */
 static inline void
 smsc911x_tx_writefifo(struct smsc911x_data *pdata, unsigned int *buf,
 		      unsigned int wordcount)
 {
+<<<<<<< HEAD
 	if (pdata->config.flags & SMSC911X_SWAP_FIFO) {
 		while (wordcount--)
 			smsc911x_reg_write(pdata, TX_DATA_FIFO, swab32(*buf++));
 		return;
+=======
+	unsigned long flags;
+
+	spin_lock_irqsave(&pdata->dev_lock, flags);
+
+	if (pdata->config.flags & SMSC911X_SWAP_FIFO) {
+		while (wordcount--)
+			__smsc911x_reg_write(pdata, TX_DATA_FIFO,
+					     swab32(*buf++));
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (pdata->config.flags & SMSC911X_USE_32BIT) {
 		writesl(pdata->ioaddr + TX_DATA_FIFO, buf, wordcount);
+<<<<<<< HEAD
 		return;
+=======
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (pdata->config.flags & SMSC911X_USE_16BIT) {
 		while (wordcount--)
+<<<<<<< HEAD
 			smsc911x_reg_write(pdata, TX_DATA_FIFO, *buf++);
 		return;
 	}
 
 	BUG();
+=======
+			__smsc911x_reg_write(pdata, TX_DATA_FIFO, *buf++);
+		goto out;
+	}
+
+	BUG();
+out:
+	spin_unlock_irqrestore(&pdata->dev_lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Reads a packet out of the RX_DATA_FIFO */
@@ -202,24 +277,50 @@ static inline void
 smsc911x_rx_readfifo(struct smsc911x_data *pdata, unsigned int *buf,
 		     unsigned int wordcount)
 {
+<<<<<<< HEAD
 	if (pdata->config.flags & SMSC911X_SWAP_FIFO) {
 		while (wordcount--)
 			*buf++ = swab32(smsc911x_reg_read(pdata, RX_DATA_FIFO));
 		return;
+=======
+	unsigned long flags;
+
+	spin_lock_irqsave(&pdata->dev_lock, flags);
+
+	if (pdata->config.flags & SMSC911X_SWAP_FIFO) {
+		while (wordcount--)
+			*buf++ = swab32(__smsc911x_reg_read(pdata,
+							    RX_DATA_FIFO));
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (pdata->config.flags & SMSC911X_USE_32BIT) {
 		readsl(pdata->ioaddr + RX_DATA_FIFO, buf, wordcount);
+<<<<<<< HEAD
 		return;
+=======
+		goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (pdata->config.flags & SMSC911X_USE_16BIT) {
 		while (wordcount--)
+<<<<<<< HEAD
 			*buf++ = smsc911x_reg_read(pdata, RX_DATA_FIFO);
 		return;
 	}
 
 	BUG();
+=======
+			*buf++ = __smsc911x_reg_read(pdata, RX_DATA_FIFO);
+		goto out;
+	}
+
+	BUG();
+out:
+	spin_unlock_irqrestore(&pdata->dev_lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* waits for MAC not busy, with timeout.  Only called by smsc911x_mac_read

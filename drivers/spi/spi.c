@@ -852,6 +852,7 @@ int spi_write_then_read(struct spi_device *spi,
 }
 EXPORT_SYMBOL_GPL(spi_write_then_read);
 
+<<<<<<< HEAD
 static DEFINE_MUTEX(spi_lock);
 int
 spi_read_write_lock(struct spi_device *spidev, struct spi_msg *msg, char *buf, int size, int func)
@@ -873,6 +874,8 @@ spi_read_write_lock(struct spi_device *spidev, struct spi_msg *msg, char *buf, i
         return err;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*-------------------------------------------------------------------------*/
 
 static int __init spi_init(void)

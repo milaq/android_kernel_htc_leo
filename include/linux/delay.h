@@ -45,8 +45,11 @@ extern unsigned long lpj_fine;
 void calibrate_delay(void);
 void msleep(unsigned int msecs);
 unsigned long msleep_interruptible(unsigned int msecs);
+<<<<<<< HEAD
 void hr_msleep(unsigned int msecs);
 unsigned long hr_msleep_interruptible(unsigned int msecs);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline void ssleep(unsigned int seconds)
 {

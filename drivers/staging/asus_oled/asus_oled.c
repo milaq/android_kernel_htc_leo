@@ -349,7 +349,18 @@ static void send_data(struct asus_oled_dev *odev)
 
 static int append_values(struct asus_oled_dev *odev, uint8_t val, size_t count)
 {
+<<<<<<< HEAD
 	while (count-- > 0 && val) {
+=======
+	odev->last_val = val;
+
+	if (val == 0) {
+		odev->buf_offs += count;
+		return 0;
+	}
+
+	while (count-- > 0) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		size_t x = odev->buf_offs % odev->width;
 		size_t y = odev->buf_offs / odev->width;
 		size_t i;
@@ -400,7 +411,10 @@ static int append_values(struct asus_oled_dev *odev, uint8_t val, size_t count)
 			;
 		}
 
+<<<<<<< HEAD
 		odev->last_val = val;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		odev->buf_offs++;
 	}
 
@@ -609,6 +623,7 @@ static ssize_t class_set_picture(struct device *device,
 
 #define ASUS_OLED_DEVICE_ATTR(_file)		dev_attr_asus_oled_##_file
 
+<<<<<<< HEAD
 static DEVICE_ATTR(asus_oled_enabled, S_IWUGO | S_IRUGO,
 		   get_enabled, set_enabled);
 static DEVICE_ATTR(asus_oled_picture, S_IWUGO , NULL, set_picture);
@@ -616,6 +631,15 @@ static DEVICE_ATTR(asus_oled_picture, S_IWUGO , NULL, set_picture);
 static DEVICE_ATTR(enabled, S_IWUGO | S_IRUGO,
 		   class_get_enabled, class_set_enabled);
 static DEVICE_ATTR(picture, S_IWUGO, NULL, class_set_picture);
+=======
+static DEVICE_ATTR(asus_oled_enabled, S_IWUSR | S_IRUGO,
+		   get_enabled, set_enabled);
+static DEVICE_ATTR(asus_oled_picture, S_IWUSR , NULL, set_picture);
+
+static DEVICE_ATTR(enabled, S_IWUSR | S_IRUGO,
+		   class_get_enabled, class_set_enabled);
+static DEVICE_ATTR(picture, S_IWUSR, NULL, class_set_picture);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int asus_oled_probe(struct usb_interface *interface,
 			   const struct usb_device_id *id)

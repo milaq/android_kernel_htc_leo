@@ -14,9 +14,13 @@
 #include <linux/freezer.h>
 #include <linux/kthread.h>
 #include <linux/scatterlist.h>
+<<<<<<< HEAD
 #include <linux/delay.h>
 
 #include <linux/mmc/mmc.h>
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
 #include "queue.h"
@@ -47,13 +51,20 @@ static int mmc_queue_thread(void *d)
 {
 	struct mmc_queue *mq = d;
 	struct request_queue *q = mq->queue;
+<<<<<<< HEAD
 	struct request *req;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	current->flags |= PF_MEMALLOC;
 
 	down(&mq->thread_sem);
 	do {
+<<<<<<< HEAD
 		req = NULL;	/* Must be set to NULL at each iteration */
+=======
+		struct request *req = NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		spin_lock_irq(q->queue_lock);
 		set_current_state(TASK_INTERRUPTIBLE);
@@ -73,6 +84,7 @@ static int mmc_queue_thread(void *d)
 			continue;
 		}
 		set_current_state(TASK_RUNNING);
+<<<<<<< HEAD
 #ifdef CONFIG_MMC_AUTO_SUSPEND
 		mmc_auto_suspend(mq->card->host, 0);
 #endif
@@ -106,6 +118,9 @@ static int mmc_queue_thread(void *d)
 			mq->check_status = 0;
 		}
 #endif
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mq->issue_fn(mq, req);
 	} while (1);
 	up(&mq->thread_sem);

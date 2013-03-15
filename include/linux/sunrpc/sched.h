@@ -84,8 +84,13 @@ struct rpc_task {
 	long			tk_rtt;		/* round-trip time (jiffies) */
 
 	pid_t			tk_owner;	/* Process id for batching tasks */
+<<<<<<< HEAD
 	unsigned char		tk_priority : 2;/* Task priority */
 
+=======
+	unsigned char		tk_priority : 2,/* Task priority */
+				tk_rebind_retry : 2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef RPC_DEBUG
 	unsigned short		tk_pid;		/* debugging aid */
 #endif

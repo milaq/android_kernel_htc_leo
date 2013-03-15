@@ -51,7 +51,10 @@
 #include <linux/pid_namespace.h>
 #include <linux/idr.h>
 #include <linux/vmalloc.h> /* TODO: replace with more sophisticated array */
+<<<<<<< HEAD
 #include <linux/capability.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/atomic.h>
 
@@ -1556,6 +1559,7 @@ int cgroup_attach_task(struct cgroup *cgrp, struct task_struct *tsk)
 			retval = ss->can_attach(ss, cgrp, tsk, false);
 			if (retval)
 				return retval;
+<<<<<<< HEAD
 		} else if (!capable(CAP_SYS_ADMIN)) {
 			const struct cred *cred = current_cred(), *tcred;
 
@@ -1565,6 +1569,8 @@ int cgroup_attach_task(struct cgroup *cgrp, struct task_struct *tsk)
 			    cred->euid != tcred->suid) {
 				return -EACCES;
 			}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 
@@ -1621,6 +1627,10 @@ int cgroup_attach_task(struct cgroup *cgrp, struct task_struct *tsk)
 static int attach_task_by_pid(struct cgroup *cgrp, u64 pid)
 {
 	struct task_struct *tsk;
+<<<<<<< HEAD
+=======
+	const struct cred *cred = current_cred(), *tcred;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int ret;
 
 	if (pid) {
@@ -1630,6 +1640,17 @@ static int attach_task_by_pid(struct cgroup *cgrp, u64 pid)
 			rcu_read_unlock();
 			return -ESRCH;
 		}
+<<<<<<< HEAD
+=======
+
+		tcred = __task_cred(tsk);
+		if (cred->euid &&
+		    cred->euid != tcred->uid &&
+		    cred->euid != tcred->suid) {
+			rcu_read_unlock();
+			return -EACCES;
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		get_task_struct(tsk);
 		rcu_read_unlock();
 	} else {

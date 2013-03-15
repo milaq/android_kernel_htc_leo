@@ -76,6 +76,10 @@ int __percpu_counter_init(struct percpu_counter *fbc, s64 amount,
 	if (!fbc->counters)
 		return -ENOMEM;
 #ifdef CONFIG_HOTPLUG_CPU
+<<<<<<< HEAD
+=======
+	INIT_LIST_HEAD(&fbc->list);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_lock(&percpu_counters_lock);
 	list_add(&fbc->list, &percpu_counters);
 	mutex_unlock(&percpu_counters_lock);

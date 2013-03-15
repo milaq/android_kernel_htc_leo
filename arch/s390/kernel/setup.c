@@ -43,6 +43,10 @@
 #include <linux/reboot.h>
 #include <linux/topology.h>
 #include <linux/ftrace.h>
+<<<<<<< HEAD
+=======
+#include <linux/compat.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/ipl.h>
 #include <asm/uaccess.h>

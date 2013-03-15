@@ -34,7 +34,11 @@ ssize_t copy_oldmem_page(unsigned long pfn, char *buf,
 	if (!csize)
 		return 0;
 
+<<<<<<< HEAD
 	vaddr = ioremap(pfn << PAGE_SHIFT, PAGE_SIZE);
+=======
+	vaddr = ioremap_cache(pfn << PAGE_SHIFT, PAGE_SIZE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!vaddr)
 		return -ENOMEM;
 
@@ -46,6 +50,10 @@ ssize_t copy_oldmem_page(unsigned long pfn, char *buf,
 	} else
 		memcpy(buf, vaddr + offset, csize);
 
+<<<<<<< HEAD
+=======
+	set_iounmap_nonlazy();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	iounmap(vaddr);
 	return csize;
 }

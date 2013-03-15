@@ -135,7 +135,11 @@ int snd_usb_caiaq_midi_init(struct snd_usb_caiaqdev *device)
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
 	strcpy(rmidi->name, device->product_name);
+=======
+	strlcpy(rmidi->name, device->product_name, sizeof(rmidi->name));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	rmidi->info_flags = SNDRV_RAWMIDI_INFO_DUPLEX;
 	rmidi->private_data = device;

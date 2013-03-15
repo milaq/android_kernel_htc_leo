@@ -16,6 +16,10 @@
 #include <linux/idr.h>
 #include <linux/pagemap.h>
 #include <linux/leds.h>
+<<<<<<< HEAD
+=======
+#include <linux/suspend.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <linux/mmc/host.h>
 
@@ -84,6 +88,12 @@ struct mmc_host *mmc_alloc_host(int extra, struct device *dev)
 	init_waitqueue_head(&host->wq);
 	INIT_DELAYED_WORK(&host->detect, mmc_rescan);
 	INIT_DELAYED_WORK_DEFERRABLE(&host->disable, mmc_host_deeper_disable);
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_PM
+	host->pm_notify.notifier_call = mmc_pm_notify;
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * By default, hosts do not support SGIO or large requests.
@@ -132,6 +142,10 @@ int mmc_add_host(struct mmc_host *host)
 #endif
 
 	mmc_start_host(host);
+<<<<<<< HEAD
+=======
+	register_pm_notifier(&host->pm_notify);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return 0;
 }
@@ -148,6 +162,10 @@ EXPORT_SYMBOL(mmc_add_host);
  */
 void mmc_remove_host(struct mmc_host *host)
 {
+<<<<<<< HEAD
+=======
+	unregister_pm_notifier(&host->pm_notify);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mmc_stop_host(host);
 
 #ifdef CONFIG_DEBUG_FS

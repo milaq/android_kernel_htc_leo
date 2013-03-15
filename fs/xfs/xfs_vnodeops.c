@@ -69,7 +69,10 @@ xfs_setattr(
 	uint			commit_flags=0;
 	uid_t			uid=0, iuid=0;
 	gid_t			gid=0, igid=0;
+<<<<<<< HEAD
 	int			timeflags = 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct xfs_dquot	*udqp, *gdqp, *olddquot1, *olddquot2;
 	int			need_iolock = 1;
 
@@ -134,6 +137,7 @@ xfs_setattr(
 	if (flags & XFS_ATTR_NOLOCK)
 		need_iolock = 0;
 	if (!(mask & ATTR_SIZE)) {
+<<<<<<< HEAD
 		if ((mask != (ATTR_CTIME|ATTR_ATIME|ATTR_MTIME)) ||
 		    (mp->m_flags & XFS_MOUNT_WSYNC)) {
 			tp = xfs_trans_alloc(mp, XFS_TRANS_SETATTR_NOT_SIZE);
@@ -144,6 +148,15 @@ xfs_setattr(
 				lock_flags = 0;
 				goto error_return;
 			}
+=======
+		tp = xfs_trans_alloc(mp, XFS_TRANS_SETATTR_NOT_SIZE);
+		commit_flags = 0;
+		code = xfs_trans_reserve(tp, 0, XFS_ICHANGE_LOG_RES(mp),
+					 0, 0, 0);
+		if (code) {
+			lock_flags = 0;
+			goto error_return;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	} else {
 		if (DM_EVENT_ENABLED(ip, DM_EVENT_TRUNCATE) &&
@@ -294,15 +307,34 @@ xfs_setattr(
 		 * or we are explicitly asked to change it. This handles
 		 * the semantic difference between truncate() and ftruncate()
 		 * as implemented in the VFS.
+<<<<<<< HEAD
 		 */
 		if (iattr->ia_size != ip->i_size || (mask & ATTR_CTIME))
 			timeflags |= XFS_ICHGTIME_MOD | XFS_ICHGTIME_CHG;
+=======
+		 *
+		 * The regular truncate() case without ATTR_CTIME and ATTR_MTIME
+		 * is a special case where we need to update the times despite
+		 * not having these flags set.  For all other operations the
+		 * VFS set these flags explicitly if it wants a timestamp
+		 * update.
+		 */
+		if (iattr->ia_size != ip->i_size &&
+		    (!(mask & (ATTR_CTIME | ATTR_MTIME)))) {
+			iattr->ia_ctime = iattr->ia_mtime =
+				current_fs_time(inode->i_sb);
+			mask |= ATTR_CTIME | ATTR_MTIME;
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (iattr->ia_size > ip->i_size) {
 			ip->i_d.di_size = iattr->ia_size;
 			ip->i_size = iattr->ia_size;
+<<<<<<< HEAD
 			if (!(flags & XFS_ATTR_DMI))
 				xfs_ichgtime(ip, XFS_ICHGTIME_CHG);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
 		} else if (iattr->ia_size <= ip->i_size ||
 			   (iattr->ia_size == 0 && ip->i_d.di_nextents)) {
@@ -373,9 +405,12 @@ xfs_setattr(
 			ip->i_d.di_gid = gid;
 			inode->i_gid = gid;
 		}
+<<<<<<< HEAD
 
 		xfs_trans_log_inode (tp, ip, XFS_ILOG_CORE);
 		timeflags |= XFS_ICHGTIME_CHG;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*
@@ -392,14 +427,18 @@ xfs_setattr(
 
 		inode->i_mode &= S_IFMT;
 		inode->i_mode |= mode & ~S_IFMT;
+<<<<<<< HEAD
 
 		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
 		timeflags |= XFS_ICHGTIME_CHG;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*
 	 * Change file access or modified times.
 	 */
+<<<<<<< HEAD
 	if (mask & (ATTR_ATIME|ATTR_MTIME)) {
 		if (mask & ATTR_ATIME) {
 			inode->i_atime = iattr->ia_atime;
@@ -424,10 +463,20 @@ xfs_setattr(
 	 */
 
 	if ((flags & XFS_ATTR_DMI) && (mask & ATTR_CTIME)) {
+=======
+	if (mask & ATTR_ATIME) {
+		inode->i_atime = iattr->ia_atime;
+		ip->i_d.di_atime.t_sec = iattr->ia_atime.tv_sec;
+		ip->i_d.di_atime.t_nsec = iattr->ia_atime.tv_nsec;
+		ip->i_update_core = 1;
+	}
+	if (mask & ATTR_CTIME) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		inode->i_ctime = iattr->ia_ctime;
 		ip->i_d.di_ctime.t_sec = iattr->ia_ctime.tv_sec;
 		ip->i_d.di_ctime.t_nsec = iattr->ia_ctime.tv_nsec;
 		ip->i_update_core = 1;
+<<<<<<< HEAD
 		timeflags &= ~XFS_ICHGTIME_CHG;
 	}
 
@@ -437,6 +486,23 @@ xfs_setattr(
 	 */
 	if (timeflags && !(flags & XFS_ATTR_DMI))
 		xfs_ichgtime(ip, timeflags);
+=======
+	}
+	if (mask & ATTR_MTIME) {
+		inode->i_mtime = iattr->ia_mtime;
+		ip->i_d.di_mtime.t_sec = iattr->ia_mtime.tv_sec;
+		ip->i_d.di_mtime.t_nsec = iattr->ia_mtime.tv_nsec;
+		ip->i_update_core = 1;
+	}
+
+	/*
+	 * And finally, log the inode core if any attribute in it
+	 * has been changed.
+	 */
+	if (mask & (ATTR_UID|ATTR_GID|ATTR_MODE|
+		    ATTR_ATIME|ATTR_CTIME|ATTR_MTIME))
+		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	XFS_STATS_INC(xs_ig_attrchg);
 
@@ -451,12 +517,19 @@ xfs_setattr(
 	 * mix so this probably isn't worth the trouble to optimize.
 	 */
 	code = 0;
+<<<<<<< HEAD
 	if (tp) {
 		if (mp->m_flags & XFS_MOUNT_WSYNC)
 			xfs_trans_set_sync(tp);
 
 		code = xfs_trans_commit(tp, commit_flags);
 	}
+=======
+	if (mp->m_flags & XFS_MOUNT_WSYNC)
+		xfs_trans_set_sync(tp);
+
+	code = xfs_trans_commit(tp, commit_flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	xfs_iunlock(ip, lock_flags);
 
@@ -569,7 +642,11 @@ xfs_readlink(
 	char		*link)
 {
 	xfs_mount_t	*mp = ip->i_mount;
+<<<<<<< HEAD
 	int		pathlen;
+=======
+	xfs_fsize_t	pathlen;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int		error = 0;
 
 	xfs_itrace_entry(ip);
@@ -579,13 +656,30 @@ xfs_readlink(
 
 	xfs_ilock(ip, XFS_ILOCK_SHARED);
 
+<<<<<<< HEAD
 	ASSERT((ip->i_d.di_mode & S_IFMT) == S_IFLNK);
 	ASSERT(ip->i_d.di_size <= MAXPATHLEN);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pathlen = ip->i_d.di_size;
 	if (!pathlen)
 		goto out;
 
+<<<<<<< HEAD
+=======
+	if (pathlen < 0 || pathlen > MAXPATHLEN) {
+		xfs_fs_cmn_err(CE_ALERT, mp,
+			 "%s: inode (%llu) bad symlink length (%lld)",
+			 __func__, (unsigned long long) ip->i_ino,
+			 (long long) pathlen);
+		ASSERT(0);
+		error = XFS_ERROR(EFSCORRUPTED);
+		goto out;
+	}
+
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (ip->i_df.if_flags & XFS_IFINLINE) {
 		memcpy(link, ip->i_df.if_u1.if_data, pathlen);
 		link[pathlen] = '\0';
@@ -612,7 +706,11 @@ xfs_fsync(
 {
 	xfs_trans_t	*tp;
 	int		error = 0;
+<<<<<<< HEAD
 	int		log_flushed = 0, changed = 1;
+=======
+	int		log_flushed = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	xfs_itrace_entry(ip);
 
@@ -642,19 +740,26 @@ xfs_fsync(
 		 * disk yet, the inode will be still be pinned.  If it is,
 		 * force the log.
 		 */
+<<<<<<< HEAD
 
 		xfs_iunlock(ip, XFS_ILOCK_SHARED);
 
+=======
+		xfs_iunlock(ip, XFS_ILOCK_SHARED);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (xfs_ipincount(ip)) {
 			error = _xfs_log_force(ip->i_mount, (xfs_lsn_t)0,
 				      XFS_LOG_FORCE | XFS_LOG_SYNC,
 				      &log_flushed);
+<<<<<<< HEAD
 		} else {
 			/*
 			 * If the inode is not pinned and nothing has changed
 			 * we don't need to flush the cache.
 			 */
 			changed = 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	} else	{
 		/*
@@ -689,7 +794,11 @@ xfs_fsync(
 		xfs_iunlock(ip, XFS_ILOCK_EXCL);
 	}
 
+<<<<<<< HEAD
 	if ((ip->i_mount->m_flags & XFS_MOUNT_BARRIER) && changed) {
+=======
+	if (ip->i_mount->m_flags & XFS_MOUNT_BARRIER) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * If the log write didn't issue an ordered tag we need
 		 * to flush the disk cache for the data device now.
@@ -709,6 +818,14 @@ xfs_fsync(
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * Flags for xfs_free_eofblocks
+ */
+#define XFS_FREE_EOF_TRYLOCK	(1<<0)
+
+/*
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * This is called by xfs_inactive to free any blocks beyond eof
  * when the link count isn't zero and by xfs_dm_punch_hole() when
  * punching a hole to EOF.
@@ -726,7 +843,10 @@ xfs_free_eofblocks(
 	xfs_filblks_t	map_len;
 	int		nimaps;
 	xfs_bmbt_irec_t	imap;
+<<<<<<< HEAD
 	int		use_iolock = (flags & XFS_FREE_EOF_LOCK);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Figure out if there are any blocks beyond the end
@@ -768,14 +888,29 @@ xfs_free_eofblocks(
 		 * cache and we can't
 		 * do that within a transaction.
 		 */
+<<<<<<< HEAD
 		if (use_iolock)
 			xfs_ilock(ip, XFS_IOLOCK_EXCL);
+=======
+		if (flags & XFS_FREE_EOF_TRYLOCK) {
+			if (!xfs_ilock_nowait(ip, XFS_IOLOCK_EXCL)) {
+				xfs_trans_cancel(tp, 0);
+				return 0;
+			}
+		} else {
+			xfs_ilock(ip, XFS_IOLOCK_EXCL);
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		error = xfs_itruncate_start(ip, XFS_ITRUNC_DEFINITE,
 				    ip->i_size);
 		if (error) {
 			xfs_trans_cancel(tp, 0);
+<<<<<<< HEAD
 			if (use_iolock)
 				xfs_iunlock(ip, XFS_IOLOCK_EXCL);
+=======
+			xfs_iunlock(ip, XFS_IOLOCK_EXCL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return error;
 		}
 
@@ -812,8 +947,12 @@ xfs_free_eofblocks(
 			error = xfs_trans_commit(tp,
 						XFS_TRANS_RELEASE_LOG_RES);
 		}
+<<<<<<< HEAD
 		xfs_iunlock(ip, (use_iolock ? (XFS_IOLOCK_EXCL|XFS_ILOCK_EXCL)
 					    : XFS_ILOCK_EXCL));
+=======
+		xfs_iunlock(ip, XFS_IOLOCK_EXCL|XFS_ILOCK_EXCL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return error;
 }
@@ -1113,7 +1252,21 @@ xfs_release(
 		     (ip->i_df.if_flags & XFS_IFEXTENTS))  &&
 		    (!(ip->i_d.di_flags &
 				(XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)))) {
+<<<<<<< HEAD
 			error = xfs_free_eofblocks(mp, ip, XFS_FREE_EOF_LOCK);
+=======
+
+			/*
+			 * If we can't get the iolock just skip truncating
+			 * the blocks past EOF because we could deadlock
+			 * with the mmap_sem otherwise.  We'll get another
+			 * chance to drop them once the last reference to
+			 * the inode is dropped, so we'll never leak blocks
+			 * permanently.
+			 */
+			error = xfs_free_eofblocks(mp, ip,
+						   XFS_FREE_EOF_TRYLOCK);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (error)
 				return error;
 		}
@@ -1184,7 +1337,11 @@ xfs_inactive(
 		     (!(ip->i_d.di_flags &
 				(XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)) ||
 		      (ip->i_delayed_blks != 0)))) {
+<<<<<<< HEAD
 			error = xfs_free_eofblocks(mp, ip, XFS_FREE_EOF_LOCK);
+=======
+			error = xfs_free_eofblocks(mp, ip, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (error)
 				return VN_INACTIVE_CACHE;
 		}
@@ -1376,7 +1533,11 @@ xfs_lookup(
 	if (error)
 		goto out;
 
+<<<<<<< HEAD
 	error = xfs_iget(dp->i_mount, NULL, inum, 0, 0, ipp, 0);
+=======
+	error = xfs_iget(dp->i_mount, NULL, inum, 0, 0, ipp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error)
 		goto out_free_name;
 
@@ -2456,6 +2617,7 @@ xfs_set_dmattrs(
 	return error;
 }
 
+<<<<<<< HEAD
 int
 xfs_reclaim(
 	xfs_inode_t	*ip)
@@ -2496,6 +2658,8 @@ xfs_reclaim(
 	return 0;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * xfs_alloc_file_space()
  *      This routine allocates disk space for the given file.

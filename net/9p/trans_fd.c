@@ -948,7 +948,11 @@ p9_fd_create_unix(struct p9_client *client, const char *addr, char *args)
 
 	csocket = NULL;
 
+<<<<<<< HEAD
 	if (strlen(addr) > UNIX_PATH_MAX) {
+=======
+	if (strlen(addr) >= UNIX_PATH_MAX) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		P9_EPRINTK(KERN_ERR, "p9_trans_unix: address too long: %s\n",
 			addr);
 		err = -ENAMETOOLONG;

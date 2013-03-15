@@ -1382,8 +1382,14 @@ int ath5k_hw_reset(struct ath5k_hw *ah, enum nl80211_iftype op_mode,
 	 * Set clocks to 32KHz operation and use an
 	 * external 32KHz crystal when sleeping if one
 	 * exists */
+<<<<<<< HEAD
 	if (ah->ah_version == AR5K_AR5212)
 			ath5k_hw_set_sleep_clock(ah, true);
+=======
+	if (ah->ah_version == AR5K_AR5212 &&
+	    ah->ah_op_mode != NL80211_IFTYPE_AP)
+		ath5k_hw_set_sleep_clock(ah, true);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Disable beacons and reset the register

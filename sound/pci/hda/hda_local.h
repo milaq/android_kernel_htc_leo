@@ -408,7 +408,16 @@ static inline u32 get_wcaps(struct hda_codec *codec, hda_nid_t nid)
 }
 
 /* get the widget type from widget capability bits */
+<<<<<<< HEAD
 #define get_wcaps_type(wcaps) (((wcaps) & AC_WCAP_TYPE) >> AC_WCAP_TYPE_SHIFT)
+=======
+static inline int get_wcaps_type(unsigned int wcaps)
+{
+	if (!wcaps)
+		return -1; /* invalid type */
+	return (wcaps & AC_WCAP_TYPE) >> AC_WCAP_TYPE_SHIFT;
+}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline unsigned int get_wcaps_channels(u32 wcaps)
 {

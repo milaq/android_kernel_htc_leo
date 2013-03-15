@@ -497,8 +497,11 @@ static const __devinitdata struct usb_device_id device_table[] = {
 	{USB_DEVICE(0x046D, 0x08F5), .driver_info = BRIDGE_ST6422 },
 	/* QuickCam Messenger (new) */
 	{USB_DEVICE(0x046D, 0x08F6), .driver_info = BRIDGE_ST6422 },
+<<<<<<< HEAD
 	/* QuickCam Messenger (new) */
 	{USB_DEVICE(0x046D, 0x08DA), .driver_info = BRIDGE_ST6422 },
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{}
 };
 MODULE_DEVICE_TABLE(usb, device_table);

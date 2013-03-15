@@ -549,4 +549,24 @@ bool intel_init_bios(struct drm_device *dev);
 #define   SWF14_APM_STANDBY	0x1
 #define   SWF14_APM_RESTORE	0x0
 
+<<<<<<< HEAD
+=======
+/* Add the device class for LFP, TV, HDMI */
+#define	 DEVICE_TYPE_INT_LFP	0x1022
+#define	 DEVICE_TYPE_INT_TV	0x1009
+#define	 DEVICE_TYPE_HDMI	0x60D2
+#define	 DEVICE_TYPE_DP		0x68C6
+#define	 DEVICE_TYPE_eDP	0x78C6
+
+/* define the DVO port for HDMI output type */
+#define		DVO_B		1
+#define		DVO_C		2
+#define		DVO_D		3
+
+/* define the PORT for DP output type */
+#define		PORT_IDPB	7
+#define		PORT_IDPC	8
+#define		PORT_IDPD	9
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* _I830_BIOS_H_ */

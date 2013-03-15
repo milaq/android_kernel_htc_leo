@@ -33,7 +33,11 @@
 #define MAX_SHARE_SIZE  64	/* used to be 20, this should still be enough */
 #define MAX_USERNAME_SIZE 32	/* 32 is to allow for 15 char names + null
 				   termination then *2 for unicode versions */
+<<<<<<< HEAD
 #define MAX_PASSWORD_SIZE 16
+=======
+#define MAX_PASSWORD_SIZE 512  /* max for windows seems to be 256 wide chars */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define CIFS_MIN_RCV_POOL 4
 
@@ -499,6 +503,10 @@ struct dfs_info3_param {
 #define CIFS_FATTR_DFS_REFERRAL		0x1
 #define CIFS_FATTR_DELETE_PENDING	0x2
 #define CIFS_FATTR_NEED_REVAL		0x4
+<<<<<<< HEAD
+=======
+#define CIFS_FATTR_INO_COLLISION	0x8
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct cifs_fattr {
 	u32		cf_flags;

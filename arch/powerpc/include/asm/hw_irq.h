@@ -135,6 +135,7 @@ static inline int irqs_disabled_flags(unsigned long flags)
  */
 struct irq_chip;
 
+<<<<<<< HEAD
 #ifdef CONFIG_PERF_EVENTS
 
 #ifdef CONFIG_PPC64
@@ -173,5 +174,7 @@ static inline unsigned long test_perf_event_pending(void)
 static inline void clear_perf_event_pending(void) {}
 #endif /* CONFIG_PERF_EVENTS */
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif	/* __KERNEL__ */
 #endif	/* _ASM_POWERPC_HW_IRQ_H */

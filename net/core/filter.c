@@ -111,39 +111,67 @@ EXPORT_SYMBOL(sk_filter);
  */
 unsigned int sk_run_filter(struct sk_buff *skb, struct sock_filter *filter, int flen)
 {
+<<<<<<< HEAD
 	struct sock_filter *fentry;	/* We walk down these */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void *ptr;
 	u32 A = 0;			/* Accumulator */
 	u32 X = 0;			/* Index Register */
 	u32 mem[BPF_MEMWORDS];		/* Scratch Memory Store */
+<<<<<<< HEAD
+=======
+	unsigned long memvalid = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 tmp;
 	int k;
 	int pc;
 
+<<<<<<< HEAD
+=======
+	BUILD_BUG_ON(BPF_MEMWORDS > BITS_PER_LONG);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * Process array of filter instructions.
 	 */
 	for (pc = 0; pc < flen; pc++) {
+<<<<<<< HEAD
 		fentry = &filter[pc];
+=======
+		const struct sock_filter *fentry = &filter[pc];
+		u32 f_k = fentry->k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		switch (fentry->code) {
 		case BPF_ALU|BPF_ADD|BPF_X:
 			A += X;
 			continue;
 		case BPF_ALU|BPF_ADD|BPF_K:
+<<<<<<< HEAD
 			A += fentry->k;
+=======
+			A += f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_SUB|BPF_X:
 			A -= X;
 			continue;
 		case BPF_ALU|BPF_SUB|BPF_K:
+<<<<<<< HEAD
 			A -= fentry->k;
+=======
+			A -= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_MUL|BPF_X:
 			A *= X;
 			continue;
 		case BPF_ALU|BPF_MUL|BPF_K:
+<<<<<<< HEAD
 			A *= fentry->k;
+=======
+			A *= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_DIV|BPF_X:
 			if (X == 0)
@@ -151,36 +179,57 @@ unsigned int sk_run_filter(struct sk_buff *skb, struct sock_filter *filter, int 
 			A /= X;
 			continue;
 		case BPF_ALU|BPF_DIV|BPF_K:
+<<<<<<< HEAD
 			A /= fentry->k;
+=======
+			A /= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_AND|BPF_X:
 			A &= X;
 			continue;
 		case BPF_ALU|BPF_AND|BPF_K:
+<<<<<<< HEAD
 			A &= fentry->k;
+=======
+			A &= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_OR|BPF_X:
 			A |= X;
 			continue;
 		case BPF_ALU|BPF_OR|BPF_K:
+<<<<<<< HEAD
 			A |= fentry->k;
+=======
+			A |= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_LSH|BPF_X:
 			A <<= X;
 			continue;
 		case BPF_ALU|BPF_LSH|BPF_K:
+<<<<<<< HEAD
 			A <<= fentry->k;
+=======
+			A <<= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_RSH|BPF_X:
 			A >>= X;
 			continue;
 		case BPF_ALU|BPF_RSH|BPF_K:
+<<<<<<< HEAD
 			A >>= fentry->k;
+=======
+			A >>= f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_ALU|BPF_NEG:
 			A = -A;
 			continue;
 		case BPF_JMP|BPF_JA:
+<<<<<<< HEAD
 			pc += fentry->k;
 			continue;
 		case BPF_JMP|BPF_JGT|BPF_K:
@@ -194,6 +243,21 @@ unsigned int sk_run_filter(struct sk_buff *skb, struct sock_filter *filter, int 
 			continue;
 		case BPF_JMP|BPF_JSET|BPF_K:
 			pc += (A & fentry->k) ? fentry->jt : fentry->jf;
+=======
+			pc += f_k;
+			continue;
+		case BPF_JMP|BPF_JGT|BPF_K:
+			pc += (A > f_k) ? fentry->jt : fentry->jf;
+			continue;
+		case BPF_JMP|BPF_JGE|BPF_K:
+			pc += (A >= f_k) ? fentry->jt : fentry->jf;
+			continue;
+		case BPF_JMP|BPF_JEQ|BPF_K:
+			pc += (A == f_k) ? fentry->jt : fentry->jf;
+			continue;
+		case BPF_JMP|BPF_JSET|BPF_K:
+			pc += (A & f_k) ? fentry->jt : fentry->jf;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_JMP|BPF_JGT|BPF_X:
 			pc += (A > X) ? fentry->jt : fentry->jf;
@@ -208,7 +272,11 @@ unsigned int sk_run_filter(struct sk_buff *skb, struct sock_filter *filter, int 
 			pc += (A & X) ? fentry->jt : fentry->jf;
 			continue;
 		case BPF_LD|BPF_W|BPF_ABS:
+<<<<<<< HEAD
 			k = fentry->k;
+=======
+			k = f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 load_w:
 			ptr = load_pointer(skb, k, 4, &tmp);
 			if (ptr != NULL) {
@@ -217,7 +285,11 @@ load_w:
 			}
 			break;
 		case BPF_LD|BPF_H|BPF_ABS:
+<<<<<<< HEAD
 			k = fentry->k;
+=======
+			k = f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 load_h:
 			ptr = load_pointer(skb, k, 2, &tmp);
 			if (ptr != NULL) {
@@ -226,7 +298,11 @@ load_h:
 			}
 			break;
 		case BPF_LD|BPF_B|BPF_ABS:
+<<<<<<< HEAD
 			k = fentry->k;
+=======
+			k = f_k;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 load_b:
 			ptr = load_pointer(skb, k, 1, &tmp);
 			if (ptr != NULL) {
@@ -241,6 +317,7 @@ load_b:
 			X = skb->len;
 			continue;
 		case BPF_LD|BPF_W|BPF_IND:
+<<<<<<< HEAD
 			k = X + fentry->k;
 			goto load_w;
 		case BPF_LD|BPF_H|BPF_IND:
@@ -251,12 +328,25 @@ load_b:
 			goto load_b;
 		case BPF_LDX|BPF_B|BPF_MSH:
 			ptr = load_pointer(skb, fentry->k, 1, &tmp);
+=======
+			k = X + f_k;
+			goto load_w;
+		case BPF_LD|BPF_H|BPF_IND:
+			k = X + f_k;
+			goto load_h;
+		case BPF_LD|BPF_B|BPF_IND:
+			k = X + f_k;
+			goto load_b;
+		case BPF_LDX|BPF_B|BPF_MSH:
+			ptr = load_pointer(skb, f_k, 1, &tmp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (ptr != NULL) {
 				X = (*(u8 *)ptr & 0xf) << 2;
 				continue;
 			}
 			return 0;
 		case BPF_LD|BPF_IMM:
+<<<<<<< HEAD
 			A = fentry->k;
 			continue;
 		case BPF_LDX|BPF_IMM:
@@ -267,6 +357,20 @@ load_b:
 			continue;
 		case BPF_LDX|BPF_MEM:
 			X = mem[fentry->k];
+=======
+			A = f_k;
+			continue;
+		case BPF_LDX|BPF_IMM:
+			X = f_k;
+			continue;
+		case BPF_LD|BPF_MEM:
+			A = (memvalid & (1UL << f_k)) ?
+				mem[f_k] : 0;
+			continue;
+		case BPF_LDX|BPF_MEM:
+			X = (memvalid & (1UL << f_k)) ?
+				mem[f_k] : 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		case BPF_MISC|BPF_TAX:
 			X = A;
@@ -275,6 +379,7 @@ load_b:
 			A = X;
 			continue;
 		case BPF_RET|BPF_K:
+<<<<<<< HEAD
 			return fentry->k;
 		case BPF_RET|BPF_A:
 			return A;
@@ -286,6 +391,23 @@ load_b:
 			continue;
 		default:
 			WARN_ON(1);
+=======
+			return f_k;
+		case BPF_RET|BPF_A:
+			return A;
+		case BPF_ST:
+			memvalid |= 1UL << f_k;
+			mem[f_k] = A;
+			continue;
+		case BPF_STX:
+			memvalid |= 1UL << f_k;
+			mem[f_k] = X;
+			continue;
+		default:
+			WARN_RATELIMIT(1, "Unknown code:%u jt:%u tf:%u k:%u\n",
+				       fentry->code, fentry->jt,
+				       fentry->jf, fentry->k);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return 0;
 		}
 

@@ -27,7 +27,10 @@
 #include <net/netfilter/nf_conntrack_expect.h>
 #include <net/netfilter/nf_conntrack_helper.h>
 #include <net/netfilter/nf_conntrack_tuple.h>
+<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 unsigned int nf_ct_expect_hsize __read_mostly;
 EXPORT_SYMBOL_GPL(nf_ct_expect_hsize);
@@ -85,8 +88,12 @@ static unsigned int nf_ct_expect_dst_hash(const struct nf_conntrack_tuple *tuple
 }
 
 struct nf_conntrack_expect *
+<<<<<<< HEAD
 __nf_ct_expect_find(struct net *net, u16 zone,
 		    const struct nf_conntrack_tuple *tuple)
+=======
+__nf_ct_expect_find(struct net *net, const struct nf_conntrack_tuple *tuple)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct nf_conntrack_expect *i;
 	struct hlist_node *n;
@@ -97,8 +104,12 @@ __nf_ct_expect_find(struct net *net, u16 zone,
 
 	h = nf_ct_expect_dst_hash(tuple);
 	hlist_for_each_entry_rcu(i, n, &net->ct.expect_hash[h], hnode) {
+<<<<<<< HEAD
 		if (nf_ct_tuple_mask_cmp(tuple, &i->tuple, &i->mask) &&
 		    nf_ct_zone(i->master) == zone)
+=======
+		if (nf_ct_tuple_mask_cmp(tuple, &i->tuple, &i->mask))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return i;
 	}
 	return NULL;
@@ -107,13 +118,21 @@ EXPORT_SYMBOL_GPL(__nf_ct_expect_find);
 
 /* Just find a expectation corresponding to a tuple. */
 struct nf_conntrack_expect *
+<<<<<<< HEAD
 nf_ct_expect_find_get(struct net *net, u16 zone,
 		      const struct nf_conntrack_tuple *tuple)
+=======
+nf_ct_expect_find_get(struct net *net, const struct nf_conntrack_tuple *tuple)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct nf_conntrack_expect *i;
 
 	rcu_read_lock();
+<<<<<<< HEAD
 	i = __nf_ct_expect_find(net, zone, tuple);
+=======
+	i = __nf_ct_expect_find(net, tuple);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (i && !atomic_inc_not_zero(&i->use))
 		i = NULL;
 	rcu_read_unlock();
@@ -125,8 +144,12 @@ EXPORT_SYMBOL_GPL(nf_ct_expect_find_get);
 /* If an expectation for this connection is found, it gets delete from
  * global list then returned. */
 struct nf_conntrack_expect *
+<<<<<<< HEAD
 nf_ct_find_expectation(struct net *net, u16 zone,
 		       const struct nf_conntrack_tuple *tuple)
+=======
+nf_ct_find_expectation(struct net *net, const struct nf_conntrack_tuple *tuple)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct nf_conntrack_expect *i, *exp = NULL;
 	struct hlist_node *n;
@@ -138,8 +161,12 @@ nf_ct_find_expectation(struct net *net, u16 zone,
 	h = nf_ct_expect_dst_hash(tuple);
 	hlist_for_each_entry(i, n, &net->ct.expect_hash[h], hnode) {
 		if (!(i->flags & NF_CT_EXPECT_INACTIVE) &&
+<<<<<<< HEAD
 		    nf_ct_tuple_mask_cmp(tuple, &i->tuple, &i->mask) &&
 		    nf_ct_zone(i->master) == zone) {
+=======
+		    nf_ct_tuple_mask_cmp(tuple, &i->tuple, &i->mask)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			exp = i;
 			break;
 		}
@@ -208,10 +235,16 @@ static inline int expect_clash(const struct nf_conntrack_expect *a,
 static inline int expect_matches(const struct nf_conntrack_expect *a,
 				 const struct nf_conntrack_expect *b)
 {
+<<<<<<< HEAD
 	return a->master == b->master && a->class == b->class &&
 		nf_ct_tuple_equal(&a->tuple, &b->tuple) &&
 		nf_ct_tuple_mask_equal(&a->mask, &b->mask) &&
 		nf_ct_zone(a->master) == nf_ct_zone(b->master);
+=======
+	return a->master == b->master && a->class == b->class
+		&& nf_ct_tuple_equal(&a->tuple, &b->tuple)
+		&& nf_ct_tuple_mask_equal(&a->mask, &b->mask);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Generally a bad idea to call this: could have matched already. */

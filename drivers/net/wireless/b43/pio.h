@@ -55,8 +55,11 @@
 #define B43_PIO_MAX_NR_TXPACKETS	32
 
 
+<<<<<<< HEAD
 #ifdef CONFIG_B43_PIO
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct b43_pio_txpacket {
 	/* Pointer to the TX queue we belong to. */
 	struct b43_pio_txqueue *queue;
@@ -169,6 +172,7 @@ void b43_pio_rx(struct b43_pio_rxqueue *q);
 void b43_pio_tx_suspend(struct b43_wldev *dev);
 void b43_pio_tx_resume(struct b43_wldev *dev);
 
+<<<<<<< HEAD
 
 #else /* CONFIG_B43_PIO */
 
@@ -207,4 +211,6 @@ static inline void b43_pio_tx_resume(struct b43_wldev *dev)
 }
 
 #endif /* CONFIG_B43_PIO */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* B43_PIO_H_ */

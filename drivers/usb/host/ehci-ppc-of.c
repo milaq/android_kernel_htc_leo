@@ -192,17 +192,31 @@ ehci_hcd_ppc_of_probe(struct of_device *op, const struct of_device_id *match)
 	}
 
 	rv = usb_add_hcd(hcd, irq, 0);
+<<<<<<< HEAD
 	if (rv == 0)
 		return 0;
 
+=======
+	if (rv)
+		goto err_ehci;
+
+	return 0;
+
+err_ehci:
+	if (ehci->has_amcc_usb23)
+		iounmap(ehci->ohci_hcctrl_reg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	iounmap(hcd->regs);
 err_ioremap:
 	irq_dispose_mapping(irq);
 err_irq:
 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+<<<<<<< HEAD
 
 	if (ehci->has_amcc_usb23)
 		iounmap(ehci->ohci_hcctrl_reg);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 err_rmr:
 	usb_put_hcd(hcd);
 

@@ -27,7 +27,10 @@
 #include <asm/cpu.h>
 #include <asm/reboot.h>
 #include <asm/virtext.h>
+<<<<<<< HEAD
 #include <asm/iommu.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 #if defined(CONFIG_SMP) && defined(CONFIG_X86_LOCAL_APIC)
@@ -104,10 +107,13 @@ void native_machine_crash_shutdown(struct pt_regs *regs)
 #ifdef CONFIG_HPET_TIMER
 	hpet_disable();
 #endif
+<<<<<<< HEAD
 
 #ifdef CONFIG_X86_64
 	pci_iommu_shutdown();
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	crash_save_cpu(regs, safe_smp_processor_id());
 }

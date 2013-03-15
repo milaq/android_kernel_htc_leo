@@ -76,6 +76,7 @@ static struct op_ibs_config ibs_config;
 
 #ifdef CONFIG_OPROFILE_EVENT_MULTIPLEX
 
+<<<<<<< HEAD
 static void op_mux_fill_in_addresses(struct op_msrs * const msrs)
 {
 	int i;
@@ -89,6 +90,8 @@ static void op_mux_fill_in_addresses(struct op_msrs * const msrs)
 	}
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void op_mux_switch_ctrl(struct op_x86_model_spec const *model,
 			       struct op_msrs const * const msrs)
 {
@@ -98,7 +101,11 @@ static void op_mux_switch_ctrl(struct op_x86_model_spec const *model,
 	/* enable active counters */
 	for (i = 0; i < NUM_COUNTERS; ++i) {
 		int virt = op_x86_phys_to_virt(i);
+<<<<<<< HEAD
 		if (!counter_config[virt].enabled)
+=======
+		if (!reset_value[virt])
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		rdmsrl(msrs->controls[i].addr, val);
 		val &= model->reserved;
@@ -107,10 +114,13 @@ static void op_mux_switch_ctrl(struct op_x86_model_spec const *model,
 	}
 }
 
+<<<<<<< HEAD
 #else
 
 static inline void op_mux_fill_in_addresses(struct op_msrs * const msrs) { }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 /* functions for op_amd_spec */
@@ -122,18 +132,25 @@ static void op_amd_fill_in_addresses(struct op_msrs * const msrs)
 	for (i = 0; i < NUM_COUNTERS; i++) {
 		if (reserve_perfctr_nmi(MSR_K7_PERFCTR0 + i))
 			msrs->counters[i].addr = MSR_K7_PERFCTR0 + i;
+<<<<<<< HEAD
 		else
 			msrs->counters[i].addr = 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	for (i = 0; i < NUM_CONTROLS; i++) {
 		if (reserve_evntsel_nmi(MSR_K7_EVNTSEL0 + i))
 			msrs->controls[i].addr = MSR_K7_EVNTSEL0 + i;
+<<<<<<< HEAD
 		else
 			msrs->controls[i].addr = 0;
 	}
 
 	op_mux_fill_in_addresses(msrs);
+=======
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void op_amd_setup_ctrs(struct op_x86_model_spec const *model,
@@ -144,7 +161,12 @@ static void op_amd_setup_ctrs(struct op_x86_model_spec const *model,
 
 	/* setup reset_value */
 	for (i = 0; i < NUM_VIRT_COUNTERS; ++i) {
+<<<<<<< HEAD
 		if (counter_config[i].enabled)
+=======
+		if (counter_config[i].enabled
+		    && msrs->counters[op_x86_virt_to_phys(i)].addr)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			reset_value[i] = counter_config[i].count;
 		else
 			reset_value[i] = 0;
@@ -169,9 +191,13 @@ static void op_amd_setup_ctrs(struct op_x86_model_spec const *model,
 	/* enable active counters */
 	for (i = 0; i < NUM_COUNTERS; ++i) {
 		int virt = op_x86_phys_to_virt(i);
+<<<<<<< HEAD
 		if (!counter_config[virt].enabled)
 			continue;
 		if (!msrs->counters[i].addr)
+=======
+		if (!reset_value[virt])
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 
 		/* setup counter registers */
@@ -405,6 +431,7 @@ static int init_ibs_nmi(void)
 		return 1;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_NUMA
 	/* Sanity check */
 	/* Works only for 64bit with proper numa implementation. */
@@ -415,6 +442,8 @@ static int init_ibs_nmi(void)
 		return 1;
 	}
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 

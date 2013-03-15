@@ -22,7 +22,10 @@
 #include <linux/scatterlist.h>
 #include <linux/log2.h>
 #include <linux/regulator/consumer.h>
+<<<<<<< HEAD
 #include <linux/wakelock.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
@@ -39,7 +42,10 @@
 #include "sdio_ops.h"
 
 static struct workqueue_struct *workqueue;
+<<<<<<< HEAD
 static struct wake_lock mmc_delayed_work_wake_lock;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * Enabling software CRCs on the data blocks can be a significant (30%)
@@ -55,7 +61,10 @@ module_param(use_spi_crc, bool, 0);
 static int mmc_schedule_delayed_work(struct delayed_work *work,
 				     unsigned long delay)
 {
+<<<<<<< HEAD
 	wake_lock(&mmc_delayed_work_wake_lock);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return queue_delayed_work(workqueue, work, delay);
 }
 
@@ -532,12 +541,18 @@ void mmc_host_deeper_disable(struct work_struct *work)
 
 	/* If the host is claimed then we do not want to disable it anymore */
 	if (!mmc_try_claim_host(host))
+<<<<<<< HEAD
 		goto out;
 	mmc_host_do_disable(host, 1);
 	mmc_do_release_host(host);
 
 out:
 	wake_unlock(&mmc_delayed_work_wake_lock);
+=======
+		return;
+	mmc_host_do_disable(host, 1);
+	mmc_do_release_host(host);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -868,7 +883,11 @@ void mmc_set_timing(struct mmc_host *host, unsigned int timing)
  * If a host does all the power sequencing itself, ignore the
  * initial MMC_POWER_UP stage.
  */
+<<<<<<< HEAD
 void mmc_power_up(struct mmc_host *host)
+=======
+static void mmc_power_up(struct mmc_host *host)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int bit;
 
@@ -897,7 +916,16 @@ void mmc_power_up(struct mmc_host *host)
 	 */
 	mmc_delay(10);
 
+<<<<<<< HEAD
 	host->ios.clock = host->f_min;
+=======
+	if (host->f_min > 400000) {
+		pr_warning("%s: Minimum clock frequency too high for "
+				"identification mode\n", mmc_hostname(host));
+		host->ios.clock = host->f_min;
+	} else
+		host->ios.clock = 400000;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	host->ios.power_mode = MMC_POWER_ON;
 	mmc_set_ios(host);
@@ -908,9 +936,14 @@ void mmc_power_up(struct mmc_host *host)
 	 */
 	mmc_delay(10);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(mmc_power_up);
 
 void mmc_power_off(struct mmc_host *host)
+=======
+
+static void mmc_power_off(struct mmc_host *host)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	host->ios.clock = 0;
 	host->ios.vdd = 0;
@@ -923,7 +956,10 @@ void mmc_power_off(struct mmc_host *host)
 	host->ios.timing = MMC_TIMING_LEGACY;
 	mmc_set_ios(host);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(mmc_power_off);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * Cleanup when the last reference to the bus operator is dropped.
@@ -964,6 +1000,7 @@ static inline void mmc_bus_put(struct mmc_host *host)
 	spin_unlock_irqrestore(&host->lock, flags);
 }
 
+<<<<<<< HEAD
 int mmc_resume_bus(struct mmc_host *host)
 {
 	if (!mmc_bus_needs_resume(host))
@@ -992,6 +1029,8 @@ end:
 
 EXPORT_SYMBOL(mmc_resume_bus);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Assign a mmc bus handler to a host. Only one bus handler may control a
  * host at any given time.
@@ -1071,11 +1110,26 @@ void mmc_rescan(struct work_struct *work)
 	struct mmc_host *host =
 		container_of(work, struct mmc_host, detect.work);
 	u32 ocr;
+<<<<<<< HEAD
 	int err = 0;
 	int extend_wakelock = 0;
 #ifdef CONFIG_MMC_PARANOID_SD_INIT
 	int retries = 2;
 #endif
+=======
+	int err;
+	unsigned long flags;
+
+	spin_lock_irqsave(&host->lock, flags);
+
+	if (host->rescan_disable) {
+		spin_unlock_irqrestore(&host->lock, flags);
+		return;
+	}
+
+	spin_unlock_irqrestore(&host->lock, flags);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	mmc_bus_get(host);
 
@@ -1083,12 +1137,15 @@ void mmc_rescan(struct work_struct *work)
 	if ((host->bus_ops != NULL) && host->bus_ops->detect && !host->bus_dead)
 		host->bus_ops->detect(host);
 
+<<<<<<< HEAD
 	/* If the card was removed the bus will be marked
 	 * as dead - extend the wakelock so userspace
 	 * can respond */
 	if (host->bus_dead)
 		extend_wakelock = 1;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mmc_bus_put(host);
 
 
@@ -1111,7 +1168,10 @@ void mmc_rescan(struct work_struct *work)
 	if (host->ops->get_cd && host->ops->get_cd(host) == 0)
 		goto out;
 
+<<<<<<< HEAD
 retry:
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mmc_claim_host(host);
 
 	mmc_power_up(host);
@@ -1126,7 +1186,10 @@ retry:
 	if (!err) {
 		if (mmc_attach_sdio(host, ocr))
 			mmc_power_off(host);
+<<<<<<< HEAD
 		extend_wakelock = 1;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out;
 	}
 
@@ -1137,7 +1200,10 @@ retry:
 	if (!err) {
 		if (mmc_attach_sd(host, ocr))
 			mmc_power_off(host);
+<<<<<<< HEAD
 		extend_wakelock = 1;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out;
 	}
 
@@ -1148,7 +1214,10 @@ retry:
 	if (!err) {
 		if (mmc_attach_mmc(host, ocr))
 			mmc_power_off(host);
+<<<<<<< HEAD
 		extend_wakelock = 1;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out;
 	}
 
@@ -1156,6 +1225,7 @@ retry:
 	mmc_power_off(host);
 
 out:
+<<<<<<< HEAD
 #ifdef CONFIG_MMC_PARANOID_SD_INIT
 	if (err && (err != -ENOMEDIUM) && retries) {
 		printk(KERN_INFO "%s: Re-scan card rc = %d (retries = %d)\n",
@@ -1170,6 +1240,8 @@ out:
 	else
 		wake_unlock(&mmc_delayed_work_wake_lock);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (host->caps & MMC_CAP_NEEDS_POLL)
 		mmc_schedule_delayed_work(&host->detect, HZ);
 }
@@ -1297,9 +1369,12 @@ int mmc_suspend_host(struct mmc_host *host, pm_message_t state)
 {
 	int err = 0;
 
+<<<<<<< HEAD
 	if (mmc_bus_needs_resume(host))
 		return 0;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (host->caps & MMC_CAP_DISABLE)
 		cancel_delayed_work(&host->disable);
 	cancel_delayed_work(&host->detect);
@@ -1309,6 +1384,7 @@ int mmc_suspend_host(struct mmc_host *host, pm_message_t state)
 	if (host->bus_ops && !host->bus_dead) {
 		if (host->bus_ops->suspend)
 			err = host->bus_ops->suspend(host);
+<<<<<<< HEAD
 		if (err == -ENOSYS || !host->bus_ops->resume) {
 			/*
 			 * We simply "remove" the card in this case.
@@ -1321,6 +1397,8 @@ int mmc_suspend_host(struct mmc_host *host, pm_message_t state)
 			mmc_release_host(host);
 			err = 0;
 		}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	mmc_bus_put(host);
 
@@ -1341,12 +1419,15 @@ int mmc_resume_host(struct mmc_host *host)
 	int err = 0;
 
 	mmc_bus_get(host);
+<<<<<<< HEAD
 	if (mmc_bus_manual_resume(host)) {
 		host->bus_resume_flags |= MMC_BUSRESUME_NEEDS_RESUME;
 		mmc_bus_put(host);
 		return 0;
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (host->bus_ops && !host->bus_dead) {
 		mmc_power_up(host);
 		mmc_select_voltage(host, host->ocr);
@@ -1356,17 +1437,21 @@ int mmc_resume_host(struct mmc_host *host)
 			printk(KERN_WARNING "%s: error %d during resume "
 					    "(card was removed?)\n",
 					    mmc_hostname(host), err);
+<<<<<<< HEAD
 			if (host->bus_ops->remove)
 				host->bus_ops->remove(host);
 			mmc_claim_host(host);
 			mmc_detach_bus(host);
 			mmc_release_host(host);
 			/* no need to bother upper layers */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			err = 0;
 		}
 	}
 	mmc_bus_put(host);
 
+<<<<<<< HEAD
 	/*
 	 * We add a slight delay here so that resume can progress
 	 * in parallel.
@@ -1394,14 +1479,68 @@ void mmc_set_embedded_sdio_data(struct mmc_host *host,
 }
 
 EXPORT_SYMBOL(mmc_set_embedded_sdio_data);
+=======
+	return err;
+}
+EXPORT_SYMBOL(mmc_resume_host);
+
+/* Do the card removal on suspend if card is assumed removeable
+ * Do that in pm notifier while userspace isn't yet frozen, so we will be able
+   to sync the card.
+*/
+int mmc_pm_notify(struct notifier_block *notify_block,
+					unsigned long mode, void *unused)
+{
+	struct mmc_host *host = container_of(
+		notify_block, struct mmc_host, pm_notify);
+	unsigned long flags;
+
+
+	switch (mode) {
+	case PM_HIBERNATION_PREPARE:
+	case PM_SUSPEND_PREPARE:
+
+		spin_lock_irqsave(&host->lock, flags);
+		host->rescan_disable = 1;
+		spin_unlock_irqrestore(&host->lock, flags);
+		cancel_delayed_work_sync(&host->detect);
+
+		if (!host->bus_ops || host->bus_ops->suspend)
+			break;
+
+		mmc_claim_host(host);
+
+		if (host->bus_ops->remove)
+			host->bus_ops->remove(host);
+
+		mmc_detach_bus(host);
+		mmc_release_host(host);
+		break;
+
+	case PM_POST_SUSPEND:
+	case PM_POST_HIBERNATION:
+
+		spin_lock_irqsave(&host->lock, flags);
+		host->rescan_disable = 0;
+		spin_unlock_irqrestore(&host->lock, flags);
+		mmc_detect_change(host, 0);
+
+	}
+
+	return 0;
+}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 static int __init mmc_init(void)
 {
 	int ret;
 
+<<<<<<< HEAD
 	wake_lock_init(&mmc_delayed_work_wake_lock, WAKE_LOCK_SUSPEND, "mmc_delayed_work");
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	workqueue = create_singlethread_workqueue("kmmcd");
 	if (!workqueue)
 		return -ENOMEM;
@@ -1436,7 +1575,10 @@ static void __exit mmc_exit(void)
 	mmc_unregister_host_class();
 	mmc_unregister_bus();
 	destroy_workqueue(workqueue);
+<<<<<<< HEAD
 	wake_lock_destroy(&mmc_delayed_work_wake_lock);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 subsys_initcall(mmc_init);

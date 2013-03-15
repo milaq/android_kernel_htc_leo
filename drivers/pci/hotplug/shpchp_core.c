@@ -312,8 +312,13 @@ static int get_cur_bus_speed (struct hotplug_slot *hotplug_slot, enum pci_bus_sp
 
 static int is_shpc_capable(struct pci_dev *dev)
 {
+<<<<<<< HEAD
 	if ((dev->vendor == PCI_VENDOR_ID_AMD) || (dev->device ==
 						PCI_DEVICE_ID_AMD_GOLAM_7450))
+=======
+	if (dev->vendor == PCI_VENDOR_ID_AMD &&
+	    dev->device == PCI_DEVICE_ID_AMD_GOLAM_7450)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return 1;
 	if (!pci_find_capability(dev, PCI_CAP_ID_SHPC))
 		return 0;

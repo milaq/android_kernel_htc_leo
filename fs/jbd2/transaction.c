@@ -1822,6 +1822,11 @@ zap_buffer_unlocked:
 	clear_buffer_mapped(bh);
 	clear_buffer_req(bh);
 	clear_buffer_new(bh);
+<<<<<<< HEAD
+=======
+	clear_buffer_delay(bh);
+	clear_buffer_unwritten(bh);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bh->b_bdev = NULL;
 	return may_free;
 }

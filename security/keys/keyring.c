@@ -524,9 +524,14 @@ struct key *find_keyring_by_name(const char *name, bool skip_perm_check)
 	struct key *keyring;
 	int bucket;
 
+<<<<<<< HEAD
 	keyring = ERR_PTR(-EINVAL);
 	if (!name)
 		goto error;
+=======
+	if (!name)
+		return ERR_PTR(-EINVAL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	bucket = keyring_hash(name);
 
@@ -553,6 +558,7 @@ struct key *find_keyring_by_name(const char *name, bool skip_perm_check)
 					   KEY_SEARCH) < 0)
 				continue;
 
+<<<<<<< HEAD
 			/* we've got a match */
 			atomic_inc(&keyring->usage);
 			read_unlock(&keyring_name_lock);
@@ -564,6 +570,20 @@ struct key *find_keyring_by_name(const char *name, bool skip_perm_check)
 	keyring = ERR_PTR(-ENOKEY);
 
  error:
+=======
+			/* we've got a match but we might end up racing with
+			 * key_cleanup() if the keyring is currently 'dead'
+			 * (ie. it has a zero usage count) */
+			if (!atomic_inc_not_zero(&keyring->usage))
+				continue;
+			goto out;
+		}
+	}
+
+	keyring = ERR_PTR(-ENOKEY);
+out:
+	read_unlock(&keyring_name_lock);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return keyring;
 
 } /* end find_keyring_by_name() */

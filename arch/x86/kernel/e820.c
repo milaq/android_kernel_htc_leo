@@ -1236,6 +1236,7 @@ static int __init parse_memopt(char *p)
 	if (!p)
 		return -EINVAL;
 
+<<<<<<< HEAD
 #ifdef CONFIG_X86_32
 	if (!strcmp(p, "nopentium")) {
 		setup_clear_cpu_cap(X86_FEATURE_PSE);
@@ -1245,6 +1246,23 @@ static int __init parse_memopt(char *p)
 
 	userdef = 1;
 	mem_size = memparse(p, &p);
+=======
+	if (!strcmp(p, "nopentium")) {
+#ifdef CONFIG_X86_32
+		setup_clear_cpu_cap(X86_FEATURE_PSE);
+		return 0;
+#else
+		printk(KERN_WARNING "mem=nopentium ignored! (only supported on x86_32)\n");
+		return -EINVAL;
+#endif
+	}
+
+	userdef = 1;
+	mem_size = memparse(p, &p);
+	/* don't remove all of memory when handling "mem={invalid}" param */
+	if (mem_size == 0)
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	e820_remove_range(mem_size, ULLONG_MAX - mem_size, E820_RAM, 1);
 
 	return 0;

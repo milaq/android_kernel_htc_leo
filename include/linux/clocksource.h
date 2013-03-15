@@ -190,6 +190,10 @@ struct clocksource {
 #ifdef CONFIG_CLOCKSOURCE_WATCHDOG
 	/* Watchdog related data, used by the framework */
 	struct list_head wd_list;
+<<<<<<< HEAD
+=======
+	cycle_t cs_last;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cycle_t wd_last;
 #endif
 };
@@ -282,10 +286,19 @@ extern struct clocksource * __init __weak clocksource_default_clock(void);
 extern void clocksource_mark_unstable(struct clocksource *cs);
 
 #ifdef CONFIG_GENERIC_TIME_VSYSCALL
+<<<<<<< HEAD
 extern void update_vsyscall(struct timespec *ts, struct clocksource *c);
 extern void update_vsyscall_tz(void);
 #else
 static inline void update_vsyscall(struct timespec *ts, struct clocksource *c)
+=======
+extern void
+update_vsyscall(struct timespec *ts, struct clocksource *c, u32 mult);
+extern void update_vsyscall_tz(void);
+#else
+static inline void
+update_vsyscall(struct timespec *ts, struct clocksource *c, u32 mult)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 }
 

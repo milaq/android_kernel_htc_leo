@@ -28,6 +28,10 @@
 #include <net/transp_v6.h>
 #include <net/ip6_checksum.h>
 #include <net/xfrm.h>
+<<<<<<< HEAD
+=======
+#include <net/secure_seq.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include "dccp.h"
 #include "ipv6.h"
@@ -69,6 +73,7 @@ static inline void dccp_v6_send_check(struct sock *sk, int unused_value,
 	dh->dccph_checksum = dccp_v6_csum_finish(skb, &np->saddr, &np->daddr);
 }
 
+<<<<<<< HEAD
 static inline __u32 secure_dccpv6_sequence_number(__be32 *saddr, __be32 *daddr,
 						  __be16 sport, __be16 dport   )
 {
@@ -76,6 +81,9 @@ static inline __u32 secure_dccpv6_sequence_number(__be32 *saddr, __be32 *daddr,
 }
 
 static inline __u32 dccp_v6_init_sequence(struct sk_buff *skb)
+=======
+static inline __u64 dccp_v6_init_sequence(struct sk_buff *skb)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return secure_dccpv6_sequence_number(ipv6_hdr(skb)->daddr.s6_addr32,
 					     ipv6_hdr(skb)->saddr.s6_addr32,

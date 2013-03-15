@@ -3,6 +3,10 @@
 #include <linux/topology.h>
 #include <linux/cpu.h>
 #include <asm/pci_x86.h>
+<<<<<<< HEAD
+=======
+#include <asm/k8.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_X86_64
 #include <asm/pci-direct.h>
@@ -190,6 +194,7 @@ static struct pci_hostbridge_probe pci_probes[] __initdata = {
 	{ 0, 0x18, PCI_VENDOR_ID_AMD, 0x1300 },
 };
 
+<<<<<<< HEAD
 static u64 __initdata fam10h_mmconf_start;
 static u64 __initdata fam10h_mmconf_end;
 static void __init get_pci_mmcfg_amd_fam10h_range(void)
@@ -218,6 +223,8 @@ static void __init get_pci_mmcfg_amd_fam10h_range(void)
 	fam10h_mmconf_end = base + (1ULL<<(segn_busn_bits + 20)) - 1;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * early_fill_mp_bus_to_node()
  * called before pcibios_scan_root and pci_scan_bus
@@ -243,6 +250,12 @@ static int __init early_fill_mp_bus_info(void)
 	struct res_range range[RANGE_NUM];
 	u64 val;
 	u32 address;
+<<<<<<< HEAD
+=======
+	struct resource fam10h_mmconf_res, *fam10h_mmconf;
+	u64 fam10h_mmconf_start;
+	u64 fam10h_mmconf_end;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!early_pci_allowed())
 		return -1;
@@ -367,11 +380,24 @@ static int __init early_fill_mp_bus_info(void)
 		update_range(range, 0, end - 1);
 
 	/* get mmconfig */
+<<<<<<< HEAD
 	get_pci_mmcfg_amd_fam10h_range();
 	/* need to take out mmconf range */
 	if (fam10h_mmconf_end) {
 		printk(KERN_DEBUG "Fam 10h mmconf [%llx, %llx]\n", fam10h_mmconf_start, fam10h_mmconf_end);
 		update_range(range, fam10h_mmconf_start, fam10h_mmconf_end);
+=======
+	fam10h_mmconf = amd_get_mmconfig_range(&fam10h_mmconf_res);
+	/* need to take out mmconf range */
+	if (fam10h_mmconf) {
+		printk(KERN_DEBUG "Fam 10h mmconf %pR\n", fam10h_mmconf);
+		fam10h_mmconf_start = fam10h_mmconf->start;
+		fam10h_mmconf_end = fam10h_mmconf->end;
+		update_range(range, fam10h_mmconf_start, fam10h_mmconf_end);
+	} else {
+		fam10h_mmconf_start = 0;
+		fam10h_mmconf_end = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* mmio resource */

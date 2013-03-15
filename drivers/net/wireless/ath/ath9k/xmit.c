@@ -423,6 +423,17 @@ static void ath_tx_complete_aggr(struct ath_softc *sc, struct ath_txq *txq,
 		bf = bf_next;
 	}
 
+<<<<<<< HEAD
+=======
+	/* prepend un-acked frames to the beginning of the pending frame queue */
+	if (!list_empty(&bf_pending)) {
+		spin_lock_bh(&txq->axq_lock);
+		list_splice(&bf_pending, &tid->buf_q);
+		ath_tx_queue_tid(txq, tid);
+		spin_unlock_bh(&txq->axq_lock);
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (tid->state & AGGR_CLEANUP) {
 		if (tid->baw_head == tid->baw_tail) {
 			tid->state &= ~AGGR_ADDBA_COMPLETE;
@@ -435,6 +446,7 @@ static void ath_tx_complete_aggr(struct ath_softc *sc, struct ath_txq *txq,
 		return;
 	}
 
+<<<<<<< HEAD
 	/* prepend un-acked frames to the beginning of the pending frame queue */
 	if (!list_empty(&bf_pending)) {
 		spin_lock_bh(&txq->axq_lock);
@@ -443,6 +455,8 @@ static void ath_tx_complete_aggr(struct ath_softc *sc, struct ath_txq *txq,
 		spin_unlock_bh(&txq->axq_lock);
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	rcu_read_unlock();
 
 	if (needreset)
@@ -1320,6 +1334,7 @@ static enum ath9k_pkt_type get_hw_packet_type(struct sk_buff *skb)
 	return htype;
 }
 
+<<<<<<< HEAD
 static bool is_pae(struct sk_buff *skb)
 {
 	struct ieee80211_hdr *hdr;
@@ -1339,6 +1354,8 @@ static bool is_pae(struct sk_buff *skb)
 	return false;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int get_hw_crypto_keytype(struct sk_buff *skb)
 {
 	struct ieee80211_tx_info *tx_info = IEEE80211_SKB_CB(skb);
@@ -1648,7 +1665,11 @@ static void ath_tx_start_dma(struct ath_softc *sc, struct ath_buf *bf,
 			goto tx_done;
 		}
 
+<<<<<<< HEAD
 		if ((tx_info->flags & IEEE80211_TX_CTL_AMPDU) && !is_pae(skb)) {
+=======
+		if (tx_info->flags & IEEE80211_TX_CTL_AMPDU) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/*
 			 * Try aggregation if it's a unicast data frame
 			 * and the destination is HT capable.
@@ -1998,10 +2019,16 @@ static void ath_tx_processq(struct ath_softc *sc, struct ath_txq *txq)
 
 		if (bf->bf_isnullfunc &&
 		    (ds->ds_txstat.ts_status & ATH9K_TX_ACKED)) {
+<<<<<<< HEAD
 			if ((sc->sc_flags & SC_OP_PS_ENABLED)) {
 				sc->ps_enabled = true;
 				ath9k_hw_setrxabort(sc->sc_ah, 1);
 			} else
+=======
+			if ((sc->sc_flags & SC_OP_PS_ENABLED))
+				ath9k_enable_ps(sc);
+			else
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				sc->sc_flags |= SC_OP_NULLFUNC_COMPLETED;
 		}
 

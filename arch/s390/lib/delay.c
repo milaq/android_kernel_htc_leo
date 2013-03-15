@@ -29,6 +29,7 @@ static void __udelay_disabled(unsigned long long usecs)
 {
 	unsigned long mask, cr0, cr0_saved;
 	u64 clock_saved;
+<<<<<<< HEAD
 
 	clock_saved = local_tick_disable();
 	set_clock_comparator(get_clock() + (usecs << 12));
@@ -40,6 +41,23 @@ static void __udelay_disabled(unsigned long long usecs)
 	trace_hardirqs_on();
 	__load_psw_mask(mask);
 	local_irq_disable();
+=======
+	u64 end;
+
+	mask = psw_kernel_bits | PSW_MASK_WAIT | PSW_MASK_EXT;
+	end = get_clock() + (usecs << 12);
+	clock_saved = local_tick_disable();
+	__ctl_store(cr0_saved, 0, 0);
+	cr0 = (cr0_saved & 0xffff00e0) | 0x00000800;
+	__ctl_load(cr0 , 0, 0);
+	lockdep_off();
+	do {
+		set_clock_comparator(end);
+		trace_hardirqs_on();
+		__load_psw_mask(mask);
+		local_irq_disable();
+	} while (get_clock() < end);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	lockdep_on();
 	__ctl_load(cr0_saved, 0, 0);
 	local_tick_enable(clock_saved);

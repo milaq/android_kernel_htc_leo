@@ -214,11 +214,17 @@ static __inline__ struct arpt_entry_target *arpt_get_target(struct arpt_entry *e
 	return (void *)e + e->target_offset;
 }
 
+<<<<<<< HEAD
 #ifndef __KERNEL__
 /* fn returns 0 to continue iteration */
 #define ARPT_ENTRY_ITERATE(entries, size, fn, args...) \
 	XT_ENTRY_ITERATE(struct arpt_entry, entries, size, fn, ## args)
 #endif
+=======
+/* fn returns 0 to continue iteration */
+#define ARPT_ENTRY_ITERATE(entries, size, fn, args...) \
+	XT_ENTRY_ITERATE(struct arpt_entry, entries, size, fn, ## args)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  *	Main firewall chains definitions and global var's definitions.
@@ -266,7 +272,10 @@ struct arpt_error
 	.target.errorname = "ERROR",					       \
 }
 
+<<<<<<< HEAD
 extern void *arpt_alloc_initial_table(const struct xt_table *);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern struct xt_table *arpt_register_table(struct net *net,
 					    const struct xt_table *table,
 					    const struct arpt_replace *repl);
@@ -300,6 +309,17 @@ compat_arpt_get_target(struct compat_arpt_entry *e)
 
 #define COMPAT_ARPT_ALIGN(s)	COMPAT_XT_ALIGN(s)
 
+<<<<<<< HEAD
+=======
+/* fn returns 0 to continue iteration */
+#define COMPAT_ARPT_ENTRY_ITERATE(entries, size, fn, args...) \
+	XT_ENTRY_ITERATE(struct compat_arpt_entry, entries, size, fn, ## args)
+
+#define COMPAT_ARPT_ENTRY_ITERATE_CONTINUE(entries, size, n, fn, args...) \
+	XT_ENTRY_ITERATE_CONTINUE(struct compat_arpt_entry, entries, size, n, \
+				  fn, ## args)
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_COMPAT */
 #endif /*__KERNEL__*/
 #endif /* _ARPTABLES_H */

@@ -271,6 +271,7 @@ int __bitmap_weight(const unsigned long *bitmap, int bits)
 }
 EXPORT_SYMBOL(__bitmap_weight);
 
+<<<<<<< HEAD
 #define BITMAP_FIRST_WORD_MASK(start) (~0UL << ((start) % BITS_PER_LONG))
 
 void bitmap_set(unsigned long *map, int start, int nr)
@@ -354,6 +355,8 @@ again:
 }
 EXPORT_SYMBOL(bitmap_find_next_zero_area_off);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Bitmap printing & parsing functions: first version by Bill Irwin,
  * second version by Paul Jackson, third by Joe Korty.

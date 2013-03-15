@@ -247,7 +247,11 @@ int tty_insert_flip_string(struct tty_struct *tty, const unsigned char *chars,
 {
 	int copied = 0;
 	do {
+<<<<<<< HEAD
 		int goal = min((size_t)(size - copied), (size_t)TTY_BUFFER_PAGE);
+=======
+		int goal = min(size - copied, TTY_BUFFER_PAGE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		int space = tty_buffer_request_room(tty, goal);
 		struct tty_buffer *tb = tty->buf.tail;
 		/* If there is no space then tb may be NULL */
@@ -284,7 +288,11 @@ int tty_insert_flip_string_flags(struct tty_struct *tty,
 {
 	int copied = 0;
 	do {
+<<<<<<< HEAD
 		int goal = min((size_t)(size - copied), (size_t)TTY_BUFFER_PAGE);
+=======
+		int goal = min(size - copied, TTY_BUFFER_PAGE);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		int space = tty_buffer_request_room(tty, goal);
 		struct tty_buffer *tb = tty->buf.tail;
 		/* If there is no space then tb may be NULL */
@@ -412,7 +420,12 @@ static void flush_to_ldisc(struct work_struct *work)
 	spin_lock_irqsave(&tty->buf.lock, flags);
 
 	if (!test_and_set_bit(TTY_FLUSHING, &tty->flags)) {
+<<<<<<< HEAD
 		struct tty_buffer *head;
+=======
+		struct tty_buffer *head, *tail = tty->buf.tail;
+		int seen_tail = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		while ((head = tty->buf.head) != NULL) {
 			int count;
 			char *char_buf;
@@ -422,6 +435,18 @@ static void flush_to_ldisc(struct work_struct *work)
 			if (!count) {
 				if (head->next == NULL)
 					break;
+<<<<<<< HEAD
+=======
+				/*
+				  There's a possibility tty might get new buffer
+				  added during the unlock window below. We could
+				  end up spinning in here forever hogging the CPU
+				  completely. To avoid this let's have a rest each
+				  time we processed the tail buffer.
+				*/
+				if (tail == head)
+					seen_tail = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				tty->buf.head = head->next;
 				tty_buffer_free(tty, head);
 				continue;
@@ -431,7 +456,11 @@ static void flush_to_ldisc(struct work_struct *work)
 			   line discipline as we want to empty the queue */
 			if (test_bit(TTY_FLUSHPENDING, &tty->flags))
 				break;
+<<<<<<< HEAD
 			if (!tty->receive_room) {
+=======
+			if (!tty->receive_room || seen_tail) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				schedule_delayed_work(&tty->buf.work, 1);
 				break;
 			}

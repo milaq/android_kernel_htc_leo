@@ -182,16 +182,29 @@ static int led_proc_read(char *page, char **start, off_t off, int count,
 static int led_proc_write(struct file *file, const char *buf, 
 	unsigned long count, void *data)
 {
+<<<<<<< HEAD
 	char *cur, lbuf[count + 1];
+=======
+	char *cur, lbuf[32];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int d;
 
 	if (!capable(CAP_SYS_ADMIN))
 		return -EACCES;
 
+<<<<<<< HEAD
 	memset(lbuf, 0, count + 1);
 
 	if (copy_from_user(lbuf, buf, count))
 		return -EFAULT;
+=======
+	if (count >= sizeof(lbuf))
+		count = sizeof(lbuf)-1;
+
+	if (copy_from_user(lbuf, buf, count))
+		return -EFAULT;
+	lbuf[count] = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	cur = lbuf;
 

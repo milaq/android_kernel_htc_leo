@@ -288,7 +288,10 @@ ip6t_get_target(struct ip6t_entry *e)
 	return (void *)e + e->target_offset;
 }
 
+<<<<<<< HEAD
 #ifndef __KERNEL__
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* fn returns 0 to continue iteration */
 #define IP6T_MATCH_ITERATE(e, fn, args...) \
 	XT_MATCH_ITERATE(struct ip6t_entry, e, fn, ## args)
@@ -296,7 +299,10 @@ ip6t_get_target(struct ip6t_entry *e)
 /* fn returns 0 to continue iteration */
 #define IP6T_ENTRY_ITERATE(entries, size, fn, args...) \
 	XT_ENTRY_ITERATE(struct ip6t_entry, entries, size, fn, ## args)
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  *	Main firewall chains definitions and global var's definitions.
@@ -307,11 +313,18 @@ ip6t_get_target(struct ip6t_entry *e)
 #include <linux/init.h>
 extern void ip6t_init(void) __init;
 
+<<<<<<< HEAD
 extern void *ip6t_alloc_initial_table(const struct xt_table *);
 extern struct xt_table *ip6t_register_table(struct net *net,
 					    const struct xt_table *table,
 					    const struct ip6t_replace *repl);
 extern void ip6t_unregister_table(struct net *net, struct xt_table *table);
+=======
+extern struct xt_table *ip6t_register_table(struct net *net,
+					    const struct xt_table *table,
+					    const struct ip6t_replace *repl);
+extern void ip6t_unregister_table(struct xt_table *table);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern unsigned int ip6t_do_table(struct sk_buff *skb,
 				  unsigned int hook,
 				  const struct net_device *in,
@@ -352,6 +365,21 @@ compat_ip6t_get_target(struct compat_ip6t_entry *e)
 
 #define COMPAT_IP6T_ALIGN(s)	COMPAT_XT_ALIGN(s)
 
+<<<<<<< HEAD
+=======
+/* fn returns 0 to continue iteration */
+#define COMPAT_IP6T_MATCH_ITERATE(e, fn, args...) \
+	XT_MATCH_ITERATE(struct compat_ip6t_entry, e, fn, ## args)
+
+/* fn returns 0 to continue iteration */
+#define COMPAT_IP6T_ENTRY_ITERATE(entries, size, fn, args...) \
+	XT_ENTRY_ITERATE(struct compat_ip6t_entry, entries, size, fn, ## args)
+
+#define COMPAT_IP6T_ENTRY_ITERATE_CONTINUE(entries, size, n, fn, args...) \
+	XT_ENTRY_ITERATE_CONTINUE(struct compat_ip6t_entry, entries, size, n, \
+				  fn, ## args)
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_COMPAT */
 #endif /*__KERNEL__*/
 #endif /* _IP6_TABLES_H */

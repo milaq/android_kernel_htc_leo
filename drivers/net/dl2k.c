@@ -1279,6 +1279,7 @@ rio_ioctl (struct net_device *dev, struct ifreq *rq, int cmd)
 {
 	int phy_addr;
 	struct netdev_private *np = netdev_priv(dev);
+<<<<<<< HEAD
 	struct mii_data *miidata = (struct mii_data *) &rq->ifr_ifru;
 
 	struct netdev_desc *desc;
@@ -1328,6 +1329,23 @@ rio_ioctl (struct net_device *dev, struct ifreq *rq, int cmd)
 		printk ("\n");
 		break;
 
+=======
+	struct mii_ioctl_data *miidata = if_mii(rq);
+
+	phy_addr = np->phy_addr;
+	switch (cmd) {
+	case SIOCGMIIPHY:
+		miidata->phy_id = phy_addr;
+		break;
+	case SIOCGMIIREG:
+		miidata->val_out = mii_read (dev, phy_addr, miidata->reg_num);
+		break;
+	case SIOCSMIIREG:
+		if (!capable(CAP_NET_ADMIN))
+			return -EPERM;
+		mii_write (dev, phy_addr, miidata->reg_num, miidata->val_in);
+		break;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default:
 		return -EOPNOTSUPP;
 	}
@@ -1448,7 +1466,11 @@ mii_wait_link (struct net_device *dev, int wait)
 
 	do {
 		bmsr = mii_read (dev, phy_addr, MII_BMSR);
+<<<<<<< HEAD
 		if (bmsr & MII_BMSR_LINK_STATUS)
+=======
+		if (bmsr & BMSR_LSTATUS)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return 0;
 		mdelay (1);
 	} while (--wait > 0);
@@ -1469,6 +1491,7 @@ mii_get_media (struct net_device *dev)
 
 	bmsr = mii_read (dev, phy_addr, MII_BMSR);
 	if (np->an_enable) {
+<<<<<<< HEAD
 		if (!(bmsr & MII_BMSR_AN_COMPLETE)) {
 			/* Auto-Negotiation not completed */
 			return -1;
@@ -1498,31 +1521,81 @@ mii_get_media (struct net_device *dev)
 			np->full_duplex = 1;
 			printk (KERN_INFO "Auto 10 Mbps, Full duplex\n");
 		} else if (negotiate & MII_ANAR_10BT_HD) {
+=======
+		if (!(bmsr & BMSR_ANEGCOMPLETE)) {
+			/* Auto-Negotiation not completed */
+			return -1;
+		}
+		negotiate = mii_read (dev, phy_addr, MII_ADVERTISE) &
+			mii_read (dev, phy_addr, MII_LPA);
+		mscr = mii_read (dev, phy_addr, MII_CTRL1000);
+		mssr = mii_read (dev, phy_addr, MII_STAT1000);
+		if (mscr & ADVERTISE_1000FULL && mssr & LPA_1000FULL) {
+			np->speed = 1000;
+			np->full_duplex = 1;
+			printk (KERN_INFO "Auto 1000 Mbps, Full duplex\n");
+		} else if (mscr & ADVERTISE_1000HALF && mssr & LPA_1000HALF) {
+			np->speed = 1000;
+			np->full_duplex = 0;
+			printk (KERN_INFO "Auto 1000 Mbps, Half duplex\n");
+		} else if (negotiate & ADVERTISE_100FULL) {
+			np->speed = 100;
+			np->full_duplex = 1;
+			printk (KERN_INFO "Auto 100 Mbps, Full duplex\n");
+		} else if (negotiate & ADVERTISE_100HALF) {
+			np->speed = 100;
+			np->full_duplex = 0;
+			printk (KERN_INFO "Auto 100 Mbps, Half duplex\n");
+		} else if (negotiate & ADVERTISE_10FULL) {
+			np->speed = 10;
+			np->full_duplex = 1;
+			printk (KERN_INFO "Auto 10 Mbps, Full duplex\n");
+		} else if (negotiate & ADVERTISE_10HALF) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			np->speed = 10;
 			np->full_duplex = 0;
 			printk (KERN_INFO "Auto 10 Mbps, Half duplex\n");
 		}
+<<<<<<< HEAD
 		if (negotiate & MII_ANAR_PAUSE) {
 			np->tx_flow &= 1;
 			np->rx_flow &= 1;
 		} else if (negotiate & MII_ANAR_ASYMMETRIC) {
+=======
+		if (negotiate & ADVERTISE_PAUSE_CAP) {
+			np->tx_flow &= 1;
+			np->rx_flow &= 1;
+		} else if (negotiate & ADVERTISE_PAUSE_ASYM) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			np->tx_flow = 0;
 			np->rx_flow &= 1;
 		}
 		/* else tx_flow, rx_flow = user select  */
 	} else {
 		__u16 bmcr = mii_read (dev, phy_addr, MII_BMCR);
+<<<<<<< HEAD
 		switch (bmcr & (MII_BMCR_SPEED_100 | MII_BMCR_SPEED_1000)) {
 		case MII_BMCR_SPEED_1000:
 			printk (KERN_INFO "Operating at 1000 Mbps, ");
 			break;
 		case MII_BMCR_SPEED_100:
+=======
+		switch (bmcr & (BMCR_SPEED100 | BMCR_SPEED1000)) {
+		case BMCR_SPEED1000:
+			printk (KERN_INFO "Operating at 1000 Mbps, ");
+			break;
+		case BMCR_SPEED100:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_INFO "Operating at 100 Mbps, ");
 			break;
 		case 0:
 			printk (KERN_INFO "Operating at 10 Mbps, ");
 		}
+<<<<<<< HEAD
 		if (bmcr & MII_BMCR_DUPLEX_MODE) {
+=======
+		if (bmcr & BMCR_FULLDPLX) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_CONT "Full duplex\n");
 		} else {
 			printk (KERN_CONT "Half duplex\n");
@@ -1556,6 +1629,7 @@ mii_set_media (struct net_device *dev)
 	if (np->an_enable) {
 		/* Advertise capabilities */
 		bmsr = mii_read (dev, phy_addr, MII_BMSR);
+<<<<<<< HEAD
 		anar = mii_read (dev, phy_addr, MII_ANAR) &
 			     ~MII_ANAR_100BX_FD &
 			     ~MII_ANAR_100BX_HD &
@@ -1574,6 +1648,24 @@ mii_set_media (struct net_device *dev)
 			anar |= MII_ANAR_10BT_HD;
 		anar |= MII_ANAR_PAUSE | MII_ANAR_ASYMMETRIC;
 		mii_write (dev, phy_addr, MII_ANAR, anar);
+=======
+		anar = mii_read (dev, phy_addr, MII_ADVERTISE) &
+			~(ADVERTISE_100FULL | ADVERTISE_10FULL |
+			  ADVERTISE_100HALF | ADVERTISE_10HALF |
+			  ADVERTISE_100BASE4);
+		if (bmsr & BMSR_100FULL)
+			anar |= ADVERTISE_100FULL;
+		if (bmsr & BMSR_100HALF)
+			anar |= ADVERTISE_100HALF;
+		if (bmsr & BMSR_100BASE4)
+			anar |= ADVERTISE_100BASE4;
+		if (bmsr & BMSR_10FULL)
+			anar |= ADVERTISE_10FULL;
+		if (bmsr & BMSR_10HALF)
+			anar |= ADVERTISE_10HALF;
+		anar |= ADVERTISE_PAUSE_CAP | ADVERTISE_PAUSE_ASYM;
+		mii_write (dev, phy_addr, MII_ADVERTISE, anar);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Enable Auto crossover */
 		pscr = mii_read (dev, phy_addr, MII_PHY_SCR);
@@ -1581,8 +1673,13 @@ mii_set_media (struct net_device *dev)
 		mii_write (dev, phy_addr, MII_PHY_SCR, pscr);
 
 		/* Soft reset PHY */
+<<<<<<< HEAD
 		mii_write (dev, phy_addr, MII_BMCR, MII_BMCR_RESET);
 		bmcr = MII_BMCR_AN_ENABLE | MII_BMCR_RESTART_AN | MII_BMCR_RESET;
+=======
+		mii_write (dev, phy_addr, MII_BMCR, BMCR_RESET);
+		bmcr = BMCR_ANENABLE | BMCR_ANRESTART | BMCR_RESET;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mii_write (dev, phy_addr, MII_BMCR, bmcr);
 		mdelay(1);
 	} else {
@@ -1594,7 +1691,11 @@ mii_set_media (struct net_device *dev)
 
 		/* 2) PHY Reset */
 		bmcr = mii_read (dev, phy_addr, MII_BMCR);
+<<<<<<< HEAD
 		bmcr |= MII_BMCR_RESET;
+=======
+		bmcr |= BMCR_RESET;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mii_write (dev, phy_addr, MII_BMCR, bmcr);
 
 		/* 3) Power Down */
@@ -1603,25 +1704,42 @@ mii_set_media (struct net_device *dev)
 		mdelay (100);	/* wait a certain time */
 
 		/* 4) Advertise nothing */
+<<<<<<< HEAD
 		mii_write (dev, phy_addr, MII_ANAR, 0);
 
 		/* 5) Set media and Power Up */
 		bmcr = MII_BMCR_POWER_DOWN;
 		if (np->speed == 100) {
 			bmcr |= MII_BMCR_SPEED_100;
+=======
+		mii_write (dev, phy_addr, MII_ADVERTISE, 0);
+
+		/* 5) Set media and Power Up */
+		bmcr = BMCR_PDOWN;
+		if (np->speed == 100) {
+			bmcr |= BMCR_SPEED100;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_INFO "Manual 100 Mbps, ");
 		} else if (np->speed == 10) {
 			printk (KERN_INFO "Manual 10 Mbps, ");
 		}
 		if (np->full_duplex) {
+<<<<<<< HEAD
 			bmcr |= MII_BMCR_DUPLEX_MODE;
+=======
+			bmcr |= BMCR_FULLDPLX;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_CONT "Full duplex\n");
 		} else {
 			printk (KERN_CONT "Half duplex\n");
 		}
 #if 0
 		/* Set 1000BaseT Master/Slave setting */
+<<<<<<< HEAD
 		mscr = mii_read (dev, phy_addr, MII_MSCR);
+=======
+		mscr = mii_read (dev, phy_addr, MII_CTRL1000);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mscr |= MII_MSCR_CFG_ENABLE;
 		mscr &= ~MII_MSCR_CFG_VALUE = 0;
 #endif
@@ -1644,7 +1762,11 @@ mii_get_media_pcs (struct net_device *dev)
 
 	bmsr = mii_read (dev, phy_addr, PCS_BMSR);
 	if (np->an_enable) {
+<<<<<<< HEAD
 		if (!(bmsr & MII_BMSR_AN_COMPLETE)) {
+=======
+		if (!(bmsr & BMSR_ANEGCOMPLETE)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/* Auto-Negotiation not completed */
 			return -1;
 		}
@@ -1669,7 +1791,11 @@ mii_get_media_pcs (struct net_device *dev)
 	} else {
 		__u16 bmcr = mii_read (dev, phy_addr, PCS_BMCR);
 		printk (KERN_INFO "Operating at 1000 Mbps, ");
+<<<<<<< HEAD
 		if (bmcr & MII_BMCR_DUPLEX_MODE) {
+=======
+		if (bmcr & BMCR_FULLDPLX) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_CONT "Full duplex\n");
 		} else {
 			printk (KERN_CONT "Half duplex\n");
@@ -1702,7 +1828,11 @@ mii_set_media_pcs (struct net_device *dev)
 	if (np->an_enable) {
 		/* Advertise capabilities */
 		esr = mii_read (dev, phy_addr, PCS_ESR);
+<<<<<<< HEAD
 		anar = mii_read (dev, phy_addr, MII_ANAR) &
+=======
+		anar = mii_read (dev, phy_addr, MII_ADVERTISE) &
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			~PCS_ANAR_HALF_DUPLEX &
 			~PCS_ANAR_FULL_DUPLEX;
 		if (esr & (MII_ESR_1000BT_HD | MII_ESR_1000BX_HD))
@@ -1710,22 +1840,38 @@ mii_set_media_pcs (struct net_device *dev)
 		if (esr & (MII_ESR_1000BT_FD | MII_ESR_1000BX_FD))
 			anar |= PCS_ANAR_FULL_DUPLEX;
 		anar |= PCS_ANAR_PAUSE | PCS_ANAR_ASYMMETRIC;
+<<<<<<< HEAD
 		mii_write (dev, phy_addr, MII_ANAR, anar);
 
 		/* Soft reset PHY */
 		mii_write (dev, phy_addr, MII_BMCR, MII_BMCR_RESET);
 		bmcr = MII_BMCR_AN_ENABLE | MII_BMCR_RESTART_AN |
 		       MII_BMCR_RESET;
+=======
+		mii_write (dev, phy_addr, MII_ADVERTISE, anar);
+
+		/* Soft reset PHY */
+		mii_write (dev, phy_addr, MII_BMCR, BMCR_RESET);
+		bmcr = BMCR_ANENABLE | BMCR_ANRESTART | BMCR_RESET;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mii_write (dev, phy_addr, MII_BMCR, bmcr);
 		mdelay(1);
 	} else {
 		/* Force speed setting */
 		/* PHY Reset */
+<<<<<<< HEAD
 		bmcr = MII_BMCR_RESET;
 		mii_write (dev, phy_addr, MII_BMCR, bmcr);
 		mdelay(10);
 		if (np->full_duplex) {
 			bmcr = MII_BMCR_DUPLEX_MODE;
+=======
+		bmcr = BMCR_RESET;
+		mii_write (dev, phy_addr, MII_BMCR, bmcr);
+		mdelay(10);
+		if (np->full_duplex) {
+			bmcr = BMCR_FULLDPLX;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk (KERN_INFO "Manual full duplex\n");
 		} else {
 			bmcr = 0;
@@ -1735,7 +1881,11 @@ mii_set_media_pcs (struct net_device *dev)
 		mdelay(10);
 
 		/*  Advertise nothing */
+<<<<<<< HEAD
 		mii_write (dev, phy_addr, MII_ANAR, 0);
+=======
+		mii_write (dev, phy_addr, MII_ADVERTISE, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return 0;
 }

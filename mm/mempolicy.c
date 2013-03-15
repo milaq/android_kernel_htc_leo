@@ -1482,7 +1482,11 @@ unsigned slab_node(struct mempolicy *policy)
 		(void)first_zones_zonelist(zonelist, highest_zoneidx,
 							&policy->v.nodes,
 							&zone);
+<<<<<<< HEAD
 		return zone->node;
+=======
+		return zone ? zone->node : numa_node_id();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	default:
@@ -2122,8 +2126,13 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 			char *rest = nodelist;
 			while (isdigit(*rest))
 				rest++;
+<<<<<<< HEAD
 			if (!*rest)
 				err = 0;
+=======
+			if (*rest)
+				goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		break;
 	case MPOL_INTERLEAVE:
@@ -2132,7 +2141,10 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 		 */
 		if (!nodelist)
 			nodes = node_states[N_HIGH_MEMORY];
+<<<<<<< HEAD
 		err = 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case MPOL_LOCAL:
 		/*
@@ -2142,11 +2154,27 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 			goto out;
 		mode = MPOL_PREFERRED;
 		break;
+<<<<<<< HEAD
 
 	/*
 	 * case MPOL_BIND:    mpol_new() enforces non-empty nodemask.
 	 * case MPOL_DEFAULT: mpol_new() enforces empty nodemask, ignores flags.
 	 */
+=======
+	case MPOL_DEFAULT:
+		/*
+		 * Insist on a empty nodelist
+		 */
+		if (!nodelist)
+			err = 0;
+		goto out;
+	case MPOL_BIND:
+		/*
+		 * Insist on a nodelist
+		 */
+		if (!nodelist)
+			goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	mode_flags = 0;
@@ -2160,13 +2188,23 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 		else if (!strcmp(flags, "relative"))
 			mode_flags |= MPOL_F_RELATIVE_NODES;
 		else
+<<<<<<< HEAD
 			err = 1;
+=======
+			goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	new = mpol_new(mode, mode_flags, &nodes);
 	if (IS_ERR(new))
+<<<<<<< HEAD
 		err = 1;
 	else {
+=======
+		goto out;
+
+	{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		int ret;
 		NODEMASK_SCRATCH(scratch);
 		if (scratch) {
@@ -2177,6 +2215,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 			ret = -ENOMEM;
 		NODEMASK_SCRATCH_FREE(scratch);
 		if (ret) {
+<<<<<<< HEAD
 			err = 1;
 			mpol_put(new);
 		} else if (no_context) {
@@ -2184,6 +2223,17 @@ int mpol_parse_str(char *str, struct mempolicy **mpol, int no_context)
 			new->w.user_nodemask = nodes;
 		}
 	}
+=======
+			mpol_put(new);
+			goto out;
+		}
+	}
+	err = 0;
+	if (no_context) {
+		/* save for contextualization */
+		new->w.user_nodemask = nodes;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 out:
 	/* Restore string for error message */
@@ -2249,7 +2299,11 @@ int mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol, int no_context)
 		break;
 
 	default:
+<<<<<<< HEAD
 		BUG();
+=======
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	l = strlen(policy_types[mode]);

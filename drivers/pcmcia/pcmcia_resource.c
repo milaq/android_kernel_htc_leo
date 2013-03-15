@@ -39,7 +39,11 @@ module_param(io_speed, int, 0444);
 #ifdef CONFIG_PCMCIA_PROBE
 #include <asm/irq.h>
 /* mask of IRQs already reserved by other cards, we should avoid using them */
+<<<<<<< HEAD
 static u8 pcmcia_used_irq[NR_IRQS];
+=======
+static u8 pcmcia_used_irq[32];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 
@@ -719,6 +723,12 @@ int pcmcia_request_irq(struct pcmcia_device *p_dev, irq_req_t *req)
 		for (try = 0; try < 64; try++) {
 			irq = try % 32;
 
+<<<<<<< HEAD
+=======
+			if (irq > NR_IRQS)
+				continue;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/* marked as available by driver, and not blocked by userspace? */
 			if (!((mask >> irq) & 1))
 				continue;

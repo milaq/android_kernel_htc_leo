@@ -2635,12 +2635,15 @@ isdn_tty_modem_result(int code, modem_info * info)
 		if ((info->flags & ISDN_ASYNC_CLOSING) || (!info->tty)) {
 			return;
 		}
+<<<<<<< HEAD
 #ifdef CONFIG_ISDN_AUDIO
 		if ( !info->vonline )
 			tty_ldisc_flush(info->tty);
 #else
 		tty_ldisc_flush(info->tty);
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if ((info->flags & ISDN_ASYNC_CHECK_CD) &&
 		    (!((info->flags & ISDN_ASYNC_CALLOUT_ACTIVE) &&
 		       (info->flags & ISDN_ASYNC_CALLOUT_NOHUP)))) {

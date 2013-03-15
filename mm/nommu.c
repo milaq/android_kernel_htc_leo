@@ -608,7 +608,11 @@ static void protect_vma(struct vm_area_struct *vma, unsigned long flags)
  */
 static void add_vma_to_mm(struct mm_struct *mm, struct vm_area_struct *vma)
 {
+<<<<<<< HEAD
 	struct vm_area_struct *pvma, **pp;
+=======
+	struct vm_area_struct *pvma, **pp, *next;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct address_space *mapping;
 	struct rb_node **p, *parent;
 
@@ -668,8 +672,16 @@ static void add_vma_to_mm(struct mm_struct *mm, struct vm_area_struct *vma)
 			break;
 	}
 
+<<<<<<< HEAD
 	vma->vm_next = *pp;
 	*pp = vma;
+=======
+	next = *pp;
+	*pp = vma;
+	vma->vm_next = next;
+	if (next)
+		next->vm_prev = vma;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1612,6 +1624,10 @@ void exit_mmap(struct mm_struct *mm)
 		mm->mmap = vma->vm_next;
 		delete_vma_from_mm(vma);
 		delete_vma(mm, vma);
+<<<<<<< HEAD
+=======
+		cond_resched();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	kleave("");

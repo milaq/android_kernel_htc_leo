@@ -1077,7 +1077,11 @@ static int calculate_lfsr(int n)
 		index = ENTRIES-1;
 
 	/* make sure index is valid */
+<<<<<<< HEAD
 	if ((index > ENTRIES) || (index < 0))
+=======
+	if ((index >= ENTRIES) || (index < 0))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		index = ENTRIES-1;
 
 	return initial_lfsr[index];

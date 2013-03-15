@@ -48,6 +48,10 @@
 #include <asm/traps.h>
 #include <asm/setup.h>
 #include <asm/desc.h>
+<<<<<<< HEAD
+=======
+#include <asm/pgalloc.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/pgtable.h>
 #include <asm/tlbflush.h>
 #include <asm/reboot.h>
@@ -923,7 +927,11 @@ static const struct pv_init_ops xen_init_ops __initdata = {
 };
 
 static const struct pv_time_ops xen_time_ops __initdata = {
+<<<<<<< HEAD
 	.sched_clock = xen_sched_clock,
+=======
+	.sched_clock = xen_clocksource_read,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static const struct pv_cpu_ops xen_cpu_ops __initdata = {
@@ -944,7 +952,14 @@ static const struct pv_cpu_ops xen_cpu_ops __initdata = {
 	.wbinvd = native_wbinvd,
 
 	.read_msr = native_read_msr_safe,
+<<<<<<< HEAD
 	.write_msr = xen_write_msr_safe,
+=======
+	.rdmsr_regs = native_rdmsr_safe_regs,
+	.write_msr = xen_write_msr_safe,
+	.wrmsr_regs = native_wrmsr_safe_regs,
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.read_tsc = native_read_tsc,
 	.read_pmc = native_read_pmc,
 
@@ -996,10 +1011,13 @@ static void xen_reboot(int reason)
 {
 	struct sched_shutdown r = { .reason = reason };
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	smp_send_stop();
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (HYPERVISOR_sched_op(SCHEDOP_shutdown, &r))
 		BUG();
 }
@@ -1092,6 +1110,15 @@ asmlinkage void __init xen_start_kernel(void)
 
 	__supported_pte_mask |= _PAGE_IOMAP;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Prevent page tables from being allocated in highmem, even
+	 * if CONFIG_HIGHPTE is enabled.
+	 */
+	__userpte_alloc_gfp &= ~__GFP_HIGHMEM;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_X86_64
 	/* Work out if we support NX */
 	check_efer();

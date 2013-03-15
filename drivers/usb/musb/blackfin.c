@@ -248,8 +248,15 @@ int __init musb_platform_init(struct musb *musb)
 
 	usb_nop_xceiv_register();
 	musb->xceiv = otg_get_transceiver();
+<<<<<<< HEAD
 	if (!musb->xceiv)
 		return -ENODEV;
+=======
+	if (!musb->xceiv) {
+		gpio_free(musb->config->gpio_vrsel);
+		return -ENODEV;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (ANOMALY_05000346) {
 		bfin_write_USB_APHY_CALIB(ANOMALY_05000346_value);

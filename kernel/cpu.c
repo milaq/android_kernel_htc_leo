@@ -14,6 +14,10 @@
 #include <linux/kthread.h>
 #include <linux/stop_machine.h>
 #include <linux/mutex.h>
+<<<<<<< HEAD
+=======
+#include <linux/suspend.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_SMP
 /* Serializes the updates to cpu_online_mask, cpu_present_mask */
@@ -151,7 +155,11 @@ static inline void check_for_tasks(int cpu)
 
 	write_lock_irq(&tasklist_lock);
 	for_each_process(p) {
+<<<<<<< HEAD
 		if (task_cpu(p) == cpu &&
+=======
+		if (task_cpu(p) == cpu && p->state == TASK_RUNNING &&
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		    (!cputime_eq(p->utime, cputime_zero) ||
 		     !cputime_eq(p->stime, cputime_zero)))
 			printk(KERN_WARNING "Task %s (pid = %d) is on cpu %d\
@@ -163,6 +171,10 @@ static inline void check_for_tasks(int cpu)
 }
 
 struct take_cpu_down_param {
+<<<<<<< HEAD
+=======
+	struct task_struct *caller;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long mod;
 	void *hcpu;
 };
@@ -171,6 +183,10 @@ struct take_cpu_down_param {
 static int __ref take_cpu_down(void *_param)
 {
 	struct take_cpu_down_param *param = _param;
+<<<<<<< HEAD
+=======
+	unsigned int cpu = (unsigned long)param->hcpu;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int err;
 
 	/* Ensure this CPU doesn't handle any more interrupts. */
@@ -181,6 +197,11 @@ static int __ref take_cpu_down(void *_param)
 	raw_notifier_call_chain(&cpu_chain, CPU_DYING | param->mod,
 				param->hcpu);
 
+<<<<<<< HEAD
+=======
+	if (task_cpu(param->caller) == cpu)
+		move_task_off_dead_cpu(cpu, param->caller);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Force idle task to run as soon as we yield: it should
 	   immediately notice cpu is offline and die quickly. */
 	sched_idle_next();
@@ -191,10 +212,17 @@ static int __ref take_cpu_down(void *_param)
 static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 {
 	int err, nr_calls = 0;
+<<<<<<< HEAD
 	cpumask_var_t old_allowed;
 	void *hcpu = (void *)(long)cpu;
 	unsigned long mod = tasks_frozen ? CPU_TASKS_FROZEN : 0;
 	struct take_cpu_down_param tcd_param = {
+=======
+	void *hcpu = (void *)(long)cpu;
+	unsigned long mod = tasks_frozen ? CPU_TASKS_FROZEN : 0;
+	struct take_cpu_down_param tcd_param = {
+		.caller = current,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.mod = mod,
 		.hcpu = hcpu,
 	};
@@ -205,10 +233,15 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 	if (!cpu_online(cpu))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (!alloc_cpumask_var(&old_allowed, GFP_KERNEL))
 		return -ENOMEM;
 
 	cpu_hotplug_begin();
+=======
+	cpu_hotplug_begin();
+	set_cpu_active(cpu, false);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = __raw_notifier_call_chain(&cpu_chain, CPU_DOWN_PREPARE | mod,
 					hcpu, -1, &nr_calls);
 	if (err == NOTIFY_BAD) {
@@ -223,10 +256,13 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 		goto out_release;
 	}
 
+<<<<<<< HEAD
 	/* Ensure that we are not runnable on dying cpu */
 	cpumask_copy(old_allowed, &current->cpus_allowed);
 	set_cpus_allowed_ptr(current, cpu_active_mask);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = __stop_machine(take_cpu_down, &tcd_param, cpumask_of(cpu));
 	if (err) {
 		set_cpu_active(cpu, true);
@@ -235,7 +271,11 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 					    hcpu) == NOTIFY_BAD)
 			BUG();
 
+<<<<<<< HEAD
 		goto out_allowed;
+=======
+		goto out_release;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	BUG_ON(cpu_online(cpu));
 
@@ -253,8 +293,11 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 
 	check_for_tasks(cpu);
 
+<<<<<<< HEAD
 out_allowed:
 	set_cpus_allowed_ptr(current, old_allowed);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out_release:
 	cpu_hotplug_done();
 	if (!err) {
@@ -262,7 +305,10 @@ out_release:
 					    hcpu) == NOTIFY_BAD)
 			BUG();
 	}
+<<<<<<< HEAD
 	free_cpumask_var(old_allowed);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 
@@ -280,6 +326,7 @@ int __ref cpu_down(unsigned int cpu)
 		goto out;
 	}
 
+<<<<<<< HEAD
 	set_cpu_active(cpu, false);
 
 	/*
@@ -292,6 +339,8 @@ int __ref cpu_down(unsigned int cpu)
 	 */
 	synchronize_sched();
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = _cpu_down(cpu, 0);
 
 out:
@@ -382,11 +431,17 @@ int disable_nonboot_cpus(void)
 		return error;
 	cpu_maps_update_begin();
 	first_cpu = cpumask_first(cpu_online_mask);
+<<<<<<< HEAD
 	/* We take down all of the non-boot CPUs in one shot to avoid races
+=======
+	/*
+	 * We take down all of the non-boot CPUs in one shot to avoid races
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 * with the userspace trying to use the CPU hotplug at the same time
 	 */
 	cpumask_clear(frozen_cpus);
 
+<<<<<<< HEAD
 	for_each_online_cpu(cpu) {
 		if (cpu == first_cpu)
 			continue;
@@ -395,6 +450,8 @@ int disable_nonboot_cpus(void)
 
 	synchronize_sched();
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	printk("Disabling non-boot CPUs ...\n");
 	for_each_online_cpu(cpu) {
 		if (cpu == first_cpu)
@@ -466,6 +523,82 @@ static int alloc_frozen_cpus(void)
 	return 0;
 }
 core_initcall(alloc_frozen_cpus);
+<<<<<<< HEAD
+=======
+
+/*
+ * Prevent regular CPU hotplug from racing with the freezer, by disabling CPU
+ * hotplug when tasks are about to be frozen. Also, don't allow the freezer
+ * to continue until any currently running CPU hotplug operation gets
+ * completed.
+ * To modify the 'cpu_hotplug_disabled' flag, we need to acquire the
+ * 'cpu_add_remove_lock'. And this same lock is also taken by the regular
+ * CPU hotplug path and released only after it is complete. Thus, we
+ * (and hence the freezer) will block here until any currently running CPU
+ * hotplug operation gets completed.
+ */
+void cpu_hotplug_disable_before_freeze(void)
+{
+	cpu_maps_update_begin();
+	cpu_hotplug_disabled = 1;
+	cpu_maps_update_done();
+}
+
+
+/*
+ * When tasks have been thawed, re-enable regular CPU hotplug (which had been
+ * disabled while beginning to freeze tasks).
+ */
+void cpu_hotplug_enable_after_thaw(void)
+{
+	cpu_maps_update_begin();
+	cpu_hotplug_disabled = 0;
+	cpu_maps_update_done();
+}
+
+/*
+ * When callbacks for CPU hotplug notifications are being executed, we must
+ * ensure that the state of the system with respect to the tasks being frozen
+ * or not, as reported by the notification, remains unchanged *throughout the
+ * duration* of the execution of the callbacks.
+ * Hence we need to prevent the freezer from racing with regular CPU hotplug.
+ *
+ * This synchronization is implemented by mutually excluding regular CPU
+ * hotplug and Suspend/Hibernate call paths by hooking onto the Suspend/
+ * Hibernate notifications.
+ */
+static int
+cpu_hotplug_pm_callback(struct notifier_block *nb,
+			unsigned long action, void *ptr)
+{
+	switch (action) {
+
+	case PM_SUSPEND_PREPARE:
+	case PM_HIBERNATION_PREPARE:
+		cpu_hotplug_disable_before_freeze();
+		break;
+
+	case PM_POST_SUSPEND:
+	case PM_POST_HIBERNATION:
+		cpu_hotplug_enable_after_thaw();
+		break;
+
+	default:
+		return NOTIFY_DONE;
+	}
+
+	return NOTIFY_OK;
+}
+
+
+int cpu_hotplug_pm_sync_init(void)
+{
+	pm_notifier(cpu_hotplug_pm_callback, 0);
+	return 0;
+}
+core_initcall(cpu_hotplug_pm_sync_init);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_PM_SLEEP_SMP */
 
 /**

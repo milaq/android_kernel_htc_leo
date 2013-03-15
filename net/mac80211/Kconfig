@@ -15,8 +15,17 @@ comment "CFG80211 needs to be enabled for MAC80211"
 
 if MAC80211 != n
 
+<<<<<<< HEAD
 config MAC80211_RC_PID
 	bool "PID controller based rate control algorithm" if EMBEDDED
+=======
+config MAC80211_HAS_RC
+	def_bool n
+
+config MAC80211_RC_PID
+	bool "PID controller based rate control algorithm" if EMBEDDED
+	select MAC80211_HAS_RC
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	---help---
 	  This option enables a TX rate control algorithm for
 	  mac80211 that uses a PID controller to select the TX
@@ -24,12 +33,20 @@ config MAC80211_RC_PID
 
 config MAC80211_RC_MINSTREL
 	bool "Minstrel" if EMBEDDED
+<<<<<<< HEAD
+=======
+	select MAC80211_HAS_RC
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default y
 	---help---
 	  This option enables the 'minstrel' TX rate control algorithm
 
 choice
 	prompt "Default rate control algorithm"
+<<<<<<< HEAD
+=======
+	depends on MAC80211_HAS_RC
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default MAC80211_RC_DEFAULT_MINSTREL
 	---help---
 	  This option selects the default rate control algorithm
@@ -62,6 +79,12 @@ config MAC80211_RC_DEFAULT
 
 endif
 
+<<<<<<< HEAD
+=======
+comment "Some wireless drivers require a rate control algorithm"
+	depends on MAC80211_HAS_RC=n
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config MAC80211_MESH
 	bool "Enable mac80211 mesh networking (pre-802.11s) support"
 	depends on MAC80211 && EXPERIMENTAL

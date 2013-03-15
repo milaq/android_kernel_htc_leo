@@ -1588,6 +1588,7 @@ ath5k_eeprom_free_pcal_info(struct ath5k_hw *ah, int mode)
 		if (!chinfo[pier].pd_curves)
 			continue;
 
+<<<<<<< HEAD
 		for (pdg = 0; pdg < ee->ee_pd_gains[mode]; pdg++) {
 			struct ath5k_pdgain_info *pd =
 					&chinfo[pier].pd_curves[pdg];
@@ -1596,6 +1597,14 @@ ath5k_eeprom_free_pcal_info(struct ath5k_hw *ah, int mode)
 				kfree(pd->pd_step);
 				kfree(pd->pd_pwr);
 			}
+=======
+		for (pdg = 0; pdg < AR5K_EEPROM_N_PD_CURVES; pdg++) {
+			struct ath5k_pdgain_info *pd =
+					&chinfo[pier].pd_curves[pdg];
+
+			kfree(pd->pd_step);
+			kfree(pd->pd_pwr);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		kfree(chinfo[pier].pd_curves);

@@ -643,10 +643,16 @@ void dm_rh_recovery_end(struct dm_region *reg, int success)
 	spin_lock_irq(&rh->region_lock);
 	if (success)
 		list_add(&reg->list, &reg->rh->recovered_regions);
+<<<<<<< HEAD
 	else {
 		reg->state = DM_RH_NOSYNC;
 		list_add(&reg->list, &reg->rh->failed_recovered_regions);
 	}
+=======
+	else
+		list_add(&reg->list, &reg->rh->failed_recovered_regions);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irq(&rh->region_lock);
 
 	rh->wakeup_workers(rh->context);

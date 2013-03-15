@@ -10,10 +10,13 @@ obj-$(CONFIG_SUSPEND)		+= suspend.o
 obj-$(CONFIG_PM_TEST_SUSPEND)	+= suspend_test.o
 obj-$(CONFIG_HIBERNATION)	+= swsusp.o hibernate.o snapshot.o swap.o user.o
 obj-$(CONFIG_HIBERNATION_NVS)	+= hibernate_nvs.o
+<<<<<<< HEAD
 obj-$(CONFIG_WAKELOCK)		+= wakelock.o
 obj-$(CONFIG_USER_WAKELOCK)	+= userwakelock.o
 obj-$(CONFIG_EARLYSUSPEND)	+= earlysuspend.o
 obj-$(CONFIG_CONSOLE_EARLYSUSPEND)	+= consoleearlysuspend.o
 obj-$(CONFIG_FB_EARLYSUSPEND)	+= fbearlysuspend.o
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 obj-$(CONFIG_MAGIC_SYSRQ)	+= poweroff.o

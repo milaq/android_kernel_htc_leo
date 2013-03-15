@@ -26,6 +26,39 @@ MODULE_DESCRIPTION("ip6tables security table, for MAC rules");
 				(1 << NF_INET_FORWARD) | \
 				(1 << NF_INET_LOCAL_OUT)
 
+<<<<<<< HEAD
+=======
+static const struct
+{
+	struct ip6t_replace repl;
+	struct ip6t_standard entries[3];
+	struct ip6t_error term;
+} initial_table __net_initdata = {
+	.repl = {
+		.name = "security",
+		.valid_hooks = SECURITY_VALID_HOOKS,
+		.num_entries = 4,
+		.size = sizeof(struct ip6t_standard) * 3 + sizeof(struct ip6t_error),
+		.hook_entry = {
+			[NF_INET_LOCAL_IN] 	= 0,
+			[NF_INET_FORWARD] 	= sizeof(struct ip6t_standard),
+			[NF_INET_LOCAL_OUT] 	= sizeof(struct ip6t_standard) * 2,
+		},
+		.underflow = {
+			[NF_INET_LOCAL_IN] 	= 0,
+			[NF_INET_FORWARD] 	= sizeof(struct ip6t_standard),
+			[NF_INET_LOCAL_OUT] 	= sizeof(struct ip6t_standard) * 2,
+		},
+	},
+	.entries = {
+		IP6T_STANDARD_INIT(NF_ACCEPT),	/* LOCAL_IN */
+		IP6T_STANDARD_INIT(NF_ACCEPT),	/* FORWARD */
+		IP6T_STANDARD_INIT(NF_ACCEPT),	/* LOCAL_OUT */
+	},
+	.term = IP6T_ERROR_INIT,		/* ERROR */
+};
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static const struct xt_table security_table = {
 	.name		= "security",
 	.valid_hooks	= SECURITY_VALID_HOOKS,
@@ -93,6 +126,7 @@ static struct nf_hook_ops ip6t_ops[] __read_mostly = {
 
 static int __net_init ip6table_security_net_init(struct net *net)
 {
+<<<<<<< HEAD
 	struct ip6t_replace *repl;
 
 	repl = ip6t_alloc_initial_table(&security_table);
@@ -101,6 +135,11 @@ static int __net_init ip6table_security_net_init(struct net *net)
 	net->ipv6.ip6table_security =
 		ip6t_register_table(net, &security_table, repl);
 	kfree(repl);
+=======
+	net->ipv6.ip6table_security =
+		ip6t_register_table(net, &security_table, &initial_table.repl);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (IS_ERR(net->ipv6.ip6table_security))
 		return PTR_ERR(net->ipv6.ip6table_security);
 
@@ -109,7 +148,11 @@ static int __net_init ip6table_security_net_init(struct net *net)
 
 static void __net_exit ip6table_security_net_exit(struct net *net)
 {
+<<<<<<< HEAD
 	ip6t_unregister_table(net, net->ipv6.ip6table_security);
+=======
+	ip6t_unregister_table(net->ipv6.ip6table_security);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct pernet_operations ip6table_security_net_ops = {

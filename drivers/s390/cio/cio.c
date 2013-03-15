@@ -618,6 +618,10 @@ void __irq_entry do_IRQ(struct pt_regs *regs)
 	old_regs = set_irq_regs(regs);
 	s390_idle_check();
 	irq_enter();
+<<<<<<< HEAD
+=======
+	__get_cpu_var(s390_idle).nohz_delay = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (S390_lowcore.int_clock >= S390_lowcore.clock_comparator)
 		/* Serve timer interrupts first. */
 		clock_comparator_work();

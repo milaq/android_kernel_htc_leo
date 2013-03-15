@@ -2516,7 +2516,11 @@ int fas216_eh_device_reset(struct scsi_cmnd *SCpnt)
 		if (info->scsi.phase == PHASE_IDLE)
 			fas216_kick(info);
 
+<<<<<<< HEAD
 		mod_timer(&info->eh_timer, 30 * HZ);
+=======
+		mod_timer(&info->eh_timer, jiffies + 30 * HZ);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_unlock_irqrestore(&info->host_lock, flags);
 
 		/*

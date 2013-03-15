@@ -37,6 +37,7 @@ xfs_fsb_to_db(struct xfs_inode *ip, xfs_fsblock_t fsb)
 }
 
 /*
+<<<<<<< HEAD
  * Flags for xfs_free_eofblocks
  */
 #define XFS_FREE_EOF_LOCK	(1<<0)
@@ -44,6 +45,8 @@ xfs_fsb_to_db(struct xfs_inode *ip, xfs_fsblock_t fsb)
 
 
 /*
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * helper function to extract extent size hint from inode
  */
 STATIC_INLINE xfs_extlen_t

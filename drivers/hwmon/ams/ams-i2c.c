@@ -238,6 +238,11 @@ static int ams_i2c_probe(struct i2c_client *client,
 static int ams_i2c_remove(struct i2c_client *client)
 {
 	if (ams_info.has_device) {
+<<<<<<< HEAD
+=======
+		ams_sensor_detach();
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Disable interrupts */
 		ams_i2c_set_irq(AMS_IRQ_ALL, 0);
 

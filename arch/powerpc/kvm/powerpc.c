@@ -176,7 +176,12 @@ struct kvm_vcpu *kvm_arch_vcpu_create(struct kvm *kvm, unsigned int id)
 {
 	struct kvm_vcpu *vcpu;
 	vcpu = kvmppc_core_vcpu_create(kvm, id);
+<<<<<<< HEAD
 	kvmppc_create_vcpu_debugfs(vcpu, id);
+=======
+	if (!IS_ERR(vcpu))
+		kvmppc_create_vcpu_debugfs(vcpu, id);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return vcpu;
 }
 

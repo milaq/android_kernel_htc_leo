@@ -345,7 +345,12 @@ static void kobil_close(struct usb_serial_port *port)
 
 	/* FIXME: Add rts/dtr methods */
 	if (port->write_urb) {
+<<<<<<< HEAD
 		usb_kill_urb(port->write_urb);
+=======
+		usb_poison_urb(port->write_urb);
+		kfree(port->write_urb->transfer_buffer);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		usb_free_urb(port->write_urb);
 		port->write_urb = NULL;
 	}
@@ -371,7 +376,11 @@ static void kobil_read_int_callback(struct urb *urb)
 	}
 
 	tty = tty_port_tty_get(&port->port);
+<<<<<<< HEAD
 	if (urb->actual_length) {
+=======
+	if (tty && urb->actual_length) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* BEGIN DEBUG */
 		/*

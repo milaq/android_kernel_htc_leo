@@ -72,7 +72,11 @@ ENTRY(copy_to_user)
 	addq %rdx,%rcx
 	jc bad_to_user
 	cmpq TI_addr_limit(%rax),%rcx
+<<<<<<< HEAD
 	jae bad_to_user
+=======
+	ja bad_to_user
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ALTERNATIVE_JUMP X86_FEATURE_REP_GOOD,copy_user_generic_unrolled,copy_user_generic_string
 	CFI_ENDPROC
 ENDPROC(copy_to_user)
@@ -85,7 +89,11 @@ ENTRY(copy_from_user)
 	addq %rdx,%rcx
 	jc bad_from_user
 	cmpq TI_addr_limit(%rax),%rcx
+<<<<<<< HEAD
 	jae bad_from_user
+=======
+	ja bad_from_user
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ALTERNATIVE_JUMP X86_FEATURE_REP_GOOD,copy_user_generic_unrolled,copy_user_generic_string
 	CFI_ENDPROC
 ENDPROC(copy_from_user)

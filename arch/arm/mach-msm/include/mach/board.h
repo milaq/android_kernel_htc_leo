@@ -18,6 +18,7 @@
 #define __ASM_ARCH_MSM_BOARD_H
 
 #include <linux/types.h>
+<<<<<<< HEAD
 #include <asm/setup.h>
 
 /* platform device data structures */
@@ -294,5 +295,23 @@ void msm_snddev_tx_route_deconfig(void);
 
 extern int emmc_partition_read_proc(char *page, char **start, off_t off,
 			   int count, int *eof, void *data);
+=======
+
+/* platform device data structures */
+
+struct msm_mddi_platform_data
+{
+	void (*panel_power)(int on);
+	unsigned has_vsync_irq:1;
+};
+
+/* common init routines for use by arch/arm/mach-msm/board-*.c */
+
+void __init msm_add_devices(void);
+void __init msm_map_common_io(void);
+void __init msm_init_irq(void);
+void __init msm_init_gpio(void);
+void __init msm_clock_init(void);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif

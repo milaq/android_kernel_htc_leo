@@ -26,7 +26,11 @@ static int prepare_data(u8 cmd, struct sk_buff **skbp, size_t size)
 	struct sk_buff *skb;
 	void *data;
 
+<<<<<<< HEAD
 	skb = genlmsg_new(size, GFP_KERNEL);
+=======
+	skb = genlmsg_new(size, GFP_NOFS);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!skb)
 		return -ENOMEM;
 

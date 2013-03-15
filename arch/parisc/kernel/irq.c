@@ -117,7 +117,11 @@ int cpu_check_affinity(unsigned int irq, const struct cpumask *dest)
 	int cpu_dest;
 
 	/* timer and ipi have to always be received on all CPUs */
+<<<<<<< HEAD
 	if (CHECK_IRQ_PER_CPU(irq)) {
+=======
+	if (CHECK_IRQ_PER_CPU(irq_to_desc(irq)->status)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Bad linux design decision.  The mask has already
 		 * been set; we must reset it */
 		cpumask_setall(irq_desc[irq].affinity);

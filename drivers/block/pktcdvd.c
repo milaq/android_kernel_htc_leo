@@ -2408,7 +2408,11 @@ static void pkt_release_dev(struct pktcdvd_device *pd, int flush)
 	pkt_shrink_pktlist(pd);
 }
 
+<<<<<<< HEAD
 static struct pktcdvd_device *pkt_find_dev_from_minor(int dev_minor)
+=======
+static struct pktcdvd_device *pkt_find_dev_from_minor(unsigned int dev_minor)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (dev_minor >= MAX_WRITERS)
 		return NULL;

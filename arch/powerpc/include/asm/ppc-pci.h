@@ -137,6 +137,14 @@ struct device_node * find_device_pe(struct device_node *dn);
 void eeh_sysfs_add_device(struct pci_dev *pdev);
 void eeh_sysfs_remove_device(struct pci_dev *pdev);
 
+<<<<<<< HEAD
+=======
+static inline const char *eeh_pci_name(struct pci_dev *pdev)
+{
+	return pdev ? pci_name(pdev) : "<null>";
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_EEH */
 
 #else /* CONFIG_PCI */

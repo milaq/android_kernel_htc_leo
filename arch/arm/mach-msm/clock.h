@@ -18,6 +18,7 @@
 #define __ARCH_ARM_MACH_MSM_CLOCK_H
 
 #include <linux/list.h>
+<<<<<<< HEAD
 #include <mach/clk.h>
 #if defined (CONFIG_ARCH_MSM7X30)
 #include "clock-pcom.h"
@@ -64,12 +65,32 @@ struct clk_handle {
 	struct clk clk;
 	struct clk *source;
 	unsigned long rate;
+=======
+
+#define CLKFLAG_INVERT			0x00000001
+#define CLKFLAG_NOINVERT		0x00000002
+#define CLKFLAG_NONEST			0x00000004
+#define CLKFLAG_NORESET			0x00000008
+
+#define CLK_FIRST_AVAILABLE_FLAG	0x00000100
+#define CLKFLAG_USE_MIN_MAX_TO_SET	0x00000200
+#define CLKFLAG_AUTO_OFF		0x00000400
+
+struct clk {
+	uint32_t id;
+	uint32_t count;
+	uint32_t flags;
+	const char *name;
+	struct list_head list;
+	struct device *dev;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 #define A11S_CLK_CNTL_ADDR		(MSM_CSR_BASE + 0x100)
 #define A11S_CLK_SEL_ADDR		(MSM_CSR_BASE + 0x104)
 #define A11S_VDD_SVS_PLEVEL_ADDR	(MSM_CSR_BASE + 0x124)
 
+<<<<<<< HEAD
 /* clock IDs used by the modem processor */
 
 #define ACPU_CLK		0   /* Applications processor clock */
@@ -205,6 +226,10 @@ enum clkvote_client {
 
 unsigned long clk_get_max_axi_khz(void);
 #endif
+=======
+extern struct clk msm_clocks[];
+extern unsigned msm_num_clocks;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif
 

@@ -296,7 +296,11 @@ static int rds_still_queued(struct rds_sock *rs, struct rds_incoming *inc,
 int rds_notify_queue_get(struct rds_sock *rs, struct msghdr *msghdr)
 {
 	struct rds_notifier *notifier;
+<<<<<<< HEAD
 	struct rds_rdma_notify cmsg;
+=======
+	struct rds_rdma_notify cmsg = { 0 }; /* fill holes with zero */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned int count = 0, max_messages = ~0U;
 	unsigned long flags;
 	LIST_HEAD(copy);

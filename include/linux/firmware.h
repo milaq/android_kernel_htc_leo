@@ -11,6 +11,10 @@
 struct firmware {
 	size_t size;
 	const u8 *data;
+<<<<<<< HEAD
+=======
+	struct page **pages;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct device;

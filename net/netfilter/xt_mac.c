@@ -24,8 +24,12 @@ MODULE_DESCRIPTION("Xtables: MAC address match");
 MODULE_ALIAS("ipt_mac");
 MODULE_ALIAS("ip6t_mac");
 
+<<<<<<< HEAD
 static bool mac_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool mac_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
     const struct xt_mac_info *info = par->matchinfo;
 

@@ -61,6 +61,10 @@ struct file;
 static inline void eventpoll_init_file(struct file *file)
 {
 	INIT_LIST_HEAD(&file->f_ep_links);
+<<<<<<< HEAD
+=======
+	INIT_LIST_HEAD(&file->f_tfile_llink);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 

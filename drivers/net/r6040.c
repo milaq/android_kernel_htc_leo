@@ -135,7 +135,11 @@
 #define RX_DESC_SIZE	(RX_DCNT * sizeof(struct r6040_descriptor))
 #define TX_DESC_SIZE	(TX_DCNT * sizeof(struct r6040_descriptor))
 #define MBCR_DEFAULT	0x012A	/* MAC Bus Control Register */
+<<<<<<< HEAD
 #define MCAST_MAX	4	/* Max number multicast addresses to filter */
+=======
+#define MCAST_MAX	3	/* Max number multicast addresses to filter */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Descriptor status */
 #define DSC_OWNER_MAC	0x8000	/* MAC is the owner of this descriptor */
@@ -985,9 +989,12 @@ static void r6040_multicast_list(struct net_device *dev)
 			crc >>= 26;
 			hash_table[crc >> 4] |= 1 << (15 - (crc & 0xf));
 		}
+<<<<<<< HEAD
 		/* Write the index of the hash table */
 		for (i = 0; i < 4; i++)
 			iowrite16(hash_table[i] << 14, ioaddr + MCR1);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Fill the MAC hash tables with their values */
 		iowrite16(hash_table[0], ioaddr + MAR0);
 		iowrite16(hash_table[1], ioaddr + MAR1);
@@ -995,6 +1002,10 @@ static void r6040_multicast_list(struct net_device *dev)
 		iowrite16(hash_table[3], ioaddr + MAR3);
 	}
 	/* Multicast Address 1~4 case */
+<<<<<<< HEAD
+=======
+	dmi = dev->mc_list;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (i = 0, dmi; (i < dev->mc_count) && (i < MCAST_MAX); i++) {
 		adrp = (u16 *)dmi->dmi_addr;
 		iowrite16(adrp[0], ioaddr + MID_1L + 8*i);
@@ -1003,9 +1014,15 @@ static void r6040_multicast_list(struct net_device *dev)
 		dmi = dmi->next;
 	}
 	for (i = dev->mc_count; i < MCAST_MAX; i++) {
+<<<<<<< HEAD
 		iowrite16(0xffff, ioaddr + MID_0L + 8*i);
 		iowrite16(0xffff, ioaddr + MID_0M + 8*i);
 		iowrite16(0xffff, ioaddr + MID_0H + 8*i);
+=======
+		iowrite16(0xffff, ioaddr + MID_1L + 8*i);
+		iowrite16(0xffff, ioaddr + MID_1M + 8*i);
+		iowrite16(0xffff, ioaddr + MID_1H + 8*i);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 

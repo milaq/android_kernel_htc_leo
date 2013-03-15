@@ -510,7 +510,11 @@ int ip6_forward(struct sk_buff *skb)
 		}
 	}
 
+<<<<<<< HEAD
 	if (skb->len > dst_mtu(dst)) {
+=======
+	if (skb->len > dst_mtu(dst) && !skb_is_gso(skb)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Again, force OUTPUT device used as source address */
 		skb->dev = dst->dev;
 		icmpv6_send(skb, ICMPV6_PKT_TOOBIG, 0, dst_mtu(dst), skb->dev);

@@ -470,7 +470,13 @@ int drm_ioctl(struct inode *inode, struct file *filp,
 				retcode = -EFAULT;
 				goto err_i1;
 			}
+<<<<<<< HEAD
 		}
+=======
+		} else
+			memset(kdata, 0, _IOC_SIZE(cmd));
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		retcode = func(dev, kdata, file_priv);
 
 		if (cmd & IOC_OUT) {

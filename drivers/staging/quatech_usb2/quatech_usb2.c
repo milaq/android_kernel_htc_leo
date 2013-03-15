@@ -921,9 +921,16 @@ static int qt2_ioctl(struct tty_struct *tty, struct file *file,
 		dbg("%s() port %d, cmd == TIOCMIWAIT enter",
 			__func__, port->number);
 		prev_msr_value = port_extra->shadowMSR  & QT2_SERIAL_MSR_MASK;
+<<<<<<< HEAD
 		while (1) {
 			add_wait_queue(&port_extra->wait, &wait);
 			set_current_state(TASK_INTERRUPTIBLE);
+=======
+		barrier();
+		__set_current_state(TASK_INTERRUPTIBLE);
+		while (1) {
+			add_wait_queue(&port_extra->wait, &wait);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			schedule();
 			dbg("%s(): port %d, cmd == TIOCMIWAIT here\n",
 				__func__, port->number);
@@ -931,9 +938,18 @@ static int qt2_ioctl(struct tty_struct *tty, struct file *file,
 			/* see if a signal woke us up */
 			if (signal_pending(current))
 				return -ERESTARTSYS;
+<<<<<<< HEAD
 			msr_value = port_extra->shadowMSR & QT2_SERIAL_MSR_MASK;
 			if (msr_value == prev_msr_value)
 				return -EIO;  /* no change - error */
+=======
+			set_current_state(TASK_INTERRUPTIBLE);
+			msr_value = port_extra->shadowMSR & QT2_SERIAL_MSR_MASK;
+			if (msr_value == prev_msr_value) {
+				__set_current_state(TASK_RUNNING);
+				return -EIO;  /* no change - error */
+			}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if ((arg & TIOCM_RNG &&
 				((prev_msr_value & QT2_SERIAL_MSR_RI) ==
 					(msr_value & QT2_SERIAL_MSR_RI))) ||
@@ -946,6 +962,10 @@ static int qt2_ioctl(struct tty_struct *tty, struct file *file,
 				(arg & TIOCM_CTS &&
 				((prev_msr_value & QT2_SERIAL_MSR_CTS) ==
 					(msr_value & QT2_SERIAL_MSR_CTS)))) {
+<<<<<<< HEAD
+=======
+				__set_current_state(TASK_RUNNING);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return 0;
 			}
 		} /* end inifinite while */

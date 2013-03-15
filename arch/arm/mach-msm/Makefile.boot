@@ -1,6 +1,7 @@
   zreladdr-y		:= 0x10008000
 params_phys-y		:= 0x10000100
 initrd_phys-y		:= 0x10800000
+<<<<<<< HEAD
 
 ifeq ($(CONFIG_ARCH_QSD8X50),y)
   zreladdr-y		:= 0x20008000
@@ -70,3 +71,5 @@ initrd_phys-y           := 0x05A00000
 endif
 endif
 endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

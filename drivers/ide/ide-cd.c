@@ -506,15 +506,31 @@ int ide_cd_queue_pc(ide_drive_t *drive, const unsigned char *cmd,
 	return (flags & REQ_FAILED) ? -EIO : 0;
 }
 
+<<<<<<< HEAD
 static void ide_cd_error_cmd(ide_drive_t *drive, struct ide_cmd *cmd)
+=======
+/*
+ * returns true if rq has been completed
+ */
+static bool ide_cd_error_cmd(ide_drive_t *drive, struct ide_cmd *cmd)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned int nr_bytes = cmd->nbytes - cmd->nleft;
 
 	if (cmd->tf_flags & IDE_TFLAG_WRITE)
 		nr_bytes -= cmd->last_xfer_len;
 
+<<<<<<< HEAD
 	if (nr_bytes > 0)
 		ide_complete_rq(drive, 0, nr_bytes);
+=======
+	if (nr_bytes > 0) {
+		ide_complete_rq(drive, 0, nr_bytes);
+		return true;
+	}
+
+	return false;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static ide_startstop_t cdrom_newpc_intr(ide_drive_t *drive)
@@ -679,7 +695,12 @@ out_end:
 		}
 
 		if (uptodate == 0 && rq->bio)
+<<<<<<< HEAD
 			ide_cd_error_cmd(drive, cmd);
+=======
+			if (ide_cd_error_cmd(drive, cmd))
+				return ide_stopped;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* make sure it's fully ended */
 		if (blk_fs_request(rq) == 0) {

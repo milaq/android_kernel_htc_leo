@@ -240,7 +240,11 @@ int kernel_execve(const char *filename, char *const argv[], char *const envp[])
 		  "Ir" (THREAD_START_SP - sizeof(regs)),
 		  "r" (&regs),
 		  "Ir" (sizeof(regs))
+<<<<<<< HEAD
 		: "r0", "r1", "r2", "r3", "ip", "lr", "memory");
+=======
+		: "r0", "r1", "r2", "r3", "r8", "r9", "ip", "lr", "memory");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
  out:
 	return ret;

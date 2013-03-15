@@ -205,6 +205,11 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
 			unaligned = 1;
 			break;
 		}
+<<<<<<< HEAD
+=======
+		if (!iov[i].iov_len)
+			return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (unaligned || (q->dma_pad_mask & len) || map_data)

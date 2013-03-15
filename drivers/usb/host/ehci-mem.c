@@ -136,7 +136,11 @@ static inline void qh_put (struct ehci_qh *qh)
 
 static void ehci_mem_cleanup (struct ehci_hcd *ehci)
 {
+<<<<<<< HEAD
 	free_cached_itd_list(ehci);
+=======
+	free_cached_lists(ehci);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (ehci->async)
 		qh_put (ehci->async);
 	ehci->async = NULL;

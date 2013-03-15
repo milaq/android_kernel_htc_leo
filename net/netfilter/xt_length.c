@@ -21,7 +21,11 @@ MODULE_ALIAS("ipt_length");
 MODULE_ALIAS("ip6t_length");
 
 static bool
+<<<<<<< HEAD
 length_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+length_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_length_info *info = par->matchinfo;
 	u_int16_t pktlen = ntohs(ip_hdr(skb)->tot_len);
@@ -30,7 +34,11 @@ length_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 }
 
 static bool
+<<<<<<< HEAD
 length_mt6(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+length_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_length_info *info = par->matchinfo;
 	const u_int16_t pktlen = ntohs(ipv6_hdr(skb)->payload_len) +

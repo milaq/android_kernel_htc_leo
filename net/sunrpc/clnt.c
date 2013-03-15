@@ -938,7 +938,11 @@ call_allocate(struct rpc_task *task)
 
 	dprintk("RPC: %5u rpc_buffer allocation failed\n", task->tk_pid);
 
+<<<<<<< HEAD
 	if (RPC_IS_ASYNC(task) || !signalled()) {
+=======
+	if (RPC_IS_ASYNC(task) || !fatal_signal_pending(current)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		task->tk_action = call_allocate;
 		rpc_delay(task, HZ>>4);
 		return;
@@ -1052,6 +1056,12 @@ call_bind_status(struct rpc_task *task)
 			status = -EOPNOTSUPP;
 			break;
 		}
+<<<<<<< HEAD
+=======
+		if (task->tk_rebind_retry == 0)
+			break;
+		task->tk_rebind_retry--;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rpc_delay(task, 3*HZ);
 		goto retry_timeout;
 	case -ETIMEDOUT:

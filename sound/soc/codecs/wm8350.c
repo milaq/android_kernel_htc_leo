@@ -423,8 +423,13 @@ static const struct soc_enum wm8350_enum[] = {
 	SOC_ENUM_SINGLE(WM8350_INPUT_MIXER_VOLUME, 15, 2, wm8350_lr),
 };
 
+<<<<<<< HEAD
 static DECLARE_TLV_DB_LINEAR(pre_amp_tlv, -1200, 3525);
 static DECLARE_TLV_DB_LINEAR(out_pga_tlv, -5700, 600);
+=======
+static DECLARE_TLV_DB_SCALE(pre_amp_tlv, -1200, 3525, 0);
+static DECLARE_TLV_DB_SCALE(out_pga_tlv, -5700, 600, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DECLARE_TLV_DB_SCALE(dac_pcm_tlv, -7163, 36, 1);
 static DECLARE_TLV_DB_SCALE(adc_pcm_tlv, -12700, 50, 1);
 static DECLARE_TLV_DB_SCALE(out_mix_tlv, -1500, 300, 1);

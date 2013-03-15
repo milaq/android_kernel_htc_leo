@@ -300,6 +300,11 @@ static void __devinit __of_scan_bus(struct device_node *node,
 	/* Scan direct children */
 	for_each_child_of_node(node, child) {
 		pr_debug("  * %s\n", child->full_name);
+<<<<<<< HEAD
+=======
+		if (!of_device_is_available(child))
+			continue;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		reg = of_get_property(child, "reg", &reglen);
 		if (reg == NULL || reglen < 20)
 			continue;

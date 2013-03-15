@@ -36,7 +36,10 @@ source "sound/soc/s3c24xx/Kconfig"
 source "sound/soc/s6000/Kconfig"
 source "sound/soc/sh/Kconfig"
 source "sound/soc/txx9/Kconfig"
+<<<<<<< HEAD
 source "sound/soc/msm/Kconfig"
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 # Supported codecs
 source "sound/soc/codecs/Kconfig"

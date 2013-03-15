@@ -63,6 +63,10 @@ static const struct e1000_info *igb_info_tbl[] = {
 static struct pci_device_id igb_pci_tbl[] = {
 	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576), board_82575 },
 	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576_NS), board_82575 },
+<<<<<<< HEAD
+=======
+	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576_NS_SERDES), board_82575 },
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576_FIBER), board_82575 },
 	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576_SERDES), board_82575 },
 	{ PCI_VDEVICE(INTEL, E1000_DEV_ID_82576_SERDES_QUAD), board_82575 },
@@ -3031,7 +3035,11 @@ static inline int igb_tso_adv(struct igb_adapter *adapter,
 							 iph->daddr, 0,
 							 IPPROTO_TCP,
 							 0);
+<<<<<<< HEAD
 	} else if (skb_shinfo(skb)->gso_type == SKB_GSO_TCPV6) {
+=======
+	} else if (skb_is_gso_v6(skb)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ipv6_hdr(skb)->payload_len = 0;
 		tcp_hdr(skb)->check = ~csum_ipv6_magic(&ipv6_hdr(skb)->saddr,
 						       &ipv6_hdr(skb)->daddr,
@@ -4559,7 +4567,11 @@ static void igb_receive_skb(struct igb_ring *ring, u8 status,
 	bool vlan_extracted = (adapter->vlgrp && (status & E1000_RXD_STAT_VP));
 
 	skb_record_rx_queue(skb, ring->queue_index);
+<<<<<<< HEAD
 	if (vlan_extracted)
+=======
+	if (vlan_extracted && adapter->vlgrp)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		vlan_gro_receive(&ring->napi, adapter->vlgrp,
 		                 le16_to_cpu(rx_desc->wb.upper.vlan),
 		                 skb);

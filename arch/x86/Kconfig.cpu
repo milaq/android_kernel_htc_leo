@@ -323,7 +323,11 @@ config X86_L1_CACHE_SHIFT
 
 config X86_XADD
 	def_bool y
+<<<<<<< HEAD
 	depends on X86_32 && !M386
+=======
+	depends on X86_64 || !M386
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config X86_PPRO_FENCE
 	bool "PentiumPro memory ordering errata workaround"

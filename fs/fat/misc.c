@@ -9,6 +9,7 @@
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/buffer_head.h>
+<<<<<<< HEAD
 #include <linux/genhd.h>
 #include "fat.h"
 
@@ -23,6 +24,10 @@ static void set_disk_ro_uevent(struct gendisk *gd, int ro)
 	kobject_uevent_env(&disk_to_dev(gd)->kobj, KOBJ_CHANGE, envp);
 }
 
+=======
+#include "fat.h"
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * fat_fs_error reports a file system problem that might indicate fa data
  * corruption/inconsistency. Depending on 'errors' mount option the
@@ -49,7 +54,10 @@ void fat_fs_error(struct super_block *s, const char *fmt, ...)
 	else if (opts->errors == FAT_ERRORS_RO && !(s->s_flags & MS_RDONLY)) {
 		s->s_flags |= MS_RDONLY;
 		printk(KERN_ERR "    File system has been set read-only\n");
+<<<<<<< HEAD
 		set_disk_ro_uevent(s->s_bdev->bd_disk, 1);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 EXPORT_SYMBOL_GPL(fat_fs_error);

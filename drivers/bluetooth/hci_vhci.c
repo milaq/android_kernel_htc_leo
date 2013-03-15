@@ -41,6 +41,11 @@
 
 #define VERSION "1.3"
 
+<<<<<<< HEAD
+=======
+static int minor = MISC_DYNAMIC_MINOR;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct vhci_data {
 	struct hci_dev *hdev;
 
@@ -157,7 +162,11 @@ static inline ssize_t vhci_put_user(struct vhci_data *data,
 		break;
 
 	case HCI_SCODATA_PKT:
+<<<<<<< HEAD
 		data->hdev->stat.sco_tx++;
+=======
+		data->hdev->stat.cmd_tx++;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	};
 
@@ -216,6 +225,15 @@ static unsigned int vhci_poll(struct file *file, poll_table *wait)
 	return POLLOUT | POLLWRNORM;
 }
 
+<<<<<<< HEAD
+=======
+static int vhci_ioctl(struct inode *inode, struct file *file,
+					unsigned int cmd, unsigned long arg)
+{
+	return -EINVAL;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int vhci_open(struct inode *inode, struct file *file)
 {
 	struct vhci_data *data;
@@ -236,7 +254,11 @@ static int vhci_open(struct inode *inode, struct file *file)
 
 	data->hdev = hdev;
 
+<<<<<<< HEAD
 	hdev->bus = HCI_VIRTUAL;
+=======
+	hdev->type = HCI_VIRTUAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	hdev->driver_data = data;
 
 	hdev->open     = vhci_open_dev;
@@ -276,10 +298,17 @@ static int vhci_release(struct inode *inode, struct file *file)
 }
 
 static const struct file_operations vhci_fops = {
+<<<<<<< HEAD
 	.owner		= THIS_MODULE,
 	.read		= vhci_read,
 	.write		= vhci_write,
 	.poll		= vhci_poll,
+=======
+	.read		= vhci_read,
+	.write		= vhci_write,
+	.poll		= vhci_poll,
+	.ioctl		= vhci_ioctl,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.open		= vhci_open,
 	.release	= vhci_release,
 };
@@ -294,12 +323,26 @@ static int __init vhci_init(void)
 {
 	BT_INFO("Virtual HCI driver ver %s", VERSION);
 
+<<<<<<< HEAD
 	return misc_register(&vhci_miscdev);
+=======
+	if (misc_register(&vhci_miscdev) < 0) {
+		BT_ERR("Can't register misc device with minor %d", minor);
+		return -EIO;
+	}
+
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __exit vhci_exit(void)
 {
+<<<<<<< HEAD
 	misc_deregister(&vhci_miscdev);
+=======
+	if (misc_deregister(&vhci_miscdev) < 0)
+		BT_ERR("Can't unregister misc device with minor %d", minor);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_init(vhci_init);

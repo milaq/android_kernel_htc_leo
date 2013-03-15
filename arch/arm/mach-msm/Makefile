@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 obj-y += io.o irq.o timer.o dma.o memory.o
 obj-$(CONFIG_ARCH_QSD8X50) += sirc.o
 obj-y += devices.o pwrtest.o
@@ -251,3 +252,13 @@ obj-$(CONFIG_MACH_MAHIMAHI) += board-mahimahi-smb329.o
 obj-$(CONFIG_MSM_SSBI) += ssbi.o
 
 obj-$(CONFIG_HTC_FB_CONSOLE) += htc_fb_console.o
+=======
+obj-y += io.o idle.o irq.o timer.o dma.o
+obj-y += devices.o
+obj-y += proc_comm.o
+obj-y += vreg.o
+obj-y += clock.o clock-7x01a.o
+
+obj-$(CONFIG_MACH_HALIBUT) += board-halibut.o
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

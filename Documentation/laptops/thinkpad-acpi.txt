@@ -460,6 +460,11 @@ event	code	Key		Notes
 				For Lenovo ThinkPads with a new
 				BIOS, it has to be handled either
 				by the ACPI OSI, or by userspace.
+<<<<<<< HEAD
+=======
+				The driver does the right thing,
+				never mess with this.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 0x1011	0x10	FN+END		Brightness down.  See brightness
 				up for details.
 
@@ -582,6 +587,7 @@ with hotkey_report_mode.
 
 Brightness hotkey notes:
 
+<<<<<<< HEAD
 These are the current sane choices for brightness key mapping in
 thinkpad-acpi:
 
@@ -622,6 +628,17 @@ For Lenovo models *with* ACPI backlight control:
    these keys on userspace somehow (e.g. by calling xbacklight).
    The driver will do this automatically if it detects that ACPI video
    has been disabled.
+=======
+Don't mess with the brightness hotkeys in a Thinkpad.  If you want
+notifications for OSD, use the sysfs backlight class event support.
+
+The driver will issue KEY_BRIGHTNESS_UP and KEY_BRIGHTNESS_DOWN events
+automatically for the cases were userspace has to do something to
+implement brightness changes.  When you override these events, you will
+either fail to handle properly the ThinkPads that require explicit
+action to change backlight brightness, or the ThinkPads that require
+that no action be taken to work properly.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 Bluetooth
@@ -679,6 +696,13 @@ LCD, CRT or DVI (if available). The following commands are available:
 	echo expand_toggle > /proc/acpi/ibm/video
 	echo video_switch > /proc/acpi/ibm/video
 
+<<<<<<< HEAD
+=======
+NOTE: Access to this feature is restricted to processes owning the
+CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
+enough with some versions of X.org to crash it.
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 Each video output device can be enabled or disabled individually.
 Reading /proc/acpi/ibm/video shows the status of each device.
 
@@ -1465,3 +1489,8 @@ Sysfs interface changelog:
 		and it is always able to disable hot keys.  Very old
 		thinkpads are properly supported.  hotkey_bios_mask
 		is deprecated and marked for removal.
+<<<<<<< HEAD
+=======
+
+0x020600:	Marker for backlight change event support.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

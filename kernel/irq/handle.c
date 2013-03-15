@@ -370,7 +370,11 @@ static void warn_no_thread(unsigned int irq, struct irqaction *action)
 irqreturn_t handle_IRQ_event(unsigned int irq, struct irqaction *action)
 {
 	irqreturn_t ret, retval = IRQ_NONE;
+<<<<<<< HEAD
 	unsigned int status = 0;
+=======
+	unsigned int flags = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!(action->flags & IRQF_DISABLED))
 		local_irq_enable_in_hardirq();
@@ -413,7 +417,11 @@ irqreturn_t handle_IRQ_event(unsigned int irq, struct irqaction *action)
 
 			/* Fall through to add to randomness */
 		case IRQ_HANDLED:
+<<<<<<< HEAD
 			status |= action->flags;
+=======
+			flags |= action->flags;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 
 		default:
@@ -424,8 +432,12 @@ irqreturn_t handle_IRQ_event(unsigned int irq, struct irqaction *action)
 		action = action->next;
 	} while (action);
 
+<<<<<<< HEAD
 	if (status & IRQF_SAMPLE_RANDOM)
 		add_interrupt_randomness(irq);
+=======
+	add_interrupt_randomness(irq, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	local_irq_disable();
 
 	return retval;

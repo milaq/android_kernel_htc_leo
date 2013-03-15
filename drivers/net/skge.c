@@ -40,6 +40,10 @@
 #include <linux/sched.h>
 #include <linux/seq_file.h>
 #include <linux/mii.h>
+<<<<<<< HEAD
+=======
+#include <linux/dmi.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/irq.h>
 
 #include "skge.h"
@@ -3890,6 +3894,11 @@ static void __devinit skge_show_addr(struct net_device *dev)
 		       dev->name, dev->dev_addr);
 }
 
+<<<<<<< HEAD
+=======
+static int only_32bit_dma;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int __devinit skge_probe(struct pci_dev *pdev,
 				const struct pci_device_id *ent)
 {
@@ -3911,7 +3920,11 @@ static int __devinit skge_probe(struct pci_dev *pdev,
 
 	pci_set_master(pdev);
 
+<<<<<<< HEAD
 	if (!pci_set_dma_mask(pdev, DMA_BIT_MASK(64))) {
+=======
+	if (!only_32bit_dma && !pci_set_dma_mask(pdev, DMA_BIT_MASK(64))) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		using_dac = 1;
 		err = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(64));
 	} else if (!(err = pci_set_dma_mask(pdev, DMA_BIT_MASK(32)))) {
@@ -4168,8 +4181,26 @@ static struct pci_driver skge_driver = {
 	.shutdown =	skge_shutdown,
 };
 
+<<<<<<< HEAD
 static int __init skge_init_module(void)
 {
+=======
+static struct dmi_system_id skge_32bit_dma_boards[] = {
+	{
+		.ident = "Gigabyte nForce boards",
+		.matches = {
+			DMI_MATCH(DMI_BOARD_VENDOR, "Gigabyte Technology Co"),
+			DMI_MATCH(DMI_BOARD_NAME, "nForce"),
+		},
+	},
+	{}
+};
+
+static int __init skge_init_module(void)
+{
+	if (dmi_check_system(skge_32bit_dma_boards))
+		only_32bit_dma = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	skge_debug_init();
 	return pci_register_driver(&skge_driver);
 }

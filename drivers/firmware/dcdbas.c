@@ -267,8 +267,15 @@ int dcdbas_smi_request(struct smi_cmd *smi_cmd)
 	}
 
 	/* generate SMI */
+<<<<<<< HEAD
 	asm volatile (
 		"outb %b0,%w1"
+=======
+	/* inb to force posted write through and make SMI happen now */
+	asm volatile (
+		"outb %b0,%w1\n"
+		"inb %w1"
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		: /* no output args */
 		: "a" (smi_cmd->command_code),
 		  "d" (smi_cmd->command_address),

@@ -62,7 +62,12 @@ static inline struct request *__elv_next_request(struct request_queue *q)
 				return rq;
 		}
 
+<<<<<<< HEAD
 		if (!q->elevator->ops->elevator_dispatch_fn(q, 0))
+=======
+		if (test_bit(QUEUE_FLAG_DEAD, &q->queue_flags) ||
+		    !q->elevator->ops->elevator_dispatch_fn(q, 0))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return NULL;
 	}
 }

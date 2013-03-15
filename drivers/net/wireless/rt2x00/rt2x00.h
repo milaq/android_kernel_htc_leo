@@ -112,6 +112,15 @@
 	(  ((unsigned long)((__skb)->data + (__header))) & 3 )
 
 /*
+<<<<<<< HEAD
+=======
+ * Constants for extra TX headroom for alignment purposes.
+ */
+#define RT2X00_ALIGN_SIZE	4 /* Only whole frame needs alignment */
+#define RT2X00_L2PAD_SIZE	8 /* Both header & payload need alignment */
+
+/*
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Standard timing and size defines.
  * These values should follow the ieee80211 specifications.
  */
@@ -579,6 +588,10 @@ struct rt2x00_ops {
 	const unsigned int eeprom_size;
 	const unsigned int rf_size;
 	const unsigned int tx_queues;
+<<<<<<< HEAD
+=======
+	const unsigned int extra_tx_headroom;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	const struct data_queue_desc *rx;
 	const struct data_queue_desc *tx;
 	const struct data_queue_desc *bcn;

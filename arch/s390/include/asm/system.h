@@ -97,7 +97,10 @@ static inline void restore_access_regs(unsigned int *acrs)
 
 extern void account_vtime(struct task_struct *, struct task_struct *);
 extern void account_tick_vtime(struct task_struct *);
+<<<<<<< HEAD
 extern void account_system_vtime(struct task_struct *);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_PFAULT
 extern void pfault_irq_init(void);

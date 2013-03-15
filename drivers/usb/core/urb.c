@@ -137,6 +137,19 @@ void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
 }
 EXPORT_SYMBOL_GPL(usb_anchor_urb);
 
+<<<<<<< HEAD
+=======
+/* Callers must hold anchor->lock */
+static void __usb_unanchor_urb(struct urb *urb, struct usb_anchor *anchor)
+{
+	urb->anchor = NULL;
+	list_del(&urb->anchor_list);
+	usb_put_urb(urb);
+	if (list_empty(&anchor->urb_list))
+		wake_up(&anchor->wait);
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * usb_unanchor_urb - unanchors an URB
  * @urb: pointer to the urb to anchor
@@ -156,6 +169,7 @@ void usb_unanchor_urb(struct urb *urb)
 		return;
 
 	spin_lock_irqsave(&anchor->lock, flags);
+<<<<<<< HEAD
 	if (unlikely(anchor != urb->anchor)) {
 		/* we've lost the race to another thread */
 		spin_unlock_irqrestore(&anchor->lock, flags);
@@ -167,6 +181,16 @@ void usb_unanchor_urb(struct urb *urb)
 	usb_put_urb(urb);
 	if (list_empty(&anchor->urb_list))
 		wake_up(&anchor->wait);
+=======
+	/*
+	 * At this point, we could be competing with another thread which
+	 * has the same intention. To protect the urb from being unanchored
+	 * twice, only the winner of the race gets the job.
+	 */
+	if (likely(anchor == urb->anchor))
+		__usb_unanchor_urb(urb, anchor);
+	spin_unlock_irqrestore(&anchor->lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL_GPL(usb_unanchor_urb);
 
@@ -725,6 +749,7 @@ EXPORT_SYMBOL_GPL(usb_unpoison_anchored_urbs);
 void usb_unlink_anchored_urbs(struct usb_anchor *anchor)
 {
 	struct urb *victim;
+<<<<<<< HEAD
 	unsigned long flags;
 
 	spin_lock_irqsave(&anchor->lock, flags);
@@ -739,6 +764,13 @@ void usb_unlink_anchored_urbs(struct usb_anchor *anchor)
 		spin_lock_irqsave(&anchor->lock, flags);
 	}
 	spin_unlock_irqrestore(&anchor->lock, flags);
+=======
+
+	while ((victim = usb_get_from_anchor(anchor)) != NULL) {
+		usb_unlink_urb(victim);
+		usb_put_urb(victim);
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL_GPL(usb_unlink_anchored_urbs);
 
@@ -775,12 +807,20 @@ struct urb *usb_get_from_anchor(struct usb_anchor *anchor)
 		victim = list_entry(anchor->urb_list.next, struct urb,
 				    anchor_list);
 		usb_get_urb(victim);
+<<<<<<< HEAD
 		spin_unlock_irqrestore(&anchor->lock, flags);
 		usb_unanchor_urb(victim);
 	} else {
 		spin_unlock_irqrestore(&anchor->lock, flags);
 		victim = NULL;
 	}
+=======
+		__usb_unanchor_urb(victim, anchor);
+	} else {
+		victim = NULL;
+	}
+	spin_unlock_irqrestore(&anchor->lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return victim;
 }
@@ -802,12 +842,16 @@ void usb_scuttle_anchored_urbs(struct usb_anchor *anchor)
 	while (!list_empty(&anchor->urb_list)) {
 		victim = list_entry(anchor->urb_list.prev, struct urb,
 				    anchor_list);
+<<<<<<< HEAD
 		usb_get_urb(victim);
 		spin_unlock_irqrestore(&anchor->lock, flags);
 		/* this may free the URB */
 		usb_unanchor_urb(victim);
 		usb_put_urb(victim);
 		spin_lock_irqsave(&anchor->lock, flags);
+=======
+		__usb_unanchor_urb(victim, anchor);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	spin_unlock_irqrestore(&anchor->lock, flags);
 }

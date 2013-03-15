@@ -1255,10 +1255,13 @@ static int do_ioctl(struct tty_struct *tty, struct file *file,
 		 unsigned int cmd, unsigned long arg)
 {
 	SLMP_INFO *info = tty->driver_data;
+<<<<<<< HEAD
 	int error;
 	struct mgsl_icount cnow;	/* kernel counter temps */
 	struct serial_icounter_struct __user *p_cuser;	/* user space */
 	unsigned long flags;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void __user *argp = (void __user *)arg;
 
 	if (debug_level >= DEBUG_LEVEL_INFO)
@@ -1269,7 +1272,11 @@ static int do_ioctl(struct tty_struct *tty, struct file *file,
 		return -ENODEV;
 
 	if ((cmd != TIOCGSERIAL) && (cmd != TIOCSSERIAL) &&
+<<<<<<< HEAD
 	    (cmd != TIOCMIWAIT) && (cmd != TIOCGICOUNT)) {
+=======
+	    (cmd != TIOCMIWAIT)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (tty->flags & (1 << TTY_IO_ERROR))
 		    return -EIO;
 	}
@@ -1307,6 +1314,7 @@ static int do_ioctl(struct tty_struct *tty, struct file *file,
 		 * NB: both 1->0 and 0->1 transitions are counted except for
 		 *     RI where only 0->1 is counted.
 		 */
+<<<<<<< HEAD
 	case TIOCGICOUNT:
 		spin_lock_irqsave(&info->lock,flags);
 		cnow = info->icount;
@@ -1335,12 +1343,43 @@ static int do_ioctl(struct tty_struct *tty, struct file *file,
 		PUT_USER(error,cnow.buf_overrun, &p_cuser->buf_overrun);
 		if (error) return error;
 		return 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default:
 		return -ENOIOCTLCMD;
 	}
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int get_icount(struct tty_struct *tty,
+				struct serial_icounter_struct *icount)
+{
+	SLMP_INFO *info = tty->driver_data;
+	struct mgsl_icount cnow;	/* kernel counter temps */
+	unsigned long flags;
+
+	spin_lock_irqsave(&info->lock,flags);
+	cnow = info->icount;
+	spin_unlock_irqrestore(&info->lock,flags);
+
+	icount->cts = cnow.cts;
+	icount->dsr = cnow.dsr;
+	icount->rng = cnow.rng;
+	icount->dcd = cnow.dcd;
+	icount->rx = cnow.rx;
+	icount->tx = cnow.tx;
+	icount->frame = cnow.frame;
+	icount->overrun = cnow.overrun;
+	icount->parity = cnow.parity;
+	icount->brk = cnow.brk;
+	icount->buf_overrun = cnow.buf_overrun;
+
+	return 0;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int ioctl(struct tty_struct *tty, struct file *file,
 		 unsigned int cmd, unsigned long arg)
 {
@@ -3908,6 +3947,10 @@ static const struct tty_operations ops = {
 	.hangup = hangup,
 	.tiocmget = tiocmget,
 	.tiocmset = tiocmset,
+<<<<<<< HEAD
+=======
+	.get_icount = get_icount,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops = &synclinkmp_proc_fops,
 };
 

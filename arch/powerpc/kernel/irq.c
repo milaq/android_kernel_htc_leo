@@ -53,7 +53,10 @@
 #include <linux/bootmem.h>
 #include <linux/pci.h>
 #include <linux/debugfs.h>
+<<<<<<< HEAD
 #include <linux/perf_event.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/uaccess.h>
 #include <asm/system.h>
@@ -138,11 +141,14 @@ notrace void raw_local_irq_restore(unsigned long en)
 	}
 #endif /* CONFIG_PPC_STD_MMU_64 */
 
+<<<<<<< HEAD
 	if (test_perf_event_pending()) {
 		clear_perf_event_pending();
 		perf_event_do_pending();
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * if (get_paca()->hard_enabled) return;
 	 * But again we need to take care that gcc gets hard_enabled directly

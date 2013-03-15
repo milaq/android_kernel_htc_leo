@@ -126,8 +126,14 @@ int btrfs_parse_options(struct btrfs_root *root, char *options)
 {
 	struct btrfs_fs_info *info = root->fs_info;
 	substring_t args[MAX_OPT_ARGS];
+<<<<<<< HEAD
 	char *p, *num;
 	int intarg;
+=======
+	char *p, *num, *orig;
+	int intarg;
+	int ret = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!options)
 		return 0;
@@ -140,6 +146,10 @@ int btrfs_parse_options(struct btrfs_root *root, char *options)
 	if (!options)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+	orig = options;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	while ((p = strsep(&options, ",")) != NULL) {
 		int token;
@@ -262,12 +272,26 @@ int btrfs_parse_options(struct btrfs_root *root, char *options)
 		case Opt_discard:
 			btrfs_set_opt(info->mount_opt, DISCARD);
 			break;
+<<<<<<< HEAD
+=======
+		case Opt_err:
+			printk(KERN_INFO "btrfs: unrecognized mount option "
+			       "'%s'\n", p);
+			ret = -EINVAL;
+			goto out;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		default:
 			break;
 		}
 	}
+<<<<<<< HEAD
 	kfree(options);
 	return 0;
+=======
+out:
+	kfree(orig);
+	return ret;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -405,8 +429,13 @@ int btrfs_sync_fs(struct super_block *sb, int wait)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	btrfs_start_delalloc_inodes(root);
 	btrfs_wait_ordered_extents(root, 0);
+=======
+	btrfs_start_delalloc_inodes(root, 0);
+	btrfs_wait_ordered_extents(root, 0, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	trans = btrfs_start_transaction(root, 1);
 	ret = btrfs_commit_transaction(trans, root);
@@ -450,6 +479,11 @@ static int btrfs_show_options(struct seq_file *seq, struct vfsmount *vfs)
 		seq_puts(seq, ",notreelog");
 	if (btrfs_test_opt(root, FLUSHONCOMMIT))
 		seq_puts(seq, ",flushoncommit");
+<<<<<<< HEAD
+=======
+	if (btrfs_test_opt(root, DISCARD))
+		seq_puts(seq, ",discard");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!(root->fs_info->sb->s_flags & MS_POSIXACL))
 		seq_puts(seq, ",noacl");
 	return 0;

@@ -155,10 +155,17 @@ static int nf_ip_reroute(struct sk_buff *skb,
 	if (entry->hook == NF_INET_LOCAL_OUT) {
 		const struct iphdr *iph = ip_hdr(skb);
 
+<<<<<<< HEAD
 		if (!(iph->tos == rt_info->tos &&
 		      skb->mark == rt_info->mark &&
 		      iph->daddr == rt_info->daddr &&
 		      iph->saddr == rt_info->saddr))
+=======
+		if (!(iph->tos == rt_info->tos
+		      && skb->mark == rt_info->mark
+		      && iph->daddr == rt_info->daddr
+		      && iph->saddr == rt_info->saddr))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return ip_route_me_harder(skb, RTN_UNSPEC);
 	}
 	return 0;

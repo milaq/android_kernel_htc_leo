@@ -10,10 +10,19 @@
 #include "check.h"
 #include "osf.h"
 
+<<<<<<< HEAD
+=======
+#define MAX_OSF_PARTITIONS 18
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int osf_partition(struct parsed_partitions *state, struct block_device *bdev)
 {
 	int i;
 	int slot = 1;
+<<<<<<< HEAD
+=======
+	unsigned int npartitions;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	Sector sect;
 	unsigned char *data;
 	struct disklabel {
@@ -45,7 +54,11 @@ int osf_partition(struct parsed_partitions *state, struct block_device *bdev)
 			u8  p_fstype;
 			u8  p_frag;
 			__le16 p_cpg;
+<<<<<<< HEAD
 		} d_partitions[8];
+=======
+		} d_partitions[MAX_OSF_PARTITIONS];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} * label;
 	struct d_partition * partition;
 
@@ -63,7 +76,16 @@ int osf_partition(struct parsed_partitions *state, struct block_device *bdev)
 		put_dev_sector(sect);
 		return 0;
 	}
+<<<<<<< HEAD
 	for (i = 0 ; i < le16_to_cpu(label->d_npartitions); i++, partition++) {
+=======
+	npartitions = le16_to_cpu(label->d_npartitions);
+	if (npartitions > MAX_OSF_PARTITIONS) {
+		put_dev_sector(sect);
+		return 0;
+	}
+	for (i = 0 ; i < npartitions; i++, partition++) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (slot == state->limit)
 		        break;
 		if (le32_to_cpu(partition->p_size))

@@ -326,6 +326,7 @@ static void vfp_enable(void *unused)
 	set_copro_access(access | CPACC_FULL(10) | CPACC_FULL(11));
 }
 
+<<<<<<< HEAD
 int vfp_flush_context(void)
 {
 	unsigned long flags;
@@ -374,6 +375,8 @@ void vfp_reinit(void)
 }
 
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_PM
 #include <linux/sysdev.h>
 

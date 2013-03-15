@@ -1224,6 +1224,7 @@ static int try_to_load_firmware(struct cmdif *cif, struct snd_riptide *chip)
 		    firmware.firmware.ASIC, firmware.firmware.CODEC,
 		    firmware.firmware.AUXDSP, firmware.firmware.PROG);
 
+<<<<<<< HEAD
 	for (i = 0; i < FIRMWARE_VERSIONS; i++) {
 		if (!memcmp(&firmware_versions[i], &firmware, sizeof(firmware)))
 			break;
@@ -1233,6 +1234,16 @@ static int try_to_load_firmware(struct cmdif *cif, struct snd_riptide *chip)
 
 	if (!chip)
 		return 1; /* OK */
+=======
+	if (!chip)
+		return 1;
+
+	for (i = 0; i < FIRMWARE_VERSIONS; i++) {
+		if (!memcmp(&firmware_versions[i], &firmware, sizeof(firmware)))
+			return 1; /* OK */
+
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	snd_printdd("Writing Firmware\n");
 	if (!chip->fw_entry) {

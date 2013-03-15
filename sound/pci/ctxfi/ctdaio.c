@@ -176,6 +176,10 @@ static int dao_set_left_input(struct dao *dao, struct rsc *input)
 	if (!entry)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+	dao->ops->clear_left_input(dao);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Program master and conjugate resources */
 	input->ops->master(input);
 	daio->rscl.ops->master(&daio->rscl);
@@ -204,6 +208,10 @@ static int dao_set_right_input(struct dao *dao, struct rsc *input)
 	if (!entry)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+	dao->ops->clear_right_input(dao);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Program master and conjugate resources */
 	input->ops->master(input);
 	daio->rscr.ops->master(&daio->rscr);

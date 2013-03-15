@@ -1466,6 +1466,12 @@ static int mos7720_ioctl(struct tty_struct *tty, struct file *file,
 
 	case TIOCGICOUNT:
 		cnow = mos7720_port->icount;
+<<<<<<< HEAD
+=======
+
+		memset(&icount, 0, sizeof(struct serial_icounter_struct));
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		icount.cts = cnow.cts;
 		icount.dsr = cnow.dsr;
 		icount.rng = cnow.rng;

@@ -123,9 +123,12 @@ source "drivers/staging/sep/Kconfig"
 
 source "drivers/staging/iio/Kconfig"
 
+<<<<<<< HEAD
 source "drivers/staging/zram/Kconfig"
 
 source "drivers/staging/snappy/Kconfig"
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # !STAGING_EXCLUDE_BUILD
 endif # STAGING

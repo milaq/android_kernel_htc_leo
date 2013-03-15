@@ -3113,6 +3113,7 @@ config PPPOL2TP
 	  and session setup). One such daemon is OpenL2TP
 	  (http://openl2tp.sourceforge.net/).
 
+<<<<<<< HEAD
 config PPPOLAC
 	tristate "PPP on L2TP Access Concentrator"
 	depends on PPP && INET
@@ -3130,6 +3131,8 @@ config PPPOPNS
 	  networks. This driver handles PPTP data packets between a RAW socket
 	  and a PPP channel. It is fairly simple and easy to use.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config SLIP
 	tristate "SLIP (serial line) support"
 	---help---
@@ -3222,6 +3225,7 @@ config NETCONSOLE
 	If you want to log kernel messages over the network, enable this.
 	See <file:Documentation/networking/netconsole.txt> for details.
 
+<<<<<<< HEAD
 config MSM_RMNET
 	tristate "MSM RMNET Virtual Network Device"
 	depends on ARCH_MSM
@@ -3237,6 +3241,8 @@ config MSM_RMNET_DEBUG
 	  Debug stats on wakeup counts.
 
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETCONSOLE_DYNAMIC
 	bool "Dynamic reconfiguration of logging targets (EXPERIMENTAL)"
 	depends on NETCONSOLE && SYSFS && EXPERIMENTAL
@@ -3273,6 +3279,7 @@ config VMXNET3
          To compile this driver as a module, choose M here: the
          module will be called vmxnet3.
 
+<<<<<<< HEAD
 config KINETO_GAN 
         tristate "Kineto GAN virtual network interface" 
         depends on ARM 
@@ -3280,4 +3287,6 @@ config KINETO_GAN
         help 
           Virtual ethernet interface for Kineto GAN transport.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # NETDEVICES

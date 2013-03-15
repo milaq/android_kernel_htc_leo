@@ -20,6 +20,10 @@ static u16 nla_attr_minlen[NLA_TYPE_MAX+1] __read_mostly = {
 	[NLA_U16]	= sizeof(u16),
 	[NLA_U32]	= sizeof(u32),
 	[NLA_U64]	= sizeof(u64),
+<<<<<<< HEAD
+=======
+	[NLA_MSECS]	= sizeof(u64),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	[NLA_NESTED]	= NLA_HDRLEN,
 };
 

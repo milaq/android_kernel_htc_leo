@@ -15,6 +15,10 @@
 #include <asm/stackprotector.h>
 #include <asm/perf_event.h>
 #include <asm/mmu_context.h>
+<<<<<<< HEAD
+=======
+#include <asm/archrandom.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/hypervisor.h>
 #include <asm/processor.h>
 #include <asm/sections.h>
@@ -540,7 +544,11 @@ void __cpuinit cpu_detect(struct cpuinfo_x86 *c)
 	}
 }
 
+<<<<<<< HEAD
 static void __cpuinit get_cpu_cap(struct cpuinfo_x86 *c)
+=======
+void __cpuinit get_cpu_cap(struct cpuinfo_x86 *c)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	u32 tfms, xlvl;
 	u32 ebx;
@@ -579,6 +587,10 @@ static void __cpuinit get_cpu_cap(struct cpuinfo_x86 *c)
 	if (c->extended_cpuid_level >= 0x80000007)
 		c->x86_power = cpuid_edx(0x80000007);
 
+<<<<<<< HEAD
+=======
+	init_scattered_cpuid_features(c);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __cpuinit identify_cpu_without_cpuid(struct cpuinfo_x86 *c)
@@ -727,7 +739,10 @@ static void __cpuinit generic_identify(struct cpuinfo_x86 *c)
 
 	get_model_name(c); /* Default name */
 
+<<<<<<< HEAD
 	init_scattered_cpuid_features(c);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	detect_nopl(c);
 }
 
@@ -815,6 +830,10 @@ static void __cpuinit identify_cpu(struct cpuinfo_x86 *c)
 #endif
 
 	init_hypervisor(c);
+<<<<<<< HEAD
+=======
+	x86_init_rdrand(c);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Clear/Set all flags overriden by options, need do it

@@ -532,7 +532,11 @@ static unsigned int copy_to_bounce_buffer(struct scatterlist *orig_sgl,
 
 		ASSERT(orig_sgl[i].offset + orig_sgl[i].length <= PAGE_SIZE);
 
+<<<<<<< HEAD
 		if (j == 0)
+=======
+		if (bounce_addr == 0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			bounce_addr = (unsigned long)kmap_atomic(sg_page((&bounce_sgl[j])), KM_IRQ0);
 
 		while (srclen) {
@@ -593,7 +597,11 @@ static unsigned int copy_from_bounce_buffer(struct scatterlist *orig_sgl,
 		destlen = orig_sgl[i].length;
 		ASSERT(orig_sgl[i].offset + orig_sgl[i].length <= PAGE_SIZE);
 
+<<<<<<< HEAD
 		if (j == 0)
+=======
+		if (bounce_addr == 0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			bounce_addr = (unsigned long)kmap_atomic(sg_page((&bounce_sgl[j])), KM_IRQ0);
 
 		while (destlen) {
@@ -652,6 +660,10 @@ static int storvsc_queuecommand(struct scsi_cmnd *scmnd,
 	unsigned int request_size = 0;
 	int i;
 	struct scatterlist *sgl;
+<<<<<<< HEAD
+=======
+	unsigned int sg_count = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	DPRINT_ENTER(STORVSC_DRV);
 
@@ -736,6 +748,10 @@ static int storvsc_queuecommand(struct scsi_cmnd *scmnd,
 	request->DataBuffer.Length = scsi_bufflen(scmnd);
 	if (scsi_sg_count(scmnd)) {
 		sgl = (struct scatterlist *)scsi_sglist(scmnd);
+<<<<<<< HEAD
+=======
+		sg_count = scsi_sg_count(scmnd);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* check if we need to bounce the sgl */
 		if (do_bounce_buffer(sgl, scsi_sg_count(scmnd)) != -1) {
@@ -770,11 +786,19 @@ static int storvsc_queuecommand(struct scsi_cmnd *scmnd,
 					      scsi_sg_count(scmnd));
 
 			sgl = cmd_request->bounce_sgl;
+<<<<<<< HEAD
+=======
+			sg_count = cmd_request->bounce_sgl_count;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		request->DataBuffer.Offset = sgl[0].offset;
 
+<<<<<<< HEAD
 		for (i = 0; i < scsi_sg_count(scmnd); i++) {
+=======
+		for (i = 0; i < sg_count; i++) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			DPRINT_DBG(STORVSC_DRV, "sgl[%d] len %d offset %d \n",
 				   i, sgl[i].length, sgl[i].offset);
 			request->DataBuffer.PfnArray[i] =

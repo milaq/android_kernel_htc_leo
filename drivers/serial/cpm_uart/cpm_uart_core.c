@@ -930,6 +930,86 @@ static void cpm_uart_config_port(struct uart_port *port, int flags)
 	}
 }
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_CONSOLE_POLL) || defined(CONFIG_SERIAL_CPM_CONSOLE)
+/*
+ * Write a string to the serial port
+ * Note that this is called with interrupts already disabled
+ */
+static void cpm_uart_early_write(struct uart_cpm_port *pinfo,
+		const char *string, u_int count)
+{
+	unsigned int i;
+	cbd_t __iomem *bdp, *bdbase;
+	unsigned char *cpm_outp_addr;
+
+	/* Get the address of the host memory buffer.
+	 */
+	bdp = pinfo->tx_cur;
+	bdbase = pinfo->tx_bd_base;
+
+	/*
+	 * Now, do each character.  This is not as bad as it looks
+	 * since this is a holding FIFO and not a transmitting FIFO.
+	 * We could add the complexity of filling the entire transmit
+	 * buffer, but we would just wait longer between accesses......
+	 */
+	for (i = 0; i < count; i++, string++) {
+		/* Wait for transmitter fifo to empty.
+		 * Ready indicates output is ready, and xmt is doing
+		 * that, not that it is ready for us to send.
+		 */
+		while ((in_be16(&bdp->cbd_sc) & BD_SC_READY) != 0)
+			;
+
+		/* Send the character out.
+		 * If the buffer address is in the CPM DPRAM, don't
+		 * convert it.
+		 */
+		cpm_outp_addr = cpm2cpu_addr(in_be32(&bdp->cbd_bufaddr),
+					pinfo);
+		*cpm_outp_addr = *string;
+
+		out_be16(&bdp->cbd_datlen, 1);
+		setbits16(&bdp->cbd_sc, BD_SC_READY);
+
+		if (in_be16(&bdp->cbd_sc) & BD_SC_WRAP)
+			bdp = bdbase;
+		else
+			bdp++;
+
+		/* if a LF, also do CR... */
+		if (*string == 10) {
+			while ((in_be16(&bdp->cbd_sc) & BD_SC_READY) != 0)
+				;
+
+			cpm_outp_addr = cpm2cpu_addr(in_be32(&bdp->cbd_bufaddr),
+						pinfo);
+			*cpm_outp_addr = 13;
+
+			out_be16(&bdp->cbd_datlen, 1);
+			setbits16(&bdp->cbd_sc, BD_SC_READY);
+
+			if (in_be16(&bdp->cbd_sc) & BD_SC_WRAP)
+				bdp = bdbase;
+			else
+				bdp++;
+		}
+	}
+
+	/*
+	 * Finally, Wait for transmitter & holding register to empty
+	 *  and restore the IER
+	 */
+	while ((in_be16(&bdp->cbd_sc) & BD_SC_READY) != 0)
+		;
+
+	pinfo->tx_cur = bdp;
+}
+#endif
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_CONSOLE_POLL
 /* Serial polling routines for writing and reading from the uart while
  * in an interrupt or debug context.
@@ -999,7 +1079,11 @@ static void cpm_put_poll_char(struct uart_port *port,
 	static char ch[2];
 
 	ch[0] = (char)c;
+<<<<<<< HEAD
 	cpm_uart_early_write(pinfo->port.line, ch, 1);
+=======
+	cpm_uart_early_write(pinfo, ch, 1);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 #endif /* CONFIG_CONSOLE_POLL */
 
@@ -1130,9 +1214,12 @@ static void cpm_uart_console_write(struct console *co, const char *s,
 				   u_int count)
 {
 	struct uart_cpm_port *pinfo = &cpm_uart_ports[co->index];
+<<<<<<< HEAD
 	unsigned int i;
 	cbd_t __iomem *bdp, *bdbase;
 	unsigned char *cp;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long flags;
 	int nolock = oops_in_progress;
 
@@ -1142,6 +1229,7 @@ static void cpm_uart_console_write(struct console *co, const char *s,
 		spin_lock_irqsave(&pinfo->port.lock, flags);
 	}
 
+<<<<<<< HEAD
 	/* Get the address of the host memory buffer.
 	 */
 	bdp = pinfo->tx_cur;
@@ -1202,6 +1290,9 @@ static void cpm_uart_console_write(struct console *co, const char *s,
 		;
 
 	pinfo->tx_cur = bdp;
+=======
+	cpm_uart_early_write(pinfo, s, count);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (unlikely(nolock)) {
 		local_irq_restore(flags);

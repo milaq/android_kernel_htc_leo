@@ -49,6 +49,7 @@ xfs_internal_inum(
 		 (ino == mp->m_sb.sb_uquotino || ino == mp->m_sb.sb_gquotino)));
 }
 
+<<<<<<< HEAD
 STATIC int
 xfs_bulkstat_one_iget(
 	xfs_mount_t	*mp,		/* mount point for filesystem */
@@ -67,6 +68,42 @@ xfs_bulkstat_one_iget(
 	if (error) {
 		*stat = BULKSTAT_RV_NOTHING;
 		return error;
+=======
+/*
+ * Return stat information for one inode.
+ * Return 0 if ok, else errno.
+ */
+int
+xfs_bulkstat_one_int(
+	struct xfs_mount	*mp,		/* mount point for filesystem */
+	xfs_ino_t		ino,		/* inode to get data for */
+	void __user		*buffer,	/* buffer to place output in */
+	int			ubsize,		/* size of buffer */
+	bulkstat_one_fmt_pf	formatter,	/* formatter, copy to user */
+	int			*ubused,	/* bytes used by me */
+	int			*stat)		/* BULKSTAT_RV_... */
+{
+	struct xfs_icdinode	*dic;		/* dinode core info pointer */
+	struct xfs_inode	*ip;		/* incore inode pointer */
+	struct inode		*inode;
+	struct xfs_bstat	*buf;		/* return buffer */
+	int			error = 0;	/* error value */
+
+	*stat = BULKSTAT_RV_NOTHING;
+
+	if (!buffer || xfs_internal_inum(mp, ino))
+		return XFS_ERROR(EINVAL);
+
+	buf = kmem_alloc(sizeof(*buf), KM_SLEEP | KM_MAYFAIL);
+	if (!buf)
+		return XFS_ERROR(ENOMEM);
+
+	error = xfs_iget(mp, NULL, ino,
+			 XFS_IGET_UNTRUSTED, XFS_ILOCK_SHARED, &ip);
+	if (error) {
+		*stat = BULKSTAT_RV_NOTHING;
+		goto out_free;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	ASSERT(ip != NULL);
@@ -126,6 +163,7 @@ xfs_bulkstat_one_iget(
 		buf->bs_blocks = dic->di_nblocks + ip->i_delayed_blks;
 		break;
 	}
+<<<<<<< HEAD
 
 	xfs_iput(ip, XFS_ILOCK_SHARED);
 	return error;
@@ -196,6 +234,18 @@ xfs_bulkstat_one_dinode(
 		buf->bs_blocks = be64_to_cpu(dic->di_nblocks);
 		break;
 	}
+=======
+	xfs_iput(ip, XFS_ILOCK_SHARED);
+
+	error = formatter(buffer, ubsize, ubused, buf);
+
+	if (!error)
+		*stat = BULKSTAT_RV_DIDONE;
+
+ out_free:
+	kmem_free(buf);
+	return error;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Return 0 on success or positive error */
@@ -215,6 +265,7 @@ xfs_bulkstat_one_fmt(
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
  * Return stat information for one inode.
  * Return 0 if ok, else errno.
@@ -265,12 +316,15 @@ xfs_bulkstat_one_int(
 	return error;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int
 xfs_bulkstat_one(
 	xfs_mount_t	*mp,		/* mount point for filesystem */
 	xfs_ino_t	ino,		/* inode number to get data for */
 	void		__user *buffer,	/* buffer to place output in */
 	int		ubsize,		/* size of buffer */
+<<<<<<< HEAD
 	void		*private_data,	/* my private data */
 	xfs_daddr_t	bno,		/* starting bno of inode cluster */
 	int		*ubused,	/* bytes used by me */
@@ -327,6 +381,13 @@ xfs_bulkstat_use_dinode(
 		return 1;
 	}
 	return 1;
+=======
+	int		*ubused,	/* bytes used by me */
+	int		*stat)		/* BULKSTAT_RV_... */
+{
+	return xfs_bulkstat_one_int(mp, ino, buffer, ubsize,
+				    xfs_bulkstat_one_fmt, ubused, stat);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #define XFS_BULKSTAT_UBLEFT(ubleft)	((ubleft) >= statstruct_size)
@@ -340,10 +401,15 @@ xfs_bulkstat(
 	xfs_ino_t		*lastinop, /* last inode returned */
 	int			*ubcountp, /* size of buffer/count returned */
 	bulkstat_one_pf		formatter, /* func that'd fill a single buf */
+<<<<<<< HEAD
 	void			*private_data,/* private data for formatter */
 	size_t			statstruct_size, /* sizeof struct filling */
 	char			__user *ubuffer, /* buffer with inode stats */
 	int			flags,	/* defined in xfs_itable.h */
+=======
+	size_t			statstruct_size, /* sizeof struct filling */
+	char			__user *ubuffer, /* buffer with inode stats */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int			*done)	/* 1 if there are more stats to get */
 {
 	xfs_agblock_t		agbno=0;/* allocation group block number */
@@ -378,14 +444,20 @@ xfs_bulkstat(
 	int			ubelem;	/* spaces used in user's buffer */
 	int			ubused;	/* bytes used by formatter */
 	xfs_buf_t		*bp;	/* ptr to on-disk inode cluster buf */
+<<<<<<< HEAD
 	xfs_dinode_t		*dip;	/* ptr into bp for specific inode */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Get the last inode value, see if there's nothing to do.
 	 */
 	ino = (xfs_ino_t)*lastinop;
 	lastino = ino;
+<<<<<<< HEAD
 	dip = NULL;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	agno = XFS_INO_TO_AGNO(mp, ino);
 	agino = XFS_INO_TO_AGINO(mp, ino);
 	if (agno >= mp->m_sb.sb_agcount ||
@@ -610,6 +682,7 @@ xfs_bulkstat(
 							irbp->ir_startino) +
 						((chunkidx & nimask) >>
 						 mp->m_sb.sb_inopblog);
+<<<<<<< HEAD
 
 					if (flags & (BULKSTAT_FG_QUICK |
 						     BULKSTAT_FG_INLINE)) {
@@ -641,6 +714,8 @@ xfs_bulkstat(
 							break;
 						}
 					}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				}
 				ino = XFS_AGINO_TO_INO(mp, agno, agino);
 				bno = XFS_AGB_TO_DADDR(mp, agno, agbno);
@@ -656,6 +731,7 @@ xfs_bulkstat(
 				 * when the chunk is used up.
 				 */
 				irbp->ir_freecount++;
+<<<<<<< HEAD
 				if (!xfs_bulkstat_use_dinode(mp, flags, bp,
 							     clustidx, &dip)) {
 					lastino = ino;
@@ -685,6 +761,15 @@ xfs_bulkstat(
 				error = formatter(mp, ino, ubufp,
 						ubleft, private_data,
 						bno, &ubused, dip, &fmterror);
+=======
+
+				/*
+				 * Get the inode and fill in a single buffer.
+				 */
+				ubused = statstruct_size;
+				error = formatter(mp, ino, ubufp, ubleft,
+						  &ubused, &fmterror);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				if (fmterror == BULKSTAT_RV_NOTHING) {
 					if (error && error != ENOENT &&
 						error != EINVAL) {
@@ -776,8 +861,12 @@ xfs_bulkstat_single(
 	 */
 
 	ino = (xfs_ino_t)*lastinop;
+<<<<<<< HEAD
 	error = xfs_bulkstat_one(mp, ino, buffer, sizeof(xfs_bstat_t),
 				 NULL, 0, NULL, NULL, &res);
+=======
+	error = xfs_bulkstat_one(mp, ino, buffer, sizeof(xfs_bstat_t), 0, &res);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error) {
 		/*
 		 * Special case way failed, do it the "long" way
@@ -786,8 +875,12 @@ xfs_bulkstat_single(
 		(*lastinop)--;
 		count = 1;
 		if (xfs_bulkstat(mp, lastinop, &count, xfs_bulkstat_one,
+<<<<<<< HEAD
 				NULL, sizeof(xfs_bstat_t), buffer,
 				BULKSTAT_FG_IGET, done))
+=======
+				sizeof(xfs_bstat_t), buffer, done))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return error;
 		if (count == 0 || (xfs_ino_t)*lastinop != ino)
 			return error == EFSCORRUPTED ?

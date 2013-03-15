@@ -1,12 +1,16 @@
 /* interface for the pm_qos_power infrastructure of the linux kernel.
  *
  * Mark Gross <mgross@linux.intel.com>
+<<<<<<< HEAD
  *
  * Copyright (c) 2010, Code Aurora Forum. All rights reserved.
  */
 #ifndef __PM_QOS_PARAMS_H__
 #define __PM_QOS_PARAMS_H__
 
+=======
+ */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/list.h>
 #include <linux/notifier.h>
 #include <linux/miscdevice.h>
@@ -15,6 +19,7 @@
 #define PM_QOS_CPU_DMA_LATENCY 1
 #define PM_QOS_NETWORK_LATENCY 2
 #define PM_QOS_NETWORK_THROUGHPUT 3
+<<<<<<< HEAD
 #define PM_QOS_SYSTEM_BUS_FREQ 4
 
 #define PM_QOS_NUM_CLASSES 5
@@ -49,6 +54,12 @@ struct pm_qos_object {
 
 int pm_qos_register_plugin(int pm_qos_class, struct pm_qos_plugin *plugin);
 
+=======
+
+#define PM_QOS_NUM_CLASSES 4
+#define PM_QOS_DEFAULT_VALUE -1
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int pm_qos_add_requirement(int qos, char *name, s32 value);
 int pm_qos_update_requirement(int qos, char *name, s32 new_value);
 void pm_qos_remove_requirement(int qos, char *name);
@@ -58,5 +69,8 @@ int pm_qos_requirement(int qos);
 int pm_qos_add_notifier(int qos, struct notifier_block *notifier);
 int pm_qos_remove_notifier(int qos, struct notifier_block *notifier);
 
+<<<<<<< HEAD
 #endif /* __PM_QOS_PARAMS_H__ */
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

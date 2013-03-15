@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/types.h>
 #include <linux/module.h>
 #include <net/ip.h>
@@ -20,6 +23,16 @@ MODULE_ALIAS("ipt_tcp");
 MODULE_ALIAS("ip6t_udp");
 MODULE_ALIAS("ip6t_tcp");
 
+<<<<<<< HEAD
+=======
+#ifdef DEBUG_IP_FIREWALL_USER
+#define duprintf(format, args...) printk(format , ## args)
+#else
+#define duprintf(format, args...)
+#endif
+
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Returns 1 if the port is matched by the range, 0 otherwise */
 static inline bool
 port_match(u_int16_t min, u_int16_t max, u_int16_t port, bool invert)
@@ -40,7 +53,11 @@ tcp_find_option(u_int8_t option,
 	u_int8_t _opt[60 - sizeof(struct tcphdr)];
 	unsigned int i;
 
+<<<<<<< HEAD
 	pr_debug("finding option\n");
+=======
+	duprintf("tcp_match: finding option\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!optlen)
 		return invert;
@@ -62,8 +79,12 @@ tcp_find_option(u_int8_t option,
 	return invert;
 }
 
+<<<<<<< HEAD
 static bool tcp_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool tcp_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct tcphdr *th;
 	struct tcphdr _tcph;
@@ -77,7 +98,11 @@ static bool tcp_mt(const struct sk_buff *skb,
 		   flag overwrite to pass the direction checks.
 		*/
 		if (par->fragoff == 1) {
+<<<<<<< HEAD
 			pr_debug("Dropping evil TCP offset=1 frag.\n");
+=======
+			duprintf("Dropping evil TCP offset=1 frag.\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			*par->hotdrop = true;
 		}
 		/* Must not be a fragment. */
@@ -90,7 +115,11 @@ static bool tcp_mt(const struct sk_buff *skb,
 	if (th == NULL) {
 		/* We've been asked to examine this packet, and we
 		   can't.  Hence, no choice but to drop. */
+<<<<<<< HEAD
 		pr_debug("Dropping evil TCP offset=0 tinygram.\n");
+=======
+		duprintf("Dropping evil TCP offset=0 tinygram.\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*par->hotdrop = true;
 		return false;
 	}
@@ -121,7 +150,11 @@ static bool tcp_mt(const struct sk_buff *skb,
 	return true;
 }
 
+<<<<<<< HEAD
 static int tcp_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool tcp_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_tcp *tcpinfo = par->matchinfo;
 
@@ -129,8 +162,12 @@ static int tcp_mt_check(const struct xt_mtchk_param *par)
 	return !(tcpinfo->invflags & ~XT_TCP_INV_MASK);
 }
 
+<<<<<<< HEAD
 static bool udp_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool udp_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct udphdr *uh;
 	struct udphdr _udph;
@@ -144,7 +181,11 @@ static bool udp_mt(const struct sk_buff *skb,
 	if (uh == NULL) {
 		/* We've been asked to examine this packet, and we
 		   can't.  Hence, no choice but to drop. */
+<<<<<<< HEAD
 		pr_debug("Dropping evil UDP tinygram.\n");
+=======
+		duprintf("Dropping evil UDP tinygram.\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*par->hotdrop = true;
 		return false;
 	}
@@ -157,7 +198,11 @@ static bool udp_mt(const struct sk_buff *skb,
 			      !!(udpinfo->invflags & XT_UDP_INV_DSTPT));
 }
 
+<<<<<<< HEAD
 static int udp_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool udp_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_udp *udpinfo = par->matchinfo;
 

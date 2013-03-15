@@ -12,6 +12,7 @@
  * (at your option) any later version.
  */
 
+<<<<<<< HEAD
 enum {
 	XT_CONNMARK_SET = 0,
 	XT_CONNMARK_SAVE,
@@ -23,6 +24,8 @@ struct xt_connmark_tginfo1 {
 	__u8 mode;
 };
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct xt_connmark_mtinfo1 {
 	__u32 mark, mask;
 	__u8 invert;

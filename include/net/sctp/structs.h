@@ -988,7 +988,11 @@ struct sctp_transport {
 	int init_sent_count;
 
 	/* state       : The current state of this destination,
+<<<<<<< HEAD
 	 *             : i.e. SCTP_ACTIVE, SCTP_INACTIVE, SCTP_UNKNOWN.
+=======
+	 *             : i.e. SCTP_ACTIVE, SCTP_INACTIVE, SCTP_UNKOWN.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 */
 	int state;
 

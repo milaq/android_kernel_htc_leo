@@ -468,7 +468,11 @@ static inline void xfs_ifunlock(xfs_inode_t *ip)
  * xfs_iget.c prototypes.
  */
 int		xfs_iget(struct xfs_mount *, struct xfs_trans *, xfs_ino_t,
+<<<<<<< HEAD
 			 uint, uint, xfs_inode_t **, xfs_daddr_t);
+=======
+			 uint, uint, xfs_inode_t **);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void		xfs_iput(xfs_inode_t *, uint);
 void		xfs_iput_new(xfs_inode_t *, uint);
 void		xfs_ilock(xfs_inode_t *, uint);
@@ -558,7 +562,11 @@ do { \
  * Flags for xfs_iget()
  */
 #define XFS_IGET_CREATE		0x1
+<<<<<<< HEAD
 #define XFS_IGET_BULKSTAT	0x2
+=======
+#define XFS_IGET_UNTRUSTED	0x2
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int		xfs_inotobp(struct xfs_mount *, struct xfs_trans *,
 			    xfs_ino_t, struct xfs_dinode **,
@@ -567,7 +575,11 @@ int		xfs_itobp(struct xfs_mount *, struct xfs_trans *,
 			  struct xfs_inode *, struct xfs_dinode **,
 			  struct xfs_buf **, uint);
 int		xfs_iread(struct xfs_mount *, struct xfs_trans *,
+<<<<<<< HEAD
 			  struct xfs_inode *, xfs_daddr_t, uint);
+=======
+			  struct xfs_inode *, uint);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void		xfs_dinode_to_disk(struct xfs_dinode *,
 				   struct xfs_icdinode *);
 void		xfs_idestroy_fork(struct xfs_inode *, int);

@@ -31,7 +31,10 @@ enum ctl_group {
 #define NO_CTL 0xff
 #define SD_NO_CTL               0xE0
 #define NO_CTL                  0xff
+<<<<<<< HEAD
 #define CTL_MODE_M              7
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define CTL_11A                 0
 #define CTL_11B                 1
 #define CTL_11G                 2

@@ -27,7 +27,11 @@ MODULE_DESCRIPTION("Xtables: IPv6 header types match");
 MODULE_AUTHOR("Andras Kis-Szabo <kisza@sch.bme.hu>");
 
 static bool
+<<<<<<< HEAD
 ipv6header_mt6(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+ipv6header_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ip6t_ipv6header_info *info = par->matchinfo;
 	unsigned int temp;
@@ -118,7 +122,11 @@ ipv6header_mt6(const struct sk_buff *skb, const struct xt_action_param *par)
 	}
 }
 
+<<<<<<< HEAD
 static int ipv6header_mt6_check(const struct xt_mtchk_param *par)
+=======
+static bool ipv6header_mt6_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ip6t_ipv6header_info *info = par->matchinfo;
 

@@ -81,6 +81,10 @@ static s32 igb_get_invariants_82575(struct e1000_hw *hw)
 		break;
 	case E1000_DEV_ID_82576:
 	case E1000_DEV_ID_82576_NS:
+<<<<<<< HEAD
+=======
+	case E1000_DEV_ID_82576_NS_SERDES:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case E1000_DEV_ID_82576_FIBER:
 	case E1000_DEV_ID_82576_SERDES:
 	case E1000_DEV_ID_82576_QUAD_COPPER:
@@ -940,6 +944,10 @@ static s32 igb_setup_copper_link_82575(struct e1000_hw *hw)
 	ctrl |= E1000_CTRL_SLU;
 	ctrl &= ~(E1000_CTRL_FRCSPD | E1000_CTRL_FRCDPX);
 	wr32(E1000_CTRL, ctrl);
+<<<<<<< HEAD
+=======
+	wrfl();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ret_val = igb_setup_serdes_link_82575(hw);
 	if (ret_val)
@@ -1167,9 +1175,24 @@ static s32 igb_read_mac_addr_82575(struct e1000_hw *hw)
 {
 	s32 ret_val = 0;
 
+<<<<<<< HEAD
 	if (igb_check_alt_mac_addr(hw))
 		ret_val = igb_read_mac_addr(hw);
 
+=======
+	/*
+	 * If there's an alternate MAC address place it in RAR0
+	 * so that it will override the Si installed default perm
+	 * address.
+	 */
+	ret_val = igb_check_alt_mac_addr(hw);
+	if (ret_val)
+		goto out;
+
+	ret_val = igb_read_mac_addr(hw);
+
+out:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret_val;
 }
 

@@ -166,6 +166,10 @@ svc_pool_map_alloc_arrays(struct svc_pool_map *m, unsigned int maxpools)
 
 fail_free:
 	kfree(m->to_pool);
+<<<<<<< HEAD
+=======
+	m->to_pool = NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 fail:
 	return -ENOMEM;
 }
@@ -286,7 +290,13 @@ svc_pool_map_put(void)
 	if (!--m->count) {
 		m->mode = SVC_POOL_DEFAULT;
 		kfree(m->to_pool);
+<<<<<<< HEAD
 		kfree(m->pool_to);
+=======
+		m->to_pool = NULL;
+		kfree(m->pool_to);
+		m->pool_to = NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		m->npools = 0;
 	}
 
@@ -472,16 +482,23 @@ svc_destroy(struct svc_serv *serv)
 
 	del_timer_sync(&serv->sv_temptimer);
 
+<<<<<<< HEAD
 	svc_close_all(&serv->sv_tempsocks);
+=======
+	svc_close_all(serv);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (serv->sv_shutdown)
 		serv->sv_shutdown(serv);
 
+<<<<<<< HEAD
 	svc_close_all(&serv->sv_permsocks);
 
 	BUG_ON(!list_empty(&serv->sv_permsocks));
 	BUG_ON(!list_empty(&serv->sv_tempsocks));
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cache_clean_deferred(serv);
 
 	if (svc_serv_is_pooled(serv))

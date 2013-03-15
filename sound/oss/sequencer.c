@@ -241,7 +241,11 @@ int sequencer_write(int dev, struct file *file, const char __user *buf, int coun
 				return -ENXIO;
 
 			fmt = (*(short *) &event_rec[0]) & 0xffff;
+<<<<<<< HEAD
 			err = synth_devs[dev]->load_patch(dev, fmt, buf, p + 4, c, 0);
+=======
+			err = synth_devs[dev]->load_patch(dev, fmt, buf + p, c, 0);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (err < 0)
 				return err;
 

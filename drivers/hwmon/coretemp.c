@@ -53,6 +53,10 @@ struct coretemp_data {
 	struct mutex update_lock;
 	const char *name;
 	u32 id;
+<<<<<<< HEAD
+=======
+	u16 core_id;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	char valid;		/* zero until following fields are valid */
 	unsigned long last_updated;	/* in jiffies */
 	int temp;
@@ -75,7 +79,11 @@ static ssize_t show_name(struct device *dev, struct device_attribute
 	if (attr->index == SHOW_NAME)
 		ret = sprintf(buf, "%s\n", data->name);
 	else	/* show label */
+<<<<<<< HEAD
 		ret = sprintf(buf, "Core %d\n", data->id);
+=======
+		ret = sprintf(buf, "Core %d\n", data->core_id);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -228,7 +236,11 @@ static int __devinit adjust_tjmax(struct cpuinfo_x86 *c, u32 id, struct device *
 		if (err) {
 			dev_warn(dev,
 				 "Unable to access MSR 0xEE, for Tjmax, left"
+<<<<<<< HEAD
 				 " at default");
+=======
+				 " at default\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		} else if (eax & 0x40000000) {
 			tjmax = tjmax_ee;
 		}
@@ -255,6 +267,12 @@ static int __devinit coretemp_probe(struct platform_device *pdev)
 	}
 
 	data->id = pdev->id;
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SMP
+	data->core_id = c->cpu_core_id;
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	data->name = "coretemp";
 	mutex_init(&data->update_lock);
 
@@ -352,6 +370,13 @@ struct pdev_entry {
 	struct list_head list;
 	struct platform_device *pdev;
 	unsigned int cpu;
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SMP
+	u16 phys_proc_id;
+	u16 cpu_core_id;
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static LIST_HEAD(pdev_list);
@@ -362,6 +387,25 @@ static int __cpuinit coretemp_device_add(unsigned int cpu)
 	int err;
 	struct platform_device *pdev;
 	struct pdev_entry *pdev_entry;
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SMP
+	struct cpuinfo_x86 *c = &cpu_data(cpu);
+#endif
+
+	mutex_lock(&pdev_list_mutex);
+
+#ifdef CONFIG_SMP
+	/* Skip second HT entry of each core */
+	list_for_each_entry(pdev_entry, &pdev_list, list) {
+		if (c->phys_proc_id == pdev_entry->phys_proc_id &&
+		    c->cpu_core_id == pdev_entry->cpu_core_id) {
+			err = 0;	/* Not an error */
+			goto exit;
+		}
+	}
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pdev = platform_device_alloc(DRVNAME, cpu);
 	if (!pdev) {
@@ -385,7 +429,14 @@ static int __cpuinit coretemp_device_add(unsigned int cpu)
 
 	pdev_entry->pdev = pdev;
 	pdev_entry->cpu = cpu;
+<<<<<<< HEAD
 	mutex_lock(&pdev_list_mutex);
+=======
+#ifdef CONFIG_SMP
+	pdev_entry->phys_proc_id = c->phys_proc_id;
+	pdev_entry->cpu_core_id = c->cpu_core_id;
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	list_add_tail(&pdev_entry->list, &pdev_list);
 	mutex_unlock(&pdev_list_mutex);
 
@@ -396,6 +447,10 @@ exit_device_free:
 exit_device_put:
 	platform_device_put(pdev);
 exit:
+<<<<<<< HEAD
+=======
+	mutex_unlock(&pdev_list_mutex);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 

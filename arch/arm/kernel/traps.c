@@ -438,9 +438,13 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
 		if (end > vma->vm_end)
 			end = vma->vm_end;
 
+<<<<<<< HEAD
 		up_read(&mm->mmap_sem);
 		flush_cache_user_range(start, end);
 		return;
+=======
+		flush_cache_user_range(vma, start, end);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	up_read(&mm->mmap_sem);
 }
@@ -507,8 +511,12 @@ asmlinkage int arm_syscall(int no, struct pt_regs *regs)
 		thread->tp_value = regs->ARM_r0;
 #if defined(CONFIG_HAS_TLS_REG)
 		asm ("mcr p15, 0, %0, c13, c0, 3" : : "r" (regs->ARM_r0) );
+<<<<<<< HEAD
 //#elif !defined(CONFIG_TLS_REG_EMUL)
 #endif
+=======
+#elif !defined(CONFIG_TLS_REG_EMUL)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * User space must never try to access this directly.
 		 * Expect your app to break eventually if you do so.
@@ -516,7 +524,11 @@ asmlinkage int arm_syscall(int no, struct pt_regs *regs)
 		 * (see entry-armv.S for details)
 		 */
 		*((unsigned int *)0xffff0ff0) = regs->ARM_r0;
+<<<<<<< HEAD
 //#endif
+=======
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return 0;
 
 #ifdef CONFIG_NEEDS_SYSCALL_FOR_CMPXCHG

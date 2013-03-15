@@ -198,7 +198,11 @@ static int ecryptfs_open(struct inode *inode, struct file *file)
 			       "the persistent file for the dentry with name "
 			       "[%s]; rc = [%d]\n", __func__,
 			       ecryptfs_dentry->d_name.name, rc);
+<<<<<<< HEAD
 			goto out;
+=======
+			goto out_free;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 	if ((ecryptfs_inode_to_private(inode)->lower_file->f_flags & O_RDONLY)
@@ -206,7 +210,11 @@ static int ecryptfs_open(struct inode *inode, struct file *file)
 		rc = -EPERM;
 		printk(KERN_WARNING "%s: Lower persistent file is RO; eCryptfs "
 		       "file must hence be opened RO\n", __func__);
+<<<<<<< HEAD
 		goto out;
+=======
+		goto out_free;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	ecryptfs_set_file_lower(
 		file, ecryptfs_inode_to_private(inode)->lower_file);
@@ -237,7 +245,12 @@ static int ecryptfs_open(struct inode *inode, struct file *file)
 				goto out_free;
 			}
 			rc = 0;
+<<<<<<< HEAD
 			crypt_stat->flags &= ~(ECRYPTFS_ENCRYPTED);
+=======
+			crypt_stat->flags &= ~(ECRYPTFS_I_SIZE_INITIALIZED
+						| ECRYPTFS_ENCRYPTED);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			mutex_unlock(&crypt_stat->cs_mutex);
 			goto out;
 		}
@@ -293,6 +306,7 @@ static int ecryptfs_fasync(int fd, struct file *file, int flag)
 	return rc;
 }
 
+<<<<<<< HEAD
 static int ecryptfs_ioctl(struct inode *inode, struct file *file,
 			  unsigned int cmd, unsigned long arg);
 
@@ -300,6 +314,43 @@ const struct file_operations ecryptfs_dir_fops = {
 	.readdir = ecryptfs_readdir,
 	.ioctl = ecryptfs_ioctl,
 	.mmap = generic_file_mmap,
+=======
+static long
+ecryptfs_unlocked_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+{
+	struct file *lower_file = NULL;
+	long rc = -ENOTTY;
+
+	if (ecryptfs_file_to_private(file))
+		lower_file = ecryptfs_file_to_lower(file);
+	if (lower_file && lower_file->f_op && lower_file->f_op->unlocked_ioctl)
+		rc = lower_file->f_op->unlocked_ioctl(lower_file, cmd, arg);
+	return rc;
+}
+
+#ifdef CONFIG_COMPAT
+static long
+ecryptfs_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+{
+	struct file *lower_file = NULL;
+	long rc = -ENOIOCTLCMD;
+
+	if (ecryptfs_file_to_private(file))
+		lower_file = ecryptfs_file_to_lower(file);
+	if (lower_file && lower_file->f_op && lower_file->f_op->compat_ioctl)
+		rc = lower_file->f_op->compat_ioctl(lower_file, cmd, arg);
+	return rc;
+}
+#endif
+
+const struct file_operations ecryptfs_dir_fops = {
+	.readdir = ecryptfs_readdir,
+	.read = generic_read_dir,
+	.unlocked_ioctl = ecryptfs_unlocked_ioctl,
+#ifdef CONFIG_COMPAT
+	.compat_ioctl = ecryptfs_compat_ioctl,
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.open = ecryptfs_open,
 	.flush = ecryptfs_flush,
 	.release = ecryptfs_release,
@@ -315,7 +366,14 @@ const struct file_operations ecryptfs_main_fops = {
 	.write = do_sync_write,
 	.aio_write = generic_file_aio_write,
 	.readdir = ecryptfs_readdir,
+<<<<<<< HEAD
 	.ioctl = ecryptfs_ioctl,
+=======
+	.unlocked_ioctl = ecryptfs_unlocked_ioctl,
+#ifdef CONFIG_COMPAT
+	.compat_ioctl = ecryptfs_compat_ioctl,
+#endif
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.mmap = generic_file_mmap,
 	.open = ecryptfs_open,
 	.flush = ecryptfs_flush,
@@ -324,6 +382,7 @@ const struct file_operations ecryptfs_main_fops = {
 	.fasync = ecryptfs_fasync,
 	.splice_read = generic_file_splice_read,
 };
+<<<<<<< HEAD
 
 static int
 ecryptfs_ioctl(struct inode *inode, struct file *file, unsigned int cmd,
@@ -341,3 +400,5 @@ ecryptfs_ioctl(struct inode *inode, struct file *file, unsigned int cmd,
 		rc = -ENOTTY;
 	return rc;
 }
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

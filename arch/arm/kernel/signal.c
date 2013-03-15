@@ -389,7 +389,13 @@ setup_return(struct pt_regs *regs, struct k_sigaction *ka,
 	unsigned long handler = (unsigned long)ka->sa.sa_handler;
 	unsigned long retcode;
 	int thumb = 0;
+<<<<<<< HEAD
 	unsigned long cpsr = regs->ARM_cpsr & ~PSR_f;
+=======
+	unsigned long cpsr = regs->ARM_cpsr & ~(PSR_f | PSR_E_BIT);
+
+	cpsr |= PSR_ENDSTATE;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Maybe we need to deliver a 32-bit signal to a 26-bit task.
@@ -517,6 +523,7 @@ setup_rt_frame(int usig, struct k_sigaction *ka, siginfo_t *info,
 
 static inline void setup_syscall_restart(struct pt_regs *regs)
 {
+<<<<<<< HEAD
 	if (regs->ARM_ORIG_r0 == -ERESTARTNOHAND ||
 	    regs->ARM_ORIG_r0 == -ERESTARTSYS ||
 	    regs->ARM_ORIG_r0 == -ERESTARTNOINTR ||
@@ -525,6 +532,8 @@ static inline void setup_syscall_restart(struct pt_regs *regs)
 		regs->ARM_r0 = -EINTR;
 		return;
 	}
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	regs->ARM_r0 = regs->ARM_ORIG_r0;
 	regs->ARM_pc -= thumb_mode(regs) ? 2 : 4;
 }
@@ -657,7 +666,10 @@ static void do_signal(struct pt_regs *regs, int syscall)
 	 */
 	if (syscall) {
 		if (regs->ARM_r0 == -ERESTART_RESTARTBLOCK) {
+<<<<<<< HEAD
 			regs->ARM_r0 = -EAGAIN; /* prevent multiple restarts */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (thumb_mode(regs)) {
 				regs->ARM_r7 = __NR_restart_syscall - __NR_SYSCALL_BASE;
 				regs->ARM_pc -= 2;

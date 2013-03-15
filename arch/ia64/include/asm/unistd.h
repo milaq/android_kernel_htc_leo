@@ -311,11 +311,19 @@
 #define __NR_preadv			1319
 #define __NR_pwritev			1320
 #define __NR_rt_tgsigqueueinfo		1321
+<<<<<<< HEAD
+=======
+#define __NR_accept4			1334
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef __KERNEL__
 
 
+<<<<<<< HEAD
 #define NR_syscalls			298 /* length of syscall table */
+=======
+#define NR_syscalls			311 /* length of syscall table */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * The following defines stop scripts/checksyscalls.sh from complaining about

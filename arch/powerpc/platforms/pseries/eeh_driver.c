@@ -353,7 +353,11 @@ struct pci_dn * handle_eeh_events (struct eeh_event *event)
 		location = location ? location : "unknown";
 		printk(KERN_ERR "EEH: Error: Cannot find partition endpoint "
 		                "for location=%s pci addr=%s\n",
+<<<<<<< HEAD
 		        location, pci_name(event->dev));
+=======
+		        location, eeh_pci_name(event->dev));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return NULL;
 	}
 
@@ -384,7 +388,11 @@ struct pci_dn * handle_eeh_events (struct eeh_event *event)
 		pci_str = pci_name (frozen_pdn->pcidev);
 		drv_str = pcid_name (frozen_pdn->pcidev);
 	} else {
+<<<<<<< HEAD
 		pci_str = pci_name (event->dev);
+=======
+		pci_str = eeh_pci_name(event->dev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		drv_str = pcid_name (event->dev);
 	}
 	

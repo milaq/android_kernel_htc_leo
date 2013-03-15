@@ -221,7 +221,12 @@ struct p9_req_t *p9_tag_lookup(struct p9_client *c, u16 tag)
 	 * buffer to read the data into */
 	tag++;
 
+<<<<<<< HEAD
 	BUG_ON(tag >= c->max_tag);
+=======
+	if(tag >= c->max_tag)
+		return NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	row = tag / P9_ROW_MAXTAG;
 	col = tag % P9_ROW_MAXTAG;
@@ -697,8 +702,13 @@ struct p9_client *p9_client_create(const char *dev_name, char *options)
 	if (err)
 		goto error;
 
+<<<<<<< HEAD
 	if ((clnt->msize+P9_IOHDRSZ) > clnt->trans_mod->maxsize)
 		clnt->msize = clnt->trans_mod->maxsize-P9_IOHDRSZ;
+=======
+	if (clnt->msize > clnt->trans_mod->maxsize)
+		clnt->msize = clnt->trans_mod->maxsize;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	err = p9_client_version(clnt);
 	if (err)
@@ -1021,9 +1031,17 @@ int p9_client_clunk(struct p9_fid *fid)
 	P9_DPRINTK(P9_DEBUG_9P, "<<< RCLUNK fid %d\n", fid->fid);
 
 	p9_free_req(clnt, req);
+<<<<<<< HEAD
 	p9_fid_destroy(fid);
 
 error:
+=======
+error:
+	/*
+	 * Fid is not valid even after a failed clunk
+	 */
+	p9_fid_destroy(fid);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 EXPORT_SYMBOL(p9_client_clunk);

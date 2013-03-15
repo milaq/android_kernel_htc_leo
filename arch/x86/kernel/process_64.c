@@ -295,11 +295,18 @@ int copy_thread(unsigned long clone_flags, unsigned long sp,
 
 	set_tsk_thread_flag(p, TIF_FORK);
 
+<<<<<<< HEAD
 	p->thread.fs = me->thread.fs;
 	p->thread.gs = me->thread.gs;
 
 	savesegment(gs, p->thread.gsindex);
 	savesegment(fs, p->thread.fsindex);
+=======
+	savesegment(gs, p->thread.gsindex);
+	p->thread.gs = p->thread.gsindex ? 0 : me->thread.gs;
+	savesegment(fs, p->thread.fsindex);
+	p->thread.fs = p->thread.fsindex ? 0 : me->thread.fs;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	savesegment(es, p->thread.es);
 	savesegment(ds, p->thread.ds);
 
@@ -357,7 +364,10 @@ start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)
 	regs->cs		= __USER_CS;
 	regs->ss		= __USER_DS;
 	regs->flags		= 0x200;
+<<<<<<< HEAD
 	set_fs(USER_DS);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * Free the old FP and other extended state
 	 */
@@ -546,6 +556,10 @@ void set_personality_ia32(void)
 
 	/* Make sure to be in 32bit mode */
 	set_thread_flag(TIF_IA32);
+<<<<<<< HEAD
+=======
+	current->personality |= force_personality32;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Prepare the first "return" to user space */
 	current_thread_info()->status |= TS_COMPAT;

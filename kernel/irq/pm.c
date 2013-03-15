@@ -29,8 +29,12 @@ void suspend_device_irqs(void)
 		unsigned long flags;
 
 		spin_lock_irqsave(&desc->lock, flags);
+<<<<<<< HEAD
 		if (desc->wake_depth == 0)
 			__disable_irq(desc, irq, true);
+=======
+		__disable_irq(desc, irq, true);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_unlock_irqrestore(&desc->lock, flags);
 	}
 
@@ -40,6 +44,7 @@ void suspend_device_irqs(void)
 }
 EXPORT_SYMBOL_GPL(suspend_device_irqs);
 
+<<<<<<< HEAD
 /**
  * resume_device_irqs - enable interrupt lines disabled by suspend_device_irqs()
  *
@@ -47,14 +52,24 @@ EXPORT_SYMBOL_GPL(suspend_device_irqs);
  * have the IRQ_SUSPENDED flag set.
  */
 void resume_device_irqs(void)
+=======
+static void resume_irqs(bool want_early)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct irq_desc *desc;
 	int irq;
 
 	for_each_irq_desc(irq, desc) {
 		unsigned long flags;
+<<<<<<< HEAD
 
 		if (!(desc->status & IRQ_SUSPENDED))
+=======
+		bool is_early = desc->action &&
+			desc->action->flags & IRQF_EARLY_RESUME;
+
+		if (is_early != want_early)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 
 		spin_lock_irqsave(&desc->lock, flags);
@@ -62,6 +77,31 @@ void resume_device_irqs(void)
 		spin_unlock_irqrestore(&desc->lock, flags);
 	}
 }
+<<<<<<< HEAD
+=======
+
+/**
+ * irq_pm_syscore_ops - enable interrupt lines early
+ *
+ * Enable all interrupt lines with %IRQF_EARLY_RESUME set.
+ */
+void irq_pm_syscore_resume(void)
+{
+	resume_irqs(true);
+}
+
+/**
+ * resume_device_irqs - enable interrupt lines disabled by suspend_device_irqs()
+ *
+ * Enable all non-%IRQF_EARLY_RESUME interrupt lines previously
+ * disabled by suspend_device_irqs() that have the IRQS_SUSPENDED flag
+ * set as well as those with %IRQF_FORCE_RESUME.
+ */
+void resume_device_irqs(void)
+{
+	resume_irqs(false);
+}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 EXPORT_SYMBOL_GPL(resume_device_irqs);
 
 /**

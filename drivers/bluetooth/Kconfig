@@ -58,6 +58,7 @@ config BT_HCIUART_BCSP
 
 	  Say Y here to compile support for HCI BCSP protocol.
 
+<<<<<<< HEAD
 config BT_HCIUART_ATH3K
 	bool "Atheros AR300x serial support"
 	depends on BT_HCIUART
@@ -70,6 +71,8 @@ config BT_HCIUART_ATH3K
 
 	  Say Y here to compile support for HCI UART ATH3K protocol.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config BT_HCIUART_LL
 	bool "HCILL protocol support"
 	depends on BT_HCIUART
@@ -207,6 +210,7 @@ config BT_MRVL_SDIO
 	  Say Y here to compile support for Marvell BT-over-SDIO driver
 	  into the kernel or say M to compile it as module.
 
+<<<<<<< HEAD
 config BT_ATH3K
 	tristate "Atheros firmware download driver"
 	depends on BT_HCIBTUSB
@@ -220,3 +224,7 @@ config BT_ATH3K
 	  into the kernel or say M to compile it as module (ath3k).
 
 endmenu
+=======
+endmenu
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

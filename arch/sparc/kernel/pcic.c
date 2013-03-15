@@ -350,8 +350,13 @@ int __init pcic_probe(void)
 	strcpy(pbm->prom_name, namebuf);
 
 	{
+<<<<<<< HEAD
 		extern volatile int t_nmi[1];
 		extern int pcic_nmi_trap_patch[1];
+=======
+		extern volatile int t_nmi[4];
+		extern int pcic_nmi_trap_patch[4];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		t_nmi[0] = pcic_nmi_trap_patch[0];
 		t_nmi[1] = pcic_nmi_trap_patch[1];

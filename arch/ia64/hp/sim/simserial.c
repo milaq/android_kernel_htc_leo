@@ -395,7 +395,11 @@ static int rs_ioctl(struct tty_struct *tty, struct file * file,
 {
 	if ((cmd != TIOCGSERIAL) && (cmd != TIOCSSERIAL) &&
 	    (cmd != TIOCSERCONFIG) && (cmd != TIOCSERGSTRUCT) &&
+<<<<<<< HEAD
 	    (cmd != TIOCMIWAIT) && (cmd != TIOCGICOUNT)) {
+=======
+	    (cmd != TIOCMIWAIT)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (tty->flags & (1 << TTY_IO_ERROR))
 		    return -EIO;
 	}
@@ -433,6 +437,7 @@ static int rs_ioctl(struct tty_struct *tty, struct file * file,
 		case TIOCMIWAIT:
 			printk(KERN_INFO "rs_ioctl: TIOCMIWAIT: called\n");
 			return 0;
+<<<<<<< HEAD
 		/*
 		 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 		 * Return: write counters to the user passed counter struct
@@ -443,6 +448,8 @@ static int rs_ioctl(struct tty_struct *tty, struct file * file,
 			printk(KERN_INFO "rs_ioctl: TIOCGICOUNT called\n");
 			return 0;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		case TIOCSERGWILD:
 		case TIOCSERSWILD:
 			/* "setserial -W" is called in Debian boot */

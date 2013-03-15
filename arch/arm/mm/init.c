@@ -251,6 +251,7 @@ static void __init bootmem_init_node(int node, struct meminfo *mi,
 	for_each_nodebank(i, mi, node) {
 		struct membank *bank = &mi->bank[i];
 
+<<<<<<< HEAD
 #if defined(CONFIG_FLATMEM) && !defined(CONFIG_HOLES_IN_ZONE)
 		/*
 		 * The VM code assumes that hole end addresses are aligned if
@@ -269,6 +270,8 @@ static void __init bootmem_init_node(int node, struct meminfo *mi,
 		}
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!bank->highmem)
 			map_memory_bank(bank);
 	}
@@ -546,8 +549,14 @@ static void __init free_unused_memmap_node(int node, struct meminfo *mi)
 	unsigned int i;
 
 	/*
+<<<<<<< HEAD
 	 * This relies on each bank being in address order. The banks
 	 * are sorted previously in bootmem_init().
+=======
+	 * [FIXME] This relies on each bank being in address order.  This
+	 * may not be the case, especially if the user has provided the
+	 * information on the command line.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 */
 	for_each_nodebank(i, mi, node) {
 		struct membank *bank = &mi->bank[i];
@@ -649,10 +658,17 @@ void __init mem_init(void)
 void free_initmem(void)
 {
 #ifdef CONFIG_HAVE_TCM
+<<<<<<< HEAD
 	extern char *__tcm_start, *__tcm_end;
 
 	totalram_pages += free_area(__phys_to_pfn(__pa(__tcm_start)),
 				    __phys_to_pfn(__pa(__tcm_end)),
+=======
+	extern char __tcm_start, __tcm_end;
+
+	totalram_pages += free_area(__phys_to_pfn(__pa(&__tcm_start)),
+				    __phys_to_pfn(__pa(&__tcm_end)),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				    "TCM link");
 #endif
 

@@ -25,6 +25,10 @@
 #include <net/timewait_sock.h>
 #include <net/tcp_states.h>
 #include <net/xfrm.h>
+<<<<<<< HEAD
+=======
+#include <net/secure_seq.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include "ackvec.h"
 #include "ccid.h"

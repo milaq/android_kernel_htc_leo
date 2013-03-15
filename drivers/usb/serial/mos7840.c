@@ -120,6 +120,7 @@
  * by making a change here, in moschip_port_id_table, and in
  * moschip_id_table_combined
  */
+<<<<<<< HEAD
 #define USB_VENDOR_ID_BANDB             0x0856
 #define BANDB_DEVICE_ID_USO9ML2_2	0xAC22
 #define BANDB_DEVICE_ID_USO9ML2_4	0xAC24
@@ -129,6 +130,22 @@
 #define BANDB_DEVICE_ID_USPTL4_4	0xAC32
 #define BANDB_DEVICE_ID_USOPTL4_2       0xAC42
 #define BANDB_DEVICE_ID_USOPTL4_4       0xAC44
+=======
+#define USB_VENDOR_ID_BANDB              0x0856
+#define BANDB_DEVICE_ID_USO9ML2_2        0xAC22
+#define BANDB_DEVICE_ID_USO9ML2_2P       0xBC00
+#define BANDB_DEVICE_ID_USO9ML2_4        0xAC24
+#define BANDB_DEVICE_ID_USO9ML2_4P       0xBC01
+#define BANDB_DEVICE_ID_US9ML2_2         0xAC29
+#define BANDB_DEVICE_ID_US9ML2_4         0xAC30
+#define BANDB_DEVICE_ID_USPTL4_2         0xAC31
+#define BANDB_DEVICE_ID_USPTL4_4         0xAC32
+#define BANDB_DEVICE_ID_USOPTL4_2        0xAC42
+#define BANDB_DEVICE_ID_USOPTL4_2P       0xBC02
+#define BANDB_DEVICE_ID_USOPTL4_4        0xAC44
+#define BANDB_DEVICE_ID_USOPTL4_4P       0xBC03
+#define BANDB_DEVICE_ID_USOPTL2_4        0xAC24
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* This driver also supports
  * ATEN UC2324 device using Moschip MCS7840
@@ -184,13 +201,26 @@ static struct usb_device_id moschip_port_id_table[] = {
 	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7840)},
 	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7820)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2)},
+<<<<<<< HEAD
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4)},
+=======
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4P)},
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_2)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_4)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_2)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_4)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2)},
+<<<<<<< HEAD
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4)},
+=======
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL2_4)},
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2324)},
 	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2322)},
 	{}			/* terminating entry */
@@ -200,13 +230,26 @@ static __devinitdata struct usb_device_id moschip_id_table_combined[] = {
 	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7840)},
 	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7820)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2)},
+<<<<<<< HEAD
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4)},
+=======
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4P)},
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_2)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_4)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_2)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_4)},
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2)},
+<<<<<<< HEAD
 	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4)},
+=======
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4P)},
+	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL2_4)},
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2324)},
 	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2322)},
 	{}			/* terminating entry */
@@ -280,12 +323,28 @@ static int mos7840_get_reg_sync(struct usb_serial_port *port, __u16 reg,
 {
 	struct usb_device *dev = port->serial->dev;
 	int ret = 0;
+<<<<<<< HEAD
 
 	ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0), MCS_RDREQ,
 			      MCS_RD_RTYPE, 0, reg, val, VENDOR_READ_LENGTH,
 			      MOS_WDR_TIMEOUT);
 	dbg("mos7840_get_reg_sync offset is %x, return val %x", reg, *val);
 	*val = (*val) & 0x00ff;
+=======
+	u8 *buf;
+
+	buf = kmalloc(VENDOR_READ_LENGTH, GFP_KERNEL);
+	if (!buf)
+		return -ENOMEM;
+
+	ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0), MCS_RDREQ,
+			      MCS_RD_RTYPE, 0, reg, buf, VENDOR_READ_LENGTH,
+			      MOS_WDR_TIMEOUT);
+	*val = buf[0];
+	dbg("mos7840_get_reg_sync offset is %x, return val %x", reg, *val);
+
+	kfree(buf);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -338,6 +397,14 @@ static int mos7840_get_uart_reg(struct usb_serial_port *port, __u16 reg,
 	struct usb_device *dev = port->serial->dev;
 	int ret = 0;
 	__u16 Wval;
+<<<<<<< HEAD
+=======
+	u8 *buf;
+
+	buf = kmalloc(VENDOR_READ_LENGTH, GFP_KERNEL);
+	if (!buf)
+		return -ENOMEM;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* dbg("application number is %4x",
 	    (((__u16)port->number - (__u16)(port->serial->minor))+1)<<8); */
@@ -361,9 +428,17 @@ static int mos7840_get_uart_reg(struct usb_serial_port *port, __u16 reg,
 		}
 	}
 	ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0), MCS_RDREQ,
+<<<<<<< HEAD
 			      MCS_RD_RTYPE, Wval, reg, val, VENDOR_READ_LENGTH,
 			      MOS_WDR_TIMEOUT);
 	*val = (*val) & 0x00ff;
+=======
+			      MCS_RD_RTYPE, Wval, reg, buf, VENDOR_READ_LENGTH,
+			      MOS_WDR_TIMEOUT);
+	*val = buf[0];
+
+	kfree(buf);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -714,7 +789,10 @@ static void mos7840_bulk_in_callback(struct urb *urb)
 	mos7840_port = urb->context;
 	if (!mos7840_port) {
 		dbg("%s", "NULL mos7840_port pointer");
+<<<<<<< HEAD
 		mos7840_port->read_urb_busy = false;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 	}
 
@@ -1153,9 +1231,18 @@ static int mos7840_chars_in_buffer(struct tty_struct *tty)
 	}
 
 	spin_lock_irqsave(&mos7840_port->pool_lock, flags);
+<<<<<<< HEAD
 	for (i = 0; i < NUM_URBS; ++i)
 		if (mos7840_port->busy[i])
 			chars += URB_TRANSFER_BUFFER_SIZE;
+=======
+	for (i = 0; i < NUM_URBS; ++i) {
+		if (mos7840_port->busy[i]) {
+			struct urb *urb = mos7840_port->write_urb_pool[i];
+			chars += urb->transfer_buffer_length;
+		}
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irqrestore(&mos7840_port->pool_lock, flags);
 	dbg("%s - returns %d", __func__, chars);
 	return chars;
@@ -2259,6 +2346,12 @@ static int mos7840_ioctl(struct tty_struct *tty, struct file *file,
 	case TIOCGICOUNT:
 		cnow = mos7840_port->icount;
 		smp_rmb();
+<<<<<<< HEAD
+=======
+
+		memset(&icount, 0, sizeof(struct serial_icounter_struct));
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		icount.cts = cnow.cts;
 		icount.dsr = cnow.dsr;
 		icount.rng = cnow.rng;

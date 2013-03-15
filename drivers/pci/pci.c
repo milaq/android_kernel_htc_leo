@@ -373,8 +373,17 @@ pci_find_parent_resource(const struct pci_dev *dev, struct resource *res)
 			continue;	/* Wrong type */
 		if (!((res->flags ^ r->flags) & IORESOURCE_PREFETCH))
 			return r;	/* Exact match */
+<<<<<<< HEAD
 		if ((res->flags & IORESOURCE_PREFETCH) && !(r->flags & IORESOURCE_PREFETCH))
 			best = r;	/* Approximating prefetchable by non-prefetchable */
+=======
+		/* We can't insert a non-prefetch resource inside a prefetchable parent .. */
+		if (r->flags & IORESOURCE_PREFETCH)
+			continue;
+		/* .. but we can put a prefetchable resource inside a non-prefetchable one */
+		if (!best)
+			best = r;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return best;
 }
@@ -601,7 +610,11 @@ static void __pci_start_power_transition(struct pci_dev *dev, pci_power_t state)
  */
 int __pci_complete_power_transition(struct pci_dev *dev, pci_power_t state)
 {
+<<<<<<< HEAD
 	return state > PCI_D0 ?
+=======
+	return state >= PCI_D0 ?
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			pci_platform_power_transition(dev, state) : -EINVAL;
 }
 EXPORT_SYMBOL_GPL(__pci_complete_power_transition);
@@ -638,10 +651,13 @@ int pci_set_power_state(struct pci_dev *dev, pci_power_t state)
 		 */
 		return 0;
 
+<<<<<<< HEAD
 	/* Check if we're already there */
 	if (dev->current_state == state)
 		return 0;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__pci_start_power_transition(dev, state);
 
 	/* This device is quirked not to be put into D3, so
@@ -1507,7 +1523,11 @@ void pci_enable_ari(struct pci_dev *dev)
 {
 	int pos;
 	u32 cap;
+<<<<<<< HEAD
 	u16 ctrl;
+=======
+	u16 flags, ctrl;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct pci_dev *bridge;
 
 	if (!dev->is_pcie || dev->devfn)
@@ -1525,6 +1545,14 @@ void pci_enable_ari(struct pci_dev *dev)
 	if (!pos)
 		return;
 
+<<<<<<< HEAD
+=======
+	/* ARI is a PCIe v2 feature */
+	pci_read_config_word(bridge, pos + PCI_EXP_FLAGS, &flags);
+	if ((flags & PCI_EXP_FLAGS_VERS) < 2)
+		return;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pci_read_config_dword(bridge, pos + PCI_EXP_DEVCAP2, &cap);
 	if (!(cap & PCI_EXP_DEVCAP2_ARI))
 		return;
@@ -2050,6 +2078,10 @@ void pci_msi_off(struct pci_dev *dev)
 		pci_write_config_word(dev, pos + PCI_MSIX_FLAGS, control);
 	}
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(pci_msi_off);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifndef HAVE_ARCH_PCI_SET_DMA_MASK
 /*
@@ -2350,18 +2382,29 @@ EXPORT_SYMBOL_GPL(pci_reset_function);
  */
 int pcix_get_max_mmrbc(struct pci_dev *dev)
 {
+<<<<<<< HEAD
 	int err, cap;
+=======
+	int cap;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 stat;
 
 	cap = pci_find_capability(dev, PCI_CAP_ID_PCIX);
 	if (!cap)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	err = pci_read_config_dword(dev, cap + PCI_X_STATUS, &stat);
 	if (err)
 		return -EINVAL;
 
 	return (stat & PCI_X_STATUS_MAX_READ) >> 12;
+=======
+	if (pci_read_config_dword(dev, cap + PCI_X_STATUS, &stat))
+		return -EINVAL;
+
+	return 512 << ((stat & PCI_X_STATUS_MAX_READ) >> 21);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(pcix_get_max_mmrbc);
 
@@ -2374,18 +2417,30 @@ EXPORT_SYMBOL(pcix_get_max_mmrbc);
  */
 int pcix_get_mmrbc(struct pci_dev *dev)
 {
+<<<<<<< HEAD
 	int ret, cap;
 	u32 cmd;
+=======
+	int cap;
+	u16 cmd;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	cap = pci_find_capability(dev, PCI_CAP_ID_PCIX);
 	if (!cap)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	ret = pci_read_config_dword(dev, cap + PCI_X_CMD, &cmd);
 	if (!ret)
 		ret = 512 << ((cmd & PCI_X_CMD_MAX_READ) >> 2);
 
 	return ret;
+=======
+	if (pci_read_config_word(dev, cap + PCI_X_CMD, &cmd))
+		return -EINVAL;
+
+	return 512 << ((cmd & PCI_X_CMD_MAX_READ) >> 2);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(pcix_get_mmrbc);
 
@@ -2400,28 +2455,49 @@ EXPORT_SYMBOL(pcix_get_mmrbc);
  */
 int pcix_set_mmrbc(struct pci_dev *dev, int mmrbc)
 {
+<<<<<<< HEAD
 	int cap, err = -EINVAL;
 	u32 stat, cmd, v, o;
 
 	if (mmrbc < 512 || mmrbc > 4096 || !is_power_of_2(mmrbc))
 		goto out;
+=======
+	int cap;
+	u32 stat, v, o;
+	u16 cmd;
+
+	if (mmrbc < 512 || mmrbc > 4096 || !is_power_of_2(mmrbc))
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	v = ffs(mmrbc) - 10;
 
 	cap = pci_find_capability(dev, PCI_CAP_ID_PCIX);
 	if (!cap)
+<<<<<<< HEAD
 		goto out;
 
 	err = pci_read_config_dword(dev, cap + PCI_X_STATUS, &stat);
 	if (err)
 		goto out;
+=======
+		return -EINVAL;
+
+	if (pci_read_config_dword(dev, cap + PCI_X_STATUS, &stat))
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (v > (stat & PCI_X_STATUS_MAX_READ) >> 21)
 		return -E2BIG;
 
+<<<<<<< HEAD
 	err = pci_read_config_dword(dev, cap + PCI_X_CMD, &cmd);
 	if (err)
 		goto out;
+=======
+	if (pci_read_config_word(dev, cap + PCI_X_CMD, &cmd))
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	o = (cmd & PCI_X_CMD_MAX_READ) >> 2;
 	if (o != v) {
@@ -2431,10 +2507,17 @@ int pcix_set_mmrbc(struct pci_dev *dev, int mmrbc)
 
 		cmd &= ~PCI_X_CMD_MAX_READ;
 		cmd |= v << 2;
+<<<<<<< HEAD
 		err = pci_write_config_dword(dev, cap + PCI_X_CMD, cmd);
 	}
 out:
 	return err;
+=======
+		if (pci_write_config_word(dev, cap + PCI_X_CMD, cmd))
+			return -EIO;
+	}
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(pcix_set_mmrbc);
 
@@ -2544,6 +2627,26 @@ int pci_resource_bar(struct pci_dev *dev, int resno, enum pci_bar_type *type)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+/* Some architectures require additional programming to enable VGA */
+static arch_set_vga_state_t arch_set_vga_state;
+
+void __init pci_register_set_vga_state(arch_set_vga_state_t func)
+{
+	arch_set_vga_state = func;	/* NULL disables */
+}
+
+static int pci_set_vga_state_arch(struct pci_dev *dev, bool decode,
+		      unsigned int command_bits, bool change_bridge)
+{
+	if (arch_set_vga_state)
+		return arch_set_vga_state(dev, decode, command_bits,
+						change_bridge);
+	return 0;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * pci_set_vga_state - set VGA decode state on device and parents if requested
  * @dev: the PCI device
@@ -2557,9 +2660,21 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
 	struct pci_bus *bus;
 	struct pci_dev *bridge;
 	u16 cmd;
+<<<<<<< HEAD
 
 	WARN_ON(command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY));
 
+=======
+	int rc;
+
+	WARN_ON(command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY));
+
+	/* ARCH specific VGA enables */
+	rc = pci_set_vga_state_arch(dev, decode, command_bits, change_bridge);
+	if (rc)
+		return rc;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pci_read_config_word(dev, PCI_COMMAND, &cmd);
 	if (decode == true)
 		cmd |= command_bits;
@@ -2806,4 +2921,7 @@ EXPORT_SYMBOL(pci_target_state);
 EXPORT_SYMBOL(pci_prepare_to_sleep);
 EXPORT_SYMBOL(pci_back_from_sleep);
 EXPORT_SYMBOL_GPL(pci_set_pcie_reset_state);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

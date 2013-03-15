@@ -124,7 +124,12 @@ static int help(struct sk_buff *skb, unsigned int protoff,
 		return NF_ACCEPT;
 
 	/* Until there's been traffic both ways, don't look in packets. */
+<<<<<<< HEAD
 	if (ctinfo != IP_CT_ESTABLISHED && ctinfo != IP_CT_ESTABLISHED_REPLY)
+=======
+	if (ctinfo != IP_CT_ESTABLISHED &&
+	    ctinfo != IP_CT_ESTABLISHED + IP_CT_IS_REPLY)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return NF_ACCEPT;
 
 	/* Not a full tcp header? */

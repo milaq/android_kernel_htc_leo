@@ -162,7 +162,11 @@ static inline sector_t get_dev_size(struct block_device *bdev)
 static inline chunk_t sector_to_chunk(struct dm_exception_store *store,
 				      sector_t sector)
 {
+<<<<<<< HEAD
 	return (sector & ~store->chunk_mask) >> store->chunk_shift;
+=======
+	return sector >> store->chunk_shift;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int dm_exception_store_type_register(struct dm_exception_store_type *type);

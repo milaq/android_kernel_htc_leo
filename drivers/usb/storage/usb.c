@@ -81,8 +81,12 @@ MODULE_PARM_DESC(delay_use, "seconds to delay before using a new device");
 static char quirks[128];
 module_param_string(quirks, quirks, sizeof(quirks), S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(quirks, "supplemental list of device IDs and their quirks");
+<<<<<<< HEAD
 extern int usb_usual_ignore_device(struct usb_interface *intf);
 extern struct usb_device_id usb_storage_usb_ids[];
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * The entries in this table correspond, line for line,
@@ -1026,6 +1030,10 @@ static struct usb_driver usb_storage_driver = {
 	.post_reset =	usb_stor_post_reset,
 	.id_table =	usb_storage_usb_ids,
 	.soft_unbind =	1,
+<<<<<<< HEAD
+=======
+	.no_dynamic_id = 1,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static int __init usb_stor_init(void)

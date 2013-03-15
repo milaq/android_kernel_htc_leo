@@ -154,6 +154,7 @@ static void do_stolen_accounting(void)
 	account_idle_ticks(ticks);
 }
 
+<<<<<<< HEAD
 /*
  * Xen sched_clock implementation.  Returns the number of unstolen
  * nanoseconds, which is nanoseconds the VCPU spent in RUNNING+BLOCKED
@@ -193,6 +194,8 @@ unsigned long long xen_sched_clock(void)
 }
 
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Get the TSC speed from Xen */
 unsigned long xen_tsc_khz(void)
 {
@@ -434,7 +437,13 @@ void xen_setup_timer(int cpu)
 		name = "<timer kasprintf failed>";
 
 	irq = bind_virq_to_irqhandler(VIRQ_TIMER, cpu, xen_timer_interrupt,
+<<<<<<< HEAD
 				      IRQF_DISABLED|IRQF_PERCPU|IRQF_NOBALANCING|IRQF_TIMER,
+=======
+				      IRQF_DISABLED|IRQF_PERCPU|
+				      IRQF_NOBALANCING|IRQF_TIMER|
+				      IRQF_FORCE_RESUME,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				      name, NULL);
 
 	evt = &per_cpu(xen_clock_events, cpu);
@@ -463,6 +472,11 @@ void xen_timer_resume(void)
 {
 	int cpu;
 
+<<<<<<< HEAD
+=======
+	pvclock_resume();
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (xen_clockevent != &xen_vcpuop_clockevent)
 		return;
 

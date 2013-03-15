@@ -1899,9 +1899,14 @@ int ip_mc_source(int add, int omode, struct sock *sk, struct
 	err = -EADDRNOTAVAIL;
 
 	for (pmc=inet->mc_list; pmc; pmc=pmc->next) {
+<<<<<<< HEAD
 		if ((pmc->multi.imr_multiaddr.s_addr ==
 		     imr.imr_multiaddr.s_addr) &&
 		    (pmc->multi.imr_ifindex == imr.imr_ifindex))
+=======
+		if (pmc->multi.imr_multiaddr.s_addr == imr.imr_multiaddr.s_addr
+		    && pmc->multi.imr_ifindex == imr.imr_ifindex)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 	}
 	if (!pmc) {		/* must have a prior join */

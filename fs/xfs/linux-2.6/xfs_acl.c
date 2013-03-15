@@ -37,9 +37,17 @@ xfs_acl_from_disk(struct xfs_acl *aclp)
 	struct posix_acl_entry *acl_e;
 	struct posix_acl *acl;
 	struct xfs_acl_entry *ace;
+<<<<<<< HEAD
 	int count, i;
 
 	count = be32_to_cpu(aclp->acl_cnt);
+=======
+	unsigned int count, i;
+
+	count = be32_to_cpu(aclp->acl_cnt);
+	if (count > XFS_ACL_MAX_ENTRIES)
+		return ERR_PTR(-EFSCORRUPTED);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	acl = posix_acl_alloc(count, GFP_KERNEL);
 	if (!acl)
@@ -250,8 +258,14 @@ xfs_set_mode(struct inode *inode, mode_t mode)
 	if (mode != inode->i_mode) {
 		struct iattr iattr;
 
+<<<<<<< HEAD
 		iattr.ia_valid = ATTR_MODE;
 		iattr.ia_mode = mode;
+=======
+		iattr.ia_valid = ATTR_MODE | ATTR_CTIME;
+		iattr.ia_mode = mode;
+		iattr.ia_ctime = current_fs_time(inode->i_sb);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		error = -xfs_setattr(XFS_I(inode), &iattr, XFS_ATTR_NOACL);
 	}

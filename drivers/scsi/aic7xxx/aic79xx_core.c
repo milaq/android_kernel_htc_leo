@@ -3171,6 +3171,7 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 				tinfo->curr.transport_version = 2;
 				tinfo->goal.transport_version = 2;
 				tinfo->goal.ppr_options = 0;
+<<<<<<< HEAD
 				/*
 				 * Remove any SCBs in the waiting for selection
 				 * queue that may also be for this target so
@@ -3178,6 +3179,18 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 				 */
 				ahd_freeze_devq(ahd, scb);
 				ahd_qinfifo_requeue_tail(ahd, scb);
+=======
+				if (scb != NULL) {
+					/*
+					 * Remove any SCBs in the waiting
+					 * for selection queue that may
+					 * also be for this target so that
+					 * command ordering is preserved.
+					 */
+					ahd_freeze_devq(ahd, scb);
+					ahd_qinfifo_requeue_tail(ahd, scb);
+				}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				printerror = 0;
 			}
 		} else if (ahd_sent_msg(ahd, AHDMSG_EXT, MSG_EXT_WDTR, FALSE)
@@ -3194,6 +3207,7 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 				      MSG_EXT_WDTR_BUS_8_BIT,
 				      AHD_TRANS_CUR|AHD_TRANS_GOAL,
 				      /*paused*/TRUE);
+<<<<<<< HEAD
 			/*
 			 * Remove any SCBs in the waiting for selection
 			 * queue that may also be for this target so that
@@ -3201,6 +3215,18 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 			 */
 			ahd_freeze_devq(ahd, scb);
 			ahd_qinfifo_requeue_tail(ahd, scb);
+=======
+			if (scb != NULL) {
+				/*
+				 * Remove any SCBs in the waiting for
+				 * selection queue that may also be for
+				 * this target so that command ordering
+				 * is preserved.
+				 */
+				ahd_freeze_devq(ahd, scb);
+				ahd_qinfifo_requeue_tail(ahd, scb);
+			}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printerror = 0;
 		} else if (ahd_sent_msg(ahd, AHDMSG_EXT, MSG_EXT_SDTR, FALSE)
 			&& ppr_busfree == 0) {
@@ -3217,6 +3243,7 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 					/*ppr_options*/0,
 					AHD_TRANS_CUR|AHD_TRANS_GOAL,
 					/*paused*/TRUE);
+<<<<<<< HEAD
 			/*
 			 * Remove any SCBs in the waiting for selection
 			 * queue that may also be for this target so that
@@ -3224,6 +3251,18 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 			 */
 			ahd_freeze_devq(ahd, scb);
 			ahd_qinfifo_requeue_tail(ahd, scb);
+=======
+			if (scb != NULL) {
+				/*
+				 * Remove any SCBs in the waiting for
+				 * selection queue that may also be for
+				 * this target so that command ordering
+				 * is preserved.
+				 */
+				ahd_freeze_devq(ahd, scb);
+				ahd_qinfifo_requeue_tail(ahd, scb);
+			}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printerror = 0;
 		} else if ((ahd->msg_flags & MSG_FLAG_EXPECT_IDE_BUSFREE) != 0
 			&& ahd_sent_msg(ahd, AHDMSG_1B,
@@ -3251,7 +3290,11 @@ ahd_handle_nonpkt_busfree(struct ahd_softc *ahd)
 	 * the message phases.  We check it last in case we
 	 * had to send some other message that caused a busfree.
 	 */
+<<<<<<< HEAD
 	if (printerror != 0
+=======
+	if (scb != NULL && printerror != 0
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 && (lastphase == P_MESGIN || lastphase == P_MESGOUT)
 	 && ((ahd->msg_flags & MSG_FLAG_EXPECT_PPR_BUSFREE) != 0)) {
 

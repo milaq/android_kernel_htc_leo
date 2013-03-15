@@ -1686,6 +1686,7 @@ int r600_init(struct radeon_device *rdev)
 	if (rdev->accel_working) {
 		r = radeon_ib_pool_init(rdev);
 		if (r) {
+<<<<<<< HEAD
 			DRM_ERROR("radeon: failled initializing IB pool (%d).\n", r);
 			rdev->accel_working = false;
 		}
@@ -1693,6 +1694,16 @@ int r600_init(struct radeon_device *rdev)
 		if (r) {
 			DRM_ERROR("radeon: failled testing IB (%d).\n", r);
 			rdev->accel_working = false;
+=======
+			dev_err(rdev->dev, "IB initialization failed (%d).\n", r);
+			rdev->accel_working = false;
+		} else {
+			r = r600_ib_test(rdev);
+			if (r) {
+				dev_err(rdev->dev, "IB test failed (%d).\n", r);
+				rdev->accel_working = false;
+			}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 	return 0;

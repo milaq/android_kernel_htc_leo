@@ -1176,7 +1176,12 @@ static int __devinit cpmac_probe(struct platform_device *pdev)
 		if (netif_msg_drv(priv))
 			printk(KERN_ERR "%s: Could not attach to PHY\n",
 			       dev->name);
+<<<<<<< HEAD
 		return PTR_ERR(priv->phy);
+=======
+		rc = PTR_ERR(priv->phy);
+		goto fail;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if ((rc = register_netdev(dev))) {

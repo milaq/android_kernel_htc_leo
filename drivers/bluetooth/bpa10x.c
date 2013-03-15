@@ -62,7 +62,11 @@ struct hci_vendor_hdr {
 	__u8    type;
 	__le16  snum;
 	__le16  dlen;
+<<<<<<< HEAD
 } __packed;
+=======
+} __attribute__ ((packed));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int bpa10x_recv(struct hci_dev *hdev, int queue, void *buf, int count)
 {
@@ -469,7 +473,11 @@ static int bpa10x_probe(struct usb_interface *intf, const struct usb_device_id *
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	hdev->bus = HCI_USB;
+=======
+	hdev->type = HCI_USB;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	hdev->driver_data = data;
 
 	data->hdev = hdev;

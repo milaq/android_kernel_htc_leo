@@ -168,6 +168,7 @@ static int tweak_set_configuration_cmd(struct urb *urb)
 
 static int tweak_reset_device_cmd(struct urb *urb)
 {
+<<<<<<< HEAD
 	struct usb_ctrlrequest *req;
 	__u16 value;
 	__u16 index;
@@ -195,6 +196,25 @@ static int tweak_reset_device_cmd(struct urb *urb)
 	usb_unlock_device(urb->dev);
 
 	return ret;
+=======
+	struct stub_priv *priv = (struct stub_priv *) urb->context;
+	struct stub_device *sdev = priv->sdev;
+
+	usbip_uinfo("reset_device %s\n", dev_name(&urb->dev->dev));
+
+	/*
+	 * usb_lock_device_for_reset caused a deadlock: it causes the driver
+	 * to unbind. In the shutdown the rx thread is signalled to shut down
+	 * but this thread is pending in the usb_lock_device_for_reset.
+	 *
+	 * Instead queue the reset.
+	 *
+	 * Unfortunatly an existing usbip connection will be dropped due to
+	 * driver unbinding.
+	 */
+	usb_queue_reset_device(sdev->interface);
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*

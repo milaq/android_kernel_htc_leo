@@ -71,6 +71,7 @@ MODULE_PARM_DESC(iSerialNumber, "SerialNumber string");
 
 /*-------------------------------------------------------------------------*/
 
+<<<<<<< HEAD
 static ssize_t enable_show(struct device *dev, struct device_attribute *attr,
 		char *buf)
 {
@@ -98,6 +99,8 @@ static ssize_t enable_store(
 static DEVICE_ATTR(enable, S_IRUGO | S_IWUSR, enable_show, enable_store);
 
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * usb_add_function() - add a function to a configuration
  * @config: the configuration
@@ -115,17 +118,24 @@ static DEVICE_ATTR(enable, S_IRUGO | S_IWUSR, enable_show, enable_store);
 int __init usb_add_function(struct usb_configuration *config,
 		struct usb_function *function)
 {
+<<<<<<< HEAD
 	struct usb_composite_dev	*cdev = config->cdev;
 	int	value = -EINVAL;
 	int index;
 
 	DBG(cdev, "adding '%s'/%p to config '%s'/%p\n",
+=======
+	int	value = -EINVAL;
+
+	DBG(config->cdev, "adding '%s'/%p to config '%s'/%p\n",
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			function->name, function,
 			config->label, config);
 
 	if (!function->set_alt || !function->disable)
 		goto done;
 
+<<<<<<< HEAD
 	index = atomic_inc_return(&cdev->driver->function_count);
 	function->dev = device_create(cdev->driver->class, NULL,
 		MKDEV(0, index), NULL, function->name);
@@ -139,6 +149,8 @@ int __init usb_add_function(struct usb_configuration *config,
 	}
 	dev_set_drvdata(function->dev, function);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	function->config = config;
 	list_add_tail(&function->list, &config->functions);
 
@@ -164,7 +176,11 @@ int __init usb_add_function(struct usb_configuration *config,
 
 done:
 	if (value)
+<<<<<<< HEAD
 		DBG(cdev, "adding '%s'/%p --> %d\n",
+=======
+		DBG(config->cdev, "adding '%s'/%p --> %d\n",
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				function->name, function, value);
 	return value;
 }
@@ -270,6 +286,7 @@ int __init usb_interface_id(struct usb_configuration *config,
 	return -ENODEV;
 }
 
+<<<<<<< HEAD
 static struct usb_function *get_function_by_intf(struct usb_composite_dev *cdev,
 		int intf)
 {
@@ -298,23 +315,36 @@ static struct usb_function *get_function_by_intf(struct usb_composite_dev *cdev,
 	return NULL;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int config_buf(struct usb_configuration *config,
 		enum usb_device_speed speed, void *buf, u8 type)
 {
 	struct usb_config_descriptor	*c = buf;
+<<<<<<< HEAD
 	struct usb_interface_descriptor *intf;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void				*next = buf + USB_DT_CONFIG_SIZE;
 	int				len = USB_BUFSIZ - USB_DT_CONFIG_SIZE;
 	struct usb_function		*f;
 	int				status;
+<<<<<<< HEAD
 	int				interfaceCount = 0;
 	u8 *dest;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* write the config descriptor */
 	c = buf;
 	c->bLength = USB_DT_CONFIG_SIZE;
 	c->bDescriptorType = type;
+<<<<<<< HEAD
 	/* wTotalLength and bNumInterfaces are written later */
+=======
+	/* wTotalLength is written later */
+	c->bNumInterfaces = config->next_interface_id;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	c->bConfigurationValue = config->bConfigurationValue;
 	c->iConfiguration = config->iConfiguration;
 	c->bmAttributes = USB_CONFIG_ATT_ONE | config->bmAttributes;
@@ -333,18 +363,26 @@ static int config_buf(struct usb_configuration *config,
 	/* add each function's descriptors */
 	list_for_each_entry(f, &config->functions, list) {
 		struct usb_descriptor_header **descriptors;
+<<<<<<< HEAD
 		struct usb_descriptor_header *descriptor;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (speed == USB_SPEED_HIGH)
 			descriptors = f->hs_descriptors;
 		else
 			descriptors = f->descriptors;
+<<<<<<< HEAD
 		if (f->hidden || !descriptors || descriptors[0] == NULL)
+=======
+		if (!descriptors)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 		status = usb_descriptor_fillbuf(next, len,
 			(const struct usb_descriptor_header **) descriptors);
 		if (status < 0)
 			return status;
+<<<<<<< HEAD
 
 		/* set interface numbers dynamically */
 		dest = next;
@@ -358,13 +396,18 @@ static int config_buf(struct usb_configuration *config,
 			dest += intf->bLength;
 		}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		len -= status;
 		next += status;
 	}
 
 	len = next - buf;
 	c->wTotalLength = cpu_to_le16(len);
+<<<<<<< HEAD
 	c->bNumInterfaces = interfaceCount;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return len;
 }
 
@@ -756,6 +799,10 @@ static void composite_setup_complete(struct usb_ep *ep, struct usb_request *req)
 				"setup complete --> %d, %d/%d\n",
 				req->status, req->actual, req->length);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * The setup() callback implements all the ep0 functionality that's
  * not handled lower down, in hardware or the hardware driver(like
@@ -842,11 +889,19 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 	case USB_REQ_GET_CONFIGURATION:
 		if (ctrl->bRequestType != USB_DIR_IN)
 			goto unknown;
+<<<<<<< HEAD
 		if (cdev->config) {
 			*(u8 *)req->buf = cdev->config->bConfigurationValue;
 			value = min(w_length, (u16) 1);
 		} else
 			*(u8 *)req->buf = 0;
+=======
+		if (cdev->config)
+			*(u8 *)req->buf = cdev->config->bConfigurationValue;
+		else
+			*(u8 *)req->buf = 0;
+		value = min(w_length, (u16) 1);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 
 	/* function drivers must handle get/set altsetting; if there's
@@ -857,7 +912,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 			goto unknown;
 		if (!cdev->config || w_index >= MAX_CONFIG_INTERFACES)
 			break;
+<<<<<<< HEAD
 		f = get_function_by_intf(cdev, intf);
+=======
+		f = cdev->config->interface[intf];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!f)
 			break;
 		if (w_value && !f->set_alt)
@@ -869,7 +928,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 			goto unknown;
 		if (!cdev->config || w_index >= MAX_CONFIG_INTERFACES)
 			break;
+<<<<<<< HEAD
 		f = get_function_by_intf(cdev, intf);
+=======
+		f = cdev->config->interface[intf];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!f)
 			break;
 		/* lots of interfaces only need altsetting zero... */
@@ -896,10 +959,14 @@ unknown:
 		 */
 		if ((ctrl->bRequestType & USB_RECIP_MASK)
 				== USB_RECIP_INTERFACE) {
+<<<<<<< HEAD
 			if (cdev->config == NULL)
 				return value;
 
 			f = get_function_by_intf(cdev, intf);
+=======
+			f = cdev->config->interface[intf];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (f && f->setup)
 				value = f->setup(f, ctrl);
 			else
@@ -913,6 +980,7 @@ unknown:
 				value = c->setup(c, ctrl);
 		}
 
+<<<<<<< HEAD
 		/* If the vendor request is not processed (value < 0),
 		 * call all device registered configure setup callbacks
 		 * to process it.
@@ -932,6 +1000,8 @@ unknown:
 			}
 		}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto done;
 	}
 
@@ -1201,10 +1271,13 @@ int __init usb_composite_register(struct usb_composite_driver *driver)
 	composite_driver.driver.name = driver->name;
 	composite = driver;
 
+<<<<<<< HEAD
 	driver->class = class_create(THIS_MODULE, "usb_composite");
 	if (IS_ERR(driver->class))
 		return PTR_ERR(driver->class);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return usb_gadget_register_driver(&composite_driver);
 }
 

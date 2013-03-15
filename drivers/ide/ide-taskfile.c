@@ -428,6 +428,7 @@ int ide_raw_taskfile(ide_drive_t *drive, struct ide_cmd *cmd, u8 *buf,
 {
 	struct request *rq;
 	int error;
+<<<<<<< HEAD
 
 	rq = blk_get_request(drive->queue, READ, __GFP_WAIT);
 	rq->cmd_type = REQ_TYPE_ATA_TASKFILE;
@@ -435,6 +436,13 @@ int ide_raw_taskfile(ide_drive_t *drive, struct ide_cmd *cmd, u8 *buf,
 	if (cmd->tf_flags & IDE_TFLAG_WRITE)
 		rq->cmd_flags |= REQ_RW;
 
+=======
+	int rw = !(cmd->tf_flags & IDE_TFLAG_WRITE) ? READ : WRITE;
+
+	rq = blk_get_request(drive->queue, rw, __GFP_WAIT);
+	rq->cmd_type = REQ_TYPE_ATA_TASKFILE;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * (ks) We transfer currently only whole sectors.
 	 * This is suffient for now.  But, it would be great,

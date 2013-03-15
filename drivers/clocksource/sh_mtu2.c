@@ -221,15 +221,24 @@ static void sh_mtu2_register_clockevent(struct sh_mtu2_priv *p,
 	ced->cpumask = cpumask_of(0);
 	ced->set_mode = sh_mtu2_clock_event_mode;
 
+<<<<<<< HEAD
+=======
+	pr_info("sh_mtu2: %s used for clock events\n", ced->name);
+	clockevents_register_device(ced);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ret = setup_irq(p->irqaction.irq, &p->irqaction);
 	if (ret) {
 		pr_err("sh_mtu2: failed to request irq %d\n",
 		       p->irqaction.irq);
 		return;
 	}
+<<<<<<< HEAD
 
 	pr_info("sh_mtu2: %s used for clock events\n", ced->name);
 	clockevents_register_device(ced);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int sh_mtu2_register(struct sh_mtu2_priv *p, char *name,

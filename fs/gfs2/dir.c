@@ -392,7 +392,11 @@ static int gfs2_dirent_find_space(const struct gfs2_dirent *dent,
 	unsigned totlen = be16_to_cpu(dent->de_rec_len);
 
 	if (gfs2_dirent_sentinel(dent))
+<<<<<<< HEAD
 		actual = GFS2_DIRENT_SIZE(0);
+=======
+		actual = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (totlen - actual >= required)
 		return 1;
 	return 0;

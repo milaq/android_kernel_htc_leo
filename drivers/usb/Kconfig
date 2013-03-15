@@ -58,9 +58,12 @@ config USB_ARCH_HAS_EHCI
 	default y if PPC_83xx
 	default y if SOC_AU1200
 	default y if ARCH_IXP4XX
+<<<<<<< HEAD
 	default y if ARCH_MSM7XXX
 	default y if ARCH_MSM
 	default y if ARCH_MSM7X00A
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default y if ARCH_W90X900
 	default y if ARCH_AT91SAM9G45
 	default PCI
@@ -160,6 +163,9 @@ source "drivers/usb/gadget/Kconfig"
 
 source "drivers/usb/otg/Kconfig"
 
+<<<<<<< HEAD
 source "drivers/usb/function/Kconfig"
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # USB_SUPPORT

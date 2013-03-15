@@ -290,6 +290,10 @@ static ssize_t mtd_write(struct file *file, const char __user *buf, size_t count
 			ops.mode = MTD_OOB_RAW;
 			ops.datbuf = kbuf;
 			ops.oobbuf = NULL;
+<<<<<<< HEAD
+=======
+			ops.ooboffs = 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ops.len = len;
 
 			ret = mtd->write_oob(mtd, *ppos, &ops);

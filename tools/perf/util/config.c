@@ -416,7 +416,10 @@ int perf_config_global(void)
 int perf_config(config_fn_t fn, void *data)
 {
 	int ret = 0, found = 0;
+<<<<<<< HEAD
 	char *repo_config = NULL;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	const char *home = NULL;
 
 	/* Setting $PERF_CONFIG makes perf read _only_ the given config file. */
@@ -438,12 +441,15 @@ int perf_config(config_fn_t fn, void *data)
 		free(user_config);
 	}
 
+<<<<<<< HEAD
 	repo_config = perf_pathdup("config");
 	if (!access(repo_config, R_OK)) {
 		ret += perf_config_from_file(fn, repo_config, data);
 		found += 1;
 	}
 	free(repo_config);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (found == 0)
 		return -1;
 	return ret;

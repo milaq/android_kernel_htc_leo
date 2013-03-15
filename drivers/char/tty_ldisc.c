@@ -45,6 +45,10 @@
 
 static DEFINE_SPINLOCK(tty_ldisc_lock);
 static DECLARE_WAIT_QUEUE_HEAD(tty_ldisc_wait);
+<<<<<<< HEAD
+=======
+static DECLARE_WAIT_QUEUE_HEAD(tty_ldisc_idle);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Line disc dispatch table */
 static struct tty_ldisc_ops *tty_ldiscs[NR_LDISCS];
 
@@ -81,6 +85,10 @@ static void put_ldisc(struct tty_ldisc *ld)
 		return;
 	}
 	local_irq_restore(flags);
+<<<<<<< HEAD
+=======
+	wake_up(&tty_ldisc_idle);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -442,9 +450,21 @@ static void tty_set_termios_ldisc(struct tty_struct *tty, int num)
 
 static int tty_ldisc_open(struct tty_struct *tty, struct tty_ldisc *ld)
 {
+<<<<<<< HEAD
 	WARN_ON(test_and_set_bit(TTY_LDISC_OPEN, &tty->flags));
 	if (ld->ops->open)
 		return ld->ops->open(tty);
+=======
+	int ret;
+
+	WARN_ON(test_and_set_bit(TTY_LDISC_OPEN, &tty->flags));
+	if (ld->ops->open) {
+		ret = ld->ops->open(tty);
+		if (ret)
+			clear_bit(TTY_LDISC_OPEN, &tty->flags);
+		return ret;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 
@@ -522,6 +542,26 @@ static int tty_ldisc_halt(struct tty_struct *tty)
 }
 
 /**
+<<<<<<< HEAD
+=======
+ *	tty_ldisc_wait_idle	-	wait for the ldisc to become idle
+ *	@tty: tty to wait for
+ *
+ *	Wait for the line discipline to become idle. The discipline must
+ *	have been halted for this to guarantee it remains idle.
+ */
+static int tty_ldisc_wait_idle(struct tty_struct *tty)
+{
+	int ret;
+	ret = wait_event_timeout(tty_ldisc_idle,
+			atomic_read(&tty->ldisc->users) == 1, 5 * HZ);
+	if (ret < 0)
+		return ret;
+	return ret > 0 ? 0 : -EBUSY;
+}
+
+/**
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *	tty_set_ldisc		-	set line discipline
  *	@tty: the terminal to set
  *	@ldisc: the line discipline
@@ -616,7 +656,20 @@ int tty_set_ldisc(struct tty_struct *tty, int ldisc)
 
 	flush_scheduled_work();
 
+<<<<<<< HEAD
 	mutex_lock(&tty->ldisc_mutex);
+=======
+	retval = tty_ldisc_wait_idle(tty);
+
+	mutex_lock(&tty->ldisc_mutex);
+
+	/* handle wait idle failure locked */
+	if (retval) {
+		tty_ldisc_put(new_ldisc);
+		goto enable;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (test_bit(TTY_HUPPED, &tty->flags)) {
 		/* We were raced by the hangup method. It will have stomped
 		   the ldisc data and closed the ldisc down */
@@ -649,6 +702,10 @@ int tty_set_ldisc(struct tty_struct *tty, int ldisc)
 
 	tty_ldisc_put(o_ldisc);
 
+<<<<<<< HEAD
+=======
+enable:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 *	Allow ldisc referencing to occur again
 	 */
@@ -693,9 +750,20 @@ static void tty_reset_termios(struct tty_struct *tty)
  *	state closed
  */
 
+<<<<<<< HEAD
 static void tty_ldisc_reinit(struct tty_struct *tty, int ldisc)
 {
 	struct tty_ldisc *ld;
+=======
+static int tty_ldisc_reinit(struct tty_struct *tty, int ldisc)
+{
+	struct tty_ldisc *ld = tty_ldisc_get(ldisc);
+
+	if (IS_ERR(ld))
+		return -1;
+
+	WARN_ON_ONCE(tty_ldisc_wait_idle(tty));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	tty_ldisc_close(tty, tty->ldisc);
 	tty_ldisc_put(tty->ldisc);
@@ -703,10 +771,17 @@ static void tty_ldisc_reinit(struct tty_struct *tty, int ldisc)
 	/*
 	 *	Switch the line discipline back
 	 */
+<<<<<<< HEAD
 	ld = tty_ldisc_get(ldisc);
 	BUG_ON(IS_ERR(ld));
 	tty_ldisc_assign(tty, ld);
 	tty_set_termios_ldisc(tty, ldisc);
+=======
+	tty_ldisc_assign(tty, ld);
+	tty_set_termios_ldisc(tty, ldisc);
+
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -768,13 +843,25 @@ void tty_ldisc_hangup(struct tty_struct *tty)
 	   a FIXME */
 	if (tty->ldisc) {	/* Not yet closed */
 		if (reset == 0) {
+<<<<<<< HEAD
 			tty_ldisc_reinit(tty, tty->termios->c_line);
 			err = tty_ldisc_open(tty, tty->ldisc);
+=======
+
+			if (!tty_ldisc_reinit(tty, tty->termios->c_line))
+				err = tty_ldisc_open(tty, tty->ldisc);
+			else
+				err = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		/* If the re-open fails or we reset then go to N_TTY. The
 		   N_TTY open cannot fail */
 		if (reset || err) {
+<<<<<<< HEAD
 			tty_ldisc_reinit(tty, N_TTY);
+=======
+			BUG_ON(tty_ldisc_reinit(tty, N_TTY));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			WARN_ON(tty_ldisc_open(tty, tty->ldisc));
 		}
 		tty_ldisc_enable(tty);

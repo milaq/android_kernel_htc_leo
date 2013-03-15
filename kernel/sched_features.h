@@ -10,7 +10,11 @@ SCHED_FEAT(FAIR_SLEEPERS, 1)
  * them to run sooner, but does not allow tons of sleepers to
  * rip the spread apart.
  */
+<<<<<<< HEAD
 SCHED_FEAT(GENTLE_FAIR_SLEEPERS, 0)
+=======
+SCHED_FEAT(GENTLE_FAIR_SLEEPERS, 1)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * By not normalizing the sleep time, heavy tasks get an effective
@@ -121,3 +125,11 @@ SCHED_FEAT(ASYM_EFF_LOAD, 1)
  * release the lock. Decreases scheduling overhead.
  */
 SCHED_FEAT(OWNER_SPIN, 1)
+<<<<<<< HEAD
+=======
+
+/*
+ * Decrement CPU power based on irq activity
+ */
+SCHED_FEAT(NONIRQ_POWER, 1)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

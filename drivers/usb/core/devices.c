@@ -65,8 +65,13 @@
 #define ALLOW_SERIAL_NUMBER
 
 static const char *format_topo =
+<<<<<<< HEAD
 /* T:  Bus=dd Lev=dd Prnt=dd Port=dd Cnt=dd Dev#=ddd Spd=ddd MxCh=dd */
 "\nT:  Bus=%2.2d Lev=%2.2d Prnt=%2.2d Port=%2.2d Cnt=%2.2d Dev#=%3d Spd=%3s MxCh=%2d\n";
+=======
+/* T:  Bus=dd Lev=dd Prnt=dd Port=dd Cnt=dd Dev#=ddd Spd=dddd MxCh=dd */
+"\nT:  Bus=%2.2d Lev=%2.2d Prnt=%2.2d Port=%2.2d Cnt=%2.2d Dev#=%3d Spd=%-4s MxCh=%2d\n";
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static const char *format_string_manufacturer =
 /* S:  Manufacturer=xxxx */
@@ -211,7 +216,11 @@ static char *usb_dump_endpoint_descriptor(int speed, char *start, char *end,
 		break;
 	case USB_ENDPOINT_XFER_INT:
 		type = "Int.";
+<<<<<<< HEAD
 		if (speed == USB_SPEED_HIGH)
+=======
+		if (speed == USB_SPEED_HIGH || speed == USB_SPEED_SUPER)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			interval = 1 << (desc->bInterval - 1);
 		else
 			interval = desc->bInterval;
@@ -219,7 +228,12 @@ static char *usb_dump_endpoint_descriptor(int speed, char *start, char *end,
 	default:	/* "can't happen" */
 		return start;
 	}
+<<<<<<< HEAD
 	interval *= (speed == USB_SPEED_HIGH) ? 125 : 1000;
+=======
+	interval *= (speed == USB_SPEED_HIGH ||
+		     speed == USB_SPEED_SUPER) ? 125 : 1000;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (interval % 1000)
 		unit = 'u';
 	else {
@@ -509,11 +523,21 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
 		speed = "1.5"; break;
 	case USB_SPEED_UNKNOWN:		/* usb 1.1 root hub code */
 	case USB_SPEED_FULL:
+<<<<<<< HEAD
 		speed = "12 "; break;
 	case USB_SPEED_HIGH:
 		speed = "480"; break;
 	default:
 		speed = "?? ";
+=======
+		speed = "12"; break;
+	case USB_SPEED_HIGH:
+		speed = "480"; break;
+	case USB_SPEED_SUPER:
+		speed = "5000"; break;
+	default:
+		speed = "??";
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	data_end = pages_start + sprintf(pages_start, format_topo,
 			bus->busnum, level, parent_devnum,
@@ -529,8 +553,14 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
 	if (level == 0) {
 		int	max;
 
+<<<<<<< HEAD
 		/* high speed reserves 80%, full/low reserves 90% */
 		if (usbdev->speed == USB_SPEED_HIGH)
+=======
+		/* super/high speed reserves 80%, full/low reserves 90% */
+		if (usbdev->speed == USB_SPEED_HIGH ||
+		    usbdev->speed == USB_SPEED_SUPER)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			max = 800;
 		else
 			max = FRAME_TIME_MAX_USECS_ALLOC;

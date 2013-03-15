@@ -153,7 +153,11 @@ static void localtime_3(struct xtm *r, time_t time)
 }
 
 static bool
+<<<<<<< HEAD
 time_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+time_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_time_info *info = par->matchinfo;
 	unsigned int packet_time;
@@ -218,7 +222,11 @@ time_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 	return true;
 }
 
+<<<<<<< HEAD
 static int time_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool time_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_time_info *info = par->matchinfo;
 

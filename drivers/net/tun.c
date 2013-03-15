@@ -1006,7 +1006,12 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
 		if (err < 0)
 			goto err_free_sk;
 
+<<<<<<< HEAD
 		if (device_create_file(&tun->dev->dev, &dev_attr_tun_flags) ||
+=======
+		if (!net_eq(dev_net(tun->dev), &init_net) ||
+		    device_create_file(&tun->dev->dev, &dev_attr_tun_flags) ||
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		    device_create_file(&tun->dev->dev, &dev_attr_owner) ||
 		    device_create_file(&tun->dev->dev, &dev_attr_group))
 			printk(KERN_ERR "Failed to create tun sysfs files\n");
@@ -1120,10 +1125,19 @@ static long tun_chr_ioctl(struct file *file, unsigned int cmd,
 	int sndbuf;
 	int ret;
 
+<<<<<<< HEAD
 	if (cmd == TUNSETIFF || _IOC_TYPE(cmd) == 0x89)
 		if (copy_from_user(&ifr, argp, sizeof ifr))
 			return -EFAULT;
 
+=======
+	if (cmd == TUNSETIFF || _IOC_TYPE(cmd) == 0x89) {
+		if (copy_from_user(&ifr, argp, sizeof ifr))
+			return -EFAULT;
+	} else {
+		memset(&ifr, 0, sizeof(ifr));
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (cmd == TUNGETFEATURES) {
 		/* Currently this just means: "what IFF flags are valid?".
 		 * This is needed because we never checked for invalid flags on

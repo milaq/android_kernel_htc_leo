@@ -100,7 +100,10 @@ struct usb_function {
 	struct usb_descriptor_header	**hs_descriptors;
 
 	struct usb_configuration	*config;
+<<<<<<< HEAD
 	int				hidden;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* REVISIT:  bind() functions can be marked __init, which
 	 * makes trouble for section mismatch analysis.  See if
@@ -128,7 +131,10 @@ struct usb_function {
 	/* private: */
 	/* internals */
 	struct list_head		list;
+<<<<<<< HEAD
 	struct device			*dev;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 int usb_add_function(struct usb_configuration *, struct usb_function *);
@@ -269,9 +275,12 @@ struct usb_composite_driver {
 	const struct usb_device_descriptor	*dev;
 	struct usb_gadget_strings		**strings;
 
+<<<<<<< HEAD
 	struct class		*class;
 	atomic_t		function_count;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* REVISIT:  bind() functions can be marked __init, which
 	 * makes trouble for section mismatch analysis.  See if
 	 * we can't restructure things to avoid mismatching...
@@ -283,8 +292,11 @@ struct usb_composite_driver {
 	/* global suspend hooks */
 	void			(*suspend)(struct usb_composite_dev *);
 	void			(*resume)(struct usb_composite_dev *);
+<<<<<<< HEAD
 
 	void			(*enable_function)(struct usb_function *f, int enable);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 extern int usb_composite_register(struct usb_composite_driver *);

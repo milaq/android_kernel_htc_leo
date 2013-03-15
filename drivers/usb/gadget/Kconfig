@@ -509,6 +509,7 @@ config USB_LANGWELL
 # LAST -- dummy/emulated controller
 #
 
+<<<<<<< HEAD
 config USB_GADGET_MSM_72K
 	boolean "MSM 72K Device Controller"
 	depends on ARCH_MSM
@@ -527,6 +528,8 @@ config USB_MSM_72K
 	default USB_GADGET
 	select USB_GADGET_SELECTED
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config USB_GADGET_DUMMY_HCD
 	boolean "Dummy HCD (DEVELOPMENT)"
 	depends on USB=y || (USB=m && USB_GADGET=m)
@@ -798,6 +801,7 @@ config USB_G_PRINTER
 	  For more information, see Documentation/usb/gadget_printer.txt
 	  which includes sample code for accessing the device file.
 
+<<<<<<< HEAD
 config USB_ANDROID
 	boolean "Android Gadget"
 	depends on SWITCH
@@ -860,6 +864,8 @@ config USB_ANDROID_MTP
 	depends on USB_ANDROID
 	help
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config USB_CDC_COMPOSITE
 	tristate "CDC Composite Device (Ethernet and ACM)"
 	depends on NET
@@ -881,6 +887,7 @@ config USB_CDC_COMPOSITE
 
 endchoice
 
+<<<<<<< HEAD
 config USB_ACCESSORY_DETECT
 	boolean "USB ACCESSORY DETECT"
 	depends on USB_ANDROID
@@ -891,4 +898,6 @@ config USB_ACCESSORY_DETECT_BY_ADC
 	depends on USB_ANDROID && USB_ACCESSORY_DETECT
 	default n
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # USB_GADGET

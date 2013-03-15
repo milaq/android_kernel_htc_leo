@@ -800,7 +800,11 @@ static void __exit omap2_onenand_exit(void)
 module_init(omap2_onenand_init);
 module_exit(omap2_onenand_exit);
 
+<<<<<<< HEAD
 MODULE_ALIAS(DRIVER_NAME);
+=======
+MODULE_ALIAS("platform:" DRIVER_NAME);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Jarkko Lavinen <jarkko.lavinen@nokia.com>");
 MODULE_DESCRIPTION("Glue layer for OneNAND flash on OMAP2 / OMAP3");

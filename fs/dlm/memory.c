@@ -39,7 +39,11 @@ char *dlm_allocate_lvb(struct dlm_ls *ls)
 {
 	char *p;
 
+<<<<<<< HEAD
 	p = kzalloc(ls->ls_lvblen, ls->ls_allocation);
+=======
+	p = kzalloc(ls->ls_lvblen, GFP_NOFS);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return p;
 }
 
@@ -57,7 +61,11 @@ struct dlm_rsb *dlm_allocate_rsb(struct dlm_ls *ls, int namelen)
 
 	DLM_ASSERT(namelen <= DLM_RESNAME_MAXLEN,);
 
+<<<<<<< HEAD
 	r = kzalloc(sizeof(*r) + namelen, ls->ls_allocation);
+=======
+	r = kzalloc(sizeof(*r) + namelen, GFP_NOFS);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return r;
 }
 
@@ -72,7 +80,11 @@ struct dlm_lkb *dlm_allocate_lkb(struct dlm_ls *ls)
 {
 	struct dlm_lkb *lkb;
 
+<<<<<<< HEAD
 	lkb = kmem_cache_zalloc(lkb_cache, ls->ls_allocation);
+=======
+	lkb = kmem_cache_zalloc(lkb_cache, GFP_NOFS);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return lkb;
 }
 

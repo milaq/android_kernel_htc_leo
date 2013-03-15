@@ -655,6 +655,7 @@ static struct unix_gid *unix_gid_lookup(uid_t uid)
 		return NULL;
 }
 
+<<<<<<< HEAD
 static int unix_gid_find(uid_t uid, struct group_info **gip,
 			 struct svc_rqst *rqstp)
 {
@@ -672,6 +673,27 @@ static int unix_gid_find(uid_t uid, struct group_info **gip,
 		return 0;
 	default:
 		return -EAGAIN;
+=======
+static struct group_info *unix_gid_find(uid_t uid, struct svc_rqst *rqstp)
+{
+	struct unix_gid *ug;
+	struct group_info *gi;
+	int ret;
+
+	ug = unix_gid_lookup(uid);
+	if (!ug)
+		return ERR_PTR(-EAGAIN);
+	ret = cache_check(&unix_gid_cache, &ug->h, &rqstp->rq_chandle);
+	switch (ret) {
+	case -ENOENT:
+		return ERR_PTR(-ENOENT);
+	case 0:
+		gi = get_group_info(ug->gi);
+		cache_put(&ug->h, &unix_gid_cache);
+		return gi;
+	default:
+		return ERR_PTR(-EAGAIN);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 
@@ -681,6 +703,11 @@ svcauth_unix_set_client(struct svc_rqst *rqstp)
 	struct sockaddr_in *sin;
 	struct sockaddr_in6 *sin6, sin6_storage;
 	struct ip_map *ipm;
+<<<<<<< HEAD
+=======
+	struct group_info *gi;
+	struct svc_cred *cred = &rqstp->rq_cred;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (rqstp->rq_addr.ss_family) {
 	case AF_INET:
@@ -722,6 +749,20 @@ svcauth_unix_set_client(struct svc_rqst *rqstp)
 			ip_map_cached_put(rqstp, ipm);
 			break;
 	}
+<<<<<<< HEAD
+=======
+
+	gi = unix_gid_find(cred->cr_uid, rqstp);
+	switch (PTR_ERR(gi)) {
+	case -EAGAIN:
+		return SVC_DROP;
+	case -ENOENT:
+		break;
+	default:
+		put_group_info(cred->cr_group_info);
+		cred->cr_group_info = gi;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return SVC_OK;
 }
 
@@ -818,6 +859,7 @@ svcauth_unix_accept(struct svc_rqst *rqstp, __be32 *authp)
 	slen = svc_getnl(argv);			/* gids length */
 	if (slen > 16 || (len -= (slen + 2)*4) < 0)
 		goto badcred;
+<<<<<<< HEAD
 	if (unix_gid_find(cred->cr_uid, &cred->cr_group_info, rqstp)
 	    == -EAGAIN)
 		return SVC_DROP;
@@ -831,6 +873,13 @@ svcauth_unix_accept(struct svc_rqst *rqstp, __be32 *authp)
 		for (i = 0; i < slen ; i++)
 			svc_getnl(argv);
 	}
+=======
+	cred->cr_group_info = groups_alloc(slen);
+	if (cred->cr_group_info == NULL)
+		return SVC_DROP;
+	for (i = 0; i < slen; i++)
+		GROUP_AT(cred->cr_group_info, i) = svc_getnl(argv);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (svc_getu32(argv) != htonl(RPC_AUTH_NULL) || svc_getu32(argv) != 0) {
 		*authp = rpc_autherr_badverf;
 		return SVC_DENIED;

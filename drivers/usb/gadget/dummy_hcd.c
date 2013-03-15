@@ -1886,6 +1886,10 @@ static int dummy_hcd_probe(struct platform_device *pdev)
 	if (!hcd)
 		return -ENOMEM;
 	the_controller = hcd_to_dummy (hcd);
+<<<<<<< HEAD
+=======
+	hcd->has_tt = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	retval = usb_add_hcd(hcd, 0, 0);
 	if (retval != 0) {

@@ -244,6 +244,10 @@ static int __devinit cb710_probe(struct pci_dev *pdev,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
+=======
+	spin_lock_init(&chip->irq_lock);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	chip->pdev = pdev;
 	chip->iobase = pcim_iomap_table(pdev)[0];
 

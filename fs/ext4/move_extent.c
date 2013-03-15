@@ -252,6 +252,10 @@ mext_insert_across_blocks(handle_t *handle, struct inode *orig_inode,
 		}
 
 		o_start->ee_len = start_ext->ee_len;
+<<<<<<< HEAD
+=======
+		eblock = le32_to_cpu(start_ext->ee_block);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		new_flag = 1;
 
 	} else if (start_ext->ee_len && new_ext->ee_len &&
@@ -262,6 +266,10 @@ mext_insert_across_blocks(handle_t *handle, struct inode *orig_inode,
 		 * orig  |------------------------------|
 		 */
 		o_start->ee_len = start_ext->ee_len;
+<<<<<<< HEAD
+=======
+		eblock = le32_to_cpu(start_ext->ee_block);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		new_flag = 1;
 
 	} else if (!start_ext->ee_len && new_ext->ee_len &&
@@ -475,7 +483,10 @@ mext_leaf_block(handle_t *handle, struct inode *orig_inode,
 	struct ext4_extent *oext, *o_start, *o_end, *prev_ext;
 	struct ext4_extent new_ext, start_ext, end_ext;
 	ext4_lblk_t new_ext_end;
+<<<<<<< HEAD
 	ext4_fsblk_t new_phys_end;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int oext_alen, new_ext_alen, end_ext_alen;
 	int depth = ext_depth(orig_inode);
 	int ret;
@@ -489,7 +500,10 @@ mext_leaf_block(handle_t *handle, struct inode *orig_inode,
 	new_ext.ee_len = dext->ee_len;
 	new_ext_alen = ext4_ext_get_actual_len(&new_ext);
 	new_ext_end = le32_to_cpu(new_ext.ee_block) + new_ext_alen - 1;
+<<<<<<< HEAD
 	new_phys_end = ext_pblock(&new_ext) + new_ext_alen - 1;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Case: original extent is first
@@ -502,6 +516,10 @@ mext_leaf_block(handle_t *handle, struct inode *orig_inode,
 		le32_to_cpu(oext->ee_block) + oext_alen) {
 		start_ext.ee_len = cpu_to_le16(le32_to_cpu(new_ext.ee_block) -
 					       le32_to_cpu(oext->ee_block));
+<<<<<<< HEAD
+=======
+		start_ext.ee_block = oext->ee_block;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		copy_extent_status(oext, &start_ext);
 	} else if (oext > EXT_FIRST_EXTENT(orig_path[depth].p_hdr)) {
 		prev_ext = oext - 1;
@@ -515,6 +533,10 @@ mext_leaf_block(handle_t *handle, struct inode *orig_inode,
 			start_ext.ee_len = cpu_to_le16(
 				ext4_ext_get_actual_len(prev_ext) +
 				new_ext_alen);
+<<<<<<< HEAD
+=======
+			start_ext.ee_block = oext->ee_block;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			copy_extent_status(prev_ext, &start_ext);
 			new_ext.ee_len = 0;
 		}
@@ -928,7 +950,11 @@ out2:
 }
 
 /**
+<<<<<<< HEAD
  * mext_check_argumants - Check whether move extent can be done
+=======
+ * mext_check_arguments - Check whether move extent can be done
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * @orig_inode:		original inode
  * @donor_inode:	donor inode
@@ -949,6 +975,7 @@ mext_check_arguments(struct inode *orig_inode,
 	unsigned int blkbits = orig_inode->i_blkbits;
 	unsigned int blocksize = 1 << blkbits;
 
+<<<<<<< HEAD
 	/* Regular file check */
 	if (!S_ISREG(orig_inode->i_mode) || !S_ISREG(donor_inode->i_mode)) {
 		ext4_debug("ext4 move extent: The argument files should be "
@@ -957,6 +984,8 @@ mext_check_arguments(struct inode *orig_inode,
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (donor_inode->i_mode & (S_ISUID|S_ISGID)) {
 		ext4_debug("ext4 move extent: suid or sgid is set"
 			   " to donor file [ino:orig %lu, donor %lu]\n",
@@ -964,6 +993,12 @@ mext_check_arguments(struct inode *orig_inode,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	if (IS_IMMUTABLE(donor_inode) || IS_APPEND(donor_inode))
+		return -EPERM;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Ext4 move extent does not support swapfile */
 	if (IS_SWAPFILE(orig_inode) || IS_SWAPFILE(donor_inode)) {
 		ext4_debug("ext4 move extent: The argument files should "
@@ -981,11 +1016,19 @@ mext_check_arguments(struct inode *orig_inode,
 	}
 
 	/* Ext4 move extent supports only extent based file */
+<<<<<<< HEAD
 	if (!(EXT4_I(orig_inode)->i_flags & EXT4_EXTENTS_FL)) {
 		ext4_debug("ext4 move extent: orig file is not extents "
 			"based file [ino:orig %lu]\n", orig_inode->i_ino);
 		return -EOPNOTSUPP;
 	} else if (!(EXT4_I(donor_inode)->i_flags & EXT4_EXTENTS_FL)) {
+=======
+	if (!(ext4_test_inode_flag(orig_inode, EXT4_INODE_EXTENTS))) {
+		ext4_debug("ext4 move extent: orig file is not extents "
+			"based file [ino:orig %lu]\n", orig_inode->i_ino);
+		return -EOPNOTSUPP;
+	} else if (!(ext4_test_inode_flag(donor_inode, EXT4_INODE_EXTENTS))) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ext4_debug("ext4 move extent: donor file is not extents "
 			"based file [ino:donor %lu]\n", donor_inode->i_ino);
 		return -EOPNOTSUPP;
@@ -1204,6 +1247,17 @@ ext4_move_extents(struct file *o_filp, struct file *d_filp,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	/* Regular file check */
+	if (!S_ISREG(orig_inode->i_mode) || !S_ISREG(donor_inode->i_mode)) {
+		ext4_debug("ext4 move extent: The argument files should be "
+			"regular file [ino:orig %lu, donor %lu]\n",
+			orig_inode->i_ino, donor_inode->i_ino);
+		return -EINVAL;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Protect orig and donor inodes against a truncate */
 	ret1 = mext_inode_double_lock(orig_inode, donor_inode);
 	if (ret1 < 0)

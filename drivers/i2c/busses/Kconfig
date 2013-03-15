@@ -430,6 +430,7 @@ config I2C_MPC
 	  This driver can also be built as a module.  If so, the module
 	  will be called i2c-mpc.
 
+<<<<<<< HEAD
 config I2C_MSM
 	tristate "MSM"
 	depends on I2C && ARCH_MSM
@@ -457,6 +458,8 @@ config I2C_SSBI
 	  Note that SSBI is not an I2C device, but is functionally related
 	  enough such that it is able to leverages the I2C framework.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config I2C_MV64XXX
 	tristate "Marvell mv64xxx I2C Controller"
 	depends on (MV64X60 || PLAT_ORION) && EXPERIMENTAL

@@ -42,6 +42,10 @@ struct e1000_hw;
 #define E1000_DEV_ID_82576_SERDES             0x10E7
 #define E1000_DEV_ID_82576_QUAD_COPPER        0x10E8
 #define E1000_DEV_ID_82576_NS                 0x150A
+<<<<<<< HEAD
+=======
+#define E1000_DEV_ID_82576_NS_SERDES          0x1518
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define E1000_DEV_ID_82576_SERDES_QUAD        0x150D
 #define E1000_DEV_ID_82575EB_COPPER           0x10A7
 #define E1000_DEV_ID_82575EB_FIBER_SERDES     0x10A9
@@ -52,6 +56,11 @@ struct e1000_hw;
 
 #define E1000_FUNC_1     1
 
+<<<<<<< HEAD
+=======
+#define E1000_ALT_MAC_ADDRESS_OFFSET_LAN1   3
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 enum e1000_mac_type {
 	e1000_undefined = 0,
 	e1000_82575,

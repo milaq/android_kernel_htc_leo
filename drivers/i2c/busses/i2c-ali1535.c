@@ -140,7 +140,11 @@ static unsigned short ali1535_smba;
    defined to make the transition easier. */
 static int ali1535_setup(struct pci_dev *dev)
 {
+<<<<<<< HEAD
 	int retval = -ENODEV;
+=======
+	int retval;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned char temp;
 
 	/* Check the following things:
@@ -155,6 +159,10 @@ static int ali1535_setup(struct pci_dev *dev)
 	if (ali1535_smba == 0) {
 		dev_warn(&dev->dev,
 			"ALI1535_smb region uninitialized - upgrade BIOS?\n");
+<<<<<<< HEAD
+=======
+		retval = -ENODEV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto exit;
 	}
 
@@ -167,6 +175,10 @@ static int ali1535_setup(struct pci_dev *dev)
 			    ali1535_driver.name)) {
 		dev_err(&dev->dev, "ALI1535_smb region 0x%x already in use!\n",
 			ali1535_smba);
+<<<<<<< HEAD
+=======
+		retval = -EBUSY;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto exit;
 	}
 
@@ -174,6 +186,10 @@ static int ali1535_setup(struct pci_dev *dev)
 	pci_read_config_byte(dev, SMBCFG, &temp);
 	if ((temp & ALI1535_SMBIO_EN) == 0) {
 		dev_err(&dev->dev, "SMB device not enabled - upgrade BIOS?\n");
+<<<<<<< HEAD
+=======
+		retval = -ENODEV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto exit_free;
 	}
 
@@ -181,6 +197,10 @@ static int ali1535_setup(struct pci_dev *dev)
 	pci_read_config_byte(dev, SMBHSTCFG, &temp);
 	if ((temp & 1) == 0) {
 		dev_err(&dev->dev, "SMBus controller not enabled - upgrade BIOS?\n");
+<<<<<<< HEAD
+=======
+		retval = -ENODEV;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto exit_free;
 	}
 
@@ -198,12 +218,20 @@ static int ali1535_setup(struct pci_dev *dev)
 	dev_dbg(&dev->dev, "SMBREV = 0x%X\n", temp);
 	dev_dbg(&dev->dev, "ALI1535_smba = 0x%X\n", ali1535_smba);
 
+<<<<<<< HEAD
 	retval = 0;
 exit:
 	return retval;
 
 exit_free:
 	release_region(ali1535_smba, ALI1535_SMB_IOSIZE);
+=======
+	return 0;
+
+exit_free:
+	release_region(ali1535_smba, ALI1535_SMB_IOSIZE);
+exit:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return retval;
 }
 

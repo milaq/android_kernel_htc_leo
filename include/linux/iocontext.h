@@ -40,16 +40,22 @@ struct cfq_io_context {
 	struct io_context *ioc;
 
 	unsigned long last_end_request;
+<<<<<<< HEAD
 	sector_t last_request_pos;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	unsigned long ttime_total;
 	unsigned long ttime_samples;
 	unsigned long ttime_mean;
 
+<<<<<<< HEAD
 	unsigned int seek_samples;
 	u64 seek_total;
 	sector_t seek_mean;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct list_head queue_list;
 	struct hlist_node cic_list;
 
@@ -99,14 +105,25 @@ static inline struct io_context *ioc_task_link(struct io_context *ioc)
 	return NULL;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_BLOCK
 int put_io_context(struct io_context *ioc);
 void exit_io_context(void);
+=======
+struct task_struct;
+#ifdef CONFIG_BLOCK
+int put_io_context(struct io_context *ioc);
+void exit_io_context(struct task_struct *task);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct io_context *get_io_context(gfp_t gfp_flags, int node);
 struct io_context *alloc_io_context(gfp_t gfp_flags, int node);
 void copy_io_context(struct io_context **pdst, struct io_context **psrc);
 #else
+<<<<<<< HEAD
 static inline void exit_io_context(void)
+=======
+static inline void exit_io_context(struct task_struct *task)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 }
 

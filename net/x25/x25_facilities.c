@@ -35,7 +35,11 @@ int x25_parse_facilities(struct sk_buff *skb, struct x25_facilities *facilities,
 		struct x25_dte_facilities *dte_facs, unsigned long *vc_fac_mask)
 {
 	unsigned char *p = skb->data;
+<<<<<<< HEAD
 	unsigned int len = *p++;
+=======
+	unsigned int len;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	*vc_fac_mask = 0;
 
@@ -50,9 +54,25 @@ int x25_parse_facilities(struct sk_buff *skb, struct x25_facilities *facilities,
 	memset(dte_facs->called_ae, '\0', sizeof(dte_facs->called_ae));
 	memset(dte_facs->calling_ae, '\0', sizeof(dte_facs->calling_ae));
 
+<<<<<<< HEAD
 	while (len > 0) {
 		switch (*p & X25_FAC_CLASS_MASK) {
 		case X25_FAC_CLASS_A:
+=======
+	if (skb->len < 1)
+		return 0;
+
+	len = *p++;
+
+	if (len >= skb->len)
+		return -1;
+
+	while (len > 0) {
+		switch (*p & X25_FAC_CLASS_MASK) {
+		case X25_FAC_CLASS_A:
+			if (len < 2)
+				return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			switch (*p) {
 			case X25_FAC_REVERSE:
 				if((p[1] & 0x81) == 0x81) {
@@ -96,6 +116,11 @@ int x25_parse_facilities(struct sk_buff *skb, struct x25_facilities *facilities,
 			len -= 2;
 			break;
 		case X25_FAC_CLASS_B:
+<<<<<<< HEAD
+=======
+			if (len < 3)
+				return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			switch (*p) {
 			case X25_FAC_PACKET_SIZE:
 				facilities->pacsize_in  = p[1];
@@ -117,6 +142,11 @@ int x25_parse_facilities(struct sk_buff *skb, struct x25_facilities *facilities,
 			len -= 3;
 			break;
 		case X25_FAC_CLASS_C:
+<<<<<<< HEAD
+=======
+			if (len < 4)
+				return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			printk(KERN_DEBUG "X.25: unknown facility %02X, "
 			       "values %02X, %02X, %02X\n",
 			       p[0], p[1], p[2], p[3]);
@@ -124,26 +154,44 @@ int x25_parse_facilities(struct sk_buff *skb, struct x25_facilities *facilities,
 			len -= 4;
 			break;
 		case X25_FAC_CLASS_D:
+<<<<<<< HEAD
 			switch (*p) {
 			case X25_FAC_CALLING_AE:
 				if (p[1] > X25_MAX_DTE_FACIL_LEN)
 					break;
+=======
+			if (len < p[1] + 2)
+				return 0;
+			switch (*p) {
+			case X25_FAC_CALLING_AE:
+				if (p[1] > X25_MAX_DTE_FACIL_LEN || p[1] <= 1)
+					return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				dte_facs->calling_len = p[2];
 				memcpy(dte_facs->calling_ae, &p[3], p[1] - 1);
 				*vc_fac_mask |= X25_MASK_CALLING_AE;
 				break;
 			case X25_FAC_CALLED_AE:
+<<<<<<< HEAD
 				if (p[1] > X25_MAX_DTE_FACIL_LEN)
 					break;
+=======
+				if (p[1] > X25_MAX_DTE_FACIL_LEN || p[1] <= 1)
+					return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				dte_facs->called_len = p[2];
 				memcpy(dte_facs->called_ae, &p[3], p[1] - 1);
 				*vc_fac_mask |= X25_MASK_CALLED_AE;
 				break;
 			default:
 				printk(KERN_DEBUG "X.25: unknown facility %02X,"
+<<<<<<< HEAD
 					"length %d, values %02X, %02X, "
 					"%02X, %02X\n",
 					p[0], p[1], p[2], p[3], p[4], p[5]);
+=======
+					"length %d\n", p[0], p[1]);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				break;
 			}
 			len -= p[1] + 2;
@@ -247,6 +295,11 @@ int x25_negotiate_facilities(struct sk_buff *skb, struct sock *sk,
 	memcpy(new, ours, sizeof(*new));
 
 	len = x25_parse_facilities(skb, &theirs, dte, &x25->vc_facil_mask);
+<<<<<<< HEAD
+=======
+	if (len < 0)
+		return len;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 *	They want reverse charging, we won't accept it.

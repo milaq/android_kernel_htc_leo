@@ -75,6 +75,10 @@ struct net_bridge_port
 	bridge_id			designated_bridge;
 	u32				path_cost;
 	u32				designated_cost;
+<<<<<<< HEAD
+=======
+	unsigned long			designated_age;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct timer_list		forward_delay_timer;
 	struct timer_list		hold_timer;

@@ -772,6 +772,10 @@ int current_is_keventd(void)
 	return ret;
 
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(current_is_keventd);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static struct cpu_workqueue_struct *
 init_cpu_workqueue(struct workqueue_struct *wq, int cpu)

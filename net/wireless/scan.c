@@ -270,6 +270,10 @@ struct cfg80211_bss *cfg80211_get_bss(struct wiphy *wiphy,
 {
 	struct cfg80211_registered_device *dev = wiphy_to_dev(wiphy);
 	struct cfg80211_internal_bss *bss, *res = NULL;
+<<<<<<< HEAD
+=======
+	unsigned long now = jiffies;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	spin_lock_bh(&dev->bss_lock);
 
@@ -278,6 +282,13 @@ struct cfg80211_bss *cfg80211_get_bss(struct wiphy *wiphy,
 			continue;
 		if (channel && bss->pub.channel != channel)
 			continue;
+<<<<<<< HEAD
+=======
+		/* Don't get expired BSS structs */
+		if (time_after(now, bss->ts + IEEE80211_SCAN_RESULT_EXPIRE) &&
+		    !atomic_read(&bss->hold))
+			continue;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (is_bss(&bss->pub, bssid, ssid, ssid_len)) {
 			res = bss;
 			kref_get(&res->ref);

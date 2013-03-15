@@ -30,6 +30,7 @@
 
 #define OP_BUFFER_FLAGS	0
 
+<<<<<<< HEAD
 /*
  * Read and write access is using spin locking. Thus, writing to the
  * buffer by NMI handler (x86) could occur also during critical
@@ -47,6 +48,9 @@
  */
 static struct ring_buffer *op_ring_buffer_read;
 static struct ring_buffer *op_ring_buffer_write;
+=======
+static struct ring_buffer *op_ring_buffer;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 DEFINE_PER_CPU(struct oprofile_cpu_buffer, cpu_buffer);
 
 static void wq_sync_buffer(struct work_struct *work);
@@ -69,12 +73,18 @@ void oprofile_cpu_buffer_inc_smpl_lost(void)
 
 void free_cpu_buffers(void)
 {
+<<<<<<< HEAD
 	if (op_ring_buffer_read)
 		ring_buffer_free(op_ring_buffer_read);
 	op_ring_buffer_read = NULL;
 	if (op_ring_buffer_write)
 		ring_buffer_free(op_ring_buffer_write);
 	op_ring_buffer_write = NULL;
+=======
+	if (op_ring_buffer)
+		ring_buffer_free(op_ring_buffer);
+	op_ring_buffer = NULL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #define RB_EVENT_HDR_SIZE 4
@@ -87,11 +97,16 @@ int alloc_cpu_buffers(void)
 	unsigned long byte_size = buffer_size * (sizeof(struct op_sample) +
 						 RB_EVENT_HDR_SIZE);
 
+<<<<<<< HEAD
 	op_ring_buffer_read = ring_buffer_alloc(byte_size, OP_BUFFER_FLAGS);
 	if (!op_ring_buffer_read)
 		goto fail;
 	op_ring_buffer_write = ring_buffer_alloc(byte_size, OP_BUFFER_FLAGS);
 	if (!op_ring_buffer_write)
+=======
+	op_ring_buffer = ring_buffer_alloc(byte_size, OP_BUFFER_FLAGS);
+	if (!op_ring_buffer)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto fail;
 
 	for_each_possible_cpu(i) {
@@ -143,8 +158,11 @@ void end_cpu_work(void)
 
 		cancel_delayed_work(&b->work);
 	}
+<<<<<<< HEAD
 
 	flush_scheduled_work();
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -163,6 +181,7 @@ struct op_sample
 *op_cpu_buffer_write_reserve(struct op_entry *entry, unsigned long size)
 {
 	entry->event = ring_buffer_lock_reserve
+<<<<<<< HEAD
 		(op_ring_buffer_write, sizeof(struct op_sample) +
 		 size * sizeof(entry->sample->data[0]));
 	if (entry->event)
@@ -173,6 +192,13 @@ struct op_sample
 	if (!entry->sample)
 		return NULL;
 
+=======
+		(op_ring_buffer, sizeof(struct op_sample) +
+		 size * sizeof(entry->sample->data[0]));
+	if (!entry->event)
+		return NULL;
+	entry->sample = ring_buffer_event_data(entry->event);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	entry->size = size;
 	entry->data = entry->sample->data;
 
@@ -181,12 +207,17 @@ struct op_sample
 
 int op_cpu_buffer_write_commit(struct op_entry *entry)
 {
+<<<<<<< HEAD
 	return ring_buffer_unlock_commit(op_ring_buffer_write, entry->event);
+=======
+	return ring_buffer_unlock_commit(op_ring_buffer, entry->event);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 struct op_sample *op_cpu_buffer_read_entry(struct op_entry *entry, int cpu)
 {
 	struct ring_buffer_event *e;
+<<<<<<< HEAD
 	e = ring_buffer_consume(op_ring_buffer_read, cpu, NULL);
 	if (e)
 		goto event;
@@ -200,6 +231,12 @@ struct op_sample *op_cpu_buffer_read_entry(struct op_entry *entry, int cpu)
 	return NULL;
 
 event:
+=======
+	e = ring_buffer_consume(op_ring_buffer, cpu, NULL);
+	if (!e)
+		return NULL;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	entry->event = e;
 	entry->sample = ring_buffer_event_data(e);
 	entry->size = (ring_buffer_event_length(e) - sizeof(struct op_sample))
@@ -210,8 +247,12 @@ event:
 
 unsigned long op_cpu_buffer_entries(int cpu)
 {
+<<<<<<< HEAD
 	return ring_buffer_entries_cpu(op_ring_buffer_read, cpu)
 		+ ring_buffer_entries_cpu(op_ring_buffer_write, cpu);
+=======
+	return ring_buffer_entries_cpu(op_ring_buffer, cpu);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int

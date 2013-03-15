@@ -169,6 +169,7 @@
 #define gadget_is_ci13xxx(g)	0
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_USB_GADGET_MSM_72K
 #define	gadget_is_msm72k(g)	!strcmp("msm72k_udc", (g)->name)
 void msm_hsusb_request_reset(void);
@@ -176,6 +177,8 @@ void msm_hsusb_request_reset(void);
 #define	gadget_is_msm72k(g)	0
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 // CONFIG_USB_GADGET_SX2
 // CONFIG_USB_GADGET_AU1X00
 // ...
@@ -254,8 +257,11 @@ static inline int usb_gadget_controller_number(struct usb_gadget *gadget)
 		return 0x24;
 	else if (gadget_is_r8a66597(gadget))
 		return 0x25;
+<<<<<<< HEAD
 	else if (gadget_is_msm72k(gadget))
 		return 0x26;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return -ENOENT;
 }
 

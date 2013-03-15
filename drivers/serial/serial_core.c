@@ -94,9 +94,12 @@ static void __uart_start(struct tty_struct *tty)
 	struct uart_state *state = tty->driver_data;
 	struct uart_port *port = state->uart_port;
 
+<<<<<<< HEAD
 	if (port->ops->wake_peer)
 		port->ops->wake_peer(port);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!uart_circ_empty(&state->xmit) && state->xmit.buf &&
 	    !tty->stopped && !tty->hw_stopped)
 		port->ops->start_tx(port);
@@ -1070,10 +1073,17 @@ uart_wait_modem_status(struct uart_state *state, unsigned long arg)
  * NB: both 1->0 and 0->1 transitions are counted except for
  *     RI where only 0->1 is counted.
  */
+<<<<<<< HEAD
 static int uart_get_count(struct uart_state *state,
 			  struct serial_icounter_struct __user *icnt)
 {
 	struct serial_icounter_struct icount;
+=======
+static int uart_get_icount(struct tty_struct *tty,
+			  struct serial_icounter_struct *icount)
+{
+	struct uart_state *state = tty->driver_data;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct uart_icount cnow;
 	struct uart_port *uport = state->uart_port;
 
@@ -1081,6 +1091,7 @@ static int uart_get_count(struct uart_state *state,
 	memcpy(&cnow, &uport->icount, sizeof(struct uart_icount));
 	spin_unlock_irq(&uport->lock);
 
+<<<<<<< HEAD
 	icount.cts         = cnow.cts;
 	icount.dsr         = cnow.dsr;
 	icount.rng         = cnow.rng;
@@ -1094,6 +1105,21 @@ static int uart_get_count(struct uart_state *state,
 	icount.buf_overrun = cnow.buf_overrun;
 
 	return copy_to_user(icnt, &icount, sizeof(icount)) ? -EFAULT : 0;
+=======
+	icount->cts         = cnow.cts;
+	icount->dsr         = cnow.dsr;
+	icount->rng         = cnow.rng;
+	icount->dcd         = cnow.dcd;
+	icount->rx          = cnow.rx;
+	icount->tx          = cnow.tx;
+	icount->frame       = cnow.frame;
+	icount->overrun     = cnow.overrun;
+	icount->parity      = cnow.parity;
+	icount->brk         = cnow.brk;
+	icount->buf_overrun = cnow.buf_overrun;
+
+	return 0;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1146,10 +1172,13 @@ uart_ioctl(struct tty_struct *tty, struct file *filp, unsigned int cmd,
 	case TIOCMIWAIT:
 		ret = uart_wait_modem_status(state, arg);
 		break;
+<<<<<<< HEAD
 
 	case TIOCGICOUNT:
 		ret = uart_get_count(state, uarg);
 		break;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (ret != -ENOIOCTLCMD)
@@ -2325,6 +2354,10 @@ static const struct tty_operations uart_ops = {
 #endif
 	.tiocmget	= uart_tiocmget,
 	.tiocmset	= uart_tiocmset,
+<<<<<<< HEAD
+=======
+	.get_icount	= uart_get_icount,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_CONSOLE_POLL
 	.poll_init	= uart_poll_init,
 	.poll_get_char	= uart_poll_get_char,

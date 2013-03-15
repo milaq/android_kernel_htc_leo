@@ -332,14 +332,29 @@ void arch_init_copy_chip_data(struct irq_desc *old_desc,
 
 	old_cfg = old_desc->chip_data;
 
+<<<<<<< HEAD
 	memcpy(cfg, old_cfg, sizeof(struct irq_cfg));
+=======
+	cfg->vector = old_cfg->vector;
+	cfg->move_in_progress = old_cfg->move_in_progress;
+	cpumask_copy(cfg->domain, old_cfg->domain);
+	cpumask_copy(cfg->old_domain, old_cfg->old_domain);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	init_copy_irq_2_pin(old_cfg, cfg, node);
 }
 
+<<<<<<< HEAD
 static void free_irq_cfg(struct irq_cfg *old_cfg)
 {
 	kfree(old_cfg);
+=======
+static void free_irq_cfg(struct irq_cfg *cfg)
+{
+	free_cpumask_var(cfg->domain);
+	free_cpumask_var(cfg->old_domain);
+	kfree(cfg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void arch_free_chip_data(struct irq_desc *old_desc, struct irq_desc *desc)
@@ -1405,6 +1420,10 @@ int setup_ioapic_entry(int apic_id, int irq,
 		irte.dlvry_mode = apic->irq_delivery_mode;
 		irte.vector = vector;
 		irte.dest_id = IRTE_DEST(destination);
+<<<<<<< HEAD
+=======
+		irte.redir_hint = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Set source-id of interrupt request */
 		set_ioapic_sid(&irte, apic_id);
@@ -1484,7 +1503,11 @@ static struct {
 
 static void __init setup_IO_APIC_irqs(void)
 {
+<<<<<<< HEAD
 	int apic_id = 0, pin, idx, irq;
+=======
+	int apic_id, pin, idx, irq;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int notcon = 0;
 	struct irq_desc *desc;
 	struct irq_cfg *cfg;
@@ -1492,6 +1515,7 @@ static void __init setup_IO_APIC_irqs(void)
 
 	apic_printk(APIC_VERBOSE, KERN_DEBUG "init IO_APIC IRQs\n");
 
+<<<<<<< HEAD
 #ifdef CONFIG_ACPI
 	if (!acpi_disabled && acpi_ioapic) {
 		apic_id = mp_find_ioapic(0);
@@ -1500,6 +1524,9 @@ static void __init setup_IO_APIC_irqs(void)
 	}
 #endif
 
+=======
+	for (apic_id = 0; apic_id < nr_ioapics; apic_id++)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (pin = 0; pin < nr_ioapic_registers[apic_id]; pin++) {
 		idx = find_irq_entry(apic_id, pin, mp_INT);
 		if (idx == -1) {
@@ -1521,6 +1548,12 @@ static void __init setup_IO_APIC_irqs(void)
 
 		irq = pin_2_irq(idx, apic_id, pin);
 
+<<<<<<< HEAD
+=======
+		if ((apic_id > 0) && (irq > 16))
+			continue;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * Skip the timer IRQ if there's a quirk handler
 		 * installed and if it returns 1:
@@ -1550,6 +1583,59 @@ static void __init setup_IO_APIC_irqs(void)
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * for the gsit that is not in first ioapic
+ * but could not use acpi_register_gsi()
+ * like some special sci in IBM x3330
+ */
+void setup_IO_APIC_irq_extra(u32 gsi)
+{
+	int apic_id = 0, pin, idx, irq;
+	int node = cpu_to_node(boot_cpu_id);
+	struct irq_desc *desc;
+	struct irq_cfg *cfg;
+
+	/*
+	 * Convert 'gsi' to 'ioapic.pin'.
+	 */
+	apic_id = mp_find_ioapic(gsi);
+	if (apic_id < 0)
+		return;
+
+	pin = mp_find_ioapic_pin(apic_id, gsi);
+	idx = find_irq_entry(apic_id, pin, mp_INT);
+	if (idx == -1)
+		return;
+
+	irq = pin_2_irq(idx, apic_id, pin);
+#ifdef CONFIG_SPARSE_IRQ
+	desc = irq_to_desc(irq);
+	if (desc)
+		return;
+#endif
+	desc = irq_to_desc_alloc_node(irq, node);
+	if (!desc) {
+		printk(KERN_INFO "can not get irq_desc for %d\n", irq);
+		return;
+	}
+
+	cfg = desc->chip_data;
+	add_pin_to_irq_node(cfg, node, apic_id, pin);
+
+	if (test_bit(pin, mp_ioapic_routing[apic_id].pin_programmed)) {
+		pr_debug("Pin %d-%d already programmed\n",
+			 mp_ioapics[apic_id].apicid, pin);
+		return;
+	}
+	set_bit(pin, mp_ioapic_routing[apic_id].pin_programmed);
+
+	setup_IO_APIC_irq(apic_id, pin, irq, desc,
+			irq_trigger(idx), irq_polarity(idx));
+}
+
+/*
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Set up the timer pin, possibly with the 8259A-master behind.
  */
 static void __init setup_timer_IRQ0_pin(unsigned int apic_id, unsigned int pin,
@@ -1690,6 +1776,11 @@ __apicdebuginit(void) print_IO_APIC(void)
 		struct irq_pin_list *entry;
 
 		cfg = desc->chip_data;
+<<<<<<< HEAD
+=======
+		if (!cfg)
+			continue;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		entry = cfg->irq_2_pin;
 		if (!entry)
 			continue;
@@ -3165,12 +3256,18 @@ unsigned int create_irq_nr(unsigned int irq_want, int node)
 	}
 	spin_unlock_irqrestore(&vector_lock, flags);
 
+<<<<<<< HEAD
 	if (irq > 0) {
 		dynamic_irq_init(irq);
 		/* restore it, in case dynamic_irq_init clear it */
 		if (desc_new)
 			desc_new->chip_data = cfg_new;
 	}
+=======
+	if (irq > 0)
+		dynamic_irq_init_keep_chip_data(irq);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return irq;
 }
 
@@ -3193,6 +3290,7 @@ void destroy_irq(unsigned int irq)
 {
 	unsigned long flags;
 	struct irq_cfg *cfg;
+<<<<<<< HEAD
 	struct irq_desc *desc;
 
 	/* store it, in case dynamic_irq_cleanup clear it */
@@ -3204,6 +3302,14 @@ void destroy_irq(unsigned int irq)
 
 	free_irte(irq);
 	spin_lock_irqsave(&vector_lock, flags);
+=======
+
+	dynamic_irq_cleanup_keep_chip_data(irq);
+
+	free_irte(irq);
+	spin_lock_irqsave(&vector_lock, flags);
+	cfg = irq_to_desc(irq)->chip_data;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__clear_irq_vector(irq, cfg);
 	spin_unlock_irqrestore(&vector_lock, flags);
 }
@@ -3244,6 +3350,10 @@ static int msi_compose_msg(struct pci_dev *pdev, unsigned int irq, struct msi_ms
 		irte.dlvry_mode = apic->irq_delivery_mode;
 		irte.vector = cfg->vector;
 		irte.dest_id = IRTE_DEST(dest);
+<<<<<<< HEAD
+=======
+		irte.redir_hint = 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Set source-id of interrupt request */
 		set_msi_sid(&irte, pdev);
@@ -3298,7 +3408,11 @@ static int set_msi_irq_affinity(unsigned int irq, const struct cpumask *mask)
 
 	cfg = desc->chip_data;
 
+<<<<<<< HEAD
 	read_msi_msg_desc(desc, &msg);
+=======
+	get_cached_msi_msg_desc(desc, &msg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	msg.data &= ~MSI_DATA_VECTOR_MASK;
 	msg.data |= MSI_DATA_VECTOR(cfg->vector);
@@ -3520,6 +3634,10 @@ static int dmar_msi_set_affinity(unsigned int irq, const struct cpumask *mask)
 	msg.data |= MSI_DATA_VECTOR(cfg->vector);
 	msg.address_lo &= ~MSI_ADDR_DEST_ID_MASK;
 	msg.address_lo |= MSI_ADDR_DEST_ID(dest);
+<<<<<<< HEAD
+=======
+	msg.address_hi = MSI_ADDR_BASE_HI | MSI_ADDR_EXT_DEST_ID(dest);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dmar_msi_write(irq, &msg);
 
@@ -4041,13 +4159,18 @@ int acpi_get_override_irq(int bus_irq, int *trigger, int *polarity)
 #ifdef CONFIG_SMP
 void __init setup_ioapic_dest(void)
 {
+<<<<<<< HEAD
 	int pin, ioapic = 0, irq, irq_entry;
+=======
+	int pin, ioapic, irq, irq_entry;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct irq_desc *desc;
 	const struct cpumask *mask;
 
 	if (skip_ioapic_setup == 1)
 		return;
 
+<<<<<<< HEAD
 #ifdef CONFIG_ACPI
 	if (!acpi_disabled && acpi_ioapic) {
 		ioapic = mp_find_ioapic(0);
@@ -4056,12 +4179,21 @@ void __init setup_ioapic_dest(void)
 	}
 #endif
 
+=======
+	for (ioapic = 0; ioapic < nr_ioapics; ioapic++)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (pin = 0; pin < nr_ioapic_registers[ioapic]; pin++) {
 		irq_entry = find_irq_entry(ioapic, pin, mp_INT);
 		if (irq_entry == -1)
 			continue;
 		irq = pin_2_irq(irq_entry, ioapic, pin);
 
+<<<<<<< HEAD
+=======
+		if ((ioapic > 0) && (irq > 16))
+			continue;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		desc = irq_to_desc(irq);
 
 		/*

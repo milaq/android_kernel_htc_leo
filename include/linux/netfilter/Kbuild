@@ -6,7 +6,10 @@ header-y += nfnetlink_queue.h
 header-y += xt_CLASSIFY.h
 header-y += xt_CONNMARK.h
 header-y += xt_CONNSECMARK.h
+<<<<<<< HEAD
 header-y += xt_CT.h
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 header-y += xt_DSCP.h
 header-y += xt_LED.h
 header-y += xt_MARK.h
@@ -16,7 +19,10 @@ header-y += xt_RATEEST.h
 header-y += xt_SECMARK.h
 header-y += xt_TCPMSS.h
 header-y += xt_TCPOPTSTRIP.h
+<<<<<<< HEAD
 header-y += xt_TEE.h
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 header-y += xt_TPROXY.h
 header-y += xt_comment.h
 header-y += xt_connbytes.h

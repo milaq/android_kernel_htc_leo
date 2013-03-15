@@ -22,6 +22,7 @@
 #include <net/netfilter/nf_tproxy_core.h>
 #include <net/netfilter/ipv4/nf_defrag_ipv4.h>
 
+<<<<<<< HEAD
 /*
 #if defined(CONFIG_IP6_NF_IPTABLES) || defined(CONFIG_IP6_NF_IPTABLES_MODULE)
 #define XT_SOCKET_HAVE_IPV6 1
@@ -30,6 +31,8 @@
 #endif
 */
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/netfilter/xt_socket.h>
 
 #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
@@ -37,6 +40,7 @@
 #include <net/netfilter/nf_conntrack.h>
 #endif
 
+<<<<<<< HEAD
 void
 xt_socket_put_sk(struct sock *sk)
 {
@@ -49,6 +53,10 @@ EXPORT_SYMBOL(xt_socket_put_sk);
 
 static int
 extract_icmp4_fields(const struct sk_buff *skb,
+=======
+static int
+extract_icmp_fields(const struct sk_buff *skb,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		    u8 *protocol,
 		    __be32 *raddr,
 		    __be32 *laddr,
@@ -104,8 +112,15 @@ extract_icmp4_fields(const struct sk_buff *skb,
 	return 0;
 }
 
+<<<<<<< HEAD
 struct sock*
 xt_socket_get4_sk(const struct sk_buff *skb, struct xt_action_param *par)
+=======
+
+static bool
+socket_match(const struct sk_buff *skb, const struct xt_match_param *par,
+	     const struct xt_socket_mtinfo1 *info)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct iphdr *iph = ip_hdr(skb);
 	struct udphdr _hdr, *hp = NULL;
@@ -122,7 +137,11 @@ xt_socket_get4_sk(const struct sk_buff *skb, struct xt_action_param *par)
 		hp = skb_header_pointer(skb, ip_hdrlen(skb),
 					sizeof(_hdr), &_hdr);
 		if (hp == NULL)
+<<<<<<< HEAD
 			return NULL;
+=======
+			return false;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		protocol = iph->protocol;
 		saddr = iph->saddr;
@@ -131,11 +150,19 @@ xt_socket_get4_sk(const struct sk_buff *skb, struct xt_action_param *par)
 		dport = hp->dest;
 
 	} else if (iph->protocol == IPPROTO_ICMP) {
+<<<<<<< HEAD
 		if (extract_icmp4_fields(skb, &protocol, &saddr, &daddr,
 					&sport, &dport))
 			return NULL;
 	} else {
 		return NULL;
+=======
+		if (extract_icmp_fields(skb, &protocol, &saddr, &daddr,
+					&sport, &dport))
+			return false;
+	} else {
+		return false;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 #ifdef XT_SOCKET_HAVE_CONNTRACK
@@ -143,11 +170,19 @@ xt_socket_get4_sk(const struct sk_buff *skb, struct xt_action_param *par)
 	 * reply packet of an established SNAT-ted connection. */
 
 	ct = nf_ct_get(skb, &ctinfo);
+<<<<<<< HEAD
 	if (ct && !nf_ct_is_untracked(ct) &&
 	    ((iph->protocol != IPPROTO_ICMP &&
 	      ctinfo == IP_CT_ESTABLISHED_REPLY) ||
 	     (iph->protocol == IPPROTO_ICMP &&
 	      ctinfo == IP_CT_RELATED_REPLY)) &&
+=======
+	if (ct && (ct != &nf_conntrack_untracked) &&
+	    ((iph->protocol != IPPROTO_ICMP &&
+	      ctinfo == IP_CT_IS_REPLY + IP_CT_ESTABLISHED) ||
+	     (iph->protocol == IPPROTO_ICMP &&
+	      ctinfo == IP_CT_IS_REPLY + IP_CT_RELATED)) &&
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    (ct->status & IPS_SRC_NAT_DONE)) {
 
 		daddr = ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.src.u3.ip;
@@ -158,6 +193,7 @@ xt_socket_get4_sk(const struct sk_buff *skb, struct xt_action_param *par)
 #endif
 
 	sk = nf_tproxy_get_sock_v4(dev_net(skb->dev), protocol,
+<<<<<<< HEAD
 				   saddr, daddr, sport, dport, par->in, NFT_LOOKUP_ANY);
 
 	pr_debug("proto %hhu %pI4:%hu -> %pI4:%hu (orig %pI4:%hu) sock %p\n",
@@ -176,6 +212,9 @@ socket_match(const struct sk_buff *skb, struct xt_action_param *par,
 	struct sock *sk;
 
 	sk = xt_socket_get4_sk(skb, par);
+=======
+				   saddr, daddr, sport, dport, par->in, false);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (sk != NULL) {
 		bool wildcard;
 		bool transparent = true;
@@ -189,30 +228,55 @@ socket_match(const struct sk_buff *skb, struct xt_action_param *par,
 		if (info && info->flags & XT_SOCKET_TRANSPARENT)
 			transparent = ((sk->sk_state != TCP_TIME_WAIT &&
 					inet_sk(sk)->transparent) ||
+<<<<<<< HEAD
 					(sk->sk_state == TCP_TIME_WAIT &&
 					inet_twsk(sk)->tw_transparent));
 
 		xt_socket_put_sk(sk);
+=======
+				       (sk->sk_state == TCP_TIME_WAIT &&
+					inet_twsk(sk)->tw_transparent));
+
+		nf_tproxy_put_sock(sk);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (wildcard || !transparent)
 			sk = NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	pr_debug("socket match: proto %u %08x:%u -> %08x:%u "
+		 "(orig %08x:%u) sock %p\n",
+		 protocol, ntohl(saddr), ntohs(sport),
+		 ntohl(daddr), ntohs(dport),
+		 ntohl(iph->daddr), hp ? ntohs(hp->dest) : 0, sk);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return (sk != NULL);
 }
 
 static bool
+<<<<<<< HEAD
 socket_mt4_v0(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+socket_mt_v0(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return socket_match(skb, par, NULL);
 }
 
 static bool
+<<<<<<< HEAD
 socket_mt4_v1(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+socket_mt_v1(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return socket_match(skb, par, par->matchinfo);
 }
 
+<<<<<<< HEAD
 #ifdef XT_SOCKET_HAVE_IPV6
 
 static int
@@ -347,12 +411,18 @@ socket_mt6_v1(const struct sk_buff *skb, struct xt_action_param *par)
 }
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct xt_match socket_mt_reg[] __read_mostly = {
 	{
 		.name		= "socket",
 		.revision	= 0,
 		.family		= NFPROTO_IPV4,
+<<<<<<< HEAD
 		.match		= socket_mt4_v0,
+=======
+		.match		= socket_mt_v0,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.hooks		= 1 << NF_INET_PRE_ROUTING,
 		.me		= THIS_MODULE,
 	},
@@ -360,11 +430,16 @@ static struct xt_match socket_mt_reg[] __read_mostly = {
 		.name		= "socket",
 		.revision	= 1,
 		.family		= NFPROTO_IPV4,
+<<<<<<< HEAD
 		.match		= socket_mt4_v1,
+=======
+		.match		= socket_mt_v1,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.matchsize	= sizeof(struct xt_socket_mtinfo1),
 		.hooks		= 1 << NF_INET_PRE_ROUTING,
 		.me		= THIS_MODULE,
 	},
+<<<<<<< HEAD
 #ifdef XT_SOCKET_HAVE_IPV6
        {
 		.name           = "socket",
@@ -377,14 +452,19 @@ static struct xt_match socket_mt_reg[] __read_mostly = {
 		.me             = THIS_MODULE,
        },
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static int __init socket_mt_init(void)
 {
 	nf_defrag_ipv4_enable();
+<<<<<<< HEAD
 #ifdef XT_SOCKET_HAVE_IPV6
 	nf_defrag_ipv6_enable();
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return xt_register_matches(socket_mt_reg, ARRAY_SIZE(socket_mt_reg));
 }
 
@@ -400,4 +480,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Krisztian Kovacs, Balazs Scheidler");
 MODULE_DESCRIPTION("x_tables socket match module");
 MODULE_ALIAS("ipt_socket");
+<<<<<<< HEAD
 MODULE_ALIAS("ip6t_socket");
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

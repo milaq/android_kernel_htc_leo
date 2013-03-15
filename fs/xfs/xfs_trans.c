@@ -236,19 +236,32 @@ xfs_trans_alloc(
 	uint		type)
 {
 	xfs_wait_for_freeze(mp, SB_FREEZE_TRANS);
+<<<<<<< HEAD
 	return _xfs_trans_alloc(mp, type);
+=======
+	return _xfs_trans_alloc(mp, type, KM_SLEEP);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 xfs_trans_t *
 _xfs_trans_alloc(
 	xfs_mount_t	*mp,
+<<<<<<< HEAD
 	uint		type)
+=======
+	uint		type,
+	uint		memflags)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	xfs_trans_t	*tp;
 
 	atomic_inc(&mp->m_active_trans);
 
+<<<<<<< HEAD
 	tp = kmem_zone_zalloc(xfs_trans_zone, KM_SLEEP);
+=======
+	tp = kmem_zone_zalloc(xfs_trans_zone, memflags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tp->t_magic = XFS_TRANS_MAGIC;
 	tp->t_type = type;
 	tp->t_mountp = mp;

@@ -140,12 +140,20 @@ radeon_connector_analog_encoder_conflict_solve(struct drm_connector *connector,
 {
 	struct drm_device *dev = connector->dev;
 	struct drm_connector *conflict;
+<<<<<<< HEAD
+=======
+	struct radeon_connector *radeon_conflict;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int i;
 
 	list_for_each_entry(conflict, &dev->mode_config.connector_list, head) {
 		if (conflict == connector)
 			continue;
 
+<<<<<<< HEAD
+=======
+		radeon_conflict = to_radeon_connector(conflict);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		for (i = 0; i < DRM_CONNECTOR_MAX_ENCODER; i++) {
 			if (conflict->encoder_ids[i] == 0)
 				break;
@@ -155,6 +163,12 @@ radeon_connector_analog_encoder_conflict_solve(struct drm_connector *connector,
 				if (conflict->status != connector_status_connected)
 					continue;
 
+<<<<<<< HEAD
+=======
+				if (radeon_conflict->use_digital)
+					continue;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				if (priority == true) {
 					DRM_INFO("1: conflicting encoders switching off %s\n", drm_get_connector_name(conflict));
 					DRM_INFO("in favor of %s\n", drm_get_connector_name(connector));
@@ -281,7 +295,11 @@ int radeon_connector_set_property(struct drm_connector *connector, struct drm_pr
 		radeon_encoder = to_radeon_encoder(encoder);
 		if (!radeon_encoder->enc_priv)
 			return 0;
+<<<<<<< HEAD
 		if (rdev->is_atom_bios) {
+=======
+		if (ASIC_IS_AVIVO(rdev) || radeon_r4xx_atom) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			struct radeon_encoder_atom_dac *dac_int;
 			dac_int = radeon_encoder->enc_priv;
 			dac_int->tv_std = val;

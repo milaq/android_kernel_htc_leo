@@ -719,6 +719,11 @@ static ssize_t cache_do_downcall(char *kaddr, const char __user *buf,
 {
 	ssize_t ret;
 
+<<<<<<< HEAD
+=======
+	if (count == 0)
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (copy_from_user(kaddr, buf, count))
 		return -EFAULT;
 	kaddr[count] = '\0';
@@ -1234,8 +1239,15 @@ static int content_open(struct inode *inode, struct file *file,
 	if (!cd || !try_module_get(cd->owner))
 		return -EACCES;
 	han = __seq_open_private(file, &cache_content_op, sizeof(*han));
+<<<<<<< HEAD
 	if (han == NULL)
 		return -ENOMEM;
+=======
+	if (han == NULL) {
+		module_put(cd->owner);
+		return -ENOMEM;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	han->cd = cd;
 	return 0;

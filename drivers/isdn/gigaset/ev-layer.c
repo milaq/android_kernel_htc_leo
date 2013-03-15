@@ -1243,6 +1243,7 @@ static void do_action(int action, struct cardstate *cs,
 		 * note that bcs may be NULL if no B channel is free
 		 */
 		at_state2->ConState = 700;
+<<<<<<< HEAD
 		kfree(at_state2->str_var[STR_NMBR]);
 		at_state2->str_var[STR_NMBR] = NULL;
 		kfree(at_state2->str_var[STR_ZCPN]);
@@ -1251,6 +1252,12 @@ static void do_action(int action, struct cardstate *cs,
 		at_state2->str_var[STR_ZBC] = NULL;
 		kfree(at_state2->str_var[STR_ZHLC]);
 		at_state2->str_var[STR_ZHLC] = NULL;
+=======
+		for (i = 0; i < STR_NUM; ++i) {
+			kfree(at_state2->str_var[i]);
+			at_state2->str_var[i] = NULL;
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		at_state2->int_var[VAR_ZCTP] = -1;
 
 		spin_lock_irqsave(&cs->lock, flags);

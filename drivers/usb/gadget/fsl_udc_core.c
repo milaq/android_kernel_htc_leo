@@ -489,7 +489,11 @@ static int fsl_ep_enable(struct usb_ep *_ep,
 	case USB_ENDPOINT_XFER_ISOC:
 		/* Calculate transactions needed for high bandwidth iso */
 		mult = (unsigned char)(1 + ((max >> 11) & 0x03));
+<<<<<<< HEAD
 		max = max & 0x8ff;	/* bit 0~10 */
+=======
+		max = max & 0x7ff;	/* bit 0~10 */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* 3 transactions at most */
 		if (mult > 3)
 			goto en_done;

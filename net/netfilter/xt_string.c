@@ -22,7 +22,11 @@ MODULE_ALIAS("ipt_string");
 MODULE_ALIAS("ip6t_string");
 
 static bool
+<<<<<<< HEAD
 string_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+string_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_string_info *conf = par->matchinfo;
 	struct ts_state state;
@@ -40,7 +44,11 @@ string_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 
 #define STRING_TEXT_PRIV(m) ((struct xt_string_info *)(m))
 
+<<<<<<< HEAD
 static int string_mt_check(const struct xt_mtchk_param *par)
+=======
+static bool string_mt_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_string_info *conf = par->matchinfo;
 	struct ts_config *ts_conf;

@@ -701,6 +701,11 @@ static const struct scsi_dh_devlist alua_dev_list[] = {
 	{"IBM", "2145" },
 	{"Pillar", "Axiom" },
 	{"Intel", "Multi-Flex"},
+<<<<<<< HEAD
+=======
+	{"NETAPP", "LUN"},
+	{"AIX", "NVDISK"},
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{NULL, NULL}
 };
 

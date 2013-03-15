@@ -556,6 +556,7 @@ ALT_FW_FTR_SECTION_END_IFCLR(FW_FEATURE_ISERIES)
 2:
 	TRACE_AND_RESTORE_IRQ(r5);
 
+<<<<<<< HEAD
 #ifdef CONFIG_PERF_EVENTS
 	/* check paca->perf_event_pending if we're enabling ints */
 	lbz	r3,PACAPERFPEND(r13)
@@ -565,6 +566,8 @@ ALT_FW_FTR_SECTION_END_IFCLR(FW_FEATURE_ISERIES)
 27:
 #endif /* CONFIG_PERF_EVENTS */
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* extract EE bit and use it to restore paca->hard_enabled */
 	ld	r3,_MSR(r1)
 	rldicl	r4,r3,49,63		/* r0 = (r3 >> 15) & 1 */

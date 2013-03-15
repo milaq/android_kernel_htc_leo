@@ -72,10 +72,16 @@ static int nilfs_page_mkwrite(struct vm_area_struct *vma, struct vm_fault *vmf)
 	/*
 	 * check to see if the page is mapped already (no holes)
 	 */
+<<<<<<< HEAD
 	if (PageMappedToDisk(page)) {
 		unlock_page(page);
 		goto mapped;
 	}
+=======
+	if (PageMappedToDisk(page))
+		goto mapped;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (page_has_buffers(page)) {
 		struct buffer_head *bh, *head;
 		int fully_mapped = 1;
@@ -90,7 +96,10 @@ static int nilfs_page_mkwrite(struct vm_area_struct *vma, struct vm_fault *vmf)
 
 		if (fully_mapped) {
 			SetPageMappedToDisk(page);
+<<<<<<< HEAD
 			unlock_page(page);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			goto mapped;
 		}
 	}
@@ -105,16 +114,29 @@ static int nilfs_page_mkwrite(struct vm_area_struct *vma, struct vm_fault *vmf)
 		return VM_FAULT_SIGBUS;
 
 	ret = block_page_mkwrite(vma, vmf, nilfs_get_block);
+<<<<<<< HEAD
 	if (unlikely(ret)) {
 		nilfs_transaction_abort(inode->i_sb);
 		return ret;
 	}
+=======
+	if (ret != VM_FAULT_LOCKED) {
+		nilfs_transaction_abort(inode->i_sb);
+		return ret;
+	}
+	nilfs_set_file_dirty(NILFS_SB(inode->i_sb), inode,
+			     1 << (PAGE_SHIFT - inode->i_blkbits));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	nilfs_transaction_commit(inode->i_sb);
 
  mapped:
 	SetPageChecked(page);
 	wait_on_page_writeback(page);
+<<<<<<< HEAD
 	return 0;
+=======
+	return VM_FAULT_LOCKED;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static const struct vm_operations_struct nilfs_file_vm_ops = {

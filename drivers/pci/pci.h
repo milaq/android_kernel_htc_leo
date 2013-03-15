@@ -13,8 +13,18 @@ extern int pci_create_sysfs_dev_files(struct pci_dev *pdev);
 extern void pci_remove_sysfs_dev_files(struct pci_dev *pdev);
 extern void pci_cleanup_rom(struct pci_dev *dev);
 #ifdef HAVE_PCI_MMAP
+<<<<<<< HEAD
 extern int pci_mmap_fits(struct pci_dev *pdev, int resno,
 			 struct vm_area_struct *vma);
+=======
+enum pci_mmap_api {
+	PCI_MMAP_SYSFS,	/* mmap on /sys/bus/pci/devices/<BDF>/resource<N> */
+	PCI_MMAP_PROCFS	/* mmap on /proc/bus/pci/<BDF> */
+};
+extern int pci_mmap_fits(struct pci_dev *pdev, int resno,
+			 struct vm_area_struct *vmai,
+			 enum pci_mmap_api mmap_api);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 int pci_probe_reset_function(struct pci_dev *dev);
 

@@ -249,6 +249,11 @@ static int ima_lsm_rule_init(struct ima_measure_rule_entry *entry,
 	result = security_filter_rule_init(entry->lsm[lsm_rule].type,
 					   Audit_equal, args,
 					   &entry->lsm[lsm_rule].rule);
+<<<<<<< HEAD
+=======
+	if (!entry->lsm[lsm_rule].rule)
+		return -EINVAL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return result;
 }
 

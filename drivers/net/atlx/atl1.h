@@ -762,9 +762,14 @@ struct atl1_adapter {
 	u16 link_speed;
 	u16 link_duplex;
 	spinlock_t lock;
+<<<<<<< HEAD
 	struct work_struct tx_timeout_task;
 	struct work_struct link_chg_task;
 	struct work_struct pcie_dma_to_rst_task;
+=======
+	struct work_struct reset_dev_task;
+	struct work_struct link_chg_task;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct timer_list phy_config_timer;
 	bool phy_timer_pending;

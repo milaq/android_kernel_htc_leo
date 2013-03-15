@@ -509,7 +509,11 @@ try_again:
 
 			ret = install_thread_keyring();
 			if (ret < 0) {
+<<<<<<< HEAD
 				key = ERR_PTR(ret);
+=======
+				key_ref = ERR_PTR(ret);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				goto error;
 			}
 			goto reget_creds;
@@ -527,7 +531,11 @@ try_again:
 
 			ret = install_process_keyring();
 			if (ret < 0) {
+<<<<<<< HEAD
 				key = ERR_PTR(ret);
+=======
+				key_ref = ERR_PTR(ret);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				goto error;
 			}
 			goto reget_creds;
@@ -586,7 +594,11 @@ try_again:
 
 	case KEY_SPEC_GROUP_KEYRING:
 		/* group keyrings are not yet supported */
+<<<<<<< HEAD
 		key = ERR_PTR(-EINVAL);
+=======
+		key_ref = ERR_PTR(-EINVAL);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto error;
 
 	case KEY_SPEC_REQKEY_AUTH_KEY:

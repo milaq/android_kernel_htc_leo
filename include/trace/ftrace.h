@@ -43,7 +43,12 @@
 		tstruct						\
 		char			__data[0];		\
 	};							\
+<<<<<<< HEAD
 	static struct ftrace_event_call event_##name
+=======
+	static struct ftrace_event_call			\
+	__attribute__((__aligned__(4))) event_##name
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #undef __cpparg
 #define __cpparg(arg...) arg

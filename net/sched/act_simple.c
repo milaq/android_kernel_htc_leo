@@ -163,6 +163,7 @@ static inline int tcf_simp_dump(struct sk_buff *skb, struct tc_action *a,
 {
 	unsigned char *b = skb_tail_pointer(skb);
 	struct tcf_defact *d = a->priv;
+<<<<<<< HEAD
 	struct tc_defact opt;
 	struct tcf_t t;
 
@@ -170,6 +171,16 @@ static inline int tcf_simp_dump(struct sk_buff *skb, struct tc_action *a,
 	opt.refcnt = d->tcf_refcnt - ref;
 	opt.bindcnt = d->tcf_bindcnt - bind;
 	opt.action = d->tcf_action;
+=======
+	struct tc_defact opt = {
+		.index   = d->tcf_index,
+		.refcnt  = d->tcf_refcnt - ref,
+		.bindcnt = d->tcf_bindcnt - bind,
+		.action  = d->tcf_action,
+	};
+	struct tcf_t t;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NLA_PUT(skb, TCA_DEF_PARMS, sizeof(opt), &opt);
 	NLA_PUT_STRING(skb, TCA_DEF_DATA, d->tcfd_defdata);
 	t.install = jiffies_to_clock_t(jiffies - d->tcf_tm.install);

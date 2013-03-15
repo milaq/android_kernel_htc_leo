@@ -215,6 +215,10 @@ typedef struct xfs_perag
 	int		pag_ici_init;	/* incore inode cache initialised */
 	rwlock_t	pag_ici_lock;	/* incore inode lock */
 	struct radix_tree_root pag_ici_root;	/* incore inode cache root */
+<<<<<<< HEAD
+=======
+	int		pag_ici_reclaimable;	/* reclaimable inodes */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 } xfs_perag_t;
 

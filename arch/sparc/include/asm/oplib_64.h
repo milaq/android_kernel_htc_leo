@@ -185,9 +185,14 @@ extern int prom_getunumber(int syndrome_code,
 			   char *buf, int buflen);
 
 /* Retain physical memory to the caller across soft resets. */
+<<<<<<< HEAD
 extern unsigned long prom_retain(const char *name,
 				 unsigned long pa_low, unsigned long pa_high,
 				 long size, long align);
+=======
+extern int prom_retain(const char *name, unsigned long size,
+		       unsigned long align, unsigned long *paddr);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Load explicit I/D TLB entries into the calling processor. */
 extern long prom_itlb_load(unsigned long index,
@@ -287,6 +292,7 @@ extern void prom_sun4v_guest_soft_state(void);
 extern int prom_ihandle2path(int handle, char *buffer, int bufsize);
 
 /* Client interface level routines. */
+<<<<<<< HEAD
 extern long p1275_cmd(const char *, long, ...);
 
 #if 0
@@ -308,5 +314,8 @@ extern long p1275_cmd(const char *, long, ...);
 #define P1275_OUT(x) (((x) << 4) & 0xf0)
 #define P1275_INOUT(i,o) (P1275_IN(i)|P1275_OUT(o))
 #define P1275_ARG(n,x) ((x) << ((n)*3 + 8))
+=======
+extern void p1275_cmd_direct(unsigned long *);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif /* !(__SPARC64_OPLIB_H) */

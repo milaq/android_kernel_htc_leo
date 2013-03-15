@@ -561,9 +561,14 @@ static int dccp_packet(struct nf_conn *ct, const struct sk_buff *skb,
 	return NF_ACCEPT;
 }
 
+<<<<<<< HEAD
 static int dccp_error(struct net *net, struct nf_conn *tmpl,
 		      struct sk_buff *skb, unsigned int dataoff,
 		      enum ip_conntrack_info *ctinfo,
+=======
+static int dccp_error(struct net *net, struct sk_buff *skb,
+		      unsigned int dataoff, enum ip_conntrack_info *ctinfo,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		      u_int8_t pf, unsigned int hooknum)
 {
 	struct dccp_hdr _dh, *dh;

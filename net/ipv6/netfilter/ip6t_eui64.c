@@ -20,7 +20,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Andras Kis-Szabo <kisza@sch.bme.hu>");
 
 static bool
+<<<<<<< HEAD
 eui64_mt6(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+eui64_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned char eui64[8];
 

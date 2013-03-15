@@ -823,7 +823,11 @@ nfsd_get_raparms(dev_t dev, ino_t ino)
 		if (ra->p_count == 0)
 			frap = rap;
 	}
+<<<<<<< HEAD
 	depth = nfsdstats.ra_size*11/10;
+=======
+	depth = nfsdstats.ra_size;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!frap) {	
 		spin_unlock(&rab->pb_lock);
 		return NULL;
@@ -1379,7 +1383,11 @@ nfsd_create_v3(struct svc_rqst *rqstp, struct svc_fh *fhp,
 		goto out;
 	if (!(iap->ia_valid & ATTR_MODE))
 		iap->ia_mode = 0;
+<<<<<<< HEAD
 	err = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
+=======
+	err = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_EXEC);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err)
 		goto out;
 
@@ -1401,6 +1409,16 @@ nfsd_create_v3(struct svc_rqst *rqstp, struct svc_fh *fhp,
 	if (IS_ERR(dchild))
 		goto out_nfserr;
 
+<<<<<<< HEAD
+=======
+	/* If file doesn't exist, check for permissions to create one */
+	if (!dchild->d_inode) {
+		err = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
+		if (err)
+			goto out;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = fh_compose(resfhp, fhp->fh_export, dchild, fhp);
 	if (err)
 		goto out;

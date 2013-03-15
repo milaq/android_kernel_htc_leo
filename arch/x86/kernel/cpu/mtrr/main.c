@@ -262,6 +262,7 @@ set_mtrr(unsigned int reg, unsigned long base, unsigned long size, mtrr_type typ
 
 	/*
 	 * HACK!
+<<<<<<< HEAD
 	 * We use this same function to initialize the mtrrs on boot.
 	 * The state of the boot cpu's mtrrs has been saved, and we want
 	 * to replicate across all the APs.
@@ -270,6 +271,26 @@ set_mtrr(unsigned int reg, unsigned long base, unsigned long size, mtrr_type typ
 	if (reg != ~0U)
 		mtrr_if->set(reg, base, size, type);
 	else if (!mtrr_aps_delayed_init)
+=======
+	 *
+	 * We use this same function to initialize the mtrrs during boot,
+	 * resume, runtime cpu online and on an explicit request to set a
+	 * specific MTRR.
+	 *
+	 * During boot or suspend, the state of the boot cpu's mtrrs has been
+	 * saved, and we want to replicate that across all the cpus that come
+	 * online (either at the end of boot or resume or during a runtime cpu
+	 * online). If we're doing that, @reg is set to something special and on
+	 * this cpu we still do mtrr_if->set_all(). During boot/resume, this
+	 * is unnecessary if at this point we are still on the cpu that started
+	 * the boot/resume sequence. But there is no guarantee that we are still
+	 * on the same cpu. So we do mtrr_if->set_all() on this cpu aswell to be
+	 * sure that we are in sync with everyone else.
+	 */
+	if (reg != ~0U)
+		mtrr_if->set(reg, base, size, type);
+	else
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mtrr_if->set_all();
 
 	/* Wait for the others */
@@ -762,13 +783,28 @@ void set_mtrr_aps_delayed_init(void)
 }
 
 /*
+<<<<<<< HEAD
  * MTRR initialization for all AP's
+=======
+ * Delayed MTRR initialization for all AP's
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 void mtrr_aps_init(void)
 {
 	if (!use_intel())
 		return;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Check if someone has requested the delay of AP MTRR initialization,
+	 * by doing set_mtrr_aps_delayed_init(), prior to this point. If not,
+	 * then we are done.
+	 */
+	if (!mtrr_aps_delayed_init)
+		return;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	set_mtrr(~0U, 0, 0, 0);
 	mtrr_aps_delayed_init = false;
 }

@@ -8,6 +8,7 @@
 #include <net/inet_sock.h>
 #include <net/tcp.h>
 
+<<<<<<< HEAD
 #define NFT_LOOKUP_ANY         0
 #define NFT_LOOKUP_LISTENER    1
 #define NFT_LOOKUP_ESTABLISHED 2
@@ -133,6 +134,27 @@ nf_tproxy_get_sock_v4(struct net *net, const u8 protocol,
 
 /* assign a socket to the skb -- consumes sk */
 void
+=======
+/* look up and get a reference to a matching socket */
+extern struct sock *
+nf_tproxy_get_sock_v4(struct net *net, const u8 protocol,
+		      const __be32 saddr, const __be32 daddr,
+		      const __be16 sport, const __be16 dport,
+		      const struct net_device *in, bool listening);
+
+static inline void
+nf_tproxy_put_sock(struct sock *sk)
+{
+	/* TIME_WAIT inet sockets have to be handled differently */
+	if ((sk->sk_protocol == IPPROTO_TCP) && (sk->sk_state == TCP_TIME_WAIT))
+		inet_twsk_put(inet_twsk(sk));
+	else
+		sock_put(sk);
+}
+
+/* assign a socket to the skb -- consumes sk */
+int
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 nf_tproxy_assign_sock(struct sk_buff *skb, struct sock *sk);
 
 #endif

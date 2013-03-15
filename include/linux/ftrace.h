@@ -412,6 +412,10 @@ extern void unregister_ftrace_graph(void);
 
 extern void ftrace_graph_init_task(struct task_struct *t);
 extern void ftrace_graph_exit_task(struct task_struct *t);
+<<<<<<< HEAD
+=======
+extern void ftrace_graph_init_idle_task(struct task_struct *t, int cpu);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline int task_curr_ret_stack(struct task_struct *t)
 {
@@ -435,6 +439,10 @@ static inline void unpause_graph_tracing(void)
 
 static inline void ftrace_graph_init_task(struct task_struct *t) { }
 static inline void ftrace_graph_exit_task(struct task_struct *t) { }
+<<<<<<< HEAD
+=======
+static inline void ftrace_graph_init_idle_task(struct task_struct *t, int cpu) { }
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline int task_curr_ret_stack(struct task_struct *tsk)
 {

@@ -27,6 +27,10 @@ struct mm_struct;
 struct vm_area_struct;
 
 extern pgd_t swapper_pg_dir[1024];
+<<<<<<< HEAD
+=======
+extern pgd_t trampoline_pg_dir[1024];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline void pgtable_cache_init(void) { }
 static inline void check_pgt_cache(void) { }

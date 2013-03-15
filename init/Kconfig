@@ -426,6 +426,7 @@ config LOG_BUF_SHIFT
 config HAVE_UNSTABLE_SCHED_CLOCK
 	bool
 
+<<<<<<< HEAD
 config GROUP_SCHED
 	bool "Group CPU scheduler"
 	depends on EXPERIMENTAL
@@ -477,6 +478,8 @@ config CGROUP_SCHED
 
 endchoice
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 menuconfig CGROUPS
 	boolean "Control Group support"
 	help
@@ -597,6 +600,38 @@ config CGROUP_MEM_RES_CTLR_SWAP
 	  Now, memory usage of swap_cgroup is 2 bytes per entry. If swap page
 	  size is 4096bytes, 512k per 1Gbytes of swap.
 
+<<<<<<< HEAD
+=======
+menuconfig CGROUP_SCHED
+	bool "Group CPU scheduler"
+	depends on EXPERIMENTAL && CGROUPS
+	default n
+	help
+	  This feature lets CPU scheduler recognize task groups and control CPU
+	  bandwidth allocation to such task groups. It uses cgroups to group
+	  tasks.
+
+if CGROUP_SCHED
+config FAIR_GROUP_SCHED
+	bool "Group scheduling for SCHED_OTHER"
+	depends on CGROUP_SCHED
+	default CGROUP_SCHED
+
+config RT_GROUP_SCHED
+	bool "Group scheduling for SCHED_RR/FIFO"
+	depends on EXPERIMENTAL
+	depends on CGROUP_SCHED
+	default n
+	help
+	  This feature lets you explicitly allocate real CPU bandwidth
+	  to task groups. If enabled, it will also make it impossible to
+	  schedule realtime tasks for non-root users until you allocate
+	  realtime bandwidth for them.
+	  See Documentation/scheduler/sched-rt-group.txt for more information.
+
+endif #CGROUP_SCHED
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # CGROUPS
 
 config MM_OWNER
@@ -737,12 +772,15 @@ config SYSCTL
 config ANON_INODES
 	bool
 
+<<<<<<< HEAD
 config PANIC_TIMEOUT
 	int "Default panic timeout"
 	default 0
 	help
 	  Set default panic timeout.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 menuconfig EMBEDDED
 	bool "Configure standard kernel features (for small systems)"
 	help
@@ -914,6 +952,7 @@ config SHMEM
 	  option replaces shmem and tmpfs with the much simpler ramfs code,
 	  which may be appropriate on small systems without swap.
 
+<<<<<<< HEAD
 config ASHMEM
 	bool "Enable the Anonymous Shared Memory Subsystem"
 	default n
@@ -923,6 +962,8 @@ config ASHMEM
 	  POSIX SHM but with different behavior and sporting a simpler
 	  file-based API.
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config AIO
 	bool "Enable AIO support" if EMBEDDED
 	default y
@@ -1065,6 +1106,10 @@ config SLAB
 	  per cpu and per node queues.
 
 config SLUB
+<<<<<<< HEAD
+=======
+	depends on BROKEN || NUMA || !DISCONTIGMEM
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bool "SLUB (Unqueued Allocator)"
 	help
 	   SLUB is a slab allocator that minimizes cache line usage

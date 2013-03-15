@@ -341,7 +341,11 @@ static int snd_pcm_ioctl_xfern_compat(struct snd_pcm_substream *substream,
 			kfree(bufs);
 			return -EFAULT;
 		}
+<<<<<<< HEAD
 		bufs[ch] = compat_ptr(ptr);
+=======
+		bufs[i] = compat_ptr(ptr);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		bufptr++;
 	}
 	if (dir == SNDRV_PCM_STREAM_PLAYBACK)

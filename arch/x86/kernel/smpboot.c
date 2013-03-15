@@ -70,7 +70,10 @@
 
 #ifdef CONFIG_X86_32
 u8 apicid_2_node[MAX_APICID];
+<<<<<<< HEAD
 static int low_mappings;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 /* State of each CPU */
@@ -88,6 +91,28 @@ DEFINE_PER_CPU(int, cpu_state) = { 0 };
 static DEFINE_PER_CPU(struct task_struct *, idle_thread_array);
 #define get_idle_for_cpu(x)      (per_cpu(idle_thread_array, x))
 #define set_idle_for_cpu(x, p)   (per_cpu(idle_thread_array, x) = (p))
+<<<<<<< HEAD
+=======
+
+/*
+ * We need this for trampoline_base protection from concurrent accesses when
+ * off- and onlining cores wildly.
+ */
+static DEFINE_MUTEX(x86_cpu_hotplug_driver_mutex);
+
+void cpu_hotplug_driver_lock()
+{
+        mutex_lock(&x86_cpu_hotplug_driver_mutex);
+}
+
+void cpu_hotplug_driver_unlock()
+{
+        mutex_unlock(&x86_cpu_hotplug_driver_mutex);
+}
+
+ssize_t arch_cpu_probe(const char *buf, size_t count) { return -1; }
+ssize_t arch_cpu_release(const char *buf, size_t count) { return -1; }
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else
 static struct task_struct *idle_thread_array[NR_CPUS] __cpuinitdata ;
 #define get_idle_for_cpu(x)      (idle_thread_array[(x)])
@@ -273,6 +298,21 @@ notrace static void __cpuinit start_secondary(void *unused)
 	 * fragile that we want to limit the things done here to the
 	 * most necessary things.
 	 */
+<<<<<<< HEAD
+=======
+
+#ifdef CONFIG_X86_32
+	/*
+	 * Switch away from the trampoline page-table
+	 *
+	 * Do this before cpu_init() because it needs to access per-cpu
+	 * data which may not be mapped in the trampoline page-table.
+	 */
+	load_cr3(swapper_pg_dir);
+	__flush_tlb_all();
+#endif
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	vmi_bringup();
 	cpu_init();
 	preempt_disable();
@@ -291,12 +331,15 @@ notrace static void __cpuinit start_secondary(void *unused)
 		enable_8259A_irq(0);
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_X86_32
 	while (low_mappings)
 		cpu_relax();
 	__flush_tlb_all();
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* This must be done before setting cpu_online_mask */
 	set_cpu_sibling_map(raw_smp_processor_id());
 	wmb();
@@ -722,6 +765,10 @@ do_rest:
 #ifdef CONFIG_X86_32
 	/* Stack for startup_32 can be just as for start_secondary onwards */
 	irq_ctx_init(cpu);
+<<<<<<< HEAD
+=======
+	initial_page_table = __pa(&trampoline_pg_dir);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else
 	clear_tsk_thread_flag(c_idle.idle, TIF_FORK);
 	initial_gs = per_cpu_offset(cpu);
@@ -866,6 +913,7 @@ int __cpuinit native_cpu_up(unsigned int cpu)
 
 	per_cpu(cpu_state, cpu) = CPU_UP_PREPARE;
 
+<<<<<<< HEAD
 #ifdef CONFIG_X86_32
 	/* init low mem mapping */
 	clone_pgd_range(swapper_pg_dir, swapper_pg_dir + KERNEL_PGD_BOUNDARY,
@@ -880,6 +928,10 @@ int __cpuinit native_cpu_up(unsigned int cpu)
 #else
 	err = do_boot_cpu(apicid, cpu);
 #endif
+=======
+	err = do_boot_cpu(apicid, cpu);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err) {
 		pr_debug("do_boot_cpu failed %d\n", err);
 		return -EIO;
@@ -1066,9 +1118,13 @@ void __init native_smp_prepare_cpus(unsigned int max_cpus)
 	set_cpu_sibling_map(0);
 
 	enable_IR_x2apic();
+<<<<<<< HEAD
 #ifdef CONFIG_X86_64
 	default_setup_apic_routing();
 #endif
+=======
+	default_setup_apic_routing();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (smp_sanity_check(max_cpus) < 0) {
 		printk(KERN_INFO "SMP disabled\n");

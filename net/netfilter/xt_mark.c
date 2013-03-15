@@ -18,6 +18,7 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Marc Boucher <marc@mbsi.ca>");
+<<<<<<< HEAD
 MODULE_DESCRIPTION("Xtables: packet mark operations");
 MODULE_ALIAS("ipt_mark");
 MODULE_ALIAS("ip6t_mark");
@@ -35,12 +36,21 @@ mark_tg(struct sk_buff *skb, const struct xt_action_param *par)
 
 static bool
 mark_mt(const struct sk_buff *skb, const struct xt_action_param *par)
+=======
+MODULE_DESCRIPTION("Xtables: packet mark match");
+MODULE_ALIAS("ipt_mark");
+MODULE_ALIAS("ip6t_mark");
+
+static bool
+mark_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_mark_mtinfo1 *info = par->matchinfo;
 
 	return ((skb->mark & info->mask) == info->mark) ^ info->invert;
 }
 
+<<<<<<< HEAD
 static struct xt_target mark_tg_reg __read_mostly = {
 	.name           = "MARK",
 	.revision       = 2,
@@ -50,6 +60,8 @@ static struct xt_target mark_tg_reg __read_mostly = {
 	.me             = THIS_MODULE,
 };
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct xt_match mark_mt_reg __read_mostly = {
 	.name           = "mark",
 	.revision       = 1,
@@ -61,6 +73,7 @@ static struct xt_match mark_mt_reg __read_mostly = {
 
 static int __init mark_mt_init(void)
 {
+<<<<<<< HEAD
 	int ret;
 
 	ret = xt_register_target(&mark_tg_reg);
@@ -72,12 +85,18 @@ static int __init mark_mt_init(void)
 		return ret;
 	}
 	return 0;
+=======
+	return xt_register_match(&mark_mt_reg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __exit mark_mt_exit(void)
 {
 	xt_unregister_match(&mark_mt_reg);
+<<<<<<< HEAD
 	xt_unregister_target(&mark_tg_reg);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_init(mark_mt_init);

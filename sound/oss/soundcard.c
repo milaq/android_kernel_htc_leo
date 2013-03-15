@@ -87,7 +87,11 @@ int *load_mixer_volumes(char *name, int *levels, int present)
 	int             i, n;
 
 	for (i = 0; i < num_mixer_volumes; i++) {
+<<<<<<< HEAD
 		if (strcmp(name, mixer_vols[i].name) == 0) {
+=======
+		if (strncmp(name, mixer_vols[i].name, 32) == 0) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (present)
 				mixer_vols[i].num = i;
 			return mixer_vols[i].levels;
@@ -99,7 +103,11 @@ int *load_mixer_volumes(char *name, int *levels, int present)
 	}
 	n = num_mixer_volumes++;
 
+<<<<<<< HEAD
 	strcpy(mixer_vols[n].name, name);
+=======
+	strncpy(mixer_vols[n].name, name, 32);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (present)
 		mixer_vols[n].num = n;

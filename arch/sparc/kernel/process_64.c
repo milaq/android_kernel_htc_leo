@@ -398,11 +398,19 @@ static unsigned long clone_stackframe(unsigned long csp, unsigned long psp)
 	} else
 		__get_user(fp, &(((struct reg_window32 __user *)psp)->ins[6]));
 
+<<<<<<< HEAD
 	/* Now 8-byte align the stack as this is mandatory in the
 	 * Sparc ABI due to how register windows work.  This hides
 	 * the restriction from thread libraries etc.  -DaveM
 	 */
 	csp &= ~7UL;
+=======
+	/* Now align the stack as this is mandatory in the Sparc ABI
+	 * due to how register windows work.  This hides the
+	 * restriction from thread libraries etc.
+	 */
+	csp &= ~15UL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	distance = fp - psp;
 	rval = (csp - distance);

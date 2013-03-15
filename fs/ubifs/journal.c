@@ -665,6 +665,10 @@ out_free:
 
 out_release:
 	release_head(c, BASEHD);
+<<<<<<< HEAD
+=======
+	kfree(dent);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out_ro:
 	ubifs_ro_mode(c, err);
 	if (last_reference)

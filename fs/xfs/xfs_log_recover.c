@@ -3209,7 +3209,11 @@ xlog_recover_process_one_iunlink(
 	int				error;
 
 	ino = XFS_AGINO_TO_INO(mp, agno, agino);
+<<<<<<< HEAD
 	error = xfs_iget(mp, NULL, ino, 0, 0, &ip, 0);
+=======
+	error = xfs_iget(mp, NULL, ino, 0, 0, &ip);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error)
 		goto fail;
 
@@ -3298,11 +3302,26 @@ xlog_recover_process_iunlinks(
 			 */
 			continue;
 		}
+<<<<<<< HEAD
 		agi = XFS_BUF_TO_AGI(agibp);
+=======
+		/*
+		 * Unlock the buffer so that it can be acquired in the normal
+		 * course of the transaction to truncate and free each inode.
+		 * Because we are not racing with anyone else here for the AGI
+		 * buffer, we don't even need to hold it locked to read the
+		 * initial unlinked bucket entries out of the buffer. We keep
+		 * buffer reference though, so that it stays pinned in memory
+		 * while we need the buffer.
+		 */
+		agi = XFS_BUF_TO_AGI(agibp);
+		xfs_buf_unlock(agibp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		for (bucket = 0; bucket < XFS_AGI_UNLINKED_BUCKETS; bucket++) {
 			agino = be32_to_cpu(agi->agi_unlinked[bucket]);
 			while (agino != NULLAGINO) {
+<<<<<<< HEAD
 				/*
 				 * Release the agi buffer so that it can
 				 * be acquired in the normal course of the
@@ -3329,6 +3348,13 @@ xlog_recover_process_iunlinks(
 		 * go on to the next one.
 		 */
 		xfs_buf_relse(agibp);
+=======
+				agino = xlog_recover_process_one_iunlink(mp,
+							agno, agino, bucket);
+			}
+		}
+		xfs_buf_rele(agibp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	mp->m_dmevmask = mp_dmevmask;
@@ -3517,7 +3543,11 @@ xlog_do_recovery_pass(
 {
 	xlog_rec_header_t	*rhead;
 	xfs_daddr_t		blk_no;
+<<<<<<< HEAD
 	xfs_caddr_t		bufaddr, offset;
+=======
+	xfs_caddr_t		offset;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xfs_buf_t		*hbp, *dbp;
 	int			error = 0, h_size;
 	int			bblks, split_bblks;
@@ -3610,7 +3640,11 @@ xlog_do_recovery_pass(
 			/*
 			 * Check for header wrapping around physical end-of-log
 			 */
+<<<<<<< HEAD
 			offset = NULL;
+=======
+			offset = XFS_BUF_PTR(hbp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			split_hblks = 0;
 			wrapped_hblks = 0;
 			if (blk_no + hblks <= log->l_logBBsize) {
@@ -3646,9 +3680,14 @@ xlog_do_recovery_pass(
 				 *   - order is important.
 				 */
 				wrapped_hblks = hblks - split_hblks;
+<<<<<<< HEAD
 				bufaddr = XFS_BUF_PTR(hbp);
 				error = XFS_BUF_SET_PTR(hbp,
 						bufaddr + BBTOB(split_hblks),
+=======
+				error = XFS_BUF_SET_PTR(hbp,
+						offset + BBTOB(split_hblks),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 						BBTOB(hblks - split_hblks));
 				if (error)
 					goto bread_err2;
@@ -3658,6 +3697,7 @@ xlog_do_recovery_pass(
 				if (error)
 					goto bread_err2;
 
+<<<<<<< HEAD
 				error = XFS_BUF_SET_PTR(hbp, bufaddr,
 							BBTOB(hblks));
 				if (error)
@@ -3666,6 +3706,12 @@ xlog_do_recovery_pass(
 				if (!offset)
 					offset = xlog_align(log, 0,
 							wrapped_hblks, hbp);
+=======
+				error = XFS_BUF_SET_PTR(hbp, offset,
+							BBTOB(hblks));
+				if (error)
+					goto bread_err2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			}
 			rhead = (xlog_rec_header_t *)offset;
 			error = xlog_valid_rec_header(log, rhead,
@@ -3685,7 +3731,11 @@ xlog_do_recovery_pass(
 			} else {
 				/* This log record is split across the
 				 * physical end of log */
+<<<<<<< HEAD
 				offset = NULL;
+=======
+				offset = XFS_BUF_PTR(dbp);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				split_bblks = 0;
 				if (blk_no != log->l_logBBsize) {
 					/* some data is before the physical
@@ -3714,9 +3764,14 @@ xlog_do_recovery_pass(
 				 *   _first_, then the log start (LR header end)
 				 *   - order is important.
 				 */
+<<<<<<< HEAD
 				bufaddr = XFS_BUF_PTR(dbp);
 				error = XFS_BUF_SET_PTR(dbp,
 						bufaddr + BBTOB(split_bblks),
+=======
+				error = XFS_BUF_SET_PTR(dbp,
+						offset + BBTOB(split_bblks),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 						BBTOB(bblks - split_bblks));
 				if (error)
 					goto bread_err2;
@@ -3727,6 +3782,7 @@ xlog_do_recovery_pass(
 				if (error)
 					goto bread_err2;
 
+<<<<<<< HEAD
 				error = XFS_BUF_SET_PTR(dbp, bufaddr, h_size);
 				if (error)
 					goto bread_err2;
@@ -3734,6 +3790,11 @@ xlog_do_recovery_pass(
 				if (!offset)
 					offset = xlog_align(log, wrapped_hblks,
 						bblks - split_bblks, dbp);
+=======
+				error = XFS_BUF_SET_PTR(dbp, offset, h_size);
+				if (error)
+					goto bread_err2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			}
 			xlog_unpack_data(rhead, offset, log);
 			if ((error = xlog_recover_process_data(log, rhash,

@@ -14,8 +14,15 @@ struct irq_desc;
 extern void mask_msi_irq(unsigned int irq);
 extern void unmask_msi_irq(unsigned int irq);
 extern void read_msi_msg_desc(struct irq_desc *desc, struct msi_msg *msg);
+<<<<<<< HEAD
 extern void write_msi_msg_desc(struct irq_desc *desc, struct msi_msg *msg);
 extern void read_msi_msg(unsigned int irq, struct msi_msg *msg);
+=======
+extern void get_cached_msi_msg_desc(struct irq_desc *desc, struct msi_msg *msg);
+extern void write_msi_msg_desc(struct irq_desc *desc, struct msi_msg *msg);
+extern void read_msi_msg(unsigned int irq, struct msi_msg *msg);
+extern void get_cached_msi_msg(unsigned int irq, struct msi_msg *msg);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void write_msi_msg(unsigned int irq, struct msi_msg *msg);
 
 struct msi_desc {

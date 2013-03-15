@@ -31,6 +31,10 @@
 
 /* max number of user-defined controls */
 #define MAX_USER_CONTROLS	32
+<<<<<<< HEAD
+=======
+#define MAX_CONTROL_COUNT	1028
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct snd_kctl_ioctl {
 	struct list_head list;		/* list of all ioctls */
@@ -190,6 +194,13 @@ static struct snd_kcontrol *snd_ctl_new(struct snd_kcontrol *control,
 	
 	if (snd_BUG_ON(!control || !control->count))
 		return NULL;
+<<<<<<< HEAD
+=======
+
+	if (control->count > MAX_CONTROL_COUNT)
+		return NULL;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kctl = kzalloc(sizeof(*kctl) + sizeof(struct snd_kcontrol_volatile) * control->count, GFP_KERNEL);
 	if (kctl == NULL) {
 		snd_printk(KERN_ERR "Cannot allocate control instance\n");

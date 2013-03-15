@@ -21,6 +21,7 @@
 #include <linux/list.h>
 #include <linux/err.h>
 #include <linux/clk.h>
+<<<<<<< HEAD
 #include <mach/clk.h>
 #include <linux/spinlock.h>
 #include <linux/fs.h>
@@ -45,21 +46,35 @@ static struct clk *pbus_clk;
 struct clk* axi_clk;  /* hack */
 
 static int clk_set_rate_locked(struct clk *clk, unsigned long rate);
+=======
+#include <linux/spinlock.h>
+
+#include "clock.h"
+#include "proc_comm.h"
+
+static DEFINE_MUTEX(clocks_mutex);
+static DEFINE_SPINLOCK(clocks_lock);
+static LIST_HEAD(clocks);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * glue for the proc_comm interface
  */
 static inline int pc_clk_enable(unsigned id)
 {
+<<<<<<< HEAD
 	/* gross hack to set axi clk rate when turning on uartdm clock */
 	if (id == UART1DM_CLK && axi_clk)
 		clk_set_rate_locked(axi_clk, 128000000);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return msm_proc_comm(PCOM_CLKCTL_RPC_ENABLE, &id, NULL);
 }
 
 static inline void pc_clk_disable(unsigned id)
 {
 	msm_proc_comm(PCOM_CLKCTL_RPC_DISABLE, &id, NULL);
+<<<<<<< HEAD
 	if (id == UART1DM_CLK && axi_clk)
 		clk_set_rate_locked(axi_clk, 0);
 }
@@ -77,6 +92,8 @@ static int pc_clk_reset(unsigned id, enum clk_reset_action action)
 		return rc;
 	else
 		return (int)id < 0 ? -EINVAL : 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline int pc_clk_set_rate(unsigned id, unsigned rate)
@@ -84,6 +101,7 @@ static inline int pc_clk_set_rate(unsigned id, unsigned rate)
 	return msm_proc_comm(PCOM_CLKCTL_RPC_SET_RATE, &id, &rate);
 }
 
+<<<<<<< HEAD
 static unsigned ebi1_min_rate = 0;	/* Last EBI1 min rate */
 static spinlock_t ebi1_rate_lock;	/* Avoid race conditions */
 static int pc_clk_set_min_rate(unsigned id, unsigned rate)
@@ -99,6 +117,10 @@ static int pc_clk_set_min_rate(unsigned id, unsigned rate)
 			ebi1_min_rate = rate;
 		spin_unlock(&ebi1_rate_lock);
 	}
+=======
+static inline int pc_clk_set_min_rate(unsigned id, unsigned rate)
+{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return msm_proc_comm(PCOM_CLKCTL_RPC_MIN_RATE, &id, &rate);
 }
 
@@ -134,6 +156,7 @@ static inline int pc_pll_request(unsigned id, unsigned on)
 	return msm_proc_comm(PCOM_CLKCTL_RPC_PLL_REQUEST, &id, &on);
 }
 
+<<<<<<< HEAD
 static struct clk *clk_allocate_handle(struct clk *sclk)
 {
 	unsigned long flags;
@@ -160,12 +183,15 @@ static struct clk *source_clk(struct clk *clk)
 	return clk;
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Standard clock functions defined in include/linux/clk.h
  */
 struct clk *clk_get(struct device *dev, const char *id)
 {
 	struct clk *clk;
+<<<<<<< HEAD
 	struct hlist_node *pos;
 
 	mutex_lock(&clocks_mutex);
@@ -175,13 +201,26 @@ struct clk *clk_get(struct device *dev, const char *id)
 			goto found_it;
 
 	hlist_for_each_entry(clk, pos, &clocks, list)
+=======
+
+	mutex_lock(&clocks_mutex);
+
+	list_for_each_entry(clk, &clocks, list)
+		if (!strcmp(id, clk->name) && clk->dev == dev)
+			goto found_it;
+
+	list_for_each_entry(clk, &clocks, list)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!strcmp(id, clk->name) && clk->dev == NULL)
 			goto found_it;
 
 	clk = ERR_PTR(-ENOENT);
 found_it:
+<<<<<<< HEAD
 	if (!IS_ERR(clk) && (clk->flags & CLKFLAG_SHARED))
 		clk = clk_allocate_handle(clk);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&clocks_mutex);
 	return clk;
 }
@@ -189,6 +228,7 @@ EXPORT_SYMBOL(clk_get);
 
 void clk_put(struct clk *clk)
 {
+<<<<<<< HEAD
 	struct clk_handle *clkh;
 	unsigned long flags;
 
@@ -205,6 +245,8 @@ void clk_put(struct clk *clk)
 	hlist_del(&clk->list);
 	kfree(clkh);
 	spin_unlock_irqrestore(&clocks_lock, flags);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(clk_put);
 
@@ -212,10 +254,16 @@ int clk_enable(struct clk *clk)
 {
 	unsigned long flags;
 	spin_lock_irqsave(&clocks_lock, flags);
+<<<<<<< HEAD
 	clk = source_clk(clk);
 	clk->count++;
 	if (clk->count == 1)
 		clk->ops->enable(clk->id);
+=======
+	clk->count++;
+	if (clk->count == 1)
+		pc_clk_enable(clk->id);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irqrestore(&clocks_lock, flags);
 	return 0;
 }
@@ -225,15 +273,23 @@ void clk_disable(struct clk *clk)
 {
 	unsigned long flags;
 	spin_lock_irqsave(&clocks_lock, flags);
+<<<<<<< HEAD
 	clk = source_clk(clk);
 	BUG_ON(clk->count == 0);
 	clk->count--;
 	if (clk->count == 0)
 		clk->ops->disable(clk->id);
+=======
+	BUG_ON(clk->count == 0);
+	clk->count--;
+	if (clk->count == 0)
+		pc_clk_disable(clk->id);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irqrestore(&clocks_lock, flags);
 }
 EXPORT_SYMBOL(clk_disable);
 
+<<<<<<< HEAD
 int clk_reset(struct clk *clk, enum clk_reset_action action)
 {
 	if (!clk->ops->reset)
@@ -309,6 +365,27 @@ int clk_set_min_rate(struct clk *clk, unsigned long rate)
 }
 EXPORT_SYMBOL(clk_set_min_rate);
 
+=======
+unsigned long clk_get_rate(struct clk *clk)
+{
+	return pc_clk_get_rate(clk->id);
+}
+EXPORT_SYMBOL(clk_get_rate);
+
+int clk_set_rate(struct clk *clk, unsigned long rate)
+{
+	int ret;
+	if (clk->flags & CLKFLAG_USE_MIN_MAX_TO_SET) {
+		ret = pc_clk_set_max_rate(clk->id, rate);
+		if (ret)
+			return ret;
+		return pc_clk_set_min_rate(clk->id, rate);
+	}
+	return pc_clk_set_rate(clk->id, rate);
+}
+EXPORT_SYMBOL(clk_set_rate);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int clk_set_parent(struct clk *clk, struct clk *parent)
 {
 	return -ENOSYS;
@@ -325,6 +402,7 @@ int clk_set_flags(struct clk *clk, unsigned long flags)
 {
 	if (clk == NULL || IS_ERR(clk))
 		return -EINVAL;
+<<<<<<< HEAD
 	clk = source_clk(clk);
 	return clk->ops->set_flags(clk->id, flags);
 }
@@ -597,6 +675,24 @@ static inline void __init clock_debug_init(void) {}
 #endif
 
 
+=======
+	return pc_clk_set_flags(clk->id, flags);
+}
+EXPORT_SYMBOL(clk_set_flags);
+
+
+void __init msm_clock_init(void)
+{
+	unsigned n;
+
+	spin_lock_init(&clocks_lock);
+	mutex_lock(&clocks_mutex);
+	for (n = 0; n < msm_num_clocks; n++)
+		list_add_tail(&msm_clocks[n].list, &clocks);
+	mutex_unlock(&clocks_mutex);
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* The bootloader and/or AMSS may have left various clocks enabled.
  * Disable any clocks that belong to us (CLKFLAG_AUTO_OFF) but have
  * not been explicitly enabled by a clk_enable() call.
@@ -605,11 +701,18 @@ static int __init clock_late_init(void)
 {
 	unsigned long flags;
 	struct clk *clk;
+<<<<<<< HEAD
 	struct hlist_node *pos;
 	unsigned count = 0;
 
 	mutex_lock(&clocks_mutex);
 	hlist_for_each_entry(clk, pos, &clocks, list) {
+=======
+	unsigned count = 0;
+
+	mutex_lock(&clocks_mutex);
+	list_for_each_entry(clk, &clocks, list) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (clk->flags & CLKFLAG_AUTO_OFF) {
 			spin_lock_irqsave(&clocks_lock, flags);
 			if (!clk->count) {
@@ -621,11 +724,14 @@ static int __init clock_late_init(void)
 	}
 	mutex_unlock(&clocks_mutex);
 	pr_info("clock_late_init() disabled %d unused clocks\n", count);
+<<<<<<< HEAD
 
 	clock_debug_init();
 
 	axi_clk = clk_get(NULL, "ebi1_clk");
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 

@@ -121,8 +121,12 @@ static char * const zone_names[MAX_NR_ZONES] = {
 	 "Movable",
 };
 
+<<<<<<< HEAD
 int min_free_kbytes = 5120;
 int min_free_order_shift = 1;
+=======
+int min_free_kbytes = 1024;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static unsigned long __meminitdata nr_kernel_pages;
 static unsigned long __meminitdata nr_all_pages;
@@ -532,13 +536,21 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 {
 	int migratetype = 0;
 	int batch_free = 0;
+<<<<<<< HEAD
+=======
+	int to_free = count;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	spin_lock(&zone->lock);
 	zone_clear_flag(zone, ZONE_ALL_UNRECLAIMABLE);
 	zone->pages_scanned = 0;
 
+<<<<<<< HEAD
 	__mod_zone_page_state(zone, NR_FREE_PAGES, count);
 	while (count) {
+=======
+	while (to_free) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		struct page *page;
 		struct list_head *list;
 
@@ -563,8 +575,14 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 			/* MIGRATE_MOVABLE list may include MIGRATE_RESERVEs */
 			__free_one_page(page, zone, 0, page_private(page));
 			trace_mm_page_pcpu_drain(page, 0, page_private(page));
+<<<<<<< HEAD
 		} while (--count && --batch_free && !list_empty(list));
 	}
+=======
+		} while (--to_free && --batch_free && !list_empty(list));
+	}
+	__mod_zone_page_state(zone, NR_FREE_PAGES, count);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock(&zone->lock);
 }
 
@@ -575,8 +593,13 @@ static void free_one_page(struct zone *zone, struct page *page, int order,
 	zone_clear_flag(zone, ZONE_ALL_UNRECLAIMABLE);
 	zone->pages_scanned = 0;
 
+<<<<<<< HEAD
 	__mod_zone_page_state(zone, NR_FREE_PAGES, 1 << order);
 	__free_one_page(page, zone, order, migratetype);
+=======
+	__free_one_page(page, zone, order, migratetype);
+	__mod_zone_page_state(zone, NR_FREE_PAGES, 1 << order);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock(&zone->lock);
 }
 
@@ -1366,7 +1389,11 @@ int zone_watermark_ok(struct zone *z, int order, unsigned long mark,
 {
 	/* free_pages my go negative - that's OK */
 	long min = mark;
+<<<<<<< HEAD
 	long free_pages = zone_page_state(z, NR_FREE_PAGES) - (1 << order) + 1;
+=======
+	long free_pages = zone_nr_free_pages(z) - (1 << order) + 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int o;
 
 	if (alloc_flags & ALLOC_HIGH)
@@ -1381,7 +1408,11 @@ int zone_watermark_ok(struct zone *z, int order, unsigned long mark,
 		free_pages -= z->free_area[o].nr_free << o;
 
 		/* Require fewer higher order pages to be free */
+<<<<<<< HEAD
 		min >>= min_free_order_shift;
+=======
+		min >>= 1;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (free_pages <= min)
 			return 0;
@@ -1682,6 +1713,10 @@ __alloc_pages_direct_reclaim(gfp_t gfp_mask, unsigned int order,
 	struct page *page = NULL;
 	struct reclaim_state reclaim_state;
 	struct task_struct *p = current;
+<<<<<<< HEAD
+=======
+	bool drained = false;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	cond_resched();
 
@@ -1700,6 +1735,7 @@ __alloc_pages_direct_reclaim(gfp_t gfp_mask, unsigned int order,
 
 	cond_resched();
 
+<<<<<<< HEAD
 	if (order != 0)
 		drain_all_pages();
 
@@ -1708,6 +1744,27 @@ __alloc_pages_direct_reclaim(gfp_t gfp_mask, unsigned int order,
 					zonelist, high_zoneidx,
 					alloc_flags, preferred_zone,
 					migratetype);
+=======
+	if (unlikely(!(*did_some_progress)))
+		return NULL;
+
+retry:
+	page = get_page_from_freelist(gfp_mask, nodemask, order,
+					zonelist, high_zoneidx,
+					alloc_flags, preferred_zone,
+					migratetype);
+
+	/*
+	 * If an allocation failed after direct reclaim, it could be because
+	 * pages are pinned on the per-cpu lists. Drain them and try again
+	 */
+	if (!page && !drained) {
+		drain_all_pages();
+		drained = true;
+		goto retry;
+	}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return page;
 }
 
@@ -1829,6 +1886,10 @@ restart:
 	 */
 	alloc_flags = gfp_to_alloc_flags(gfp_mask);
 
+<<<<<<< HEAD
+=======
+rebalance:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* This is the last chance, in general, before the goto nopage. */
 	page = get_page_from_freelist(gfp_mask, nodemask, order, zonelist,
 			high_zoneidx, alloc_flags & ~ALLOC_NO_WATERMARKS,
@@ -1836,7 +1897,10 @@ restart:
 	if (page)
 		goto got_pg;
 
+<<<<<<< HEAD
 rebalance:
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Allocate without watermarks if the context allows */
 	if (alloc_flags & ALLOC_NO_WATERMARKS) {
 		page = __alloc_pages_high_priority(gfp_mask, order,
@@ -2239,7 +2303,11 @@ void show_free_areas(void)
 			" all_unreclaimable? %s"
 			"\n",
 			zone->name,
+<<<<<<< HEAD
 			K(zone_page_state(zone, NR_FREE_PAGES)),
+=======
+			K(zone_nr_free_pages(zone)),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			K(min_wmark_pages(zone)),
 			K(low_wmark_pages(zone)),
 			K(high_wmark_pages(zone)),
@@ -2860,6 +2928,7 @@ static inline unsigned long wait_table_bits(unsigned long size)
 #define LONG_ALIGN(x) (((x)+(sizeof(long))-1)&~((sizeof(long))-1))
 
 /*
+<<<<<<< HEAD
  * Check if a pageblock contains reserved pages
  */
 static int pageblock_is_reserved(unsigned long start_pfn)
@@ -2874,6 +2943,8 @@ static int pageblock_is_reserved(unsigned long start_pfn)
 }
 
 /*
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Mark a number of pageblocks as MIGRATE_RESERVE. The number
  * of blocks reserved is based on min_wmark_pages(zone). The memory within
  * the reserve will tend to store contiguous free pages. Setting min_free_kbytes
@@ -2912,7 +2983,11 @@ static void setup_zone_migrate_reserve(struct zone *zone)
 			continue;
 
 		/* Blocks with reserved pages will never free, skip them. */
+<<<<<<< HEAD
 		if (pageblock_is_reserved(pfn))
+=======
+		if (PageReserved(page))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 
 		block_migratetype = get_pageblock_migratetype(page);

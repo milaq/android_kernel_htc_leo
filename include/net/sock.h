@@ -1354,6 +1354,7 @@ extern void sk_stop_timer(struct sock *sk, struct timer_list* timer);
 
 extern int sock_queue_rcv_skb(struct sock *sk, struct sk_buff *skb);
 
+<<<<<<< HEAD
 static inline int sock_queue_err_skb(struct sock *sk, struct sk_buff *skb)
 {
 	/* Cast skb->rcvbuf to unsigned... It's pointless, but reduces
@@ -1368,6 +1369,9 @@ static inline int sock_queue_err_skb(struct sock *sk, struct sk_buff *skb)
 		sk->sk_data_ready(sk, skb->len);
 	return 0;
 }
+=======
+extern int sock_queue_err_skb(struct sock *sk, struct sk_buff *skb);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  *	Recover an error report and clear atomically

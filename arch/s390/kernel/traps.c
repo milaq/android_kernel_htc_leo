@@ -243,6 +243,7 @@ void show_regs(struct pt_regs *regs)
 	show_last_breaking_event(regs);
 }
 
+<<<<<<< HEAD
 /* This is called from fs/proc/array.c */
 void task_show_regs(struct seq_file *m, struct task_struct *task)
 {
@@ -280,6 +281,8 @@ void task_show_regs(struct seq_file *m, struct task_struct *task)
 			  task->thread.acrs[14], task->thread.acrs[15]);
 }
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DEFINE_SPINLOCK(die_lock);
 
 void die(const char * str, struct pt_regs * regs, long err)

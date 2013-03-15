@@ -857,9 +857,15 @@ unsigned long w100fb_gpio_read(int port)
 void w100fb_gpio_write(int port, unsigned long value)
 {
 	if (port==W100_GPIO_PORT_A)
+<<<<<<< HEAD
 		value = writel(value, remapped_regs + mmGPIO_DATA);
 	else
 		value = writel(value, remapped_regs + mmGPIO_DATA2);
+=======
+		writel(value, remapped_regs + mmGPIO_DATA);
+	else
+		writel(value, remapped_regs + mmGPIO_DATA2);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(w100fb_gpio_read);
 EXPORT_SYMBOL(w100fb_gpio_write);

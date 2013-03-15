@@ -941,7 +941,11 @@ void gether_disconnect(struct gether *link)
 	struct eth_dev		*dev = link->ioport;
 	struct usb_request	*req;
 
+<<<<<<< HEAD
 	/* WARN_ON(!dev); */
+=======
+	WARN_ON(!dev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!dev)
 		return;
 

@@ -250,7 +250,11 @@ static int __init acpi_backlight(char *str)
 				ACPI_VIDEO_BACKLIGHT_FORCE_VENDOR;
 		if (!strcmp("video", str))
 			acpi_video_support |=
+<<<<<<< HEAD
 				ACPI_VIDEO_OUTPUT_SWITCHING_FORCE_VIDEO;
+=======
+				ACPI_VIDEO_BACKLIGHT_FORCE_VIDEO;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return 1;
 }

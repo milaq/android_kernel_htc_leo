@@ -23,6 +23,14 @@ static inline void paravirt_release_pud(unsigned long pfn) {}
 #endif
 
 /*
+<<<<<<< HEAD
+=======
+ * Flags to use when allocating a user page table page.
+ */
+extern gfp_t __userpte_alloc_gfp;
+
+/*
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Allocate and free page tables.
  */
 extern pgd_t *pgd_alloc(struct mm_struct *);

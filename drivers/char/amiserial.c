@@ -1262,6 +1262,39 @@ static int rs_break(struct tty_struct *tty, int break_state)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
+ * Return: write counters to the user passed counter struct
+ * NB: both 1->0 and 0->1 transitions are counted except for
+ *     RI where only 0->1 is counted.
+ */
+static int rs_get_icount(struct tty_struct *tty,
+				struct serial_icounter_struct *icount)
+{
+	struct async_struct *info = tty->driver_data;
+	struct async_icount cnow;
+	unsigned long flags;
+
+	local_irq_save(flags);
+	cnow = info->state->icount;
+	local_irq_restore(flags);
+	icount->cts = cnow.cts;
+	icount->dsr = cnow.dsr;
+	icount->rng = cnow.rng;
+	icount->dcd = cnow.dcd;
+	icount->rx = cnow.rx;
+	icount->tx = cnow.tx;
+	icount->frame = cnow.frame;
+	icount->overrun = cnow.overrun;
+	icount->parity = cnow.parity;
+	icount->brk = cnow.brk;
+	icount->buf_overrun = cnow.buf_overrun;
+
+	return 0;
+}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int rs_ioctl(struct tty_struct *tty, struct file * file,
 		    unsigned int cmd, unsigned long arg)
@@ -1331,6 +1364,7 @@ static int rs_ioctl(struct tty_struct *tty, struct file * file,
 			}
 			/* NOTREACHED */
 
+<<<<<<< HEAD
 		/* 
 		 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 		 * Return: write counters to the user passed counter struct
@@ -1356,6 +1390,8 @@ static int rs_ioctl(struct tty_struct *tty, struct file * file,
 			if (copy_to_user(argp, &icount, sizeof(icount)))
 				return -EFAULT;
 			return 0;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		case TIOCSERGWILD:
 		case TIOCSERSWILD:
 			/* "setserial -W" is called in Debian boot */
@@ -1948,6 +1984,10 @@ static const struct tty_operations serial_ops = {
 	.wait_until_sent = rs_wait_until_sent,
 	.tiocmget = rs_tiocmget,
 	.tiocmset = rs_tiocmset,
+<<<<<<< HEAD
+=======
+	.get_icount = rs_get_icount,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops = &rs_proc_fops,
 };
 

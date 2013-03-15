@@ -264,6 +264,10 @@ enum ieee80211_sta_flags {
 	IEEE80211_STA_DISABLE_11N	= BIT(4),
 	IEEE80211_STA_CSA_RECEIVED	= BIT(5),
 	IEEE80211_STA_MFP_ENABLED	= BIT(6),
+<<<<<<< HEAD
+=======
+	IEEE80211_STA_NULLFUNC_ACKED	= BIT(7),
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /* flags for MLME request */

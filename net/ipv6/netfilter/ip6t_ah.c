@@ -36,8 +36,12 @@ spi_match(u_int32_t min, u_int32_t max, u_int32_t spi, bool invert)
 	return r;
 }
 
+<<<<<<< HEAD
 static bool ah_mt6(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
+=======
+static bool ah_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct ip_auth_hdr _ah;
 	const struct ip_auth_hdr *ah;
@@ -91,7 +95,11 @@ static bool ah_mt6(const struct sk_buff *skb,
 	       !(ahinfo->hdrres && ah->reserved);
 }
 
+<<<<<<< HEAD
 static int ah_mt6_check(const struct xt_mtchk_param *par)
+=======
+static bool ah_mt6_check(const struct xt_mtchk_param *par)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ip6t_ah *ahinfo = par->matchinfo;
 

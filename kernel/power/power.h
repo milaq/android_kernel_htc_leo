@@ -236,6 +236,7 @@ static inline void suspend_thaw_processes(void)
 {
 }
 #endif
+<<<<<<< HEAD
 
 #ifdef CONFIG_WAKELOCK
 /* kernel/power/wakelock.c */
@@ -260,3 +261,5 @@ ssize_t  wake_unlock_store(struct kobject *kobj, struct kobj_attribute *attr,
 void request_suspend_state(suspend_state_t state);
 suspend_state_t get_suspend_state(void);
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

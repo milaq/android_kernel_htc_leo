@@ -103,6 +103,10 @@ enum lis3lv02d_ctrl1 {
 	CTRL1_DF1	= 0x20,
 	CTRL1_PD0	= 0x40,
 	CTRL1_PD1	= 0x80,
+<<<<<<< HEAD
+=======
+	CTRL1_DR	= 0x80, /* Data rate on 8 bits */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 enum lis3lv02d_ctrl2 {
 	CTRL2_DAS	= 0x01,

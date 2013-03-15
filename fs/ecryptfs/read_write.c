@@ -134,13 +134,26 @@ int ecryptfs_write(struct file *ecryptfs_file, char *data, loff_t offset,
 		pgoff_t ecryptfs_page_idx = (pos >> PAGE_CACHE_SHIFT);
 		size_t start_offset_in_page = (pos & ~PAGE_CACHE_MASK);
 		size_t num_bytes = (PAGE_CACHE_SIZE - start_offset_in_page);
+<<<<<<< HEAD
 		size_t total_remaining_bytes = ((offset + size) - pos);
+=======
+		loff_t total_remaining_bytes = ((offset + size) - pos);
+
+		if (fatal_signal_pending(current)) {
+			rc = -EINTR;
+			break;
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (num_bytes > total_remaining_bytes)
 			num_bytes = total_remaining_bytes;
 		if (pos < offset) {
 			/* remaining zeros to write, up to destination offset */
+<<<<<<< HEAD
 			size_t total_remaining_zeros = (offset - pos);
+=======
+			loff_t total_remaining_zeros = (offset - pos);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 			if (num_bytes > total_remaining_zeros)
 				num_bytes = total_remaining_zeros;
@@ -197,6 +210,7 @@ int ecryptfs_write(struct file *ecryptfs_file, char *data, loff_t offset,
 		}
 		pos += num_bytes;
 	}
+<<<<<<< HEAD
 	if ((offset + size) > ecryptfs_file_size) {
 		i_size_write(ecryptfs_inode, (offset + size));
 		if (crypt_stat->flags & ECRYPTFS_ENCRYPTED) {
@@ -206,6 +220,21 @@ int ecryptfs_write(struct file *ecryptfs_file, char *data, loff_t offset,
 				printk(KERN_ERR	"Problem with "
 				       "ecryptfs_write_inode_size_to_metadata; "
 				       "rc = [%d]\n", rc);
+=======
+	if (pos > ecryptfs_file_size) {
+		i_size_write(ecryptfs_inode, pos);
+		if (crypt_stat->flags & ECRYPTFS_ENCRYPTED) {
+			int rc2;
+
+			rc2 = ecryptfs_write_inode_size_to_metadata(
+								ecryptfs_inode);
+			if (rc2) {
+				printk(KERN_ERR	"Problem with "
+				       "ecryptfs_write_inode_size_to_metadata; "
+				       "rc = [%d]\n", rc2);
+				if (!rc)
+					rc = rc2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				goto out;
 			}
 		}

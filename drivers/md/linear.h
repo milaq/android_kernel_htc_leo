@@ -10,9 +10,15 @@ typedef struct dev_info dev_info_t;
 
 struct linear_private_data
 {
+<<<<<<< HEAD
 	sector_t		array_sectors;
 	dev_info_t		disks[0];
 	struct rcu_head		rcu;
+=======
+	struct rcu_head		rcu;
+	sector_t		array_sectors;
+	dev_info_t		disks[0];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 

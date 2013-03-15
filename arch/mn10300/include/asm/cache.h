@@ -21,6 +21,11 @@
 #define L1_CACHE_DISPARITY	L1_CACHE_NENTRIES * L1_CACHE_BYTES
 #endif
 
+<<<<<<< HEAD
+=======
+#define ARCH_KMALLOC_MINALIGN	L1_CACHE_BYTES
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* data cache purge registers
  * - read from the register to unconditionally purge that cache line
  * - write address & 0xffffff00 to conditionally purge that cache line

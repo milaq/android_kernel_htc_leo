@@ -723,7 +723,11 @@ static int __init init_misc_binfmt(void)
 {
 	int err = register_filesystem(&bm_fs_type);
 	if (!err) {
+<<<<<<< HEAD
 		err = register_binfmt(&misc_format);
+=======
+		err = insert_binfmt(&misc_format);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (err)
 			unregister_filesystem(&bm_fs_type);
 	}

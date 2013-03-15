@@ -83,7 +83,11 @@ static void tile_cursor(struct vc_data *vc, struct fb_info *info, int mode,
 			int softback_lines, int fg, int bg)
 {
 	struct fb_tilecursor cursor;
+<<<<<<< HEAD
 	int use_sw = (vc->vc_cursor_type & 0x01);
+=======
+	int use_sw = (vc->vc_cursor_type & 0x10);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	cursor.sx = vc->vc_x;
 	cursor.sy = vc->vc_y;

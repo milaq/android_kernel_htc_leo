@@ -368,6 +368,12 @@ bool ath9k_hw_init_rf(struct ath_hw *ah,
 
 #define AR_PHY_HEAVY_CLIP_ENABLE         0x99E0
 
+<<<<<<< HEAD
+=======
+#define AR_PHY_HEAVY_CLIP_FACTOR_RIFS    0x99EC
+#define AR_PHY_RIFS_INIT_DELAY         0x03ff0000
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define AR_PHY_M_SLEEP      0x99f0
 #define AR_PHY_REFCLKDLY    0x99f4
 #define AR_PHY_REFCLKPD     0x99f8

@@ -2186,8 +2186,11 @@ static int velocity_open(struct net_device *dev)
 	/* Ensure chip is running */
 	pci_set_power_state(vptr->pdev, PCI_D0);
 
+<<<<<<< HEAD
 	velocity_give_many_rx_descs(vptr);
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	velocity_init_registers(vptr, VELOCITY_INIT_COLD);
 
 	ret = request_irq(vptr->pdev->irq, &velocity_intr, IRQF_SHARED,
@@ -2199,6 +2202,11 @@ static int velocity_open(struct net_device *dev)
 		goto out;
 	}
 
+<<<<<<< HEAD
+=======
+	velocity_give_many_rx_descs(vptr);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mac_enable_int(vptr->mac_regs);
 	netif_start_queue(dev);
 	vptr->flags |= VELOCITY_FLAGS_OPENED;
@@ -2287,10 +2295,17 @@ static int velocity_change_mtu(struct net_device *dev, int new_mtu)
 
 		dev->mtu = new_mtu;
 
+<<<<<<< HEAD
 		velocity_give_many_rx_descs(vptr);
 
 		velocity_init_registers(vptr, VELOCITY_INIT_COLD);
 
+=======
+		velocity_init_registers(vptr, VELOCITY_INIT_COLD);
+
+		velocity_give_many_rx_descs(vptr);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mac_enable_int(vptr->mac_regs);
 		netif_start_queue(dev);
 

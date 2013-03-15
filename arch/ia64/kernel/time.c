@@ -473,7 +473,11 @@ void update_vsyscall_tz(void)
 {
 }
 
+<<<<<<< HEAD
 void update_vsyscall(struct timespec *wall, struct clocksource *c)
+=======
+void update_vsyscall(struct timespec *wall, struct clocksource *c, u32 mult)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
         unsigned long flags;
 
@@ -481,7 +485,11 @@ void update_vsyscall(struct timespec *wall, struct clocksource *c)
 
         /* copy fsyscall clock data */
         fsyscall_gtod_data.clk_mask = c->mask;
+<<<<<<< HEAD
         fsyscall_gtod_data.clk_mult = c->mult;
+=======
+        fsyscall_gtod_data.clk_mult = mult;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
         fsyscall_gtod_data.clk_shift = c->shift;
         fsyscall_gtod_data.clk_fsys_mmio = c->fsys_mmio;
         fsyscall_gtod_data.clk_cycle_last = c->cycle_last;

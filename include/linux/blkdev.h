@@ -318,7 +318,11 @@ struct queue_limits {
 	unsigned short		max_phys_segments;
 
 	unsigned char		misaligned;
+<<<<<<< HEAD
 	unsigned char		no_cluster;
+=======
+	unsigned char		cluster;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct request_queue
@@ -440,7 +444,10 @@ struct request_queue
 #endif
 };
 
+<<<<<<< HEAD
 #define QUEUE_FLAG_CLUSTER	0	/* cluster several segments into 1 */
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define QUEUE_FLAG_QUEUED	1	/* uses generic tag queueing */
 #define QUEUE_FLAG_STOPPED	2	/* queue is stopped */
 #define	QUEUE_FLAG_SYNCFULL	3	/* read queue has been filled */
@@ -461,7 +468,10 @@ struct request_queue
 #define QUEUE_FLAG_DISCARD     17	/* supports DISCARD */
 
 #define QUEUE_FLAG_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+<<<<<<< HEAD
 				 (1 << QUEUE_FLAG_CLUSTER) |		\
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				 (1 << QUEUE_FLAG_STACKABLE)	|	\
 				 (1 << QUEUE_FLAG_SAME_COMP))
 
@@ -627,6 +637,14 @@ enum {
 
 #define rq_data_dir(rq)		((rq)->cmd_flags & 1)
 
+<<<<<<< HEAD
+=======
+static inline unsigned int blk_queue_cluster(struct request_queue *q)
+{
+	return q->limits.cluster;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * We regard a request as sync, if either a read or a sync write
  */
@@ -774,6 +792,12 @@ extern void blk_plug_device(struct request_queue *);
 extern void blk_plug_device_unlocked(struct request_queue *);
 extern int blk_remove_plug(struct request_queue *);
 extern void blk_recount_segments(struct request_queue *, struct bio *);
+<<<<<<< HEAD
+=======
+extern int scsi_verify_blk_ioctl(struct block_device *, unsigned int);
+extern int scsi_cmd_blk_ioctl(struct block_device *, fmode_t,
+			      unsigned int, void __user *);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int scsi_cmd_ioctl(struct request_queue *, struct gendisk *, fmode_t,
 			  unsigned int, void __user *);
 extern int sg_scsi_ioctl(struct request_queue *, struct gendisk *, fmode_t,
@@ -932,7 +956,11 @@ extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
 extern void blk_queue_max_discard_sectors(struct request_queue *q,
 		unsigned int max_discard_sectors);
 extern void blk_queue_logical_block_size(struct request_queue *, unsigned short);
+<<<<<<< HEAD
 extern void blk_queue_physical_block_size(struct request_queue *, unsigned short);
+=======
+extern void blk_queue_physical_block_size(struct request_queue *, unsigned int);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void blk_queue_alignment_offset(struct request_queue *q,
 				       unsigned int alignment);
 extern void blk_limits_io_min(struct queue_limits *limits, unsigned int min);
@@ -1083,7 +1111,11 @@ static inline unsigned int queue_physical_block_size(struct request_queue *q)
 	return q->limits.physical_block_size;
 }
 
+<<<<<<< HEAD
 static inline int bdev_physical_block_size(struct block_device *bdev)
+=======
+static inline unsigned int bdev_physical_block_size(struct block_device *bdev)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return queue_physical_block_size(bdev_get_queue(bdev));
 }
@@ -1274,8 +1306,11 @@ struct block_device_operations {
 						unsigned long long);
 	int (*revalidate_disk) (struct gendisk *);
 	int (*getgeo)(struct block_device *, struct hd_geometry *);
+<<<<<<< HEAD
 	/* this callback is with swap_lock and often page lock also held */
 	void (*swap_slot_free_notify) (struct block_device *, unsigned long);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct module *owner;
 };
 

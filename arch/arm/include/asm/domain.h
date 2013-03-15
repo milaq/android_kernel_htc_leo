@@ -27,6 +27,7 @@
  *
  * 36-bit addressing and supersections are only available on
  * CPUs based on ARMv6+ or the Intel XSC3 core.
+<<<<<<< HEAD
  *
  * We cannot use domain 0 for the kernel on QSD8x50 since the kernel domain
  * is set to manager mode when set_fs(KERNEL_DS) is called. Setting domain 0
@@ -34,6 +35,10 @@
  * invalid fault status and/or tlb corruption (CONFIG_VERIFY_PERMISSION_FAULT).
  */
 #if !defined(CONFIG_IO_36) && !defined(CONFIG_VERIFY_PERMISSION_FAULT)
+=======
+ */
+#ifndef CONFIG_IO_36
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define DOMAIN_KERNEL	0
 #define DOMAIN_TABLE	0
 #define DOMAIN_USER	1

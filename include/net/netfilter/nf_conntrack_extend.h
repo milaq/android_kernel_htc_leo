@@ -9,7 +9,10 @@ enum nf_ct_ext_id
 	NF_CT_EXT_NAT,
 	NF_CT_EXT_ACCT,
 	NF_CT_EXT_ECACHE,
+<<<<<<< HEAD
 	NF_CT_EXT_ZONE,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NF_CT_EXT_NUM,
 };
 
@@ -17,7 +20,10 @@ enum nf_ct_ext_id
 #define NF_CT_EXT_NAT_TYPE struct nf_conn_nat
 #define NF_CT_EXT_ACCT_TYPE struct nf_conn_counter
 #define NF_CT_EXT_ECACHE_TYPE struct nf_conntrack_ecache
+<<<<<<< HEAD
 #define NF_CT_EXT_ZONE_TYPE struct nf_conntrack_zone
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Extensions: optional stuff which isn't permanently in struct. */
 struct nf_ct_ext {

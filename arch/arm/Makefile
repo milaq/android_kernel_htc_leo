@@ -17,13 +17,21 @@ endif
 
 OBJCOPYFLAGS	:=-O binary -R .note -R .note.gnu.build-id -R .comment -S
 GZFLAGS		:=-9
+<<<<<<< HEAD
 KBUILD_CFLAGS	+=-pipe
+=======
+#KBUILD_CFLAGS	+=-pipe
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 # Explicitly specifiy 32-bit ARM ISA since toolchain default can be -mthumb:
 KBUILD_CFLAGS	+=$(call cc-option,-marm,)
 
 # Do not use arch/arm/defconfig - it's always outdated.
 # Select a platform tht is kept up-to-date
+<<<<<<< HEAD
 KBUILD_DEFCONFIG := leo_defconfig
+=======
+KBUILD_DEFCONFIG := versatile_defconfig
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 # defines filename extension depending memory management type.
 ifeq ($(CONFIG_MMU),)

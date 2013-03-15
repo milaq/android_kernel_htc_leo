@@ -31,6 +31,13 @@
 #define KEXEC_ARCH KEXEC_ARCH_PPC
 #endif
 
+<<<<<<< HEAD
+=======
+#define KEXEC_STATE_NONE 0
+#define KEXEC_STATE_IRQS_OFF 1
+#define KEXEC_STATE_REAL_MODE 2
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifndef __ASSEMBLY__
 #include <linux/cpumask.h>
 #include <asm/reg.h>

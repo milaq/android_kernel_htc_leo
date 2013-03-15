@@ -572,6 +572,10 @@ int radeon_device_init(struct radeon_device *rdev,
 	dma_bits = rdev->need_dma32 ? 32 : 40;
 	r = pci_set_dma_mask(rdev->pdev, DMA_BIT_MASK(dma_bits));
 	if (r) {
+<<<<<<< HEAD
+=======
+		rdev->need_dma32 = true;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		printk(KERN_WARNING "radeon: No suitable DMA available.\n");
 	}
 

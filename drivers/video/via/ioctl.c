@@ -25,6 +25,11 @@ int viafb_ioctl_get_viafb_info(u_long arg)
 {
 	struct viafb_ioctl_info viainfo;
 
+<<<<<<< HEAD
+=======
+	memset(&viainfo, 0, sizeof(struct viafb_ioctl_info));
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	viainfo.viafb_id = VIAID;
 	viainfo.vendor_id = PCI_VIA_VENDOR_ID;
 

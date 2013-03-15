@@ -100,6 +100,7 @@ static int offb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
 			  u_int transp, struct fb_info *info)
 {
 	struct offb_par *par = (struct offb_par *) info->par;
+<<<<<<< HEAD
 	int i, depth;
 	u32 *pal = info->pseudo_palette;
 
@@ -130,6 +131,34 @@ static int offb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
 		}
 	}
 
+=======
+
+	if (info->fix.visual == FB_VISUAL_TRUECOLOR) {
+		u32 *pal = info->pseudo_palette;
+		u32 cr = red >> (16 - info->var.red.length);
+		u32 cg = green >> (16 - info->var.green.length);
+		u32 cb = blue >> (16 - info->var.blue.length);
+		u32 value;
+
+		if (regno >= 16)
+			return -EINVAL;
+
+		value = (cr << info->var.red.offset) |
+			(cg << info->var.green.offset) |
+			(cb << info->var.blue.offset);
+		if (info->var.transp.length > 0) {
+			u32 mask = (1 << info->var.transp.length) - 1;
+			mask <<= info->var.transp.offset;
+			value |= mask;
+		}
+		pal[regno] = value;
+		return 0;
+	}
+
+	if (regno > 255)
+		return -EINVAL;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	red >>= 8;
 	green >>= 8;
 	blue >>= 8;
@@ -282,8 +311,22 @@ static int offb_set_par(struct fb_info *info)
 	return 0;
 }
 
+<<<<<<< HEAD
 static struct fb_ops offb_ops = {
 	.owner		= THIS_MODULE,
+=======
+static void offb_destroy(struct fb_info *info)
+{
+	if (info->screen_base)
+		iounmap(info->screen_base);
+	release_mem_region(info->aperture_base, info->aperture_size);
+	framebuffer_release(info);
+}
+
+static struct fb_ops offb_ops = {
+	.owner		= THIS_MODULE,
+	.fb_destroy	= offb_destroy,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.fb_setcolreg	= offb_setcolreg,
 	.fb_set_par	= offb_set_par,
 	.fb_blank	= offb_blank,
@@ -372,7 +415,11 @@ static void __init offb_init_fb(const char *name, const char *full_name,
 				int pitch, unsigned long address,
 				int foreign_endian, struct device_node *dp)
 {
+<<<<<<< HEAD
 	unsigned long res_size = pitch * height * (depth + 7) / 8;
+=======
+	unsigned long res_size = pitch * height;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct offb_par *par = &default_par;
 	unsigned long res_start = address;
 	struct fb_fix_screeninfo *fix;
@@ -482,10 +529,21 @@ static void __init offb_init_fb(const char *name, const char *full_name,
 	var->sync = 0;
 	var->vmode = FB_VMODE_NONINTERLACED;
 
+<<<<<<< HEAD
 	info->fbops = &offb_ops;
 	info->screen_base = ioremap(address, fix->smem_len);
 	info->pseudo_palette = (void *) (info + 1);
 	info->flags = FBINFO_DEFAULT | foreign_endian;
+=======
+	/* set offb aperture size for generic probing */
+	info->aperture_base = address;
+	info->aperture_size = fix->smem_len;
+
+	info->fbops = &offb_ops;
+	info->screen_base = ioremap(address, fix->smem_len);
+	info->pseudo_palette = (void *) (info + 1);
+	info->flags = FBINFO_DEFAULT | FBINFO_MISC_FIRMWARE | foreign_endian;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	fb_alloc_cmap(&info->cmap, 256, 0);
 

@@ -194,7 +194,11 @@ static inline struct rt_rq *group_rt_rq(struct sched_rt_entity *rt_se)
 	return rt_se->my_q;
 }
 
+<<<<<<< HEAD
 static void enqueue_rt_entity(struct sched_rt_entity *rt_se);
+=======
+static void enqueue_rt_entity(struct sched_rt_entity *rt_se, bool head);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void dequeue_rt_entity(struct sched_rt_entity *rt_se);
 
 static void sched_rt_rq_enqueue(struct rt_rq *rt_rq)
@@ -204,7 +208,11 @@ static void sched_rt_rq_enqueue(struct rt_rq *rt_rq)
 
 	if (rt_rq->rt_nr_running) {
 		if (rt_se && !on_rt_rq(rt_se))
+<<<<<<< HEAD
 			enqueue_rt_entity(rt_se);
+=======
+			enqueue_rt_entity(rt_se, false);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (rt_rq->highest_prio.curr < curr->prio)
 			resched_task(curr);
 	}
@@ -603,7 +611,11 @@ static void update_curr_rt(struct rq *rq)
 	if (!task_has_rt_policy(curr))
 		return;
 
+<<<<<<< HEAD
 	delta_exec = rq->clock - curr->se.exec_start;
+=======
+	delta_exec = rq->clock_task - curr->se.exec_start;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely((s64)delta_exec < 0))
 		delta_exec = 0;
 
@@ -612,7 +624,11 @@ static void update_curr_rt(struct rq *rq)
 	curr->se.sum_exec_runtime += delta_exec;
 	account_group_exec_runtime(curr, delta_exec);
 
+<<<<<<< HEAD
 	curr->se.exec_start = rq->clock;
+=======
+	curr->se.exec_start = rq->clock_task;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cpuacct_charge(curr, delta_exec);
 
 	sched_rt_avg_update(rq, delta_exec);
@@ -803,7 +819,11 @@ void dec_rt_tasks(struct sched_rt_entity *rt_se, struct rt_rq *rt_rq)
 	dec_rt_group(rt_se, rt_rq);
 }
 
+<<<<<<< HEAD
 static void __enqueue_rt_entity(struct sched_rt_entity *rt_se)
+=======
+static void __enqueue_rt_entity(struct sched_rt_entity *rt_se, bool head)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct rt_rq *rt_rq = rt_rq_of_se(rt_se);
 	struct rt_prio_array *array = &rt_rq->active;
@@ -819,7 +839,14 @@ static void __enqueue_rt_entity(struct sched_rt_entity *rt_se)
 	if (group_rq && (rt_rq_throttled(group_rq) || !group_rq->rt_nr_running))
 		return;
 
+<<<<<<< HEAD
 	list_add_tail(&rt_se->run_list, queue);
+=======
+	if (head)
+		list_add(&rt_se->run_list, queue);
+	else
+		list_add_tail(&rt_se->run_list, queue);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__set_bit(rt_se_prio(rt_se), array->bitmap);
 
 	inc_rt_tasks(rt_se, rt_rq);
@@ -856,11 +883,19 @@ static void dequeue_rt_stack(struct sched_rt_entity *rt_se)
 	}
 }
 
+<<<<<<< HEAD
 static void enqueue_rt_entity(struct sched_rt_entity *rt_se)
 {
 	dequeue_rt_stack(rt_se);
 	for_each_sched_rt_entity(rt_se)
 		__enqueue_rt_entity(rt_se);
+=======
+static void enqueue_rt_entity(struct sched_rt_entity *rt_se, bool head)
+{
+	dequeue_rt_stack(rt_se);
+	for_each_sched_rt_entity(rt_se)
+		__enqueue_rt_entity(rt_se, head);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void dequeue_rt_entity(struct sched_rt_entity *rt_se)
@@ -871,21 +906,34 @@ static void dequeue_rt_entity(struct sched_rt_entity *rt_se)
 		struct rt_rq *rt_rq = group_rt_rq(rt_se);
 
 		if (rt_rq && rt_rq->rt_nr_running)
+<<<<<<< HEAD
 			__enqueue_rt_entity(rt_se);
+=======
+			__enqueue_rt_entity(rt_se, false);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 
 /*
  * Adding/removing a task to/from a priority array:
  */
+<<<<<<< HEAD
 static void enqueue_task_rt(struct rq *rq, struct task_struct *p, int wakeup)
+=======
+static void
+enqueue_task_rt(struct rq *rq, struct task_struct *p, int wakeup, bool head)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct sched_rt_entity *rt_se = &p->rt;
 
 	if (wakeup)
 		rt_se->timeout = 0;
 
+<<<<<<< HEAD
 	enqueue_rt_entity(rt_se);
+=======
+	enqueue_rt_entity(rt_se, head);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!task_current(rq, p) && p->rt.nr_cpus_allowed > 1)
 		enqueue_pushable_task(rq, p);
@@ -938,10 +986,16 @@ static void yield_task_rt(struct rq *rq)
 #ifdef CONFIG_SMP
 static int find_lowest_rq(struct task_struct *task);
 
+<<<<<<< HEAD
 static int select_task_rq_rt(struct task_struct *p, int sd_flag, int flags)
 {
 	struct rq *rq = task_rq(p);
 
+=======
+static int
+select_task_rq_rt(struct rq *rq, struct task_struct *p, int sd_flag, int flags)
+{
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (sd_flag != SD_BALANCE_WAKE)
 		return smp_processor_id();
 
@@ -951,6 +1005,7 @@ static int select_task_rq_rt(struct task_struct *p, int sd_flag, int flags)
 	 * runqueue. Otherwise simply start this RT task
 	 * on its current runqueue.
 	 *
+<<<<<<< HEAD
 	 * We want to avoid overloading runqueues. Even if
 	 * the RT task is of higher priority than the current RT task.
 	 * RT tasks behave differently than other tasks. If
@@ -963,6 +1018,21 @@ static int select_task_rq_rt(struct task_struct *p, int sd_flag, int flags)
 	 * cold cache anyway.
 	 */
 	if (unlikely(rt_task(rq->curr)) &&
+=======
+	 * We want to avoid overloading runqueues. If the woken
+	 * task is a higher priority, then it will stay on this CPU
+	 * and the lower prio task should be moved to another CPU.
+	 * Even though this will probably make the lower prio task
+	 * lose its cache, we do not want to bounce a higher task
+	 * around just because it gave up its CPU, perhaps for a
+	 * lock?
+	 *
+	 * For equal prio tasks, we just let the scheduler sort it out.
+	 */
+	if (unlikely(rt_task(rq->curr)) &&
+	    (rq->curr->rt.nr_cpus_allowed < 2 ||
+	     rq->curr->prio < p->prio) &&
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    (p->rt.nr_cpus_allowed > 1)) {
 		int cpu = find_lowest_rq(p);
 
@@ -1052,7 +1122,11 @@ static struct task_struct *_pick_next_task_rt(struct rq *rq)
 
 	rt_rq = &rq->rt;
 
+<<<<<<< HEAD
 	if (!rt_rq->rt_nr_running)
+=======
+	if (unlikely(!rt_rq->rt_nr_running))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return NULL;
 
 	if (rt_rq_throttled(rt_rq))
@@ -1065,7 +1139,11 @@ static struct task_struct *_pick_next_task_rt(struct rq *rq)
 	} while (rt_rq);
 
 	p = rt_task_of(rt_se);
+<<<<<<< HEAD
 	p->se.exec_start = rq->clock;
+=======
+	p->se.exec_start = rq->clock_task;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return p;
 }
@@ -1472,7 +1550,11 @@ static int pull_rt_task(struct rq *this_rq)
 static void pre_schedule_rt(struct rq *rq, struct task_struct *prev)
 {
 	/* Try to pull RT tasks here if we lower this rq's prio */
+<<<<<<< HEAD
 	if (rq->rt.highest_prio.curr > prev->prio)
+=======
+	if (unlikely(rt_task(prev)) && rq->rt.highest_prio.curr > prev->prio)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pull_rt_task(rq);
 }
 
@@ -1485,12 +1567,23 @@ static void post_schedule_rt(struct rq *rq)
  * If we are not running and we are not going to reschedule soon, we should
  * try to push tasks away now
  */
+<<<<<<< HEAD
 static void task_wake_up_rt(struct rq *rq, struct task_struct *p)
+=======
+static void task_woken_rt(struct rq *rq, struct task_struct *p)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (!task_running(rq, p) &&
 	    !test_tsk_need_resched(rq->curr) &&
 	    has_pushable_tasks(rq) &&
+<<<<<<< HEAD
 	    p->rt.nr_cpus_allowed > 1)
+=======
+	    p->rt.nr_cpus_allowed > 1 &&
+	    rt_task(rq->curr) &&
+	    (rq->curr->rt.nr_cpus_allowed < 2 ||
+	     rq->curr->prio < p->prio))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		push_rt_tasks(rq);
 }
 
@@ -1728,13 +1821,21 @@ static void set_curr_task_rt(struct rq *rq)
 {
 	struct task_struct *p = rq->curr;
 
+<<<<<<< HEAD
 	p->se.exec_start = rq->clock;
+=======
+	p->se.exec_start = rq->clock_task;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* The running task is never eligible for pushing */
 	dequeue_pushable_task(rq, p);
 }
 
+<<<<<<< HEAD
 unsigned int get_rr_interval_rt(struct task_struct *task)
+=======
+unsigned int get_rr_interval_rt(struct rq *rq, struct task_struct *task)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	/*
 	 * Time slice is 0 for SCHED_FIFO tasks
@@ -1766,7 +1867,11 @@ static const struct sched_class rt_sched_class = {
 	.rq_offline             = rq_offline_rt,
 	.pre_schedule		= pre_schedule_rt,
 	.post_schedule		= post_schedule_rt,
+<<<<<<< HEAD
 	.task_wake_up		= task_wake_up_rt,
+=======
+	.task_woken		= task_woken_rt,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.switched_from		= switched_from_rt,
 #endif
 

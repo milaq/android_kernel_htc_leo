@@ -1057,9 +1057,12 @@ static int ioctl(struct tty_struct *tty, struct file *file,
 		 unsigned int cmd, unsigned long arg)
 {
 	struct slgt_info *info = tty->driver_data;
+<<<<<<< HEAD
 	struct mgsl_icount cnow;	/* kernel counter temps */
 	struct serial_icounter_struct __user *p_cuser;	/* user space */
 	unsigned long flags;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void __user *argp = (void __user *)arg;
 	int ret;
 
@@ -1068,7 +1071,11 @@ static int ioctl(struct tty_struct *tty, struct file *file,
 	DBGINFO(("%s ioctl() cmd=%08X\n", info->device_name, cmd));
 
 	if ((cmd != TIOCGSERIAL) && (cmd != TIOCSSERIAL) &&
+<<<<<<< HEAD
 	    (cmd != TIOCMIWAIT) && (cmd != TIOCGICOUNT)) {
+=======
+	    (cmd != TIOCMIWAIT)) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (tty->flags & (1 << TTY_IO_ERROR))
 		    return -EIO;
 	}
@@ -1121,6 +1128,7 @@ static int ioctl(struct tty_struct *tty, struct file *file,
 	case MGSL_IOCWAITGPIO:
 		ret = wait_gpio(info, argp);
 		break;
+<<<<<<< HEAD
 	case TIOCGICOUNT:
 		spin_lock_irqsave(&info->lock,flags);
 		cnow = info->icount;
@@ -1140,6 +1148,8 @@ static int ioctl(struct tty_struct *tty, struct file *file,
 			ret = -EFAULT;
 		ret = 0;
 		break;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default:
 		ret = -ENOIOCTLCMD;
 	}
@@ -1147,6 +1157,36 @@ static int ioctl(struct tty_struct *tty, struct file *file,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static int get_icount(struct tty_struct *tty,
+				struct serial_icounter_struct *icount)
+
+{
+	struct slgt_info *info = tty->driver_data;
+	struct mgsl_icount cnow;	/* kernel counter temps */
+	unsigned long flags;
+
+	spin_lock_irqsave(&info->lock,flags);
+	cnow = info->icount;
+	spin_unlock_irqrestore(&info->lock,flags);
+
+	icount->cts = cnow.cts;
+	icount->dsr = cnow.dsr;
+	icount->rng = cnow.rng;
+	icount->dcd = cnow.dcd;
+	icount->rx = cnow.rx;
+	icount->tx = cnow.tx;
+	icount->frame = cnow.frame;
+	icount->overrun = cnow.overrun;
+	icount->parity = cnow.parity;
+	icount->brk = cnow.brk;
+	icount->buf_overrun = cnow.buf_overrun;
+
+	return 0;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * support for 32 bit ioctl calls on 64 bit systems
  */
@@ -1236,10 +1276,13 @@ static long slgt_compat_ioctl(struct tty_struct *tty, struct file *file,
 	case MGSL_IOCSGPIO:
 	case MGSL_IOCGGPIO:
 	case MGSL_IOCWAITGPIO:
+<<<<<<< HEAD
 	case TIOCGICOUNT:
 		rc = ioctl(tty, file, cmd, (unsigned long)(compat_ptr(arg)));
 		break;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case MGSL_IOCSTXIDLE:
 	case MGSL_IOCTXENABLE:
 	case MGSL_IOCRXENABLE:
@@ -3639,6 +3682,10 @@ static const struct tty_operations ops = {
 	.hangup = hangup,
 	.tiocmget = tiocmget,
 	.tiocmset = tiocmset,
+<<<<<<< HEAD
+=======
+	.get_icount = get_icount,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops = &synclink_gt_proc_fops,
 };
 

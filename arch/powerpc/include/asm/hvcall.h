@@ -268,6 +268,10 @@ long plpar_hcall_raw(unsigned long opcode, unsigned long *retbuf, ...);
  */
 #define PLPAR_HCALL9_BUFSIZE 9
 long plpar_hcall9(unsigned long opcode, unsigned long *retbuf, ...);
+<<<<<<< HEAD
+=======
+long plpar_hcall9_raw(unsigned long opcode, unsigned long *retbuf, ...);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* For hcall instrumentation.  One structure per-hcall, per-CPU */
 struct hcall_stats {

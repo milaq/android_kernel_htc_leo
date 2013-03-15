@@ -293,16 +293,29 @@ ret:
 static int add_del_listener(pid_t pid, const struct cpumask *mask, int isadd)
 {
 	struct listener_list *listeners;
+<<<<<<< HEAD
 	struct listener *s, *tmp;
+=======
+	struct listener *s, *tmp, *s2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned int cpu;
 
 	if (!cpumask_subset(mask, cpu_possible_mask))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (isadd == REGISTER) {
 		for_each_cpu(cpu, mask) {
 			s = kmalloc_node(sizeof(struct listener), GFP_KERNEL,
 					 cpu_to_node(cpu));
+=======
+	s = NULL;
+	if (isadd == REGISTER) {
+		for_each_cpu(cpu, mask) {
+			if (!s)
+				s = kmalloc_node(sizeof(struct listener),
+						 GFP_KERNEL, cpu_to_node(cpu));
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (!s)
 				goto cleanup;
 			s->pid = pid;
@@ -311,9 +324,22 @@ static int add_del_listener(pid_t pid, const struct cpumask *mask, int isadd)
 
 			listeners = &per_cpu(listener_array, cpu);
 			down_write(&listeners->sem);
+<<<<<<< HEAD
 			list_add(&s->list, &listeners->list);
 			up_write(&listeners->sem);
 		}
+=======
+			list_for_each_entry_safe(s2, tmp, &listeners->list, list) {
+				if (s2->pid == pid)
+					goto next_cpu;
+			}
+			list_add(&s->list, &listeners->list);
+			s = NULL;
+next_cpu:
+			up_write(&listeners->sem);
+		}
+		kfree(s);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return 0;
 	}
 
@@ -583,6 +609,10 @@ static struct genl_ops taskstats_ops = {
 	.cmd		= TASKSTATS_CMD_GET,
 	.doit		= taskstats_user_cmd,
 	.policy		= taskstats_cmd_get_policy,
+<<<<<<< HEAD
+=======
+	.flags		= GENL_ADMIN_PERM,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static struct genl_ops cgroupstats_ops = {

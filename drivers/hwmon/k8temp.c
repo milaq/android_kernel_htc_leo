@@ -120,7 +120,11 @@ static ssize_t show_temp(struct device *dev,
 	int temp;
 	struct k8temp_data *data = k8temp_update_device(dev);
 
+<<<<<<< HEAD
 	if (data->swap_core_select)
+=======
+	if (data->swap_core_select && (data->sensorsp & SEL_CORE))
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		core = core ? 0 : 1;
 
 	temp = TEMP_FROM_REG(data->temp[core][place]) + data->temp_offset;
@@ -143,6 +147,40 @@ static struct pci_device_id k8temp_ids[] = {
 
 MODULE_DEVICE_TABLE(pci, k8temp_ids);
 
+<<<<<<< HEAD
+=======
+static int __devinit is_rev_g_desktop(u8 model)
+{
+	u32 brandidx;
+
+	if (model < 0x69)
+		return 0;
+
+	if (model == 0xc1 || model == 0x6c || model == 0x7c)
+		return 0;
+
+	/*
+	 * Differentiate between AM2 and ASB1.
+	 * See "Constructing the processor Name String" in "Revision
+	 * Guide for AMD NPT Family 0Fh Processors" (33610).
+	 */
+	brandidx = cpuid_ebx(0x80000001);
+	brandidx = (brandidx >> 9) & 0x1f;
+
+	/* Single core */
+	if ((model == 0x6f || model == 0x7f) &&
+	    (brandidx == 0x7 || brandidx == 0x9 || brandidx == 0xc))
+		return 0;
+
+	/* Dual core */
+	if (model == 0x6b &&
+	    (brandidx == 0xb || brandidx == 0xc))
+		return 0;
+
+	return 1;
+}
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int __devinit k8temp_probe(struct pci_dev *pdev,
 				  const struct pci_device_id *id)
 {
@@ -179,12 +217,21 @@ static int __devinit k8temp_probe(struct pci_dev *pdev,
 				 "wrong - check erratum #141\n");
 		}
 
+<<<<<<< HEAD
 		if ((model >= 0x69) &&
 		    !(model == 0xc1 || model == 0x6c || model == 0x7c)) {
 			/*
 			 * RevG desktop CPUs (i.e. no socket S1G1 parts)
 			 * need additional offset, otherwise reported
 			 * temperature is below ambient temperature
+=======
+		if (is_rev_g_desktop(model)) {
+			/*
+			 * RevG desktop CPUs (i.e. no socket S1G1 or
+			 * ASB1 parts) need additional offset,
+			 * otherwise reported temperature is below
+			 * ambient temperature
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			 */
 			data->temp_offset = 21000;
 		}

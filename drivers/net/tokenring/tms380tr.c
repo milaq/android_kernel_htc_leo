@@ -1364,6 +1364,11 @@ static int tms380tr_reset_adapter(struct net_device *dev)
 	return (-1);
 }
 
+<<<<<<< HEAD
+=======
+MODULE_FIRMWARE("tms380tr.bin");
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Starts bring up diagnostics of token ring adapter and evaluates
  * diagnostic results.

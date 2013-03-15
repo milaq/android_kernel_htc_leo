@@ -131,7 +131,10 @@ static struct clocksource *watchdog;
 static struct timer_list watchdog_timer;
 static DECLARE_WORK(watchdog_work, clocksource_watchdog_work);
 static DEFINE_SPINLOCK(watchdog_lock);
+<<<<<<< HEAD
 static cycle_t watchdog_last;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int watchdog_running;
 
 static int clocksource_watchdog_kthread(void *data);
@@ -200,11 +203,14 @@ static void clocksource_watchdog(unsigned long data)
 	if (!watchdog_running)
 		goto out;
 
+<<<<<<< HEAD
 	wdnow = watchdog->read(watchdog);
 	wd_nsec = clocksource_cyc2ns((wdnow - watchdog_last) & watchdog->mask,
 				     watchdog->mult, watchdog->shift);
 	watchdog_last = wdnow;
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	list_for_each_entry(cs, &watchdog_list, wd_list) {
 
 		/* Clocksource already marked unstable? */
@@ -214,11 +220,19 @@ static void clocksource_watchdog(unsigned long data)
 			continue;
 		}
 
+<<<<<<< HEAD
 		csnow = cs->read(cs);
+=======
+		local_irq_disable();
+		csnow = cs->read(cs);
+		wdnow = watchdog->read(watchdog);
+		local_irq_enable();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Clocksource initialized ? */
 		if (!(cs->flags & CLOCK_SOURCE_WATCHDOG)) {
 			cs->flags |= CLOCK_SOURCE_WATCHDOG;
+<<<<<<< HEAD
 			cs->wd_last = csnow;
 			continue;
 		}
@@ -227,6 +241,22 @@ static void clocksource_watchdog(unsigned long data)
 		cs_nsec = clocksource_cyc2ns((csnow - cs->wd_last) &
 					     cs->mask, cs->mult, cs->shift);
 		cs->wd_last = csnow;
+=======
+			cs->wd_last = wdnow;
+			cs->cs_last = csnow;
+			continue;
+		}
+
+		wd_nsec = clocksource_cyc2ns((wdnow - cs->wd_last) & watchdog->mask,
+					     watchdog->mult, watchdog->shift);
+
+		cs_nsec = clocksource_cyc2ns((csnow - cs->cs_last) &
+					     cs->mask, cs->mult, cs->shift);
+		cs->cs_last = csnow;
+		cs->wd_last = wdnow;
+
+		/* Check the deviation from the watchdog clocksource. */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (abs(cs_nsec - wd_nsec) > WATCHDOG_THRESHOLD) {
 			clocksource_unstable(cs, cs_nsec - wd_nsec);
 			continue;
@@ -264,7 +294,10 @@ static inline void clocksource_start_watchdog(void)
 		return;
 	init_timer(&watchdog_timer);
 	watchdog_timer.function = clocksource_watchdog;
+<<<<<<< HEAD
 	watchdog_last = watchdog->read(watchdog);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	watchdog_timer.expires = jiffies + WATCHDOG_INTERVAL;
 	add_timer_on(&watchdog_timer, cpumask_first(cpu_online_mask));
 	watchdog_running = 1;
@@ -561,8 +594,13 @@ int clocksource_register(struct clocksource *cs)
 
 	mutex_lock(&clocksource_mutex);
 	clocksource_enqueue(cs);
+<<<<<<< HEAD
 	clocksource_select();
 	clocksource_enqueue_watchdog(cs);
+=======
+	clocksource_enqueue_watchdog(cs);
+	clocksource_select();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&clocksource_mutex);
 	return 0;
 }

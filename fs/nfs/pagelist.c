@@ -112,12 +112,19 @@ void nfs_unlock_request(struct nfs_page *req)
  */
 int nfs_set_page_tag_locked(struct nfs_page *req)
 {
+<<<<<<< HEAD
 	struct nfs_inode *nfsi = NFS_I(req->wb_context->path.dentry->d_inode);
 
 	if (!nfs_lock_request_dontget(req))
 		return 0;
 	if (req->wb_page != NULL)
 		radix_tree_tag_set(&nfsi->nfs_page_tree, req->wb_index, NFS_PAGE_TAG_LOCKED);
+=======
+	if (!nfs_lock_request_dontget(req))
+		return 0;
+	if (req->wb_page != NULL)
+		radix_tree_tag_set(&NFS_I(req->wb_context->path.dentry->d_inode)->nfs_page_tree, req->wb_index, NFS_PAGE_TAG_LOCKED);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 1;
 }
 
@@ -126,10 +133,17 @@ int nfs_set_page_tag_locked(struct nfs_page *req)
  */
 void nfs_clear_page_tag_locked(struct nfs_page *req)
 {
+<<<<<<< HEAD
 	struct inode *inode = req->wb_context->path.dentry->d_inode;
 	struct nfs_inode *nfsi = NFS_I(inode);
 
 	if (req->wb_page != NULL) {
+=======
+	if (req->wb_page != NULL) {
+		struct inode *inode = req->wb_context->path.dentry->d_inode;
+		struct nfs_inode *nfsi = NFS_I(inode);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock(&inode->i_lock);
 		radix_tree_tag_clear(&nfsi->nfs_page_tree, req->wb_index, NFS_PAGE_TAG_LOCKED);
 		nfs_unlock_request(req);
@@ -142,16 +156,33 @@ void nfs_clear_page_tag_locked(struct nfs_page *req)
  * nfs_clear_request - Free up all resources allocated to the request
  * @req:
  *
+<<<<<<< HEAD
  * Release page resources associated with a write request after it
  * has completed.
+=======
+ * Release page and open context resources associated with a read/write
+ * request after it has completed.
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 void nfs_clear_request(struct nfs_page *req)
 {
 	struct page *page = req->wb_page;
+<<<<<<< HEAD
+=======
+	struct nfs_open_context *ctx = req->wb_context;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (page != NULL) {
 		page_cache_release(page);
 		req->wb_page = NULL;
 	}
+<<<<<<< HEAD
+=======
+	if (ctx != NULL) {
+		put_nfs_open_context(ctx);
+		req->wb_context = NULL;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 
@@ -165,9 +196,14 @@ static void nfs_free_request(struct kref *kref)
 {
 	struct nfs_page *req = container_of(kref, struct nfs_page, wb_kref);
 
+<<<<<<< HEAD
 	/* Release struct file or cached credential */
 	nfs_clear_request(req);
 	put_nfs_open_context(req->wb_context);
+=======
+	/* Release struct file and open context */
+	nfs_clear_request(req);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	nfs_page_free(req);
 }
 

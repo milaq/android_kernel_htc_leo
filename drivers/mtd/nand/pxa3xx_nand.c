@@ -316,7 +316,11 @@ static struct pxa3xx_nand_flash *builtin_flash_types[] = {
 #define tAR_NDTR1(r)	(((r) >> 0) & 0xf)
 
 /* convert nano-seconds to nand flash controller clock cycles */
+<<<<<<< HEAD
 #define ns2cycle(ns, clk)	(int)(((ns) * (clk / 1000000) / 1000) - 1)
+=======
+#define ns2cycle(ns, clk)	(int)((ns) * (clk / 1000000) / 1000)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* convert nand flash controller clock cycles to nano-seconds */
 #define cycle2ns(c, clk)	((((c) + 1) * 1000000 + clk / 500) / (clk / 1000))

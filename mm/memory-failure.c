@@ -589,7 +589,10 @@ static struct page_state {
 
 	{ lru|dirty,	lru|dirty,	"LRU",		me_pagecache_dirty },
 	{ lru|dirty,	lru,		"clean LRU",	me_pagecache_clean },
+<<<<<<< HEAD
 	{ swapbacked,	swapbacked,	"anonymous",	me_pagecache_clean },
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Catchall entry: must be at end.
@@ -638,7 +641,11 @@ static int page_action(struct page_state *ps, struct page *p,
  * Do all that is necessary to remove user space mappings. Unmap
  * the pages and send SIGBUS to the processes if the data was dirty.
  */
+<<<<<<< HEAD
 static void hwpoison_user_mappings(struct page *p, unsigned long pfn,
+=======
+static int hwpoison_user_mappings(struct page *p, unsigned long pfn,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				  int trapno)
 {
 	enum ttu_flags ttu = TTU_UNMAP | TTU_IGNORE_MLOCK | TTU_IGNORE_ACCESS;
@@ -648,15 +655,27 @@ static void hwpoison_user_mappings(struct page *p, unsigned long pfn,
 	int i;
 	int kill = 1;
 
+<<<<<<< HEAD
 	if (PageReserved(p) || PageCompound(p) || PageSlab(p) || PageKsm(p))
 		return;
+=======
+	if (PageReserved(p) || PageSlab(p))
+		return SWAP_SUCCESS;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * This check implies we don't kill processes if their pages
 	 * are in the swap cache early. Those are always late kills.
 	 */
 	if (!page_mapped(p))
+<<<<<<< HEAD
 		return;
+=======
+		return SWAP_SUCCESS;
+
+	if (PageCompound(p) || PageKsm(p))
+		return SWAP_FAIL;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (PageSwapCache(p)) {
 		printk(KERN_ERR
@@ -718,6 +737,11 @@ static void hwpoison_user_mappings(struct page *p, unsigned long pfn,
 	 */
 	kill_procs_ao(&tokill, !!PageDirty(p), trapno,
 		      ret != SWAP_SUCCESS, pfn);
+<<<<<<< HEAD
+=======
+
+	return ret;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int __memory_failure(unsigned long pfn, int trapno, int ref)
@@ -787,8 +811,18 @@ int __memory_failure(unsigned long pfn, int trapno, int ref)
 
 	/*
 	 * Now take care of user space mappings.
+<<<<<<< HEAD
 	 */
 	hwpoison_user_mappings(p, pfn, trapno);
+=======
+	 * Abort on fail: __remove_from_page_cache() assumes unmapped page.
+	 */
+	if (hwpoison_user_mappings(p, pfn, trapno) != SWAP_SUCCESS) {
+		printk(KERN_ERR "MCE %#lx: cannot unmap page, give up\n", pfn);
+		res = -EBUSY;
+		goto out;
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Torn down by someone else?

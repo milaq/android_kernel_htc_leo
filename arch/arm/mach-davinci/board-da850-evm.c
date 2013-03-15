@@ -42,6 +42,35 @@
 #define DA850_MMCSD_CD_PIN		GPIO_TO_PIN(4, 0)
 #define DA850_MMCSD_WP_PIN		GPIO_TO_PIN(4, 1)
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_MTD
+static void da850_evm_m25p80_notify_add(struct mtd_info *mtd)
+{
+	char *mac_addr = davinci_soc_info.emac_pdata->mac_addr;
+	size_t retlen;
+
+	if (!strcmp(mtd->name, "MAC-Address")) {
+		mtd->read(mtd, 0, ETH_ALEN, &retlen, mac_addr);
+		if (retlen == ETH_ALEN)
+			pr_info("Read MAC addr from SPI Flash: %pM\n",
+				mac_addr);
+	}
+}
+
+static struct mtd_notifier da850evm_spi_notifier = {
+	.add	= da850_evm_m25p80_notify_add,
+};
+
+static void da850_evm_setup_mac_addr(void)
+{
+	register_mtd_user(&da850evm_spi_notifier);
+}
+#else
+static void da850_evm_setup_mac_addr(void) { }
+#endif
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct mtd_partition da850_evm_norflash_partition[] = {
 	{
 		.name           = "NOR filesystem",
@@ -381,6 +410,11 @@ static __init void da850_evm_init(void)
 	if (ret)
 		pr_warning("da850_evm_init: lcdc registration failed: %d\n",
 				ret);
+<<<<<<< HEAD
+=======
+
+	da850_evm_setup_mac_addr();
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_SERIAL_8250_CONSOLE

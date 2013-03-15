@@ -1325,7 +1325,11 @@ static int kaweth_internal_control_msg(struct usb_device *usb_dev,
         int retv;
         int length = 0; /* shut up GCC */
 
+<<<<<<< HEAD
         urb = usb_alloc_urb(0, GFP_NOIO);
+=======
+	urb = usb_alloc_urb(0, GFP_ATOMIC);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
         if (!urb)
                 return -ENOMEM;
 

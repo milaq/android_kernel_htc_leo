@@ -14,6 +14,15 @@
 
 #define	ROSE_MIN_LEN			3
 
+<<<<<<< HEAD
+=======
+#define	ROSE_CALL_REQ_ADDR_LEN_OFF	3
+#define	ROSE_CALL_REQ_ADDR_LEN_VAL	0xAA	/* each address is 10 digits */
+#define	ROSE_CALL_REQ_DEST_ADDR_OFF	4
+#define	ROSE_CALL_REQ_SRC_ADDR_OFF	9
+#define	ROSE_CALL_REQ_FACILITIES_OFF	14
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define	ROSE_GFI			0x10
 #define	ROSE_Q_BIT			0x80
 #define	ROSE_D_BIT			0x40
@@ -214,7 +223,11 @@ extern void rose_requeue_frames(struct sock *);
 extern int  rose_validate_nr(struct sock *, unsigned short);
 extern void rose_write_internal(struct sock *, int);
 extern int  rose_decode(struct sk_buff *, int *, int *, int *, int *, int *);
+<<<<<<< HEAD
 extern int  rose_parse_facilities(unsigned char *, struct rose_facilities_struct *);
+=======
+extern int  rose_parse_facilities(unsigned char *, unsigned int, struct rose_facilities_struct *);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void rose_disconnect(struct sock *, int, int, int);
 
 /* rose_timer.c */

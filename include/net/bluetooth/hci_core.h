@@ -26,7 +26,11 @@
 #define __HCI_CORE_H
 
 #include <net/bluetooth/hci.h>
+<<<<<<< HEAD
 #include <linux/wakelock.h>
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* HCI upper protocols */
 #define HCI_PROTO_L2CAP	0
 #define HCI_PROTO_SCO	1
@@ -70,8 +74,12 @@ struct hci_dev {
 	char		name[8];
 	unsigned long	flags;
 	__u16		id;
+<<<<<<< HEAD
 	__u8		bus;
 	__u8		dev_type;
+=======
+	__u8		type;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bdaddr_t	bdaddr;
 	__u8		dev_name[248];
 	__u8		dev_class[3];
@@ -183,11 +191,18 @@ struct hci_conn {
 
 	struct timer_list disc_timer;
 	struct timer_list idle_timer;
+<<<<<<< HEAD
 	struct timer_list auto_accept_timer;
 
 	struct work_struct work_add;
 	struct work_struct work_del;
 	struct wake_lock idle_lock;
+=======
+
+	struct work_struct work_add;
+	struct work_struct work_del;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct device	dev;
 	atomic_t	devref;
 
@@ -247,7 +262,10 @@ enum {
 	HCI_CONN_ENCRYPT_PEND,
 	HCI_CONN_RSWITCH_PEND,
 	HCI_CONN_MODE_CHANGE_PEND,
+<<<<<<< HEAD
 	HCI_CONN_SCO_SETUP_PEND,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static inline void hci_conn_hash_init(struct hci_dev *hdev)
@@ -328,17 +346,26 @@ void hci_acl_connect(struct hci_conn *conn);
 void hci_acl_disconn(struct hci_conn *conn, __u8 reason);
 void hci_add_sco(struct hci_conn *conn, __u16 handle);
 void hci_setup_sync(struct hci_conn *conn, __u16 handle);
+<<<<<<< HEAD
 void hci_sco_setup(struct hci_conn *conn, __u8 status);
 
 struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type,
 					__u16 pkt_type, bdaddr_t *dst);
+=======
+
+struct hci_conn *hci_conn_add(struct hci_dev *hdev, int type, bdaddr_t *dst);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int hci_conn_del(struct hci_conn *conn);
 void hci_conn_hash_flush(struct hci_dev *hdev);
 void hci_conn_check_pending(struct hci_dev *hdev);
 
+<<<<<<< HEAD
 struct hci_conn *hci_connect(struct hci_dev *hdev, int type,
 					__u16 pkt_type, bdaddr_t *dst,
 					__u8 sec_level, __u8 auth_type);
+=======
+struct hci_conn *hci_connect(struct hci_dev *hdev, int type, bdaddr_t *dst, __u8 sec_level, __u8 auth_type);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int hci_conn_check_link_mode(struct hci_conn *conn);
 int hci_conn_security(struct hci_conn *conn, __u8 sec_level, __u8 auth_type);
 int hci_conn_change_link_key(struct hci_conn *conn);
@@ -365,7 +392,11 @@ static inline void hci_conn_put(struct hci_conn *conn)
 			if (conn->state == BT_CONNECTED) {
 				timeo = msecs_to_jiffies(conn->disc_timeout);
 				if (!conn->out)
+<<<<<<< HEAD
 					timeo *= 20;
+=======
+					timeo *= 2;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			} else
 				timeo = msecs_to_jiffies(10);
 		} else
@@ -483,7 +514,10 @@ void hci_conn_del_sysfs(struct hci_conn *conn);
 #define lmp_sniffsubr_capable(dev) ((dev)->features[5] & LMP_SNIFF_SUBR)
 #define lmp_esco_capable(dev)      ((dev)->features[3] & LMP_ESCO)
 #define lmp_ssp_capable(dev)       ((dev)->features[6] & LMP_SIMPLE_PAIR)
+<<<<<<< HEAD
 #define lmp_no_flush_capable(dev)  ((dev)->features[6] & LMP_NO_FLUSH)
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* ----- HCI protocols ----- */
 struct hci_proto {

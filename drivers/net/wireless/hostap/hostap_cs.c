@@ -626,6 +626,10 @@ static int prism2_config(struct pcmcia_device *link)
 	int ret = 1;
 	int last_fn, last_ret;
 	struct hostap_cs_priv *hw_priv;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	PDEBUG(DEBUG_FLOW, "prism2_config()\n");
 
@@ -683,8 +687,16 @@ static int prism2_config(struct pcmcia_device *link)
 	CS_CHECK(RequestConfiguration,
 		 pcmcia_request_configuration(link, &link->conf));
 
+<<<<<<< HEAD
 	dev->irq = link->irq.AssignedIRQ;
 	dev->base_addr = link->io.BasePort1;
+=======
+	/* IRQ handler cannot proceed until at dev->base_addr is initialized */
+	spin_lock_irqsave(&local->irq_init_lock, flags);
+	dev->irq = link->irq.AssignedIRQ;
+	dev->base_addr = link->io.BasePort1;
+	spin_unlock_irqrestore(&local->irq_init_lock, flags);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Finally, report what we've done */
 	printk(KERN_INFO "%s: index 0x%02x: ",

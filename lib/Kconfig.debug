@@ -545,7 +545,11 @@ config DEBUG_LOCKING_API_SELFTESTS
 	  mutexes and rwsems.
 
 config STACKTRACE
+<<<<<<< HEAD
 	bool "Stacktrace"
+=======
+	bool
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	depends on STACKTRACE_SUPPORT
 
 config DEBUG_KOBJECT

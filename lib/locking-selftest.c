@@ -144,7 +144,11 @@ static void init_shared_classes(void)
 
 #define HARDIRQ_ENTER()				\
 	local_irq_disable();			\
+<<<<<<< HEAD
 	irq_enter();				\
+=======
+	__irq_enter();				\
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	WARN_ON(!in_irq());
 
 #define HARDIRQ_EXIT()				\

@@ -540,13 +540,20 @@ struct ath5k_txq_info {
 	u32	tqi_cbr_period; /* Constant bit rate period */
 	u32	tqi_cbr_overflow_limit;
 	u32	tqi_burst_time;
+<<<<<<< HEAD
 	u32	tqi_ready_time; /* Not used */
+=======
+	u32	tqi_ready_time; /* Time queue waits after an event */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /*
  * Transmit packet types.
  * used on tx control descriptor
+<<<<<<< HEAD
  * TODO: Use them inside base.c corectly
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 enum ath5k_pkt_type {
 	AR5K_PKT_TYPE_NORMAL		= 0,

@@ -250,6 +250,22 @@ int saa7134_ts_start(struct saa7134_dev *dev)
 
 	BUG_ON(dev->ts_started);
 
+<<<<<<< HEAD
+=======
+	/* dma: setup channel 5 (= TS) */
+	saa_writeb(SAA7134_TS_DMA0, (dev->ts.nr_packets - 1) & 0xff);
+	saa_writeb(SAA7134_TS_DMA1,
+		((dev->ts.nr_packets - 1) >> 8) & 0xff);
+	/* TSNOPIT=0, TSCOLAP=0 */
+	saa_writeb(SAA7134_TS_DMA2,
+		(((dev->ts.nr_packets - 1) >> 16) & 0x3f) | 0x00);
+	saa_writel(SAA7134_RS_PITCH(5), TS_PACKET_SIZE);
+	saa_writel(SAA7134_RS_CONTROL(5), SAA7134_RS_CONTROL_BURST_16 |
+					  SAA7134_RS_CONTROL_ME |
+					  (dev->ts.pt_ts.dma >> 12));
+
+	/* reset hardware TS buffers */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	saa_writeb(SAA7134_TS_SERIAL1, 0x00);
 	saa_writeb(SAA7134_TS_SERIAL1, 0x03);
 	saa_writeb(SAA7134_TS_SERIAL1, 0x00);

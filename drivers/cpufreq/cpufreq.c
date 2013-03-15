@@ -647,6 +647,7 @@ static ssize_t show_scaling_setspeed(struct cpufreq_policy *policy, char *buf)
 	return policy->governor->show_setspeed(policy, buf);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
 
 extern ssize_t acpuclk_get_vdd_levels_str(char *buf);
@@ -715,6 +716,8 @@ static ssize_t store_vdd_levels(struct cpufreq_policy *policy, const char *buf, 
 
 #endif
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define define_one_ro(_name) \
 static struct freq_attr _name = \
 __ATTR(_name, 0444, show_##_name, NULL)
@@ -740,9 +743,12 @@ define_one_rw(scaling_min_freq);
 define_one_rw(scaling_max_freq);
 define_one_rw(scaling_governor);
 define_one_rw(scaling_setspeed);
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
 define_one_rw(vdd_levels);
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static struct attribute *default_attrs[] = {
 	&cpuinfo_min_freq.attr,
@@ -756,9 +762,12 @@ static struct attribute *default_attrs[] = {
 	&scaling_driver.attr,
 	&scaling_available_governors.attr,
 	&scaling_setspeed.attr,
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
 	&vdd_levels.attr,
 #endif
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NULL
 };
 
@@ -1257,12 +1266,37 @@ static int __cpufreq_remove_dev(struct sys_device *sys_dev)
 
 	unlock_policy_rwsem_write(cpu);
 
+<<<<<<< HEAD
 	free_cpumask_var(data->related_cpus);
 	free_cpumask_var(data->cpus);
 	kfree(data);
 	per_cpu(cpufreq_cpu_data, cpu) = NULL;
 
 	cpufreq_debug_enable_ratelimit();
+=======
+	cpufreq_debug_enable_ratelimit();
+
+#ifdef CONFIG_HOTPLUG_CPU
+	/* when the CPU which is the parent of the kobj is hotplugged
+	 * offline, check for siblings, and create cpufreq sysfs interface
+	 * and symlinks
+	 */
+	if (unlikely(cpumask_weight(data->cpus) > 1)) {
+		/* first sibling now owns the new sysfs dir */
+		cpumask_clear_cpu(cpu, data->cpus);
+		cpufreq_add_dev(get_cpu_sysdev(cpumask_first(data->cpus)));
+
+		/* finally remove our own symlink */
+		lock_policy_rwsem_write(cpu);
+		__cpufreq_remove_dev(sys_dev);
+	}
+#endif
+
+	free_cpumask_var(data->related_cpus);
+	free_cpumask_var(data->cpus);
+	kfree(data);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 
@@ -1815,6 +1849,7 @@ static int __cpufreq_set_policy(struct cpufreq_policy *data,
 			dprintk("governor switch\n");
 
 			/* end old governor */
+<<<<<<< HEAD
 			if (data->governor) {
 				/*
 				 * Need to release the rwsem around governor
@@ -1826,6 +1861,10 @@ static int __cpufreq_set_policy(struct cpufreq_policy *data,
 				__cpufreq_governor(data, CPUFREQ_GOV_STOP);
 				lock_policy_rwsem_write(data->cpu);
 			}
+=======
+			if (data->governor)
+				__cpufreq_governor(data, CPUFREQ_GOV_STOP);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 			/* start new governor */
 			data->governor = policy->governor;

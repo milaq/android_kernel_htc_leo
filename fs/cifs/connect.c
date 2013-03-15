@@ -799,8 +799,12 @@ static int
 cifs_parse_mount_options(char *options, const char *devname,
 			 struct smb_vol *vol)
 {
+<<<<<<< HEAD
 	char *value;
 	char *data;
+=======
+	char *value, *data, *end;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned int  temp_len, i, j;
 	char separator[2];
 	short int override_uid = -1;
@@ -843,6 +847,10 @@ cifs_parse_mount_options(char *options, const char *devname,
 	if (!options)
 		return 1;
 
+<<<<<<< HEAD
+=======
+	end = options + strlen(options);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (strncmp(options, "sep=", 4) == 0) {
 		if (options[4] != 0) {
 			separator[0] = options[4];
@@ -907,6 +915,10 @@ cifs_parse_mount_options(char *options, const char *devname,
 			the only illegal character in a password is null */
 
 			if ((value[temp_len] == 0) &&
+<<<<<<< HEAD
+=======
+			    (value + temp_len < end) &&
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			    (value[temp_len+1] == separator[0])) {
 				/* reinsert comma */
 				value[temp_len] = separator[0];
@@ -1587,6 +1599,7 @@ out_err:
 }
 
 static struct cifsSesInfo *
+<<<<<<< HEAD
 cifs_find_smb_ses(struct TCP_Server_Info *server, char *username)
 {
 	struct list_head *tmp;
@@ -1598,6 +1611,31 @@ cifs_find_smb_ses(struct TCP_Server_Info *server, char *username)
 		if (strncmp(ses->userName, username, MAX_USERNAME_SIZE))
 			continue;
 
+=======
+cifs_find_smb_ses(struct TCP_Server_Info *server, struct smb_vol *vol)
+{
+	struct cifsSesInfo *ses;
+
+	write_lock(&cifs_tcp_ses_lock);
+	list_for_each_entry(ses, &server->smb_ses_list, smb_ses_list) {
+		switch (server->secType) {
+		case Kerberos:
+			if (vol->linux_uid != ses->linux_uid)
+				continue;
+			break;
+		default:
+			/* anything else takes username/password */
+			if (strncmp(ses->userName, vol->username,
+				    MAX_USERNAME_SIZE))
+				continue;
+			if (strlen(vol->username) != 0 &&
+			    ses->password != NULL &&
+			    strncmp(ses->password,
+				    vol->password ? vol->password : "",
+				    MAX_PASSWORD_SIZE))
+				continue;
+		}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		++ses->ses_count;
 		write_unlock(&cifs_tcp_ses_lock);
 		return ses;
@@ -2230,6 +2268,14 @@ is_path_accessible(int xid, struct cifsTconInfo *tcon,
 			      0 /* not legacy */, cifs_sb->local_nls,
 			      cifs_sb->mnt_cifs_flags &
 				CIFS_MOUNT_MAP_SPECIAL_CHR);
+<<<<<<< HEAD
+=======
+
+	if (rc == -EOPNOTSUPP || rc == -EINVAL)
+		rc = SMBQueryInformation(xid, tcon, full_path, pfile_info,
+				cifs_sb->local_nls, cifs_sb->mnt_cifs_flags &
+				  CIFS_MOUNT_MAP_SPECIAL_CHR);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(pfile_info);
 	return rc;
 }
@@ -2356,7 +2402,11 @@ try_mount_again:
 		goto out;
 	}
 
+<<<<<<< HEAD
 	pSesInfo = cifs_find_smb_ses(srvTcp, volume_info->username);
+=======
+	pSesInfo = cifs_find_smb_ses(srvTcp, volume_info);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (pSesInfo) {
 		cFYI(1, ("Existing smb sess found (status=%d)",
 			pSesInfo->status));
@@ -2532,7 +2582,11 @@ try_mount_again:
 
 remote_path_check:
 	/* check if a whole path (including prepath) is not remote */
+<<<<<<< HEAD
 	if (!rc && cifs_sb->prepathlen && tcon) {
+=======
+	if (!rc && tcon) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* build_path_to_root works only when we have a valid tcon */
 		full_path = cifs_build_path_to_root(cifs_sb);
 		if (full_path == NULL) {

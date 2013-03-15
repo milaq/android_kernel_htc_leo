@@ -205,6 +205,7 @@ static int tcf_mirred_dump(struct sk_buff *skb, struct tc_action *a, int bind, i
 {
 	unsigned char *b = skb_tail_pointer(skb);
 	struct tcf_mirred *m = a->priv;
+<<<<<<< HEAD
 	struct tc_mirred opt;
 	struct tcf_t t;
 
@@ -214,6 +215,18 @@ static int tcf_mirred_dump(struct sk_buff *skb, struct tc_action *a, int bind, i
 	opt.bindcnt = m->tcf_bindcnt - bind;
 	opt.eaction = m->tcfm_eaction;
 	opt.ifindex = m->tcfm_ifindex;
+=======
+	struct tc_mirred opt = {
+		.index   = m->tcf_index,
+		.action  = m->tcf_action,
+		.refcnt  = m->tcf_refcnt - ref,
+		.bindcnt = m->tcf_bindcnt - bind,
+		.eaction = m->tcfm_eaction,
+		.ifindex = m->tcfm_ifindex,
+	};
+	struct tcf_t t;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NLA_PUT(skb, TCA_MIRRED_PARMS, sizeof(opt), &opt);
 	t.install = jiffies_to_clock_t(jiffies - m->tcf_tm.install);
 	t.lastuse = jiffies_to_clock_t(jiffies - m->tcf_tm.lastuse);

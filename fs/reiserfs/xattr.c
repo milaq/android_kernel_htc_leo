@@ -536,7 +536,11 @@ reiserfs_xattr_set_handle(struct reiserfs_transaction_handle *th,
 	if (!err && new_size < i_size_read(dentry->d_inode)) {
 		struct iattr newattrs = {
 			.ia_ctime = current_fs_time(inode->i_sb),
+<<<<<<< HEAD
 			.ia_size = buffer_size,
+=======
+			.ia_size = new_size,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			.ia_valid = ATTR_SIZE | ATTR_CTIME,
 		};
 		mutex_lock_nested(&dentry->d_inode->i_mutex, I_MUTEX_XATTR);
@@ -952,6 +956,7 @@ int reiserfs_permission(struct inode *inode, int mask)
 	return generic_permission(inode, mask, NULL);
 }
 
+<<<<<<< HEAD
 /* This will catch lookups from the fs root to .reiserfs_priv */
 static int
 xattr_lookup_poison(struct dentry *dentry, struct qstr *q1, struct qstr *name)
@@ -967,6 +972,15 @@ xattr_lookup_poison(struct dentry *dentry, struct qstr *q1, struct qstr *name)
 
 static const struct dentry_operations xattr_lookup_poison_ops = {
 	.d_compare = xattr_lookup_poison,
+=======
+static int xattr_hide_revalidate(struct dentry *dentry, struct nameidata *nd)
+{
+	return -EPERM;
+}
+
+static const struct dentry_operations xattr_lookup_poison_ops = {
+	.d_revalidate = xattr_hide_revalidate,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 int reiserfs_lookup_privroot(struct super_block *s)
@@ -980,8 +994,12 @@ int reiserfs_lookup_privroot(struct super_block *s)
 				strlen(PRIVROOT_NAME));
 	if (!IS_ERR(dentry)) {
 		REISERFS_SB(s)->priv_root = dentry;
+<<<<<<< HEAD
 		if (!reiserfs_expose_privroot(s))
 			s->s_root->d_op = &xattr_lookup_poison_ops;
+=======
+		dentry->d_op = &xattr_lookup_poison_ops;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (dentry->d_inode)
 			dentry->d_inode->i_flags |= S_PRIVATE;
 	} else

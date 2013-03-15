@@ -1619,6 +1619,10 @@ static void backend_changed(struct xenbus_device *dev,
 		if (xennet_connect(netdev) != 0)
 			break;
 		xenbus_switch_state(dev, XenbusStateConnected);
+<<<<<<< HEAD
+=======
+		netif_notify_peers(netdev);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 
 	case XenbusStateClosing:

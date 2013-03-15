@@ -45,9 +45,13 @@ enum ltc4245_cmd {
 	LTC4245_VEEIN			= 0x19,
 	LTC4245_VEESENSE		= 0x1a,
 	LTC4245_VEEOUT			= 0x1b,
+<<<<<<< HEAD
 	LTC4245_GPIOADC1		= 0x1c,
 	LTC4245_GPIOADC2		= 0x1d,
 	LTC4245_GPIOADC3		= 0x1e,
+=======
+	LTC4245_GPIOADC			= 0x1c,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct ltc4245_data {
@@ -61,7 +65,11 @@ struct ltc4245_data {
 	u8 cregs[0x08];
 
 	/* Voltage registers */
+<<<<<<< HEAD
 	u8 vregs[0x0f];
+=======
+	u8 vregs[0x0d];
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static struct ltc4245_data *ltc4245_update_device(struct device *dev)
@@ -86,7 +94,11 @@ static struct ltc4245_data *ltc4245_update_device(struct device *dev)
 				data->cregs[i] = val;
 		}
 
+<<<<<<< HEAD
 		/* Read voltage registers -- 0x10 to 0x1f */
+=======
+		/* Read voltage registers -- 0x10 to 0x1c */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		for (i = 0; i < ARRAY_SIZE(data->vregs); i++) {
 			val = i2c_smbus_read_byte_data(client, i+0x10);
 			if (unlikely(val < 0))
@@ -128,9 +140,13 @@ static int ltc4245_get_voltage(struct device *dev, u8 reg)
 	case LTC4245_VEEOUT:
 		voltage = regval * -55;
 		break;
+<<<<<<< HEAD
 	case LTC4245_GPIOADC1:
 	case LTC4245_GPIOADC2:
 	case LTC4245_GPIOADC3:
+=======
+	case LTC4245_GPIOADC:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		voltage = regval * 10;
 		break;
 	default:
@@ -297,9 +313,13 @@ LTC4245_ALARM(in7_min_alarm,	(1 << 2),	LTC4245_FAULT2);
 LTC4245_ALARM(in8_min_alarm,	(1 << 3),	LTC4245_FAULT2);
 
 /* GPIO voltages */
+<<<<<<< HEAD
 LTC4245_VOLTAGE(in9_input,			LTC4245_GPIOADC1);
 LTC4245_VOLTAGE(in10_input,			LTC4245_GPIOADC2);
 LTC4245_VOLTAGE(in11_input,			LTC4245_GPIOADC3);
+=======
+LTC4245_VOLTAGE(in9_input,			LTC4245_GPIOADC);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Power Consumption (virtual) */
 LTC4245_POWER(power1_input,			LTC4245_12VSENSE);
@@ -342,8 +362,11 @@ static struct attribute *ltc4245_attributes[] = {
 	&sensor_dev_attr_in8_min_alarm.dev_attr.attr,
 
 	&sensor_dev_attr_in9_input.dev_attr.attr,
+<<<<<<< HEAD
 	&sensor_dev_attr_in10_input.dev_attr.attr,
 	&sensor_dev_attr_in11_input.dev_attr.attr,
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	&sensor_dev_attr_power1_input.dev_attr.attr,
 	&sensor_dev_attr_power2_input.dev_attr.attr,

@@ -208,6 +208,7 @@ static struct lock_class_key af_callback_keys[AF_MAX];
 #define SK_RMEM_MAX		(_SK_MEM_OVERHEAD * _SK_MEM_PACKETS)
 
 /* Run time adjustable parameters. */
+<<<<<<< HEAD
 #ifdef CONFIG_WIMAX
 __u32 sysctl_wmem_max __read_mostly = 512*1024;
 __u32 sysctl_rmem_max __read_mostly = 512*1024;
@@ -216,6 +217,10 @@ __u32 sysctl_wmem_max __read_mostly = SK_WMEM_MAX;
 __u32 sysctl_rmem_max __read_mostly = SK_RMEM_MAX;
 #endif
 
+=======
+__u32 sysctl_wmem_max __read_mostly = SK_WMEM_MAX;
+__u32 sysctl_rmem_max __read_mostly = SK_RMEM_MAX;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 __u32 sysctl_wmem_default __read_mostly = SK_WMEM_MAX;
 __u32 sysctl_rmem_default __read_mostly = SK_RMEM_MAX;
 
@@ -1397,6 +1402,14 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
 	gfp_t gfp_mask;
 	long timeo;
 	int err;
+<<<<<<< HEAD
+=======
+	int npages = (data_len + (PAGE_SIZE - 1)) >> PAGE_SHIFT;
+
+	err = -EMSGSIZE;
+	if (npages > MAX_SKB_FRAGS)
+		goto failure;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	gfp_mask = sk->sk_allocation;
 	if (gfp_mask & __GFP_WAIT)
@@ -1415,14 +1428,20 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
 		if (atomic_read(&sk->sk_wmem_alloc) < sk->sk_sndbuf) {
 			skb = alloc_skb(header_len, gfp_mask);
 			if (skb) {
+<<<<<<< HEAD
 				int npages;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				int i;
 
 				/* No pages, we're done... */
 				if (!data_len)
 					break;
 
+<<<<<<< HEAD
 				npages = (data_len + (PAGE_SIZE - 1)) >> PAGE_SHIFT;
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				skb->truesize += data_len;
 				skb_shinfo(skb)->nr_frags = npages;
 				for (i = 0; i < npages; i++) {

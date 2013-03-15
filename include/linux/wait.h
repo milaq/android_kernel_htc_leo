@@ -189,6 +189,7 @@ do {									\
 } while (0)
 
 /**
+<<<<<<< HEAD
  * wait_io_event_interruptible - sleep until an io condition gets true
  * @wq: the waitqueue to wait on
  * @condition: a C expression for the event to wait for
@@ -258,6 +259,8 @@ do {                                                                   \
 })
 
 /**
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * wait_event - sleep until a condition gets true
  * @wq: the waitqueue to wait on
  * @condition: a C expression for the event to wait for

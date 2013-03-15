@@ -890,7 +890,11 @@ static unsigned long __init alloc_up(unsigned long size, unsigned long align)
 	}
 	if (addr == 0)
 		return 0;
+<<<<<<< HEAD
 	RELOC(alloc_bottom) = addr;
+=======
+	RELOC(alloc_bottom) = addr + size;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	prom_debug(" -> %x\n", addr);
 	prom_debug("  alloc_bottom : %x\n", RELOC(alloc_bottom));
@@ -1704,7 +1708,11 @@ static void __init *make_room(unsigned long *mem_start, unsigned long *mem_end,
 		chunk = alloc_up(room, 0);
 		if (chunk == 0)
 			prom_panic("No memory for flatten_device_tree (claim failed)");
+<<<<<<< HEAD
 		*mem_end = RELOC(alloc_top);
+=======
+		*mem_end = chunk + room;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	ret = (void *)*mem_start;
@@ -1923,7 +1931,11 @@ static void __init flatten_device_tree(void)
 	mem_start = (unsigned long)alloc_up(room, PAGE_SIZE);
 	if (mem_start == 0)
 		prom_panic("Can't allocate initial device-tree chunk\n");
+<<<<<<< HEAD
 	mem_end = RELOC(alloc_top);
+=======
+	mem_end = mem_start + room;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Get root of tree */
 	root = call_prom("peer", 1, 1, (phandle)0);

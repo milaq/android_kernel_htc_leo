@@ -97,6 +97,11 @@ relocate_kernel:
 	ret
 
 identity_mapped:
+<<<<<<< HEAD
+=======
+	/* set return address to 0 if not preserving context */
+	pushl	$0
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* store the start address on the stack */
 	pushl   %edx
 

@@ -29,6 +29,10 @@ struct linux_binprm{
 	char buf[BINPRM_BUF_SIZE];
 #ifdef CONFIG_MMU
 	struct vm_area_struct *vma;
+<<<<<<< HEAD
+=======
+	unsigned long vma_pages;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else
 # define MAX_ARG_PAGES	32
 	struct page *page[MAX_ARG_PAGES];
@@ -59,6 +63,13 @@ struct linux_binprm{
 	unsigned long loader, exec;
 };
 
+<<<<<<< HEAD
+=======
+extern void acct_arg_size(struct linux_binprm *bprm, unsigned long pages);
+extern struct page *get_arg_page(struct linux_binprm *bprm, unsigned long pos,
+					int write);
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define BINPRM_FLAGS_ENFORCE_NONDUMP_BIT 0
 #define BINPRM_FLAGS_ENFORCE_NONDUMP (1 << BINPRM_FLAGS_ENFORCE_NONDUMP_BIT)
 

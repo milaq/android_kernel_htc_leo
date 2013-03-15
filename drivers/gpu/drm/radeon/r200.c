@@ -368,6 +368,11 @@ int r200_packet0_check(struct radeon_cs_parser *p,
 		/* 2D, 3D, CUBE */
 		switch (tmp) {
 		case 0:
+<<<<<<< HEAD
+=======
+		case 3:
+		case 4:
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		case 5:
 		case 6:
 		case 7:

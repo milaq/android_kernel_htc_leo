@@ -234,7 +234,11 @@ static int taos_connect(struct serio *serio, struct serio_driver *drv)
 
 	if (taos->state != TAOS_STATE_IDLE) {
 		err = -ENODEV;
+<<<<<<< HEAD
 		dev_dbg(&serio->dev, "TAOS EVM reset failed (state=%d, "
+=======
+		dev_err(&serio->dev, "TAOS EVM reset failed (state=%d, "
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			"pos=%d)\n", taos->state, taos->pos);
 		goto exit_close;
 	}
@@ -255,7 +259,11 @@ static int taos_connect(struct serio *serio, struct serio_driver *drv)
 					 msecs_to_jiffies(250));
 	if (taos->state != TAOS_STATE_IDLE) {
 		err = -ENODEV;
+<<<<<<< HEAD
 		dev_err(&adapter->dev, "Echo off failed "
+=======
+		dev_err(&serio->dev, "TAOS EVM echo off failed "
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			"(state=%d)\n", taos->state);
 		goto exit_close;
 	}
@@ -263,7 +271,11 @@ static int taos_connect(struct serio *serio, struct serio_driver *drv)
 	err = i2c_add_adapter(adapter);
 	if (err)
 		goto exit_close;
+<<<<<<< HEAD
 	dev_dbg(&serio->dev, "Connected to TAOS EVM\n");
+=======
+	dev_info(&serio->dev, "Connected to TAOS EVM\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	taos->client = taos_instantiate_device(adapter);
 	return 0;
@@ -288,7 +300,11 @@ static void taos_disconnect(struct serio *serio)
 	serio_set_drvdata(serio, NULL);
 	kfree(taos);
 
+<<<<<<< HEAD
 	dev_dbg(&serio->dev, "Disconnected from TAOS EVM\n");
+=======
+	dev_info(&serio->dev, "Disconnected from TAOS EVM\n");
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct serio_device_id taos_serio_ids[] = {

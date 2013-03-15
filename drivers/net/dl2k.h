@@ -28,6 +28,10 @@
 #include <linux/init.h>
 #include <linux/crc32.h>
 #include <linux/ethtool.h>
+<<<<<<< HEAD
+=======
+#include <linux/mii.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/bitops.h>
 #include <asm/processor.h>	/* Processor type for cache alignment. */
 #include <asm/io.h>
@@ -271,6 +275,7 @@ enum RFS_bits {
 #define MII_RESET_TIME_OUT		10000
 /* MII register */
 enum _mii_reg {
+<<<<<<< HEAD
 	MII_BMCR = 0,
 	MII_BMSR = 1,
 	MII_PHY_ID1 = 2,
@@ -285,6 +290,11 @@ enum _mii_reg {
 	MII_ESR = 15,
 	MII_PHY_SCR = 16,
 };
+=======
+	MII_PHY_SCR = 16,
+};
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* PCS register */
 enum _pcs_reg {
 	PCS_BMCR = 0,
@@ -297,6 +307,7 @@ enum _pcs_reg {
 	PCS_ESR = 15,
 };
 
+<<<<<<< HEAD
 /* Basic Mode Control Register */
 enum _mii_bmcr {
 	MII_BMCR_RESET = 0x8000,
@@ -393,6 +404,8 @@ enum _mii_mssr {
 	MII_MSSR_IDLE_ERR_COUNT = 0x00ff,
 };
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* IEEE Extened Status Register */
 enum _mii_esr {
 	MII_ESR_1000BX_FD = 0x8000,
@@ -471,6 +484,7 @@ struct ioctl_data {
 	char *data;
 };
 
+<<<<<<< HEAD
 struct mii_data {
 	__u16 reserved;
 	__u16 reg_num;
@@ -478,6 +492,8 @@ struct mii_data {
 	__u16 out_value;
 };
 
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* The Rx and Tx buffer descriptors. */
 struct netdev_desc {
 	__le64 next_desc;

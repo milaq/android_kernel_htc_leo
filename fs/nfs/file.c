@@ -27,6 +27,11 @@
 #include <linux/slab.h>
 #include <linux/pagemap.h>
 #include <linux/aio.h>
+<<<<<<< HEAD
+=======
+#include <linux/gfp.h>
+#include <linux/swap.h>
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/uaccess.h>
 #include <asm/system.h>
@@ -218,7 +223,11 @@ static int nfs_do_fsync(struct nfs_open_context *ctx, struct inode *inode)
 	have_error |= test_bit(NFS_CONTEXT_ERROR_WRITE, &ctx->flags);
 	if (have_error)
 		ret = xchg(&ctx->error, 0);
+<<<<<<< HEAD
 	if (!ret)
+=======
+	if (!ret && status < 0)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = status;
 	return ret;
 }
@@ -484,10 +493,26 @@ static void nfs_invalidate_page(struct page *page, unsigned long offset)
  */
 static int nfs_release_page(struct page *page, gfp_t gfp)
 {
+<<<<<<< HEAD
 	dfprintk(PAGECACHE, "NFS: release_page(%p)\n", page);
 
 	if (gfp & __GFP_WAIT)
 		nfs_wb_page(page->mapping->host, page);
+=======
+	struct address_space *mapping = page->mapping;
+
+	dfprintk(PAGECACHE, "NFS: release_page(%p)\n", page);
+
+	/* Only do I/O if gfp is a superset of GFP_KERNEL */
+	if (mapping && (gfp & GFP_KERNEL) == GFP_KERNEL) {
+		int how = FLUSH_SYNC;
+
+		/* Don't let kswapd deadlock waiting for OOM RPC calls */
+		if (current_is_kswapd())
+			how = 0;
+		nfs_commit_inode(mapping->host, how);
+	}
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* If PagePrivate() is set, then the page is not freeable */
 	if (PagePrivate(page))
 		return 0;
@@ -669,6 +694,10 @@ static int do_getlk(struct file *filp, int cmd, struct file_lock *fl)
 {
 	struct inode *inode = filp->f_mapping->host;
 	int status = 0;
+<<<<<<< HEAD
+=======
+	unsigned int saved_type = fl->fl_type;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Try local locking first */
 	posix_test_lock(filp, fl);
@@ -676,6 +705,10 @@ static int do_getlk(struct file *filp, int cmd, struct file_lock *fl)
 		/* found a conflict */
 		goto out;
 	}
+<<<<<<< HEAD
+=======
+	fl->fl_type = saved_type;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (nfs_have_delegation(inode, FMODE_READ))
 		goto out_noconflict;

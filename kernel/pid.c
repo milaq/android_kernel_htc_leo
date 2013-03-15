@@ -182,11 +182,21 @@ static int alloc_pidmap(struct pid_namespace *pid_ns)
 	return -1;
 }
 
+<<<<<<< HEAD
 int next_pidmap(struct pid_namespace *pid_ns, int last)
+=======
+int next_pidmap(struct pid_namespace *pid_ns, unsigned int last)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int offset;
 	struct pidmap *map, *end;
 
+<<<<<<< HEAD
+=======
+	if (last >= PID_MAX_LIMIT)
+		return -1;
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	offset = (last + 1) & BITS_PER_PAGE_MASK;
 	map = &pid_ns->pidmap[(last + 1)/BITS_PER_PAGE];
 	end = &pid_ns->pidmap[PIDMAP_ENTRIES];

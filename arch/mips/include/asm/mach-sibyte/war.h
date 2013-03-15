@@ -16,7 +16,15 @@
 #if defined(CONFIG_SB1_PASS_1_WORKAROUNDS) || \
     defined(CONFIG_SB1_PASS_2_WORKAROUNDS)
 
+<<<<<<< HEAD
 #define BCM1250_M3_WAR	1
+=======
+#ifndef __ASSEMBLY__
+extern int sb1250_m3_workaround_needed(void);
+#endif
+
+#define BCM1250_M3_WAR	sb1250_m3_workaround_needed()
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define SIBYTE_1956_WAR	1
 
 #else

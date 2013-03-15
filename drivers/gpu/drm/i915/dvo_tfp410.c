@@ -214,7 +214,11 @@ static enum drm_connector_status tfp410_detect(struct intel_dvo_device *dvo)
 	uint8_t ctl2;
 
 	if (tfp410_readb(dvo, TFP410_CTL_2, &ctl2)) {
+<<<<<<< HEAD
 		if (ctl2 & TFP410_CTL_2_HTPLG)
+=======
+		if (ctl2 & TFP410_CTL_2_RSEN)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ret = connector_status_connected;
 		else
 			ret = connector_status_disconnected;

@@ -90,12 +90,19 @@ static int ak4104_spi_write(struct snd_soc_codec *codec, unsigned int reg,
 	if (reg >= codec->reg_cache_size)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	reg &= AK4104_REG_MASK;
 	reg |= AK4104_WRITE;
 
 	/* only write to the hardware if value has changed */
 	if (cache[reg] != value) {
 		u8 tmp[2] = { reg, value };
+=======
+	/* only write to the hardware if value has changed */
+	if (cache[reg] != value) {
+		u8 tmp[2] = { (reg & AK4104_REG_MASK) | AK4104_WRITE, value };
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (spi_write(spi, tmp, sizeof(tmp))) {
 			dev_err(&spi->dev, "SPI write failed\n");
 			return -EIO;

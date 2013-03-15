@@ -775,7 +775,11 @@ static int __devinit ds1307_probe(struct i2c_client *client,
 
 read_rtc:
 	/* read RTC registers */
+<<<<<<< HEAD
 	tmp = ds1307->read_block_data(ds1307->client, 0, 8, buf);
+=======
+	tmp = ds1307->read_block_data(ds1307->client, ds1307->offset, 8, buf);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (tmp != 8) {
 		pr_debug("read error %d\n", tmp);
 		err = -EIO;
@@ -860,7 +864,11 @@ read_rtc:
 		if (ds1307->regs[DS1307_REG_HOUR] & DS1307_BIT_PM)
 			tmp += 12;
 		i2c_smbus_write_byte_data(client,
+<<<<<<< HEAD
 				DS1307_REG_HOUR,
+=======
+				ds1307->offset + DS1307_REG_HOUR,
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				bin2bcd(tmp));
 	}
 

@@ -579,7 +579,11 @@ static inline void hci_cs_create_conn(struct hci_dev *hdev, __u8 status)
 		}
 	} else {
 		if (!conn) {
+<<<<<<< HEAD
 			conn = hci_conn_add(hdev, ACL_LINK, 0, &cp->bdaddr);
+=======
+			conn = hci_conn_add(hdev, ACL_LINK, &cp->bdaddr);
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (conn) {
 				conn->out = 1;
 				conn->link_mode |= HCI_LM_MASTER;
@@ -964,9 +968,13 @@ static inline void hci_conn_request_evt(struct hci_dev *hdev, struct sk_buff *sk
 
 		conn = hci_conn_hash_lookup_ba(hdev, ev->link_type, &ev->bdaddr);
 		if (!conn) {
+<<<<<<< HEAD
 			/* pkt_type not yet used for incoming connections */
 			if (!(conn = hci_conn_add(hdev, ev->link_type, 0,
 							&ev->bdaddr))) {
+=======
+			if (!(conn = hci_conn_add(hdev, ev->link_type, &ev->bdaddr))) {
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				BT_ERR("No memmory for new connection");
 				hci_dev_unlock(hdev);
 				return;
@@ -1051,8 +1059,12 @@ static inline void hci_auth_complete_evt(struct hci_dev *hdev, struct sk_buff *s
 	if (conn) {
 		if (!ev->status)
 			conn->link_mode |= HCI_LM_AUTH;
+<<<<<<< HEAD
 		else
 			conn->sec_level = BT_SECURITY_LOW;
+=======
+
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		clear_bit(HCI_CONN_AUTH_PEND, &conn->pend);
 
 		if (conn->state == BT_CONFIG) {
@@ -1482,12 +1494,15 @@ static inline void hci_mode_change_evt(struct hci_dev *hdev, struct sk_buff *skb
 			else
 				conn->power_save = 0;
 		}
+<<<<<<< HEAD
 		if (conn->mode == HCI_CM_SNIFF)
 			if (wake_lock_active(&conn->idle_lock))
 				 wake_unlock(&conn->idle_lock);
 
 		if (test_and_clear_bit(HCI_CONN_SCO_SETUP_PEND, &conn->pend))
 			hci_sco_setup(conn, ev->status);
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	hci_dev_unlock(hdev);
@@ -1707,9 +1722,13 @@ static inline void hci_sync_conn_complete_evt(struct hci_dev *hdev, struct sk_bu
 		hci_conn_add_sysfs(conn);
 		break;
 
+<<<<<<< HEAD
 	case 0x10:	/* Connection Accept Timeout */
 	case 0x1c:	/* SCO interval rejected */
 	case 0x1a:	/* unsupported feature */
+=======
+	case 0x1c:	/* SCO interval rejected */
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case 0x1f:	/* Unspecified error */
 		if (conn->out && conn->attempt < 2) {
 			conn->pkt_type = (hdev->esco_type & SCO_ESCO_MASK) |

@@ -28,10 +28,17 @@
 #include "VmbusApi.h"
 
 /* Defines */
+<<<<<<< HEAD
 #define STORVSC_RING_BUFFER_SIZE			(10*PAGE_SIZE)
 #define BLKVSC_RING_BUFFER_SIZE				(20*PAGE_SIZE)
 
 #define STORVSC_MAX_IO_REQUESTS				64
+=======
+#define STORVSC_RING_BUFFER_SIZE			(20*PAGE_SIZE)
+#define BLKVSC_RING_BUFFER_SIZE				(20*PAGE_SIZE)
+
+#define STORVSC_MAX_IO_REQUESTS				128
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * In Hyper-V, each port/path/target maps to 1 scsi host adapter.  In

@@ -16,7 +16,10 @@
 
 #include <linux/netfilter_bridge.h>
 #include <linux/netfilter_ipv4.h>
+<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
+=======
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/netfilter/ipv4/nf_defrag_ipv4.h>
 
 /* Returns new sk_buff, or NULL */
@@ -39,6 +42,7 @@ static int nf_ct_ipv4_gather_frags(struct sk_buff *skb, u_int32_t user)
 static enum ip_defrag_users nf_ct_defrag_user(unsigned int hooknum,
 					      struct sk_buff *skb)
 {
+<<<<<<< HEAD
 	u16 zone = NF_CT_DEFAULT_ZONE;
 
 	if (skb->nfct)
@@ -53,6 +57,17 @@ static enum ip_defrag_users nf_ct_defrag_user(unsigned int hooknum,
 		return IP_DEFRAG_CONNTRACK_IN + zone;
 	else
 		return IP_DEFRAG_CONNTRACK_OUT + zone;
+=======
+#ifdef CONFIG_BRIDGE_NETFILTER
+	if (skb->nf_bridge &&
+	    skb->nf_bridge->mask & BRNF_NF_BRIDGE_PREROUTING)
+		return IP_DEFRAG_CONNTRACK_BRIDGE_IN;
+#endif
+	if (hooknum == NF_INET_PRE_ROUTING)
+		return IP_DEFRAG_CONNTRACK_IN;
+	else
+		return IP_DEFRAG_CONNTRACK_OUT;
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static unsigned int ipv4_conntrack_defrag(unsigned int hooknum,
@@ -65,7 +80,11 @@ static unsigned int ipv4_conntrack_defrag(unsigned int hooknum,
 #if !defined(CONFIG_NF_NAT) && !defined(CONFIG_NF_NAT_MODULE)
 	/* Previously seen (loopback)?  Ignore.  Do this before
 	   fragment check. */
+<<<<<<< HEAD
 	if (skb->nfct && !nf_ct_is_template((struct nf_conn *)skb->nfct))
+=======
+	if (skb->nfct)
+>>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return NF_ACCEPT;
 #endif
 #endif
