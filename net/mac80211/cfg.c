@@ -344,15 +344,11 @@ static void sta_set_sinfo(struct sta_info *sta, struct station_info *sinfo)
 			STATION_INFO_TX_BITRATE |
 			STATION_INFO_RX_BITRATE |
 			STATION_INFO_RX_DROP_MISC |
-<<<<<<< HEAD
 			STATION_INFO_BSS_PARAM |
 			STATION_INFO_CONNECTED_TIME;
 
 	do_posix_clock_monotonic_gettime(&uptime);
 	sinfo->connected_time = uptime.tv_sec - sta->last_connected;
-=======
-			STATION_INFO_BSS_PARAM;
->>>>>>> 917b30a... nl80211: Add BSS parameters to station
 
 	sinfo->inactive_time = jiffies_to_msecs(jiffies - sta->last_rx);
 	sinfo->rx_bytes = sta->rx_bytes;
