@@ -209,10 +209,6 @@ int svc_create_xprt(struct svc_serv *serv, const char *xprt_name,
 	spin_lock(&svc_xprt_class_lock);
 	list_for_each_entry(xcl, &svc_xprt_class_list, xcl_list) {
 		struct svc_xprt *newxprt;
-<<<<<<< HEAD
-=======
-		unsigned short newport;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (strcmp(xprt_name, xcl->xcl_name))
 			continue;
@@ -231,14 +227,8 @@ int svc_create_xprt(struct svc_serv *serv, const char *xprt_name,
 		spin_lock_bh(&serv->sv_lock);
 		list_add(&newxprt->xpt_list, &serv->sv_permsocks);
 		spin_unlock_bh(&serv->sv_lock);
-<<<<<<< HEAD
 		clear_bit(XPT_BUSY, &newxprt->xpt_flags);
 		return svc_xprt_local_port(newxprt);
-=======
-		newport = svc_xprt_local_port(newxprt);
-		clear_bit(XPT_BUSY, &newxprt->xpt_flags);
-		return newport;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
  err:
 	spin_unlock(&svc_xprt_class_lock);
@@ -312,10 +302,7 @@ static void svc_thread_dequeue(struct svc_pool *pool, struct svc_rqst *rqstp)
  */
 void svc_xprt_enqueue(struct svc_xprt *xprt)
 {
-<<<<<<< HEAD
 	struct svc_serv	*serv = xprt->xpt_server;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct svc_pool *pool;
 	struct svc_rqst	*rqstp;
 	int cpu;
@@ -392,11 +379,8 @@ void svc_xprt_enqueue(struct svc_xprt *xprt)
 				rqstp, rqstp->rq_xprt);
 		rqstp->rq_xprt = xprt;
 		svc_xprt_get(xprt);
-<<<<<<< HEAD
 		rqstp->rq_reserved = serv->sv_max_mesg;
 		atomic_add(rqstp->rq_reserved, &xprt->xpt_reserved);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rqstp->rq_waking = 1;
 		pool->sp_nwaking++;
 		pool->sp_stats.threads_woken++;
@@ -446,18 +430,8 @@ void svc_xprt_received(struct svc_xprt *xprt)
 {
 	BUG_ON(!test_bit(XPT_BUSY, &xprt->xpt_flags));
 	xprt->xpt_pool = NULL;
-<<<<<<< HEAD
 	clear_bit(XPT_BUSY, &xprt->xpt_flags);
 	svc_xprt_enqueue(xprt);
-=======
-	/* As soon as we clear busy, the xprt could be closed and
-	 * 'put', so we need a reference to call svc_xprt_enqueue with:
-	 */
-	svc_xprt_get(xprt);
-	clear_bit(XPT_BUSY, &xprt->xpt_flags);
-	svc_xprt_enqueue(xprt);
-	svc_xprt_put(xprt);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL_GPL(svc_xprt_received);
 
@@ -686,11 +660,8 @@ int svc_recv(struct svc_rqst *rqstp, long timeout)
 	if (xprt) {
 		rqstp->rq_xprt = xprt;
 		svc_xprt_get(xprt);
-<<<<<<< HEAD
 		rqstp->rq_reserved = serv->sv_max_mesg;
 		atomic_add(rqstp->rq_reserved, &xprt->xpt_reserved);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else {
 		/* No data pending. Go to sleep */
 		svc_thread_enqueue(pool, rqstp);
@@ -740,15 +711,8 @@ int svc_recv(struct svc_rqst *rqstp, long timeout)
 	spin_unlock_bh(&pool->sp_lock);
 
 	len = 0;
-<<<<<<< HEAD
 	if (test_bit(XPT_LISTENER, &xprt->xpt_flags) &&
 	    !test_bit(XPT_CLOSE, &xprt->xpt_flags)) {
-=======
-	if (test_bit(XPT_CLOSE, &xprt->xpt_flags)) {
-		dprintk("svc_recv: found XPT_CLOSE\n");
-		svc_delete_xprt(xprt);
-	} else if (test_bit(XPT_LISTENER, &xprt->xpt_flags)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		struct svc_xprt *newxpt;
 		newxpt = xprt->xpt_ops->xpo_accept(xprt);
 		if (newxpt) {
@@ -774,11 +738,7 @@ int svc_recv(struct svc_rqst *rqstp, long timeout)
 			svc_xprt_received(newxpt);
 		}
 		svc_xprt_received(xprt);
-<<<<<<< HEAD
 	} else if (!test_bit(XPT_CLOSE, &xprt->xpt_flags)) {
-=======
-	} else {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		dprintk("svc: server %p, pool %u, transport %p, inuse=%d\n",
 			rqstp, pool->sp_id, xprt,
 			atomic_read(&xprt->xpt_ref.refcount));
@@ -789,16 +749,11 @@ int svc_recv(struct svc_rqst *rqstp, long timeout)
 		} else
 			len = xprt->xpt_ops->xpo_recvfrom(rqstp);
 		dprintk("svc: got len=%d\n", len);
-<<<<<<< HEAD
 	}
 
 	if (test_bit(XPT_CLOSE, &xprt->xpt_flags)) {
 		dprintk("svc_recv: found XPT_CLOSE\n");
 		svc_delete_xprt(xprt);
-=======
-		rqstp->rq_reserved = serv->sv_max_mesg;
-		atomic_add(rqstp->rq_reserved, &xprt->xpt_reserved);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* No data, incomplete (TCP) read, or accept() */
@@ -852,12 +807,7 @@ int svc_send(struct svc_rqst *rqstp)
 
 	/* Grab mutex to serialize outgoing data. */
 	mutex_lock(&xprt->xpt_mutex);
-<<<<<<< HEAD
 	if (test_bit(XPT_DEAD, &xprt->xpt_flags))
-=======
-	if (test_bit(XPT_DEAD, &xprt->xpt_flags)
-			|| test_bit(XPT_CLOSE, &xprt->xpt_flags))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		len = -ENOTCONN;
 	else
 		len = xprt->xpt_ops->xpo_sendto(rqstp);
@@ -942,7 +892,6 @@ void svc_delete_xprt(struct svc_xprt *xprt)
 	if (!test_and_set_bit(XPT_DETACHED, &xprt->xpt_flags))
 		list_del_init(&xprt->xpt_list);
 	/*
-<<<<<<< HEAD
 	 * We used to delete the transport from whichever list
 	 * it's sk_xprt.xpt_ready node was on, but we don't actually
 	 * need to.  This is because the only time we're called
@@ -957,20 +906,6 @@ void svc_delete_xprt(struct svc_xprt *xprt)
 		svc_xprt_put(xprt);
 		kfree(dr);
 	}
-=======
-	 * The only time we're called while xpt_ready is still on a list
-	 * is while the list itself is about to be destroyed (in
-	 * svc_destroy).  BUT svc_xprt_enqueue could still be attempting
-	 * to add new entries to the sp_sockets list, so we can't leave
-	 * a freed xprt on it.
-	 */
-	list_del_init(&xprt->xpt_ready);
-	if (test_bit(XPT_TEMP, &xprt->xpt_flags))
-		serv->sv_tmpcnt--;
-
-	while ((dr = svc_deferred_dequeue(xprt)) != NULL)
-		kfree(dr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	svc_xprt_put(xprt);
 	spin_unlock_bh(&serv->sv_lock);
@@ -990,11 +925,7 @@ void svc_close_xprt(struct svc_xprt *xprt)
 }
 EXPORT_SYMBOL_GPL(svc_close_xprt);
 
-<<<<<<< HEAD
 void svc_close_all(struct list_head *xprt_list)
-=======
-static void svc_close_list(struct list_head *xprt_list)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct svc_xprt *xprt;
 	struct svc_xprt *tmp;
@@ -1012,18 +943,6 @@ static void svc_close_list(struct list_head *xprt_list)
 	}
 }
 
-<<<<<<< HEAD
-=======
-void svc_close_all(struct svc_serv *serv)
-{
-	svc_close_list(&serv->sv_tempsocks);
-	svc_close_list(&serv->sv_permsocks);
-	BUG_ON(!list_empty(&serv->sv_permsocks));
-	BUG_ON(!list_empty(&serv->sv_tempsocks));
-
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Handle defer and revisit of requests
  */

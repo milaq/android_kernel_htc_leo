@@ -6,17 +6,6 @@
 
 #define PGALLOC_GFP GFP_KERNEL | __GFP_NOTRACK | __GFP_REPEAT | __GFP_ZERO
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_HIGHPTE
-#define PGALLOC_USER_GFP __GFP_HIGHMEM
-#else
-#define PGALLOC_USER_GFP 0
-#endif
-
-gfp_t __userpte_alloc_gfp = PGALLOC_GFP | PGALLOC_USER_GFP;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 pte_t *pte_alloc_one_kernel(struct mm_struct *mm, unsigned long address)
 {
 	return (pte_t *)__get_free_page(PGALLOC_GFP);
@@ -26,40 +15,16 @@ pgtable_t pte_alloc_one(struct mm_struct *mm, unsigned long address)
 {
 	struct page *pte;
 
-<<<<<<< HEAD
 #ifdef CONFIG_HIGHPTE
 	pte = alloc_pages(PGALLOC_GFP | __GFP_HIGHMEM, 0);
 #else
 	pte = alloc_pages(PGALLOC_GFP, 0);
 #endif
-=======
-	pte = alloc_pages(__userpte_alloc_gfp, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (pte)
 		pgtable_page_ctor(pte);
 	return pte;
 }
 
-<<<<<<< HEAD
-=======
-static int __init setup_userpte(char *arg)
-{
-	if (!arg)
-		return -EINVAL;
-
-	/*
-	 * "userpte=nohigh" disables allocation of user pagetables in
-	 * high memory.
-	 */
-	if (strcmp(arg, "nohigh") == 0)
-		__userpte_alloc_gfp &= ~__GFP_HIGHMEM;
-	else
-		return -EINVAL;
-	return 0;
-}
-early_param("userpte", setup_userpte);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void ___pte_free_tlb(struct mmu_gather *tlb, struct page *pte)
 {
 	pgtable_page_dtor(pte);
@@ -124,7 +89,6 @@ static void pgd_ctor(pgd_t *pgd)
 
 static void pgd_dtor(pgd_t *pgd)
 {
-<<<<<<< HEAD
 	unsigned long flags; /* can be called from interrupt context */
 
 	if (SHARED_KERNEL_PMD)
@@ -133,14 +97,6 @@ static void pgd_dtor(pgd_t *pgd)
 	spin_lock_irqsave(&pgd_lock, flags);
 	pgd_list_del(pgd);
 	spin_unlock_irqrestore(&pgd_lock, flags);
-=======
-	if (SHARED_KERNEL_PMD)
-		return;
-
-	spin_lock(&pgd_lock);
-	pgd_list_del(pgd);
-	spin_unlock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -182,12 +138,8 @@ void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmd)
 	 * section 8.1: in PAE mode we explicitly have to flush the
 	 * TLB via cr3 if the top-level pgd is changed...
 	 */
-<<<<<<< HEAD
 	if (mm == current->active_mm)
 		write_cr3(read_cr3());
-=======
-	flush_tlb_mm(mm);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 #else  /* !CONFIG_X86_PAE */
 
@@ -276,10 +228,7 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
 {
 	pgd_t *pgd;
 	pmd_t *pmds[PREALLOCATED_PMDS];
-<<<<<<< HEAD
 	unsigned long flags;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pgd = (pgd_t *)__get_free_page(PGALLOC_GFP);
 
@@ -299,20 +248,12 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
 	 * respect to anything walking the pgd_list, so that they
 	 * never see a partially populated pgd.
 	 */
-<<<<<<< HEAD
 	spin_lock_irqsave(&pgd_lock, flags);
-=======
-	spin_lock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pgd_ctor(pgd);
 	pgd_prepopulate_pmd(mm, pgd, pmds);
 
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&pgd_lock, flags);
-=======
-	spin_unlock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return pgd;
 

@@ -208,11 +208,8 @@ static int br2684_xmit_vcc(struct sk_buff *skb, struct net_device *dev,
 		if (brdev->payload == p_bridged) {
 			skb_push(skb, 2);
 			memset(skb->data, 0, 2);
-<<<<<<< HEAD
 		} else { /* p_routed */
 			skb_pull(skb, ETH_HLEN);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 	skb_debug(skb);
@@ -535,22 +532,12 @@ static int br2684_regvcc(struct atm_vcc *atmvcc, void __user * arg)
 	spin_unlock_irqrestore(&rq->lock, flags);
 
 	skb_queue_walk_safe(&queue, skb, tmp) {
-<<<<<<< HEAD
 		struct net_device *dev = skb->dev;
 
 		dev->stats.rx_bytes -= skb->len;
 		dev->stats.rx_packets--;
 
 		br2684_push(atmvcc, skb);
-=======
-		struct net_device *dev;
-
-		br2684_push(atmvcc, skb);
-		dev = skb->dev;
-
-		dev->stats.rx_bytes -= skb->len;
-		dev->stats.rx_packets--;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	__module_get(THIS_MODULE);
 	return 0;
@@ -567,15 +554,6 @@ static const struct net_device_ops br2684_netdev_ops = {
 	.ndo_validate_addr	= eth_validate_addr,
 };
 
-<<<<<<< HEAD
-=======
-static const struct net_device_ops br2684_netdev_ops_routed = {
-	.ndo_start_xmit 	= br2684_start_xmit,
-	.ndo_set_mac_address	= br2684_mac_addr,
-	.ndo_change_mtu		= eth_change_mtu
-};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void br2684_setup(struct net_device *netdev)
 {
 	struct br2684_dev *brdev = BRPRIV(netdev);
@@ -591,18 +569,11 @@ static void br2684_setup(struct net_device *netdev)
 static void br2684_setup_routed(struct net_device *netdev)
 {
 	struct br2684_dev *brdev = BRPRIV(netdev);
-<<<<<<< HEAD
 	brdev->net_dev = netdev;
 
 	netdev->hard_header_len = 0;
 
 	netdev->netdev_ops = &br2684_netdev_ops;
-=======
-
-	brdev->net_dev = netdev;
-	netdev->hard_header_len = 0;
-	netdev->netdev_ops = &br2684_netdev_ops_routed;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	netdev->addr_len = 0;
 	netdev->mtu = 1500;
 	netdev->type = ARPHRD_PPP;

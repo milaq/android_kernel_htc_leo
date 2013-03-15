@@ -102,24 +102,11 @@ int use_calgary __read_mostly = 0;
 #define PMR_SOFTSTOPFAULT	0x40000000
 #define PMR_HARDSTOP		0x20000000
 
-<<<<<<< HEAD
 #define MAX_NUM_OF_PHBS		8 /* how many PHBs in total? */
 #define MAX_NUM_CHASSIS		8 /* max number of chassis */
 /* MAX_PHB_BUS_NUM is the maximal possible dev->bus->number */
 #define MAX_PHB_BUS_NUM		(MAX_NUM_OF_PHBS * MAX_NUM_CHASSIS * 2)
 #define PHBS_PER_CALGARY	4
-=======
-/*
- * The maximum PHB bus number.
- * x3950M2 (rare): 8 chassis, 48 PHBs per chassis = 384
- * x3950M2: 4 chassis, 48 PHBs per chassis        = 192
- * x3950 (PCIE): 8 chassis, 32 PHBs per chassis   = 256
- * x3950 (PCIX): 8 chassis, 16 PHBs per chassis   = 128
- */
-#define MAX_PHB_BUS_NUM		256
-
-#define PHBS_PER_CALGARY	  4
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* register offsets in Calgary's internal register space */
 static const unsigned long tar_offsets[] = {
@@ -1066,11 +1053,8 @@ static int __init calgary_init_one(struct pci_dev *dev)
 	struct iommu_table *tbl;
 	int ret;
 
-<<<<<<< HEAD
 	BUG_ON(dev->bus->number >= MAX_PHB_BUS_NUM);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bbar = busno_to_bbar(dev->bus->number);
 	ret = calgary_setup_tar(dev, bbar);
 	if (ret)

@@ -46,11 +46,7 @@ static struct resource hdmac_resources[] = {
 		.end	= AT91_BASE_SYS + AT91_DMA + SZ_512 - 1,
 		.flags	= IORESOURCE_MEM,
 	},
-<<<<<<< HEAD
 	[2] = {
-=======
-	[1] = {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.start	= AT91SAM9G45_ID_DMA,
 		.end	= AT91SAM9G45_ID_DMA,
 		.flags	= IORESOURCE_IRQ,

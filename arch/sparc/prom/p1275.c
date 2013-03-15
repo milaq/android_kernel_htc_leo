@@ -22,16 +22,12 @@ struct {
 	long prom_callback;			/* 0x00 */
 	void (*prom_cif_handler)(long *);	/* 0x08 */
 	unsigned long prom_cif_stack;		/* 0x10 */
-<<<<<<< HEAD
 	unsigned long prom_args [23];		/* 0x18 */
 	char prom_buffer [3000];
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 } p1275buf;
 
 extern void prom_world(int);
 
-<<<<<<< HEAD
 extern void prom_cif_interface(void);
 extern void prom_cif_callback(void);
 
@@ -146,30 +142,6 @@ long p1275_cmd(const char *service, long fmt, ...)
 	spin_unlock_irqrestore(&prom_entry_lock, flags);
 
 	return x;
-=======
-extern void prom_cif_direct(unsigned long *args);
-extern void prom_cif_callback(void);
-
-/*
- * This provides SMP safety on the p1275buf.
- */
-DEFINE_SPINLOCK(prom_entry_lock);
-
-void p1275_cmd_direct(unsigned long *args)
-{
-	unsigned long flags;
-
-	raw_local_save_flags(flags);
-	raw_local_irq_restore(PIL_NMI);
-	spin_lock(&prom_entry_lock);
-
-	prom_world(1);
-	prom_cif_direct(args);
-	prom_world(0);
-
-	spin_unlock(&prom_entry_lock);
-	raw_local_irq_restore(flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void prom_cif_init(void *cif_handler, void *cif_stack)

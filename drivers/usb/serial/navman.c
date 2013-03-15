@@ -24,10 +24,6 @@ static int debug;
 
 static struct usb_device_id id_table [] = {
 	{ USB_DEVICE(0x0a99, 0x0001) },	/* Talon Technology device */
-<<<<<<< HEAD
-=======
-	{ USB_DEVICE(0x0df7, 0x0900) },	/* Mobile Action i-gotU */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ },
 };
 MODULE_DEVICE_TABLE(usb, id_table);

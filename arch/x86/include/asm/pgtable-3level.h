@@ -69,11 +69,8 @@ static inline void native_pmd_clear(pmd_t *pmd)
 
 static inline void pud_clear(pud_t *pudp)
 {
-<<<<<<< HEAD
 	unsigned long pgd;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	set_pud(pudp, __pud(0));
 
 	/*
@@ -82,7 +79,6 @@ static inline void pud_clear(pud_t *pudp)
 	 * section 8.1: in PAE mode we explicitly have to flush the
 	 * TLB via cr3 if the top-level pgd is changed...
 	 *
-<<<<<<< HEAD
 	 * Make sure the pud entry we're updating is within the
 	 * current pgd to avoid unnecessary TLB flushes.
 	 */
@@ -90,12 +86,6 @@ static inline void pud_clear(pud_t *pudp)
 	if (__pa(pudp) >= pgd && __pa(pudp) <
 	    (pgd + sizeof(pgd_t)*PTRS_PER_PGD))
 		write_cr3(pgd);
-=======
-	 * Currently all places where pud_clear() is called either have
-	 * flush_tlb_mm() followed or don't need TLB flush (x86_64 code or
-	 * pud_clear_bad()), so we don't need TLB flush here.
-	 */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_SMP

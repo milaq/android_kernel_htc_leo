@@ -24,10 +24,6 @@ obj-$(CONFIG_SPARC32)   += sun4m_irq.o sun4c_irq.o sun4d_irq.o
 
 obj-y                   += process_$(BITS).o
 obj-y                   += signal_$(BITS).o
-<<<<<<< HEAD
-=======
-obj-y                   += sigutil_$(BITS).o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 obj-$(CONFIG_SPARC32)   += ioport.o
 obj-y                   += setup_$(BITS).o
 obj-y                   += idprom.o

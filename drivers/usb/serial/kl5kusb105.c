@@ -310,10 +310,6 @@ err_cleanup:
 				usb_free_urb(priv->write_urb_pool[j]);
 			}
 		}
-<<<<<<< HEAD
-=======
-		kfree(priv);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		usb_set_serial_port_data(serial->port[i], NULL);
 	}
 	return -ENOMEM;

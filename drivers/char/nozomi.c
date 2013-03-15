@@ -1783,7 +1783,6 @@ static int ntty_cflags_changed(struct port *port, unsigned long flags,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int ntty_ioctl_tiocgicount(struct port *port, void __user *argp)
 {
 	const struct async_icount cnow = port->tty_icount;
@@ -1802,26 +1801,6 @@ static int ntty_ioctl_tiocgicount(struct port *port, void __user *argp)
 	icount.buf_overrun = cnow.buf_overrun;
 
 	return copy_to_user(argp, &icount, sizeof(icount)) ? -EFAULT : 0;
-=======
-static int ntty_tiocgicount(struct tty_struct *tty,
-				struct serial_icounter_struct *icount)
-{
-	struct port *port = tty->driver_data;
-	const struct async_icount cnow = port->tty_icount;
-
-	icount->cts = cnow.cts;
-	icount->dsr = cnow.dsr;
-	icount->rng = cnow.rng;
-	icount->dcd = cnow.dcd;
-	icount->rx = cnow.rx;
-	icount->tx = cnow.tx;
-	icount->frame = cnow.frame;
-	icount->overrun = cnow.overrun;
-	icount->parity = cnow.parity;
-	icount->brk = cnow.brk;
-	icount->buf_overrun = cnow.buf_overrun;
-	return 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int ntty_ioctl(struct tty_struct *tty, struct file *file,
@@ -1840,13 +1819,9 @@ static int ntty_ioctl(struct tty_struct *tty, struct file *file,
 		rval = wait_event_interruptible(port->tty_wait,
 				ntty_cflags_changed(port, arg, &cprev));
 		break;
-<<<<<<< HEAD
 	} case TIOCGICOUNT:
 		rval = ntty_ioctl_tiocgicount(port, argp);
 		break;
-=======
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default:
 		DBG1("ERR: 0x%08X, %d", cmd, cmd);
 		break;
@@ -1920,10 +1895,6 @@ static const struct tty_operations tty_ops = {
 	.chars_in_buffer = ntty_chars_in_buffer,
 	.tiocmget = ntty_tiocmget,
 	.tiocmset = ntty_tiocmset,
-<<<<<<< HEAD
-=======
-	.get_icount = ntty_tiocgicount,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /* Module initialization */

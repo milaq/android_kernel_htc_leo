@@ -25,10 +25,7 @@
 #include <linux/blkdev.h>
 #include <linux/backing-dev.h>
 #include <linux/buffer_head.h>
-<<<<<<< HEAD
 #include <linux/delay.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include "internal.h"
 
 #define inode_to_bdi(inode)	((inode)->i_mapping->backing_dev_info)
@@ -154,17 +151,12 @@ static void wb_clear_pending(struct bdi_writeback *wb, struct bdi_work *work)
 	}
 }
 
-<<<<<<< HEAD
 #define MAX_WAKEUP_RETRIES		3
 static void bdi_queue_work(struct backing_dev_info *bdi, struct bdi_work *work)
 {
 	int success = 0;
 	int retries = 0;
 
-=======
-static void bdi_queue_work(struct backing_dev_info *bdi, struct bdi_work *work)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	work->seen = bdi->wb_mask;
 	BUG_ON(!work->seen);
 	atomic_set(&work->pending, bdi->wb_cnt);
@@ -188,7 +180,6 @@ static void bdi_queue_work(struct backing_dev_info *bdi, struct bdi_work *work)
 	else {
 		struct bdi_writeback *wb = &bdi->wb;
 
-<<<<<<< HEAD
 #if 0
 		if (wb->task)
 			wake_up_process(wb->task);
@@ -216,10 +207,6 @@ static void bdi_queue_work(struct backing_dev_info *bdi, struct bdi_work *work)
 					retries);
 		}
 #endif
-=======
-		if (wb->task)
-			wake_up_process(wb->task);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 
@@ -902,15 +889,6 @@ static long wb_check_old_data_flush(struct bdi_writeback *wb)
 	unsigned long expired;
 	long nr_pages;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * When set to zero, disable periodic writeback
-	 */
-	if (!dirty_writeback_interval)
-		return 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	expired = wb->last_old_flush +
 			msecs_to_jiffies(dirty_writeback_interval * 10);
 	if (time_before(jiffies, expired))
@@ -1006,17 +984,8 @@ int bdi_writeback_task(struct bdi_writeback *wb)
 				break;
 		}
 
-<<<<<<< HEAD
 		wait_jiffies = msecs_to_jiffies(dirty_writeback_interval * 10);
 		schedule_timeout_interruptible(wait_jiffies);
-=======
-		if (dirty_writeback_interval) {
-			wait_jiffies = msecs_to_jiffies(dirty_writeback_interval * 10);
-			schedule_timeout_interruptible(wait_jiffies);
-		} else
-			schedule();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		try_to_freeze();
 	}
 
@@ -1132,11 +1101,7 @@ void __mark_inode_dirty(struct inode *inode, int flags)
 	if ((inode->i_state & flags) == flags)
 		return;
 
-<<<<<<< HEAD
 	if (unlikely(block_dump > 1))
-=======
-	if (unlikely(block_dump))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		block_dump___mark_inode_dirty(inode);
 
 	spin_lock(&inode_lock);

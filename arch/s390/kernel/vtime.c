@@ -167,11 +167,6 @@ void vtime_stop_cpu(void)
 	/* Wait for external, I/O or machine check interrupt. */
 	psw.mask = psw_kernel_bits | PSW_MASK_WAIT | PSW_MASK_IO | PSW_MASK_EXT;
 
-<<<<<<< HEAD
-=======
-	idle->nohz_delay = 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Check if the CPU timer needs to be reprogrammed. */
 	if (vq->do_spt) {
 		__u64 vmax = VTIMER_MAX_SLICE;

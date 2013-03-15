@@ -810,13 +810,8 @@ static int irda_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 
 	err = irda_open_tsap(self, addr->sir_lsap_sel, addr->sir_name);
 	if (err < 0) {
-<<<<<<< HEAD
 		kfree(self->ias_obj->name);
 		kfree(self->ias_obj);
-=======
-		irias_delete_object(self->ias_obj);
-		self->ias_obj = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return err;
 	}
 
@@ -2169,17 +2164,6 @@ static int irda_getsockopt(struct socket *sock, int level, int optname,
 
 	switch (optname) {
 	case IRLMP_ENUMDEVICES:
-<<<<<<< HEAD
-=======
-
-		/* Offset to first device entry */
-		offset = sizeof(struct irda_device_list) -
-			sizeof(struct irda_device_info);
-
-		if (len < offset)
-			return -EINVAL;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Ask lmp for the current discovery log */
 		discoveries = irlmp_get_discoveries(&list.len, self->mask.word,
 						    self->nslots);
@@ -2189,7 +2173,6 @@ static int irda_getsockopt(struct socket *sock, int level, int optname,
 		err = 0;
 
 		/* Write total list length back to client */
-<<<<<<< HEAD
 		if (copy_to_user(optval, &list,
 				 sizeof(struct irda_device_list) -
 				 sizeof(struct irda_device_info)))
@@ -2199,11 +2182,6 @@ static int irda_getsockopt(struct socket *sock, int level, int optname,
 		offset = sizeof(struct irda_device_list) -
 			sizeof(struct irda_device_info);
 
-=======
-		if (copy_to_user(optval, &list, offset))
-			err = -EFAULT;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Copy the list itself - watch for overflow */
 		if(list.len > 2048)
 		{

@@ -714,11 +714,7 @@ static void ath9k_hw_get_def_gain_boundaries_pdadcs(struct ath_hw *ah,
 				    vpdTableI[i][sizeCurrVpdTable - 2]);
 		vpdStep = (int16_t)((vpdStep < 1) ? 1 : vpdStep);
 
-<<<<<<< HEAD
 		if (tgtIndex > maxIndex) {
-=======
-		if (tgtIndex >= maxIndex) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			while ((ss <= tgtIndex) &&
 			       (k < (AR5416_NUM_PDADC_VALUES - 1))) {
 				tmpVal = (int16_t)((vpdTableI[i][sizeCurrVpdTable - 1] +

@@ -870,11 +870,6 @@ static void ata_eh_set_pending(struct ata_port *ap, int fastdrain)
 void ata_qc_schedule_eh(struct ata_queued_cmd *qc)
 {
 	struct ata_port *ap = qc->ap;
-<<<<<<< HEAD
-=======
-	struct request_queue *q = qc->scsicmd->device->request_queue;
-	unsigned long flags;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	WARN_ON(!ap->ops->error_handler);
 
@@ -886,13 +881,7 @@ void ata_qc_schedule_eh(struct ata_queued_cmd *qc)
 	 * Note that ATA_QCFLAG_FAILED is unconditionally set after
 	 * this function completes.
 	 */
-<<<<<<< HEAD
 	blk_abort_request(qc->scsicmd->request);
-=======
-	spin_lock_irqsave(q->queue_lock, flags);
-	blk_abort_request(qc->scsicmd->request);
-	spin_unlock_irqrestore(q->queue_lock, flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -1626,10 +1615,6 @@ void ata_eh_analyze_ncq_error(struct ata_link *link)
 	}
 
 	/* okay, this error is ours */
-<<<<<<< HEAD
-=======
-	memset(&tf, 0, sizeof(tf));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	rc = ata_eh_read_log_10h(dev, &tag, &tf);
 	if (rc) {
 		ata_link_printk(link, KERN_ERR, "failed to read log page 10h "
@@ -2717,18 +2702,10 @@ int ata_eh_reset(struct ata_link *link, int classify,
 	}
 
 	/*
-<<<<<<< HEAD
 	 * Some controllers can't be frozen very well and may set
 	 * spuruious error conditions during reset.  Clear accumulated
 	 * error information.  As reset is the final recovery action,
 	 * nothing is lost by doing this.
-=======
-	 * Some controllers can't be frozen very well and may set spurious
-	 * error conditions during reset.  Clear accumulated error
-	 * information and re-thaw the port if frozen.  As reset is the
-	 * final recovery action and we cross check link onlineness against
-	 * device classification later, no hotplug event is lost by this.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 */
 	spin_lock_irqsave(link->ap->lock, flags);
 	memset(&link->eh_info, 0, sizeof(link->eh_info));
@@ -2737,12 +2714,6 @@ int ata_eh_reset(struct ata_link *link, int classify,
 	ap->pflags &= ~ATA_PFLAG_EH_PENDING;
 	spin_unlock_irqrestore(link->ap->lock, flags);
 
-<<<<<<< HEAD
-=======
-	if (ap->pflags & ATA_PFLAG_FROZEN)
-		ata_eh_thaw_port(ap);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * Make sure onlineness and classification result correspond.
 	 * Hotplug could have happened during reset and some
@@ -3173,13 +3144,6 @@ static int ata_eh_skip_recovery(struct ata_link *link)
 	if (link->flags & ATA_LFLAG_DISABLED)
 		return 1;
 
-<<<<<<< HEAD
-=======
-	/* skip if explicitly requested */
-	if (ehc->i.flags & ATA_EHI_NO_RECOVERY)
-		return 1;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* thaw frozen port and recover failed devices */
 	if ((ap->pflags & ATA_PFLAG_FROZEN) || ata_link_nr_enabled(link))
 		return 0;

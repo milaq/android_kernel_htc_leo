@@ -161,10 +161,6 @@ tmio_mmc_start_command(struct tmio_mmc_host *host, struct mmc_command *cmd)
 static inline void tmio_mmc_pio_irq(struct tmio_mmc_host *host)
 {
 	struct mmc_data *data = host->data;
-<<<<<<< HEAD
-=======
-	void *sg_virt;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned short *buf;
 	unsigned int count;
 	unsigned long flags;
@@ -174,13 +170,8 @@ static inline void tmio_mmc_pio_irq(struct tmio_mmc_host *host)
 		return;
 	}
 
-<<<<<<< HEAD
 	buf = (unsigned short *)(tmio_mmc_kmap_atomic(host, &flags) +
 	      host->sg_off);
-=======
-	sg_virt = tmio_mmc_kmap_atomic(host->sg_ptr, &flags);
-	buf = (unsigned short *)(sg_virt + host->sg_off);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	count = host->sg_ptr->length - host->sg_off;
 	if (count > data->blksz)
@@ -197,11 +188,7 @@ static inline void tmio_mmc_pio_irq(struct tmio_mmc_host *host)
 
 	host->sg_off += count;
 
-<<<<<<< HEAD
 	tmio_mmc_kunmap_atomic(host, &flags);
-=======
-	tmio_mmc_kunmap_atomic(sg_virt, &flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (host->sg_off == host->sg_ptr->length)
 		tmio_mmc_next_sg(host);

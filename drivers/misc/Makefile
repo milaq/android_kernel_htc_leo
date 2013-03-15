@@ -12,22 +12,16 @@ obj-$(CONFIG_LKDTM)		+= lkdtm.o
 obj-$(CONFIG_TIFM_CORE)       	+= tifm_core.o
 obj-$(CONFIG_TIFM_7XX1)       	+= tifm_7xx1.o
 obj-$(CONFIG_PHANTOM)		+= phantom.o
-<<<<<<< HEAD
 obj-$(CONFIG_ANDROID_PMEM)      += pmem.o
 obj-$(CONFIG_SGI_IOC4)		+= ioc4.o
 obj-$(CONFIG_ENCLOSURE_SERVICES) += enclosure.o
 obj-$(CONFIG_KERNEL_DEBUGGER_CORE)	+= kernel_debugger.o
-=======
-obj-$(CONFIG_SGI_IOC4)		+= ioc4.o
-obj-$(CONFIG_ENCLOSURE_SERVICES) += enclosure.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 obj-$(CONFIG_KGDB_TESTS)	+= kgdbts.o
 obj-$(CONFIG_SGI_XP)		+= sgi-xp/
 obj-$(CONFIG_SGI_GRU)		+= sgi-gru/
 obj-$(CONFIG_HP_ILO)		+= hpilo.o
 obj-$(CONFIG_ISL29003)		+= isl29003.o
 obj-$(CONFIG_EP93XX_PWM)	+= ep93xx_pwm.o
-<<<<<<< HEAD
 obj-$(CONFIG_UID_STAT)		+= uid_stat.o
 obj-$(CONFIG_IFACE_STAT)  += iface_stat.o
 obj-$(CONFIG_C2PORT)		+= c2port/
@@ -42,8 +36,3 @@ ifeq ($(CONFIG_MSM_SSBI),y)
 else
 obj-$(CONFIG_PMIC8058_NFC) += pmic8058-nfc.o
 endif
-=======
-obj-$(CONFIG_C2PORT)		+= c2port/
-obj-y				+= eeprom/
-obj-y				+= cb710/
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

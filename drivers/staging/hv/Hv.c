@@ -306,15 +306,9 @@ void HvCleanup(void)
 	DPRINT_ENTER(VMBUS);
 
 	if (gHvContext.SignalEventBuffer) {
-<<<<<<< HEAD
 		gHvContext.SignalEventBuffer = NULL;
 		gHvContext.SignalEventParam = NULL;
 		kfree(gHvContext.SignalEventBuffer);
-=======
-		kfree(gHvContext.SignalEventBuffer);
-		gHvContext.SignalEventBuffer = NULL;
-		gHvContext.SignalEventParam = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (gHvContext.GuestId == HV_LINUX_GUEST_ID) {

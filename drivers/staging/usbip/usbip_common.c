@@ -361,18 +361,10 @@ void usbip_dump_header(struct usbip_header *pdu)
 		usbip_udbg("CMD_UNLINK: seq %u\n", pdu->u.cmd_unlink.seqnum);
 		break;
 	case USBIP_RET_SUBMIT:
-<<<<<<< HEAD
 		usbip_udbg("RET_SUBMIT: st %d al %u sf %d ec %d\n",
 				pdu->u.ret_submit.status,
 				pdu->u.ret_submit.actual_length,
 				pdu->u.ret_submit.start_frame,
-=======
-		usbip_udbg("RET_SUBMIT: st %d al %u sf %d #p %d ec %d\n",
-				pdu->u.ret_submit.status,
-				pdu->u.ret_submit.actual_length,
-				pdu->u.ret_submit.start_frame,
-				pdu->u.ret_submit.number_of_packets,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				pdu->u.ret_submit.error_count);
 	case USBIP_RET_UNLINK:
 		usbip_udbg("RET_UNLINK: status %d\n", pdu->u.ret_unlink.status);
@@ -694,10 +686,6 @@ static void usbip_pack_ret_submit(struct usbip_header *pdu, struct urb *urb,
 		rpdu->status		= urb->status;
 		rpdu->actual_length	= urb->actual_length;
 		rpdu->start_frame	= urb->start_frame;
-<<<<<<< HEAD
-=======
-		rpdu->number_of_packets = urb->number_of_packets;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rpdu->error_count	= urb->error_count;
 	} else {
 		/* vhci_rx.c */
@@ -705,10 +693,6 @@ static void usbip_pack_ret_submit(struct usbip_header *pdu, struct urb *urb,
 		urb->status		= rpdu->status;
 		urb->actual_length	= rpdu->actual_length;
 		urb->start_frame	= rpdu->start_frame;
-<<<<<<< HEAD
-=======
-		urb->number_of_packets = rpdu->number_of_packets;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		urb->error_count	= rpdu->error_count;
 	}
 }
@@ -777,19 +761,11 @@ static void correct_endian_ret_submit(struct usbip_header_ret_submit *pdu,
 		cpu_to_be32s(&pdu->status);
 		cpu_to_be32s(&pdu->actual_length);
 		cpu_to_be32s(&pdu->start_frame);
-<<<<<<< HEAD
-=======
-		cpu_to_be32s(&pdu->number_of_packets);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		cpu_to_be32s(&pdu->error_count);
 	} else {
 		be32_to_cpus(&pdu->status);
 		be32_to_cpus(&pdu->actual_length);
 		be32_to_cpus(&pdu->start_frame);
-<<<<<<< HEAD
-=======
-		be32_to_cpus(&pdu->number_of_packets);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		be32_to_cpus(&pdu->error_count);
 	}
 }
@@ -915,10 +891,6 @@ int usbip_recv_iso(struct usbip_device *ud, struct urb *urb)
 	int size = np * sizeof(*iso);
 	int i;
 	int ret;
-<<<<<<< HEAD
-=======
-	int total_length = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!usb_pipeisoc(urb->pipe))
 		return 0;
@@ -948,87 +920,19 @@ int usbip_recv_iso(struct usbip_device *ud, struct urb *urb)
 		return -EPIPE;
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (i = 0; i < np; i++) {
 		iso = buff + (i * sizeof(*iso));
 
 		usbip_iso_pakcet_correct_endian(iso, 0);
 		usbip_pack_iso(iso, &urb->iso_frame_desc[i], 0);
-<<<<<<< HEAD
-=======
-		total_length += urb->iso_frame_desc[i].actual_length;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	kfree(buff);
 
-<<<<<<< HEAD
-=======
-	if (total_length != urb->actual_length) {
-		dev_err(&urb->dev->dev,
-		  "total length of iso packets (%d) not equal to actual length of buffer (%d)\n",
-		  total_length, urb->actual_length);
-
-		if (ud->side == USBIP_STUB)
-			usbip_event_add(ud, SDEV_EVENT_ERROR_TCP);
-		else
-			usbip_event_add(ud, VDEV_EVENT_ERROR_TCP);
-
-		return -EPIPE;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 EXPORT_SYMBOL_GPL(usbip_recv_iso);
 
-<<<<<<< HEAD
-=======
-/*
- * This functions restores the padding which was removed for optimizing
- * the bandwidth during transfer over tcp/ip
- *
- * buffer and iso packets need to be stored and be in propeper endian in urb
- * before calling this function
- */
-int usbip_pad_iso(struct usbip_device *ud, struct urb *urb)
-{
-	int np = urb->number_of_packets;
-	int i;
-	int ret;
-	int actualoffset = urb->actual_length;
-
-	if (!usb_pipeisoc(urb->pipe))
-		return 0;
-
-	/* if no packets or length of data is 0, then nothing to unpack */
-	if (np == 0 || urb->actual_length == 0)
-		return 0;
-
-	/*
-	 * if actual_length is transfer_buffer_length then no padding is
-	 * present.
-	*/
-	if (urb->actual_length == urb->transfer_buffer_length)
-		return 0;
-
-	/*
-	 * loop over all packets from last to first (to prevent overwritting
-	 * memory when padding) and move them into the proper place
-	 */
-	for (i = np-1; i > 0; i--) {
-		actualoffset -= urb->iso_frame_desc[i].actual_length;
-		memmove(urb->transfer_buffer + urb->iso_frame_desc[i].offset,
-				  urb->transfer_buffer + actualoffset,
-				  urb->iso_frame_desc[i].actual_length);
-	}
-	return ret;
-}
-EXPORT_SYMBOL_GPL(usbip_pad_iso);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* some members of urb must be substituted before. */
 int usbip_recv_xbuff(struct usbip_device *ud, struct urb *urb)

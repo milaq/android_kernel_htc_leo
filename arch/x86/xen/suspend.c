@@ -60,11 +60,6 @@ static void xen_vcpu_notify_restore(void *data)
 
 void xen_arch_resume(void)
 {
-<<<<<<< HEAD
 	smp_call_function(xen_vcpu_notify_restore,
 			       (void *)CLOCK_EVT_NOTIFY_RESUME, 1);
-=======
-	on_each_cpu(xen_vcpu_notify_restore,
-		    (void *)CLOCK_EVT_NOTIFY_RESUME, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }

@@ -131,11 +131,7 @@ static struct platform_driver generic_onenand_driver = {
 	.remove		= __devexit_p(generic_onenand_remove),
 };
 
-<<<<<<< HEAD
 MODULE_ALIAS(DRIVER_NAME);
-=======
-MODULE_ALIAS("platform:" DRIVER_NAME);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int __init generic_onenand_init(void)
 {

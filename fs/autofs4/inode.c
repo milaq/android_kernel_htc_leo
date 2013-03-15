@@ -19,10 +19,6 @@
 #include <linux/parser.h>
 #include <linux/bitops.h>
 #include <linux/magic.h>
-<<<<<<< HEAD
-=======
-#include <linux/compat.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include "autofs_i.h"
 #include <linux/module.h>
 
@@ -345,10 +341,6 @@ int autofs4_fill_super(struct super_block *s, void *data, int silent)
 	set_autofs_type_indirect(&sbi->type);
 	sbi->min_proto = 0;
 	sbi->max_proto = 0;
-<<<<<<< HEAD
-=======
-	sbi->compat_daemon = is_compat_task();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_init(&sbi->wq_mutex);
 	spin_lock_init(&sbi->fs_lock);
 	sbi->queues = NULL;

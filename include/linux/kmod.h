@@ -104,21 +104,7 @@ struct file;
 extern int call_usermodehelper_pipe(char *path, char *argv[], char *envp[],
 				    struct file **filp);
 
-<<<<<<< HEAD
 extern int usermodehelper_disable(void);
 extern void usermodehelper_enable(void);
-=======
-#ifdef CONFIG_PM_SLEEP
-extern int usermodehelper_disable(void);
-extern void usermodehelper_enable(void);
-extern bool usermodehelper_is_disabled(void);
-extern void read_lock_usermodehelper(void);
-extern void read_unlock_usermodehelper(void);
-#else
-static inline bool usermodehelper_is_disabled(void) { return false; }
-static inline void read_lock_usermodehelper(void) {}
-static inline void read_unlock_usermodehelper(void) {}
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif /* __LINUX_KMOD_H__ */

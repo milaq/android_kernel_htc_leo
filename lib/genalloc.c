@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_KGSL
 /*
  * Basic general purpose allocator for managing special purpose memory
@@ -249,8 +248,6 @@ done:
 EXPORT_SYMBOL(gen_pool_free);
 
 #else
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Basic general purpose allocator for managing special purpose memory
  * not managed by the regular kmalloc/kfree interface.
@@ -447,7 +444,4 @@ void gen_pool_free(struct gen_pool *pool, unsigned long addr, size_t size)
 	read_unlock(&pool->lock);
 }
 EXPORT_SYMBOL(gen_pool_free);
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

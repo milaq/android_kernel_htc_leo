@@ -406,12 +406,6 @@ void tcp_v4_err(struct sk_buff *icmp_skb, u32 info)
 		    !icsk->icsk_backoff)
 			break;
 
-<<<<<<< HEAD
-=======
-		if (sock_owned_by_user(sk))
-			break;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		icsk->icsk_backoff--;
 		inet_csk(sk)->icsk_rto = __tcp_set_rto(tp) <<
 					 icsk->icsk_backoff;
@@ -426,14 +420,11 @@ void tcp_v4_err(struct sk_buff *icmp_skb, u32 info)
 		if (remaining) {
 			inet_csk_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
 						  remaining, TCP_RTO_MAX);
-<<<<<<< HEAD
 		} else if (sock_owned_by_user(sk)) {
 			/* RTO revert clocked out retransmission,
 			 * but socket is locked. Will defer. */
 			inet_csk_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
 						  HZ/20, TCP_RTO_MAX);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		} else {
 			/* RTO revert clocked out retransmission.
 			 * Will retransmit now */
@@ -1894,7 +1885,6 @@ void tcp_v4_destroy_sock(struct sock *sk)
 
 EXPORT_SYMBOL(tcp_v4_destroy_sock);
 
-<<<<<<< HEAD
 /*
  * tcp_v4_nuke_addr - destroy all sockets on the given local address
  */
@@ -1938,8 +1928,6 @@ restart:
 	}
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_PROC_FS
 /* Proc filesystem TCP sock list dumping. */
 
@@ -2549,7 +2537,3 @@ EXPORT_SYMBOL(tcp_proc_register);
 EXPORT_SYMBOL(tcp_proc_unregister);
 #endif
 EXPORT_SYMBOL(sysctl_tcp_low_latency);
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

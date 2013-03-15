@@ -94,11 +94,8 @@ source "sound/spi/Kconfig"
 
 source "sound/mips/Kconfig"
 
-<<<<<<< HEAD
 source "sound/htcleo/Kconfig"
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 source "sound/sh/Kconfig"
 
 # the following will depend on the order of config.

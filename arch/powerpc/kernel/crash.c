@@ -162,33 +162,6 @@ static void crash_kexec_prepare_cpus(int cpu)
 	/* Leave the IPI callback set */
 }
 
-<<<<<<< HEAD
-=======
-/* wait for all the CPUs to hit real mode but timeout if they don't come in */
-#ifdef CONFIG_PPC_STD_MMU_64
-static void crash_kexec_wait_realmode(int cpu)
-{
-	unsigned int msecs;
-	int i;
-
-	msecs = 10000;
-	for (i=0; i < NR_CPUS && msecs > 0; i++) {
-		if (i == cpu)
-			continue;
-
-		while (paca[i].kexec_state < KEXEC_STATE_REAL_MODE) {
-			barrier();
-			if (!cpu_possible(i) || !cpu_online(i) || (msecs <= 0))
-				break;
-			msecs--;
-			mdelay(1);
-		}
-	}
-	mb();
-}
-#endif
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * This function will be called by secondary cpus or by kexec cpu
  * if soft-reset is activated to stop some CPUs.
@@ -374,19 +347,10 @@ int crash_shutdown_unregister(crash_shutdown_t handler)
 EXPORT_SYMBOL(crash_shutdown_unregister);
 
 static unsigned long crash_shutdown_buf[JMP_BUF_LEN];
-<<<<<<< HEAD
 
 static int handle_fault(struct pt_regs *regs)
 {
 	longjmp(crash_shutdown_buf, 1);
-=======
-static int crash_shutdown_cpu = -1;
-
-static int handle_fault(struct pt_regs *regs)
-{
-	if (crash_shutdown_cpu == smp_processor_id())
-		longjmp(crash_shutdown_buf, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 
@@ -411,21 +375,11 @@ void default_machine_crash_shutdown(struct pt_regs *regs)
 	for_each_irq(i) {
 		struct irq_desc *desc = irq_desc + i;
 
-<<<<<<< HEAD
-=======
-		if (!desc || !desc->chip || !desc->chip->eoi)
-			continue;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (desc->status & IRQ_INPROGRESS)
 			desc->chip->eoi(i);
 
 		if (!(desc->status & IRQ_DISABLED))
-<<<<<<< HEAD
 			desc->chip->disable(i);
-=======
-			desc->chip->shutdown(i);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*
@@ -434,10 +388,6 @@ void default_machine_crash_shutdown(struct pt_regs *regs)
 	 */
 	old_handler = __debugger_fault_handler;
 	__debugger_fault_handler = handle_fault;
-<<<<<<< HEAD
-=======
-	crash_shutdown_cpu = smp_processor_id();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (i = 0; crash_shutdown_handles[i]; i++) {
 		if (setjmp(crash_shutdown_buf) == 0) {
 			/*
@@ -451,10 +401,6 @@ void default_machine_crash_shutdown(struct pt_regs *regs)
 			asm volatile("sync; isync");
 		}
 	}
-<<<<<<< HEAD
-=======
-	crash_shutdown_cpu = -1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__debugger_fault_handler = old_handler;
 
 	/*
@@ -466,12 +412,6 @@ void default_machine_crash_shutdown(struct pt_regs *regs)
 	crash_kexec_prepare_cpus(crashing_cpu);
 	cpu_set(crashing_cpu, cpus_in_crash);
 	crash_kexec_stop_spus();
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_PPC_STD_MMU_64) && defined(CONFIG_SMP)
-	crash_kexec_wait_realmode(crashing_cpu);
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (ppc_md.kexec_cpu_down)
 		ppc_md.kexec_cpu_down(1, 0);
 }

@@ -1606,14 +1606,10 @@ xfs_qm_dqusage_adjust(
 	xfs_ino_t	ino,		/* inode number to get data for */
 	void		__user *buffer,	/* not used */
 	int		ubsize,		/* not used */
-<<<<<<< HEAD
 	void		*private_data,	/* not used */
 	xfs_daddr_t	bno,		/* starting block of inode cluster */
 	int		*ubused,	/* not used */
 	void		*dip,		/* on-disk inode pointer (not used) */
-=======
-	int		*ubused,	/* not used */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int		*res)		/* result code value */
 {
 	xfs_inode_t	*ip;
@@ -1638,11 +1634,7 @@ xfs_qm_dqusage_adjust(
 	 * the case in all other instances. It's OK that we do this because
 	 * quotacheck is done only at mount time.
 	 */
-<<<<<<< HEAD
 	if ((error = xfs_iget(mp, NULL, ino, 0, XFS_ILOCK_EXCL, &ip, bno))) {
-=======
-	if ((error = xfs_iget(mp, NULL, ino, 0, XFS_ILOCK_EXCL, &ip))) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*res = BULKSTAT_RV_NOTHING;
 		return error;
 	}
@@ -1774,22 +1766,12 @@ xfs_qm_quotacheck(
 		 * Iterate thru all the inodes in the file system,
 		 * adjusting the corresponding dquot counters in core.
 		 */
-<<<<<<< HEAD
 		if ((error = xfs_bulkstat(mp, &lastino, &count,
 				     xfs_qm_dqusage_adjust, NULL,
 				     structsz, NULL, BULKSTAT_FG_IGET, &done)))
 			break;
 
 	} while (! done);
-=======
-		error = xfs_bulkstat(mp, &lastino, &count,
-				     xfs_qm_dqusage_adjust,
-				     structsz, NULL, &done);
-		if (error)
-			break;
-
-	} while (!done);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * We've made all the changes that we need to make incore.
@@ -1877,22 +1859,14 @@ xfs_qm_init_quotainos(
 		    mp->m_sb.sb_uquotino != NULLFSINO) {
 			ASSERT(mp->m_sb.sb_uquotino > 0);
 			if ((error = xfs_iget(mp, NULL, mp->m_sb.sb_uquotino,
-<<<<<<< HEAD
 					     0, 0, &uip, 0)))
-=======
-					     0, 0, &uip)))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return XFS_ERROR(error);
 		}
 		if (XFS_IS_OQUOTA_ON(mp) &&
 		    mp->m_sb.sb_gquotino != NULLFSINO) {
 			ASSERT(mp->m_sb.sb_gquotino > 0);
 			if ((error = xfs_iget(mp, NULL, mp->m_sb.sb_gquotino,
-<<<<<<< HEAD
 					     0, 0, &gip, 0))) {
-=======
-					     0, 0, &gip))) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				if (uip)
 					IRELE(uip);
 				return XFS_ERROR(error);

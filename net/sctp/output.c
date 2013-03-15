@@ -91,10 +91,7 @@ struct sctp_packet *sctp_packet_config(struct sctp_packet *packet,
 	SCTP_DEBUG_PRINTK("%s: packet:%p vtag:0x%x\n", __func__,
 			  packet, vtag);
 
-<<<<<<< HEAD
 	sctp_packet_reset(packet);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	packet->vtag = vtag;
 
 	if (ecn_capable && sctp_packet_empty(packet)) {

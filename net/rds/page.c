@@ -56,7 +56,6 @@ int rds_page_copy_user(struct page *page, unsigned long offset,
 	unsigned long ret;
 	void *addr;
 
-<<<<<<< HEAD
 	if (to_user)
 		rds_stats_add(s_copy_to_user, bytes);
 	else
@@ -81,19 +80,6 @@ int rds_page_copy_user(struct page *page, unsigned long offset,
 	}
 
 	return 0;
-=======
-	addr = kmap(page);
-	if (to_user) {
-		rds_stats_add(s_copy_to_user, bytes);
-		ret = copy_to_user(ptr, addr + offset, bytes);
-	} else {
-		rds_stats_add(s_copy_from_user, bytes);
-		ret = copy_from_user(addr + offset, ptr, bytes);
-	}
-	kunmap(page);
-
-	return ret ? -EFAULT : 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL_GPL(rds_page_copy_user);
 

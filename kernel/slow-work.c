@@ -640,11 +640,7 @@ int delayed_slow_work_enqueue(struct delayed_slow_work *dwork,
 			goto cancelled;
 
 		/* the timer holds a reference whilst it is pending */
-<<<<<<< HEAD
 		ret = work->ops->get_ref(work);
-=======
-		ret = slow_work_get_ref(work);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (ret < 0)
 			goto cant_get_ref;
 

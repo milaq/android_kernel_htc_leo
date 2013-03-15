@@ -265,13 +265,10 @@
 #include <linux/err.h>
 #include <linux/crypto.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_UID_STAT
 #include <linux/uid_stat.h>
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/icmp.h>
 #include <net/tcp.h>
 #include <net/xfrm.h>
@@ -845,12 +842,8 @@ new_segment:
 wait_for_sndbuf:
 		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
 wait_for_memory:
-<<<<<<< HEAD
 		if (copied)
 			tcp_push(sk, flags & ~MSG_MORE, mss_now, TCP_NAGLE_PUSH);
-=======
-		tcp_push(sk, flags & ~MSG_MORE, mss_now, TCP_NAGLE_PUSH);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if ((err = sk_stream_wait_memory(sk, &timeo)) != 0)
 			goto do_error;
@@ -1113,14 +1106,11 @@ out:
 		tcp_push(sk, flags, mss_now, tp->nonagle);
 	TCP_CHECK_TIMER(sk);
 	release_sock(sk);
-<<<<<<< HEAD
 
 #ifdef CONFIG_UID_STAT
         if (copied > 0)
                 update_tcp_snd(current_uid(), copied);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return copied;
 
 do_fault:
@@ -1364,17 +1354,12 @@ int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
 	tcp_rcv_space_adjust(sk);
 
 	/* Clean up data we have read: This will do ACK frames. */
-<<<<<<< HEAD
 	if (copied > 0) {
 		tcp_cleanup_rbuf(sk, copied);
 #ifdef CONFIG_UID_STAT
 		update_tcp_rcv(current_uid(), copied);
 #endif
 	}
-=======
-	if (copied > 0)
-		tcp_cleanup_rbuf(sk, copied);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return copied;
 }
 
@@ -1770,13 +1755,10 @@ skip_copy:
 
 	TCP_CHECK_TIMER(sk);
 	release_sock(sk);
-<<<<<<< HEAD
 #ifdef CONFIG_UID_STAT
 	if (copied > 0)
 		update_tcp_rcv(current_uid(), copied);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return copied;
 
 out:
@@ -1786,13 +1768,10 @@ out:
 
 recv_urg:
 	err = tcp_recv_urg(sk, msg, len, flags);
-<<<<<<< HEAD
 #ifdef CONFIG_UID_STAT
 	if (err > 0)
 		update_tcp_rcv(current_uid(), err);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	goto out;
 }
 

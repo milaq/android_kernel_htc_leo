@@ -228,7 +228,6 @@ xfs_iget_cache_hit(
 		xfs_itrace_exit_tag(ip, "xfs_iget.alloc");
 
 		/*
-<<<<<<< HEAD
 		 * We need to set XFS_INEW atomically with clearing the
 		 * reclaimable tag so that we do have an indicator of the
 		 * inode still being initialized.
@@ -236,14 +235,6 @@ xfs_iget_cache_hit(
 		ip->i_flags |= XFS_INEW;
 		ip->i_flags &= ~XFS_IRECLAIMABLE;
 		__xfs_inode_clear_reclaim_tag(mp, pag, ip);
-=======
-		 * We need to set XFS_IRECLAIM to prevent xfs_reclaim_inode
-		 * from stomping over us while we recycle the inode.  We can't
-		 * clear the radix tree reclaimable tag yet as it requires
-		 * pag_ici_lock to be held exclusive.
-		 */
-		ip->i_flags |= XFS_IRECLAIM;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		spin_unlock(&ip->i_flags_lock);
 		read_unlock(&pag->pag_ici_lock);
@@ -262,19 +253,7 @@ xfs_iget_cache_hit(
 			__xfs_inode_set_reclaim_tag(pag, ip);
 			goto out_error;
 		}
-<<<<<<< HEAD
 		inode->i_state = I_LOCK|I_NEW;
-=======
-
-		write_lock(&pag->pag_ici_lock);
-		spin_lock(&ip->i_flags_lock);
-		ip->i_flags &= ~(XFS_IRECLAIMABLE | XFS_IRECLAIM);
-		ip->i_flags |= XFS_INEW;
-		__xfs_inode_clear_reclaim_tag(mp, pag, ip);
-		inode->i_state = I_LOCK|I_NEW;
-		spin_unlock(&ip->i_flags_lock);
-		write_unlock(&pag->pag_ici_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else {
 		/* If the VFS inode is being torn down, pause and try again. */
 		if (!igrab(inode)) {
@@ -309,10 +288,7 @@ xfs_iget_cache_miss(
 	xfs_trans_t		*tp,
 	xfs_ino_t		ino,
 	struct xfs_inode	**ipp,
-<<<<<<< HEAD
 	xfs_daddr_t		bno,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int			flags,
 	int			lock_flags) __releases(pag->pag_ici_lock)
 {
@@ -325,11 +301,7 @@ xfs_iget_cache_miss(
 	if (!ip)
 		return ENOMEM;
 
-<<<<<<< HEAD
 	error = xfs_iread(mp, tp, ip, bno, flags);
-=======
-	error = xfs_iread(mp, tp, ip, flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error)
 		goto out_destroy;
 
@@ -413,11 +385,8 @@ out_destroy:
  *        within the file system for the inode being requested.
  * lock_flags -- flags indicating how to lock the inode.  See the comment
  *		 for xfs_ilock() for a list of valid values.
-<<<<<<< HEAD
  * bno -- the block number starting the buffer containing the inode,
  *	  if known (as by bulkstat), else 0.
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 int
 xfs_iget(
@@ -426,12 +395,8 @@ xfs_iget(
 	xfs_ino_t	ino,
 	uint		flags,
 	uint		lock_flags,
-<<<<<<< HEAD
 	xfs_inode_t	**ipp,
 	xfs_daddr_t	bno)
-=======
-	xfs_inode_t	**ipp)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	xfs_inode_t	*ip;
 	int		error;
@@ -462,11 +427,7 @@ again:
 		read_unlock(&pag->pag_ici_lock);
 		XFS_STATS_INC(xs_ig_missed);
 
-<<<<<<< HEAD
 		error = xfs_iget_cache_miss(mp, pag, tp, ino, &ip, bno,
-=======
-		error = xfs_iget_cache_miss(mp, pag, tp, ino, &ip,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 							flags, lock_flags);
 		if (error)
 			goto out_error_or_again;
@@ -550,15 +511,10 @@ xfs_ireclaim(
 {
 	struct xfs_mount	*mp = ip->i_mount;
 	struct xfs_perag	*pag;
-<<<<<<< HEAD
-=======
-	xfs_agino_t		agino = XFS_INO_TO_AGINO(mp, ip->i_ino);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	XFS_STATS_INC(xs_ig_reclaims);
 
 	/*
-<<<<<<< HEAD
 	 * Remove the inode from the per-AG radix tree.  It doesn't matter
 	 * if it was never added to it because radix_tree_delete can deal
 	 * with that case just fine.
@@ -566,19 +522,6 @@ xfs_ireclaim(
 	pag = xfs_get_perag(mp, ip->i_ino);
 	write_lock(&pag->pag_ici_lock);
 	radix_tree_delete(&pag->pag_ici_root, XFS_INO_TO_AGINO(mp, ip->i_ino));
-=======
-	 * Remove the inode from the per-AG radix tree.
-	 *
-	 * Because radix_tree_delete won't complain even if the item was never
-	 * added to the tree assert that it's been there before to catch
-	 * problems with the inode life time early on.
-	 */
-	pag = xfs_get_perag(mp, ip->i_ino);
-	write_lock(&pag->pag_ici_lock);
-	if (!radix_tree_delete(&pag->pag_ici_root, agino))
-		ASSERT(0);
-	__xfs_inode_clear_reclaim(pag, ip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	write_unlock(&pag->pag_ici_lock);
 	xfs_put_perag(mp, pag);
 

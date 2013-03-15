@@ -36,11 +36,6 @@ static const char *_name = DM_NAME;
 static unsigned int major = 0;
 static unsigned int _major = 0;
 
-<<<<<<< HEAD
-=======
-static DEFINE_IDR(_minor_idr);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DEFINE_SPINLOCK(_minor_lock);
 /*
  * For bio-based dm.
@@ -320,15 +315,6 @@ static void __exit dm_exit(void)
 
 	while (i--)
 		_exits[i]();
-<<<<<<< HEAD
-=======
-
-	/*
-	 * Should be empty by this point.
-	 */
-	idr_remove_all(&_minor_idr);
-	idr_destroy(&_minor_idr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1677,11 +1663,8 @@ static int dm_any_congested(void *congested_data, int bdi_bits)
 /*-----------------------------------------------------------------
  * An IDR is used to keep track of allocated minor numbers.
  *---------------------------------------------------------------*/
-<<<<<<< HEAD
 static DEFINE_IDR(_minor_idr);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void free_minor(int minor)
 {
 	spin_lock(&_minor_lock);
@@ -1942,23 +1925,13 @@ static void event_callback(void *context)
 	wake_up(&md->eventq);
 }
 
-<<<<<<< HEAD
-=======
-/*
- * Protected by md->suspend_lock obtained by dm_swap_table().
- */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void __set_size(struct mapped_device *md, sector_t size)
 {
 	set_capacity(md->disk, size);
 
-<<<<<<< HEAD
 	mutex_lock(&md->bdev->bd_inode->i_mutex);
 	i_size_write(md->bdev->bd_inode, (loff_t)size << SECTOR_SHIFT);
 	mutex_unlock(&md->bdev->bd_inode->i_mutex);
-=======
-	i_size_write(md->bdev->bd_inode, (loff_t)size << SECTOR_SHIFT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int __bind(struct mapped_device *md, struct dm_table *t,

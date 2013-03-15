@@ -30,11 +30,7 @@ static inline bool match_type(struct net *net, const struct net_device *dev,
 }
 
 static bool
-<<<<<<< HEAD
 addrtype_mt_v0(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-addrtype_mt_v0(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct net *net = dev_net(par->in ? par->in : par->out);
 	const struct ipt_addrtype_info *info = par->matchinfo;
@@ -52,11 +48,7 @@ addrtype_mt_v0(const struct sk_buff *skb, const struct xt_match_param *par)
 }
 
 static bool
-<<<<<<< HEAD
 addrtype_mt_v1(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-addrtype_mt_v1(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct net *net = dev_net(par->in ? par->in : par->out);
 	const struct ipt_addrtype_info_v1 *info = par->matchinfo;
@@ -78,11 +70,7 @@ addrtype_mt_v1(const struct sk_buff *skb, const struct xt_match_param *par)
 	return ret;
 }
 
-<<<<<<< HEAD
 static int addrtype_mt_checkentry_v1(const struct xt_mtchk_param *par)
-=======
-static bool addrtype_mt_checkentry_v1(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct ipt_addrtype_info_v1 *info = par->matchinfo;
 

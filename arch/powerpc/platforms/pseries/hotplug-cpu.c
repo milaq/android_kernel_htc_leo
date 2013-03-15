@@ -66,7 +66,6 @@ static void pseries_mach_cpu_die(void)
 	for(;;);
 }
 
-<<<<<<< HEAD
 static int qcss_tok;	/* query-cpu-stopped-state token */
 
 /* Get state of physical CPU.
@@ -91,8 +90,6 @@ static int query_cpu_stopped(unsigned int pcpu)
 	return cpu_status;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int pseries_cpu_disable(void)
 {
 	int cpu = smp_processor_id();
@@ -116,14 +113,8 @@ static void pseries_cpu_die(unsigned int cpu)
 	unsigned int pcpu = get_hard_smp_processor_id(cpu);
 
 	for (tries = 0; tries < 25; tries++) {
-<<<<<<< HEAD
 		cpu_status = query_cpu_stopped(pcpu);
 		if (cpu_status == 0 || cpu_status == -1)
-=======
-		cpu_status = smp_query_cpu_stopped(pcpu);
-		if (cpu_status == QCSS_STOPPED ||
-		    cpu_status == QCSS_HARDWARE_ERROR)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 		cpu_relax();
 	}
@@ -265,10 +256,6 @@ static int __init pseries_cpu_hotplug_init(void)
 {
 	struct device_node *np;
 	const char *typep;
-<<<<<<< HEAD
-=======
-	int qcss_tok;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	for_each_node_by_name(np, "interrupt-controller") {
 		typep = of_get_property(np, "compatible", NULL);

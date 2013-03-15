@@ -214,13 +214,8 @@ void ath_descdma_cleanup(struct ath_softc *sc, struct ath_descdma *dd,
 
 /* returns delimiter padding required given the packet length */
 #define ATH_AGGR_GET_NDELIM(_len)					\
-<<<<<<< HEAD
 	(((((_len) + ATH_AGGR_DELIM_SZ) < ATH_AGGR_MINPLEN) ?           \
 	  (ATH_AGGR_MINPLEN - (_len) - ATH_AGGR_DELIM_SZ) : 0) >> 2)
-=======
-       (((_len) >= ATH_AGGR_MINPLEN) ? 0 :                             \
-        DIV_ROUND_UP(ATH_AGGR_MINPLEN - (_len), ATH_AGGR_DELIM_SZ))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define BAW_WITHIN(_start, _bawsz, _seqno) \
 	((((_seqno) - (_start)) & 4095) < (_bawsz))
@@ -373,10 +368,6 @@ void ath_tx_aggr_start(struct ath_softc *sc, struct ieee80211_sta *sta,
 		       u16 tid, u16 *ssn);
 void ath_tx_aggr_stop(struct ath_softc *sc, struct ieee80211_sta *sta, u16 tid);
 void ath_tx_aggr_resume(struct ath_softc *sc, struct ieee80211_sta *sta, u16 tid);
-<<<<<<< HEAD
-=======
-void ath9k_enable_ps(struct ath_softc *sc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /********/
 /* VIFs */

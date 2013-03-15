@@ -12,10 +12,6 @@
 #include <linux/spinlock.h>
 #include <linux/completion.h>
 #include <linux/buffer_head.h>
-<<<<<<< HEAD
-=======
-#include <linux/xattr.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/posix_acl.h>
 #include <linux/posix_acl_xattr.h>
 #include <linux/gfs2_ondisk.h>
@@ -30,7 +26,6 @@
 #include "trans.h"
 #include "util.h"
 
-<<<<<<< HEAD
 #define ACL_ACCESS 1
 #define ACL_DEFAULT 0
 
@@ -86,8 +81,6 @@ int gfs2_acl_validate_remove(struct gfs2_inode *ip, int access)
 	return 0;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int acl_get(struct gfs2_inode *ip, const char *name,
 		   struct posix_acl **acl, struct gfs2_ea_location *el,
 		   char **datap, unsigned int *lenp)
@@ -284,120 +277,3 @@ out_brelse:
 	return error;
 }
 
-<<<<<<< HEAD
-=======
-static int gfs2_acl_type(const char *name)
-{
-	if (strcmp(name, GFS2_POSIX_ACL_ACCESS) == 0)
-		return ACL_TYPE_ACCESS;
-	if (strcmp(name, GFS2_POSIX_ACL_DEFAULT) == 0)
-		return ACL_TYPE_DEFAULT;
-	return -EINVAL;
-}
-
-static int gfs2_xattr_system_get(struct inode *inode, const char *name,
-				 void *buffer, size_t size)
-{
-	int type;
-
-	type = gfs2_acl_type(name);
-	if (type < 0)
-		return type;
-
-	return gfs2_xattr_get(inode, GFS2_EATYPE_SYS, name, buffer, size);
-}
-
-static int gfs2_set_mode(struct inode *inode, mode_t mode)
-{
-	int error = 0;
-
-	if (mode != inode->i_mode) {
-		struct iattr iattr;
-
-		iattr.ia_valid = ATTR_MODE;
-		iattr.ia_mode = mode;
-
-		error = gfs2_setattr_simple(GFS2_I(inode), &iattr);
-	}
-
-	return error;
-}
-
-static int gfs2_xattr_system_set(struct inode *inode, const char *name,
-				 const void *value, size_t size, int flags)
-{
-	struct gfs2_sbd *sdp = GFS2_SB(inode);
-	struct posix_acl *acl = NULL;
-	int error = 0, type;
-
-	if (!sdp->sd_args.ar_posix_acl)
-		return -EOPNOTSUPP;
-
-	type = gfs2_acl_type(name);
-	if (type < 0)
-		return type;
-	if (flags & XATTR_CREATE)
-		return -EINVAL;
-	if (type == ACL_TYPE_DEFAULT && !S_ISDIR(inode->i_mode))
-		return value ? -EACCES : 0;
-	if ((current_fsuid() != inode->i_uid) && !capable(CAP_FOWNER))
-		return -EPERM;
-	if (S_ISLNK(inode->i_mode))
-		return -EOPNOTSUPP;
-
-	if (!value)
-		goto set_acl;
-
-	acl = posix_acl_from_xattr(value, size);
-	if (!acl) {
-		/*
-		 * acl_set_file(3) may request that we set default ACLs with
-		 * zero length -- defend (gracefully) against that here.
-		 */
-		goto out;
-	}
-	if (IS_ERR(acl)) {
-		error = PTR_ERR(acl);
-		goto out;
-	}
-
-	error = posix_acl_valid(acl);
-	if (error)
-		goto out_release;
-
-	error = -EINVAL;
-	if (acl->a_count > GFS2_ACL_MAX_ENTRIES)
-		goto out_release;
-
-	if (type == ACL_TYPE_ACCESS) {
-		mode_t mode = inode->i_mode;
-		error = posix_acl_equiv_mode(acl, &mode);
-
-		if (error <= 0) {
-			posix_acl_release(acl);
-			acl = NULL;
-
-			if (error < 0)
-				return error;
-		}
-
-		error = gfs2_set_mode(inode, mode);
-		if (error)
-			goto out_release;
-	}
-
-set_acl:
-	error = gfs2_xattr_set(inode, GFS2_EATYPE_SYS, name, value, size, 0);
-out_release:
-	posix_acl_release(acl);
-out:
-	return error;
-}
-
-struct xattr_handler gfs2_xattr_system_handler = {
-	.prefix = XATTR_SYSTEM_PREFIX,
-	.get    = gfs2_xattr_system_get,
-	.set    = gfs2_xattr_system_set,
-};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

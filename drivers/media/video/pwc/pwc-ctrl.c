@@ -753,11 +753,7 @@ int pwc_set_shutter_speed(struct pwc_device *pdev, int mode, int value)
 		buf[0] = 0xff; /* fixed */
 
 	ret = send_control_msg(pdev,
-<<<<<<< HEAD
 		SET_LUM_CTL, SHUTTER_MODE_FORMATTER, &buf, sizeof(buf));
-=======
-		SET_LUM_CTL, SHUTTER_MODE_FORMATTER, &buf, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!mode && ret >= 0) {
 		if (value < 0)

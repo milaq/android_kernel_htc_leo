@@ -54,10 +54,7 @@
 #include <asm/unistd.h>
 #include <asm/pgtable.h>
 #include <asm/mmu_context.h>
-<<<<<<< HEAD
 #include "cred-internals.h"
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static void exit_mm(struct task_struct * tsk);
 
@@ -95,17 +92,6 @@ static void __exit_signal(struct task_struct *tsk)
 		posix_cpu_timers_exit_group(tsk);
 	else {
 		/*
-<<<<<<< HEAD
-=======
-		 * This can only happen if the caller is de_thread().
-		 * FIXME: this is the temporary hack, we should teach
-		 * posix-cpu-timers to handle this case correctly.
-		 */
-		if (unlikely(has_group_leader_pid(tsk)))
-			posix_cpu_timers_exit_group(tsk);
-
-		/*
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		 * If there is any task waiting for the group exit
 		 * then notify it:
 		 */
@@ -124,13 +110,8 @@ static void __exit_signal(struct task_struct *tsk)
 		 * We won't ever get here for the group leader, since it
 		 * will have been the last reference on the signal_struct.
 		 */
-<<<<<<< HEAD
 		sig->utime = cputime_add(sig->utime, task_utime(tsk));
 		sig->stime = cputime_add(sig->stime, task_stime(tsk));
-=======
-		sig->utime = cputime_add(sig->utime, tsk->utime);
-		sig->stime = cputime_add(sig->stime, tsk->stime);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		sig->gtime = cputime_add(sig->gtime, task_gtime(tsk));
 		sig->min_flt += tsk->min_flt;
 		sig->maj_flt += tsk->maj_flt;
@@ -918,18 +899,6 @@ NORET_TYPE void do_exit(long code)
 	if (unlikely(!tsk->pid))
 		panic("Attempted to kill the idle task!");
 
-<<<<<<< HEAD
-=======
-	/*
-	 * If do_exit is called because this processes oopsed, it's possible
-	 * that get_fs() was left as KERNEL_DS, so reset it to USER_DS before
-	 * continuing. Amongst other possible reasons, this is to prevent
-	 * mm_release()->clear_child_tid() from writing to a user-controlled
-	 * kernel address.
-	 */
-	set_fs(USER_DS);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tracehook_report_exit(&code);
 
 	validate_creds_for_do_exit(tsk);
@@ -1035,11 +1004,7 @@ NORET_TYPE void do_exit(long code)
 	tsk->flags |= PF_EXITPIDONE;
 
 	if (tsk->io_context)
-<<<<<<< HEAD
 		exit_io_context();
-=======
-		exit_io_context(tsk);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (tsk->splice_pipe)
 		__free_pipe_info(tsk->splice_pipe);
@@ -1240,10 +1205,6 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
 		struct signal_struct *psig;
 		struct signal_struct *sig;
 		unsigned long maxrss;
-<<<<<<< HEAD
-=======
-		cputime_t tgutime, tgstime;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/*
 		 * The resource counters for the group leader are in its
@@ -1259,22 +1220,12 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
 		 * need to protect the access to parent->signal fields,
 		 * as other threads in the parent group can be right
 		 * here reaping other children at the same time.
-<<<<<<< HEAD
 		 */
-=======
-		 *
-		 * We use thread_group_times() to get times for the thread
-		 * group, which consolidates times for all threads in the
-		 * group including the group leader.
-		 */
-		thread_group_times(p, &tgutime, &tgstime);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock_irq(&p->real_parent->sighand->siglock);
 		psig = p->real_parent->signal;
 		sig = p->signal;
 		psig->cutime =
 			cputime_add(psig->cutime,
-<<<<<<< HEAD
 			cputime_add(p->utime,
 			cputime_add(sig->utime,
 				    sig->cutime)));
@@ -1283,14 +1234,6 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
 			cputime_add(p->stime,
 			cputime_add(sig->stime,
 				    sig->cstime)));
-=======
-			cputime_add(tgutime,
-				    sig->cutime));
-		psig->cstime =
-			cputime_add(psig->cstime,
-			cputime_add(tgstime,
-				    sig->cstime));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		psig->cgtime =
 			cputime_add(psig->cgtime,
 			cputime_add(p->gtime,
@@ -1427,12 +1370,8 @@ static int wait_task_stopped(struct wait_opts *wo,
 	if (!unlikely(wo->wo_flags & WNOWAIT))
 		*p_code = 0;
 
-<<<<<<< HEAD
 	/* don't need the RCU readlock here as we're holding a spinlock */
 	uid = __task_cred(p)->uid;
-=======
-	uid = task_uid(p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 unlock_sig:
 	spin_unlock_irq(&p->sighand->siglock);
 	if (!exit_code)
@@ -1505,11 +1444,7 @@ static int wait_task_continued(struct wait_opts *wo, struct task_struct *p)
 	}
 	if (!unlikely(wo->wo_flags & WNOWAIT))
 		p->signal->flags &= ~SIGNAL_STOP_CONTINUED;
-<<<<<<< HEAD
 	uid = __task_cred(p)->uid;
-=======
-	uid = task_uid(p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irq(&p->sighand->siglock);
 
 	pid = task_pid_vnr(p);

@@ -1701,12 +1701,6 @@ static int	sisfb_ioctl(struct fb_info *info, unsigned int cmd,
 		break;
 
 	   case FBIOGET_VBLANK:
-<<<<<<< HEAD
-=======
-
-		memset(&sisvbblank, 0, sizeof(struct fb_vblank));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		sisvbblank.count = 0;
 		sisvbblank.flags = sisfb_setupvbblankflags(ivideo, &sisvbblank.vcount, &sisvbblank.hcount);
 

@@ -16,10 +16,7 @@
 #include <linux/interrupt.h>
 #include <linux/module.h>
 #include <linux/user_namespace.h>
-<<<<<<< HEAD
 #include "cred-internals.h"
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct user_namespace init_user_ns = {
 	.kref = {
@@ -59,12 +56,9 @@ struct user_struct root_user = {
 	.sigpending	= ATOMIC_INIT(0),
 	.locked_shm     = 0,
 	.user_ns	= &init_user_ns,
-<<<<<<< HEAD
 #ifdef CONFIG_USER_SCHED
 	.tg		= &init_task_group,
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /*
@@ -81,7 +75,6 @@ static void uid_hash_remove(struct user_struct *up)
 	put_user_ns(up->user_ns);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_USER_SCHED
 
 static void sched_destroy_user(struct user_struct *up)
@@ -344,8 +337,6 @@ static void free_user(struct user_struct *up, unsigned long flags)
 
 #else	/* CONFIG_USER_SCHED && CONFIG_SYSFS */
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct user_struct *uid_hash_find(uid_t uid, struct hlist_head *hashent)
 {
 	struct user_struct *user;
@@ -361,36 +352,25 @@ static struct user_struct *uid_hash_find(uid_t uid, struct hlist_head *hashent)
 	return NULL;
 }
 
-<<<<<<< HEAD
 int uids_sysfs_init(void) { return 0; }
 static inline int uids_user_create(struct user_struct *up) { return 0; }
 static inline void uids_mutex_lock(void) { }
 static inline void uids_mutex_unlock(void) { }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* IRQs are disabled and uidhash_lock is held upon function entry.
  * IRQ state (as stored in flags) is restored and uidhash_lock released
  * upon function exit.
  */
 static void free_user(struct user_struct *up, unsigned long flags)
-<<<<<<< HEAD
 {
 	uid_hash_remove(up);
 	spin_unlock_irqrestore(&uidhash_lock, flags);
 	sched_destroy_user(up);
-=======
-	__releases(&uidhash_lock)
-{
-	uid_hash_remove(up);
-	spin_unlock_irqrestore(&uidhash_lock, flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	key_put(up->uid_keyring);
 	key_put(up->session_keyring);
 	kmem_cache_free(uid_cachep, up);
 }
 
-<<<<<<< HEAD
 #endif
 
 #if defined(CONFIG_RT_GROUP_SCHED) && defined(CONFIG_USER_SCHED)
@@ -411,8 +391,6 @@ int task_can_switch_user(struct user_struct *up, struct task_struct *tsk)
 }
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Locate the user_struct for the passed UID.  If found, take a ref on it.  The
  * caller must undo that ref with free_uid().
@@ -450,15 +428,11 @@ struct user_struct *alloc_uid(struct user_namespace *ns, uid_t uid)
 	struct hlist_head *hashent = uidhashentry(ns, uid);
 	struct user_struct *up, *new;
 
-<<<<<<< HEAD
 	/* Make uid_hash_find() + uids_user_create() + uid_hash_insert()
 	 * atomic.
 	 */
 	uids_mutex_lock();
 
-=======
-	/* Make uid_hash_find() + uid_hash_insert() atomic. */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_lock_irq(&uidhash_lock);
 	up = uid_hash_find(uid, hashent);
 	spin_unlock_irq(&uidhash_lock);
@@ -471,7 +445,6 @@ struct user_struct *alloc_uid(struct user_namespace *ns, uid_t uid)
 		new->uid = uid;
 		atomic_set(&new->__count, 1);
 
-<<<<<<< HEAD
 		if (sched_create_user(new) < 0)
 			goto out_free_user;
 
@@ -480,10 +453,6 @@ struct user_struct *alloc_uid(struct user_namespace *ns, uid_t uid)
 		if (uids_user_create(new))
 			goto out_destoy_sched;
 
-=======
-		new->user_ns = get_user_ns(ns);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * Before adding this, check whether we raced
 		 * on adding the same user already..
@@ -491,14 +460,11 @@ struct user_struct *alloc_uid(struct user_namespace *ns, uid_t uid)
 		spin_lock_irq(&uidhash_lock);
 		up = uid_hash_find(uid, hashent);
 		if (up) {
-<<<<<<< HEAD
 			/* This case is not possible when CONFIG_USER_SCHED
 			 * is defined, since we serialize alloc_uid() using
 			 * uids_mutex. Hence no need to call
 			 * sched_destroy_user() or remove_user_sysfs_dir().
 			 */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			key_put(new->uid_keyring);
 			key_put(new->session_keyring);
 			kmem_cache_free(uid_cachep, new);
@@ -509,7 +475,6 @@ struct user_struct *alloc_uid(struct user_namespace *ns, uid_t uid)
 		spin_unlock_irq(&uidhash_lock);
 	}
 
-<<<<<<< HEAD
 	uids_mutex_unlock();
 
 	return up;
@@ -521,11 +486,6 @@ out_free_user:
 	kmem_cache_free(uid_cachep, new);
 out_unlock:
 	uids_mutex_unlock();
-=======
-	return up;
-
-out_unlock:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return NULL;
 }
 

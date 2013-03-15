@@ -327,11 +327,7 @@ static int __devinit usb_hcd_pnx4008_probe(struct platform_device *pdev)
 	}
 	i2c_adap = i2c_get_adapter(2);
 	memset(&i2c_info, 0, sizeof(struct i2c_board_info));
-<<<<<<< HEAD
 	strlcpy(i2c_info.name, "isp1301_pnx", I2C_NAME_SIZE);
-=======
-	strlcpy(i2c_info.type, "isp1301_pnx", I2C_NAME_SIZE);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	isp1301_i2c_client = i2c_new_probed_device(i2c_adap, &i2c_info,
 						   normal_i2c);
 	i2c_put_adapter(i2c_adap);
@@ -415,11 +411,7 @@ out3:
 out2:
 	clk_put(usb_clk);
 out1:
-<<<<<<< HEAD
 	i2c_unregister_client(isp1301_i2c_client);
-=======
-	i2c_unregister_device(isp1301_i2c_client);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	isp1301_i2c_client = NULL;
 out_i2c_driver:
 	i2c_del_driver(&isp1301_driver);
@@ -438,11 +430,7 @@ static int usb_hcd_pnx4008_remove(struct platform_device *pdev)
 	pnx4008_unset_usb_bits();
 	clk_disable(usb_clk);
 	clk_put(usb_clk);
-<<<<<<< HEAD
 	i2c_unregister_client(isp1301_i2c_client);
-=======
-	i2c_unregister_device(isp1301_i2c_client);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	isp1301_i2c_client = NULL;
 	i2c_del_driver(&isp1301_driver);
 

@@ -126,11 +126,7 @@ static int p54_generate_band(struct ieee80211_hw *dev,
 	int ret = -ENOMEM;
 
 	if ((!list->entries) || (!list->band_channel_num[band]))
-<<<<<<< HEAD
 		return 0;
-=======
-		return -EINVAL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
 	if (!tmp)
@@ -162,10 +158,6 @@ static int p54_generate_band(struct ieee80211_hw *dev,
 			       (list->channels[i].data & CHAN_HAS_CURVE ? "" :
 				" [curve data]"),
 			       list->channels[i].index, list->channels[i].freq);
-<<<<<<< HEAD
-=======
-			continue;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		tmp->channels[j].band = list->channels[i].band;
@@ -173,20 +165,7 @@ static int p54_generate_band(struct ieee80211_hw *dev,
 		j++;
 	}
 
-<<<<<<< HEAD
 	tmp->n_channels = list->band_channel_num[band];
-=======
-	if (j == 0) {
-		printk(KERN_ERR "%s: Disabling totally damaged %s band.\n",
-		       wiphy_name(dev->wiphy), (band == IEEE80211_BAND_2GHZ) ?
-		       "2 GHz" : "5 GHz");
-
-		ret = -ENODATA;
-		goto err_out;
-	}
-
-	tmp->n_channels = j;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	old = priv->band_table[band];
 	priv->band_table[band] = tmp;
 	if (old) {
@@ -249,22 +228,13 @@ static int p54_generate_channel_lists(struct ieee80211_hw *dev)
 	struct p54_common *priv = dev->priv;
 	struct p54_channel_list *list;
 	unsigned int i, j, max_channel_num;
-<<<<<<< HEAD
 	int ret = -ENOMEM;
-=======
-	int ret = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u16 freq;
 
 	if ((priv->iq_autocal_len != priv->curve_data->entries) ||
 	    (priv->iq_autocal_len != priv->output_limit->entries))
-<<<<<<< HEAD
 		printk(KERN_ERR "%s: EEPROM is damaged... you may not be able"
 				"to use all channels with this device.\n",
-=======
-		printk(KERN_ERR "%s: Unsupported or damaged EEPROM detected. "
-				"You may not be able to use all channels.\n",
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				wiphy_name(dev->wiphy));
 
 	max_channel_num = max_t(unsigned int, priv->output_limit->entries,
@@ -273,28 +243,14 @@ static int p54_generate_channel_lists(struct ieee80211_hw *dev)
 				priv->curve_data->entries);
 
 	list = kzalloc(sizeof(*list), GFP_KERNEL);
-<<<<<<< HEAD
 	if (!list)
 		goto free;
-=======
-	if (!list) {
-		ret = -ENOMEM;
-		goto free;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	list->max_entries = max_channel_num;
 	list->channels = kzalloc(sizeof(struct p54_channel_entry) *
 				 max_channel_num, GFP_KERNEL);
-<<<<<<< HEAD
 	if (!list->channels)
 		goto free;
-=======
-	if (!list->channels) {
-		ret = -ENOMEM;
-		goto free;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	for (i = 0; i < max_channel_num; i++) {
 		if (i < priv->iq_autocal_len) {
@@ -326,7 +282,6 @@ static int p54_generate_channel_lists(struct ieee80211_hw *dev)
 	     p54_compare_channels, NULL);
 
 	for (i = 0, j = 0; i < IEEE80211_NUM_BANDS; i++) {
-<<<<<<< HEAD
 		if (list->band_channel_num[i]) {
 			ret = p54_generate_band(dev, list, i);
 			if (ret)
@@ -334,10 +289,6 @@ static int p54_generate_channel_lists(struct ieee80211_hw *dev)
 
 			j++;
 		}
-=======
-		if (p54_generate_band(dev, list, i) == 0)
-			j++;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	if (j == 0) {
 		/* no useable band available. */

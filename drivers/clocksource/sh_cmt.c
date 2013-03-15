@@ -413,7 +413,6 @@ static cycle_t sh_cmt_clocksource_read(struct clocksource *cs)
 static int sh_cmt_clocksource_enable(struct clocksource *cs)
 {
 	struct sh_cmt_priv *p = cs_to_sh_cmt(cs);
-<<<<<<< HEAD
 	int ret;
 
 	p->total_cycles = 0;
@@ -426,12 +425,6 @@ static int sh_cmt_clocksource_enable(struct clocksource *cs)
 	cs->shift = 0;
 	cs->mult = clocksource_hz2mult(p->rate, cs->shift);
 	return 0;
-=======
-
-	p->total_cycles = 0;
-
-	return sh_cmt_start(p, FLAG_CLOCKSOURCE);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void sh_cmt_clocksource_disable(struct clocksource *cs)
@@ -451,22 +444,7 @@ static int sh_cmt_register_clocksource(struct sh_cmt_priv *p,
 	cs->disable = sh_cmt_clocksource_disable;
 	cs->mask = CLOCKSOURCE_MASK(sizeof(unsigned long) * 8);
 	cs->flags = CLOCK_SOURCE_IS_CONTINUOUS;
-<<<<<<< HEAD
 	pr_info("sh_cmt: %s used as clock source\n", cs->name);
-=======
-
-	/* clk_get_rate() needs an enabled clock */
-	clk_enable(p->clk);
-	p->rate = clk_get_rate(p->clk) / (p->width == 16) ? 512 : 8;
-	clk_disable(p->clk);
-
-	/* TODO: calculate good shift from rate and counter bit width */
-	cs->shift = 10;
-	cs->mult = clocksource_hz2mult(p->rate, cs->shift);
-
-	pr_info("sh_cmt: %s used as clock source\n", cs->name);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	clocksource_register(cs);
 	return 0;
 }
@@ -625,25 +603,18 @@ static int sh_cmt_setup(struct sh_cmt_priv *p, struct platform_device *pdev)
 	p->irqaction.handler = sh_cmt_interrupt;
 	p->irqaction.dev_id = p;
 	p->irqaction.flags = IRQF_DISABLED | IRQF_TIMER | IRQF_IRQPOLL;
-<<<<<<< HEAD
 	ret = setup_irq(irq, &p->irqaction);
 	if (ret) {
 		pr_err("sh_cmt: failed to request irq %d\n", irq);
 		goto err1;
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* get hold of clock */
 	p->clk = clk_get(&p->pdev->dev, cfg->clk);
 	if (IS_ERR(p->clk)) {
 		pr_err("sh_cmt: cannot get clock \"%s\"\n", cfg->clk);
 		ret = PTR_ERR(p->clk);
-<<<<<<< HEAD
 		goto err2;
-=======
-		goto err1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (resource_size(res) == 6) {
@@ -656,7 +627,6 @@ static int sh_cmt_setup(struct sh_cmt_priv *p, struct platform_device *pdev)
 		p->clear_bits = ~0xc000;
 	}
 
-<<<<<<< HEAD
 	return sh_cmt_register(p, cfg->name,
 			       cfg->clockevent_rating,
 			       cfg->clocksource_rating);
@@ -665,27 +635,6 @@ static int sh_cmt_setup(struct sh_cmt_priv *p, struct platform_device *pdev)
  err1:
 	iounmap(p->mapbase);
  err0:
-=======
-	ret = sh_cmt_register(p, cfg->name,
-			      cfg->clockevent_rating,
-			      cfg->clocksource_rating);
-	if (ret) {
-		pr_err("sh_cmt: registration failed\n");
-		goto err1;
-	}
-
-	ret = setup_irq(irq, &p->irqaction);
-	if (ret) {
-		pr_err("sh_cmt: failed to request irq %d\n", irq);
-		goto err1;
-	}
-
-	return 0;
-
-err1:
-	iounmap(p->mapbase);
-err0:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 

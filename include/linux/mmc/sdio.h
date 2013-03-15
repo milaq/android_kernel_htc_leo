@@ -94,12 +94,7 @@
 
 #define  SDIO_BUS_WIDTH_1BIT	0x00
 #define  SDIO_BUS_WIDTH_4BIT	0x02
-<<<<<<< HEAD
 #define  SDIO_BUS_WIDTH_8BIT	0x03
-=======
-#define  SDIO_BUS_ECSI		0x20	/* Enable continuous SPI interrupt */
-#define  SDIO_BUS_SCSI		0x40	/* Support continuous SPI interrupt */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define  SDIO_BUS_CD_DISABLE     0x80	/* disable pull-up on DAT3 (pin 1) */
 

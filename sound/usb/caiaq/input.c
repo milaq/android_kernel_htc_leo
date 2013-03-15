@@ -28,11 +28,7 @@ static unsigned short keycode_ak1[] =  { KEY_C, KEY_B, KEY_A };
 static unsigned short keycode_rk2[] =  { KEY_1, KEY_2, KEY_3, KEY_4,
 					 KEY_5, KEY_6, KEY_7 };
 static unsigned short keycode_rk3[] =  { KEY_1, KEY_2, KEY_3, KEY_4,
-<<<<<<< HEAD
 					 KEY_5, KEY_6, KEY_7, KEY_5, KEY_6 };
-=======
-					 KEY_5, KEY_6, KEY_7, KEY_8, KEY_9 };
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static unsigned short keycode_kore[] = {
 	KEY_FN_F1,      /* "menu"               */

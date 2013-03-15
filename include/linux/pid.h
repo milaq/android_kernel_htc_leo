@@ -117,11 +117,7 @@ extern struct pid *find_vpid(int nr);
  */
 extern struct pid *find_get_pid(int nr);
 extern struct pid *find_ge_pid(int nr, struct pid_namespace *);
-<<<<<<< HEAD
 int next_pidmap(struct pid_namespace *pid_ns, int last);
-=======
-int next_pidmap(struct pid_namespace *pid_ns, unsigned int last);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern struct pid *alloc_pid(struct pid_namespace *ns);
 extern void free_pid(struct pid *pid);

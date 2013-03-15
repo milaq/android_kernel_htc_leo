@@ -849,10 +849,6 @@ struct snd_m3 {
 	struct snd_kcontrol *master_switch;
 	struct snd_kcontrol *master_volume;
 	struct tasklet_struct hwvol_tq;
-<<<<<<< HEAD
-=======
-	unsigned int in_suspend;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_PM
 	u16 *suspend_mem;
@@ -888,10 +884,6 @@ static struct pci_device_id snd_m3_ids[] = {
 MODULE_DEVICE_TABLE(pci, snd_m3_ids);
 
 static struct snd_pci_quirk m3_amp_quirk_list[] __devinitdata = {
-<<<<<<< HEAD
-=======
-	SND_PCI_QUIRK(0x0E11, 0x0094, "Compaq Evo N600c", 0x0c),
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	SND_PCI_QUIRK(0x10f7, 0x833e, "Panasonic CF-28", 0x0d),
 	SND_PCI_QUIRK(0x10f7, 0x833d, "Panasonic CF-72", 0x0d),
 	SND_PCI_QUIRK(0x1033, 0x80f1, "NEC LM800J/7", 0x03),
@@ -1621,14 +1613,6 @@ static void snd_m3_update_hw_volume(unsigned long private_data)
 	outb(0x88, chip->iobase + SHADOW_MIX_REG_MASTER);
 	outb(0x88, chip->iobase + HW_VOL_COUNTER_MASTER);
 
-<<<<<<< HEAD
-=======
-	/* Ignore spurious HV interrupts during suspend / resume, this avoids
-	   mistaking them for a mute button press. */
-	if (chip->in_suspend)
-		return;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!chip->master_switch || !chip->master_volume)
 		return;
 
@@ -2440,10 +2424,6 @@ static int m3_suspend(struct pci_dev *pci, pm_message_t state)
 	if (chip->suspend_mem == NULL)
 		return 0;
 
-<<<<<<< HEAD
-=======
-	chip->in_suspend = 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
 	snd_pcm_suspend_all(chip->pcm);
 	snd_ac97_suspend(chip->ac97);
@@ -2517,10 +2497,6 @@ static int m3_resume(struct pci_dev *pci)
 	snd_m3_hv_init(chip);
 
 	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-<<<<<<< HEAD
-=======
-	chip->in_suspend = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 #endif /* CONFIG_PM */

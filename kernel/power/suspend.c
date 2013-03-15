@@ -19,12 +19,9 @@
 #include "power.h"
 
 const char *const pm_states[PM_SUSPEND_MAX] = {
-<<<<<<< HEAD
 #ifdef CONFIG_EARLYSUSPEND
 	[PM_SUSPEND_ON]		= "on",
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	[PM_SUSPEND_STANDBY]	= "standby",
 	[PM_SUSPEND_MEM]	= "mem",
 };
@@ -299,11 +296,7 @@ int enter_state(suspend_state_t state)
  */
 int pm_suspend(suspend_state_t state)
 {
-<<<<<<< HEAD
 	if (state > PM_SUSPEND_ON && state <= PM_SUSPEND_MAX)
-=======
-	if (state > PM_SUSPEND_ON && state < PM_SUSPEND_MAX)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return enter_state(state);
 	return -EINVAL;
 }

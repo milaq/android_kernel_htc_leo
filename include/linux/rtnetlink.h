@@ -754,12 +754,9 @@ extern void rtnl_lock(void);
 extern void rtnl_unlock(void);
 extern int rtnl_trylock(void);
 extern int rtnl_is_locked(void);
-<<<<<<< HEAD
 #ifdef CONFIG_PROVE_LOCKING
 extern int lockdep_rtnl_is_held(void);
 #endif /* #ifdef CONFIG_PROVE_LOCKING */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern void rtnetlink_init(void);
 extern void __rtnl_unlock(void);

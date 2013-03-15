@@ -69,12 +69,7 @@ static inline bool perf_paranoid_kernel(void)
 	return sysctl_perf_event_paranoid > 1;
 }
 
-<<<<<<< HEAD
 int sysctl_perf_event_mlock __read_mostly = 512; /* 'free' kb per user */
-=======
-/* Minimum for 128 pages + 1 for the user control page */
-int sysctl_perf_event_mlock __read_mostly = 516; /* 'free' kb per user */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * max perf event sample rate
@@ -3698,17 +3693,12 @@ static int __perf_event_overflow(struct perf_event *event, int nmi,
 	if (events && atomic_dec_and_test(&event->event_limit)) {
 		ret = 1;
 		event->pending_kill = POLL_HUP;
-<<<<<<< HEAD
 		if (nmi) {
 			event->pending_disable = 1;
 			perf_pending_queue(&event->pending,
 					   perf_pending_event);
 		} else
 			perf_event_disable(event);
-=======
-		event->pending_disable = 1;
-		perf_pending_queue(&event->pending, perf_pending_event);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	perf_event_output(event, nmi, data, regs);
@@ -4520,13 +4510,8 @@ SYSCALL_DEFINE5(perf_event_open,
 	struct perf_event_context *ctx;
 	struct file *event_file = NULL;
 	struct file *group_file = NULL;
-<<<<<<< HEAD
 	int fput_needed = 0;
 	int fput_needed2 = 0;
-=======
-	int event_fd;
-	int fput_needed = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int err;
 
 	/* for future expandability... */
@@ -4547,26 +4532,12 @@ SYSCALL_DEFINE5(perf_event_open,
 			return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-	event_fd = get_unused_fd_flags(O_RDWR);
-	if (event_fd < 0)
-		return event_fd;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * Get the target context (task or percpu):
 	 */
 	ctx = find_get_context(pid, cpu);
-<<<<<<< HEAD
 	if (IS_ERR(ctx))
 		return PTR_ERR(ctx);
-=======
-	if (IS_ERR(ctx)) {
-		err = PTR_ERR(ctx);
-		goto err_fd;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Look up the group leader (we will attach this event to it):
@@ -4606,7 +4577,6 @@ SYSCALL_DEFINE5(perf_event_open,
 	if (IS_ERR(event))
 		goto err_put_context;
 
-<<<<<<< HEAD
 	err = anon_inode_getfd("[perf_event]", &perf_fops, event, 0);
 	if (err < 0)
 		goto err_free_put_context;
@@ -4614,13 +4584,6 @@ SYSCALL_DEFINE5(perf_event_open,
 	event_file = fget_light(err, &fput_needed2);
 	if (!event_file)
 		goto err_free_put_context;
-=======
-	event_file = anon_inode_getfile("[perf_event]", &perf_fops, event, O_RDWR);
-	if (IS_ERR(event_file)) {
-		err = PTR_ERR(event_file);
-		goto err_free_put_context;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (flags & PERF_FLAG_FD_OUTPUT) {
 		err = perf_event_set_output(event, group_fd);
@@ -4641,7 +4604,6 @@ SYSCALL_DEFINE5(perf_event_open,
 	list_add_tail(&event->owner_entry, &current->perf_event_list);
 	mutex_unlock(&current->perf_event_mutex);
 
-<<<<<<< HEAD
 err_fput_free_put_context:
 	fput_light(event_file, fput_needed2);
 
@@ -4655,21 +4617,6 @@ err_put_context:
 
 	fput_light(group_file, fput_needed);
 
-=======
-	fput_light(group_file, fput_needed);
-	fd_install(event_fd, event_file);
-	return event_fd;
-
-err_fput_free_put_context:
-	fput(event_file);
-err_free_put_context:
-	free_event(event);
-err_put_context:
-	fput_light(group_file, fput_needed);
-	put_ctx(ctx);
-err_fd:
-	put_unused_fd(event_fd);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 
@@ -5034,29 +4981,12 @@ int perf_event_init_task(struct task_struct *child)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-static void __init perf_event_init_all_cpus(void)
-{
-	int cpu;
-	struct perf_cpu_context *cpuctx;
-
-	for_each_possible_cpu(cpu) {
-		cpuctx = &per_cpu(perf_cpu_context, cpu);
-		__perf_event_init_context(&cpuctx->ctx, NULL);
-	}
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void __cpuinit perf_event_init_cpu(int cpu)
 {
 	struct perf_cpu_context *cpuctx;
 
 	cpuctx = &per_cpu(perf_cpu_context, cpu);
-<<<<<<< HEAD
 	__perf_event_init_context(&cpuctx->ctx, NULL);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	spin_lock(&perf_resource_lock);
 	cpuctx->max_pertask = perf_max_events - perf_reserved_percpu;
@@ -5127,10 +5057,6 @@ static struct notifier_block __cpuinitdata perf_cpu_nb = {
 
 void __init perf_event_init(void)
 {
-<<<<<<< HEAD
-=======
-	perf_event_init_all_cpus();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	perf_cpu_notify(&perf_cpu_nb, (unsigned long)CPU_UP_PREPARE,
 			(void *)(long)smp_processor_id());
 	perf_cpu_notify(&perf_cpu_nb, (unsigned long)CPU_ONLINE,

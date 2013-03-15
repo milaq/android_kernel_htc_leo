@@ -497,11 +497,7 @@ static inline void really_put_req(struct kioctx *ctx, struct kiocb *req)
 	ctx->reqs_active--;
 
 	if (unlikely(!ctx->reqs_active && ctx->dead))
-<<<<<<< HEAD
 		wake_up(&ctx->wait);
-=======
-		wake_up_all(&ctx->wait);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void aio_fput_routine(struct work_struct *data)
@@ -1223,11 +1219,7 @@ static void io_destroy(struct kioctx *ioctx)
 	 * by other CPUs at this point.  Right now, we rely on the
 	 * locking done by the above calls to ensure this consistency.
 	 */
-<<<<<<< HEAD
 	wake_up(&ioctx->wait);
-=======
-	wake_up_all(&ioctx->wait);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	put_ioctx(ioctx);	/* once for the lookup */
 }
 
@@ -1647,12 +1639,6 @@ SYSCALL_DEFINE3(io_submit, aio_context_t, ctx_id, long, nr,
 	if (unlikely(nr < 0))
 		return -EINVAL;
 
-<<<<<<< HEAD
-=======
-	if (unlikely(nr > LONG_MAX/sizeof(*iocbpp)))
-		nr = LONG_MAX/sizeof(*iocbpp);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (unlikely(!access_ok(VERIFY_READ, iocbpp, (nr*sizeof(*iocbpp)))))
 		return -EFAULT;
 

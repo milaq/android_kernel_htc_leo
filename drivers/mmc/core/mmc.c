@@ -121,7 +121,6 @@ static int mmc_decode_csd(struct mmc_card *card)
 	 * v1.2 has extra information in bits 15, 11 and 10.
 	 */
 	csd_struct = UNSTUFF_BITS(resp, 126, 2);
-<<<<<<< HEAD
 #if defined(CONFIG_ARCH_MSM7X30)
 	/* for eMMC spec v4.4, csd_struct value will be 3		*/
 	/* for eMMC spec v4.1-v4.3 csd struct value will be 2	*/
@@ -136,11 +135,6 @@ static int mmc_decode_csd(struct mmc_card *card)
 		printk(KERN_ERR "%s: unrecognised CSD structure version 1.%d\n",
 			mmc_hostname(card->host), csd_struct);
 #endif
-=======
-	if (csd_struct != 1 && csd_struct != 2) {
-		printk(KERN_ERR "%s: unrecognised CSD structure version %d\n",
-			mmc_hostname(card->host), csd_struct);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EINVAL;
 	}
 
@@ -224,11 +218,7 @@ static int mmc_read_ext_csd(struct mmc_card *card)
 	}
 
 	card->ext_csd.rev = ext_csd[EXT_CSD_REV];
-<<<<<<< HEAD
 	if (card->ext_csd.rev > 5) {
-=======
-	if (card->ext_csd.rev > 3) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		printk(KERN_ERR "%s: unrecognised EXT_CSD structure "
 			"version %d\n", mmc_hostname(card->host),
 			card->ext_csd.rev);
@@ -242,7 +232,6 @@ static int mmc_read_ext_csd(struct mmc_card *card)
 			ext_csd[EXT_CSD_SEC_CNT + 1] << 8 |
 			ext_csd[EXT_CSD_SEC_CNT + 2] << 16 |
 			ext_csd[EXT_CSD_SEC_CNT + 3] << 24;
-<<<<<<< HEAD
 		if (!mmc_card_blockaddr(card)) {
 			if (card->ext_csd.sectors > MMC_SECTOR_SIZE_2G) {
 				mmc_card_set_blockaddr(card);
@@ -260,13 +249,6 @@ static int mmc_read_ext_csd(struct mmc_card *card)
 	case EXT_CSD_CARD_TYPE_52 | EXT_CSD_CARD_TYPE_26 | EXT_CSD_CARD_TYPE_DDR_HV | EXT_CSD_CARD_TYPE_DDR_LV:
 	case EXT_CSD_CARD_TYPE_52 | EXT_CSD_CARD_TYPE_26 | EXT_CSD_CARD_TYPE_DDR_HV:
 #endif
-=======
-		if (card->ext_csd.sectors)
-			mmc_card_set_blockaddr(card);
-	}
-
-	switch (ext_csd[EXT_CSD_CARD_TYPE]) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case EXT_CSD_CARD_TYPE_52 | EXT_CSD_CARD_TYPE_26:
 		card->ext_csd.hs_max_dtr = 52000000;
 		break;
@@ -345,10 +327,7 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 {
 	struct mmc_card *card;
 	int err;
-<<<<<<< HEAD
 	u32 rocr;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 cid[4];
 	unsigned int max_dtr;
 
@@ -364,11 +343,7 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 	mmc_go_idle(host);
 
 	/* The extra bit indicates that we support high capacity */
-<<<<<<< HEAD
 	err =  mmc_send_op_cond(host, ocr | (1 <<  30), &rocr);
-=======
-	err = mmc_send_op_cond(host, ocr | (1 << 30), NULL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err)
 		goto err;
 
@@ -411,11 +386,8 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 		card->type = MMC_TYPE_MMC;
 		card->rca = 1;
 		memcpy(card->raw_cid, cid, sizeof(card->raw_cid));
-<<<<<<< HEAD
 		if ((rocr &  MMC_ACCESS_MODE_MASK)  == MMC_ACCESS_MODE_SECTOR)
 			mmc_card_set_blockaddr(card);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*

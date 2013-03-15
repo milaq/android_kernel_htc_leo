@@ -125,11 +125,7 @@ static int __devinit zorro8390_init_one(struct zorro_dev *z,
 
     board = z->resource.start;
     ioaddr = board+cards[i].offset;
-<<<<<<< HEAD
     dev = alloc_ei_netdev();
-=======
-    dev = ____alloc_ei_netdev(0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
     if (!dev)
 	return -ENOMEM;
     if (!request_mem_region(ioaddr, NE_IO_EXTENT*2, DRV_NAME)) {
@@ -149,26 +145,15 @@ static int __devinit zorro8390_init_one(struct zorro_dev *z,
 static const struct net_device_ops zorro8390_netdev_ops = {
 	.ndo_open		= zorro8390_open,
 	.ndo_stop		= zorro8390_close,
-<<<<<<< HEAD
 	.ndo_start_xmit		= ei_start_xmit,
 	.ndo_tx_timeout		= ei_tx_timeout,
 	.ndo_get_stats		= ei_get_stats,
 	.ndo_set_multicast_list = ei_set_multicast_list,
-=======
-	.ndo_start_xmit		= __ei_start_xmit,
-	.ndo_tx_timeout		= __ei_tx_timeout,
-	.ndo_get_stats		= __ei_get_stats,
-	.ndo_set_multicast_list = __ei_set_multicast_list,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.ndo_validate_addr	= eth_validate_addr,
 	.ndo_set_mac_address 	= eth_mac_addr,
 	.ndo_change_mtu		= eth_change_mtu,
 #ifdef CONFIG_NET_POLL_CONTROLLER
-<<<<<<< HEAD
 	.ndo_poll_controller	= ei_poll,
-=======
-	.ndo_poll_controller	= __ei_poll,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 };
 

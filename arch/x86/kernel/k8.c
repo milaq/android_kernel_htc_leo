@@ -87,40 +87,6 @@ int __init early_is_k8_nb(u32 device)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-struct resource *amd_get_mmconfig_range(struct resource *res)
-{
-	u32 address;
-	u64 base, msr;
-	unsigned segn_busn_bits;
-
-	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
-		return NULL;
-
-	/* assume all cpus from fam10h have mmconfig */
-	if (boot_cpu_data.x86 < 0x10)
-		return NULL;
-
-	address = MSR_FAM10H_MMIO_CONF_BASE;
-	rdmsrl(address, msr);
-
-	/* mmconfig is not enabled */
-	if (!(msr & FAM10H_MMIO_CONF_ENABLE))
-		return NULL;
-
-	base = msr & (FAM10H_MMIO_CONF_BASE_MASK<<FAM10H_MMIO_CONF_BASE_SHIFT);
-
-	segn_busn_bits = (msr >> FAM10H_MMIO_CONF_BUSRANGE_SHIFT) &
-                         FAM10H_MMIO_CONF_BUSRANGE_MASK;
-
-	res->flags = IORESOURCE_MEM;
-	res->start = base;
-	res->end = base + (1ULL<<(segn_busn_bits + 20)) - 1;
-	return res;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void k8_flush_garts(void)
 {
 	int flushed, i;
@@ -155,20 +121,3 @@ void k8_flush_garts(void)
 }
 EXPORT_SYMBOL_GPL(k8_flush_garts);
 
-<<<<<<< HEAD
-=======
-static __init int init_k8_nbs(void)
-{
-	int err = 0;
-
-	err = cache_k8_northbridges();
-
-	if (err < 0)
-		printk(KERN_NOTICE "K8 NB: Cannot enumerate AMD northbridges.\n");
-
-	return err;
-}
-
-/* This has to go after the PCI subsystem */
-fs_initcall(init_k8_nbs);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

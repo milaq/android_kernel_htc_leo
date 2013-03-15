@@ -106,7 +106,6 @@ static void wm8400_codec_reset(struct snd_soc_codec *codec)
 	wm8400_reset_codec_reg_cache(wm8400->wm8400);
 }
 
-<<<<<<< HEAD
 static const DECLARE_TLV_DB_LINEAR(rec_mix_tlv, -1500, 600);
 
 static const DECLARE_TLV_DB_LINEAR(in_pga_tlv, -1650, 3000);
@@ -122,23 +121,6 @@ static const DECLARE_TLV_DB_LINEAR(out_dac_tlv, -7163, 0);
 static const DECLARE_TLV_DB_LINEAR(in_adc_tlv, -7163, 1763);
 
 static const DECLARE_TLV_DB_LINEAR(out_sidetone_tlv, -3600, 0);
-=======
-static const DECLARE_TLV_DB_SCALE(rec_mix_tlv, -1500, 600, 0);
-
-static const DECLARE_TLV_DB_SCALE(in_pga_tlv, -1650, 3000, 0);
-
-static const DECLARE_TLV_DB_SCALE(out_mix_tlv, -2100, 0, 0);
-
-static const DECLARE_TLV_DB_SCALE(out_pga_tlv, -7300, 600, 0);
-
-static const DECLARE_TLV_DB_SCALE(out_omix_tlv, -600, 0, 0);
-
-static const DECLARE_TLV_DB_SCALE(out_dac_tlv, -7163, 0, 0);
-
-static const DECLARE_TLV_DB_SCALE(in_adc_tlv, -7163, 1763, 0);
-
-static const DECLARE_TLV_DB_SCALE(out_sidetone_tlv, -3600, 0, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int wm8400_outpga_put_volsw_vu(struct snd_kcontrol *kcontrol,
         struct snd_ctl_elem_value *ucontrol)
@@ -457,11 +439,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
 /* INMIX dB values */
 static const unsigned int in_mix_tlv[] = {
 	TLV_DB_RANGE_HEAD(1),
-<<<<<<< HEAD
 	0,7, TLV_DB_LINEAR_ITEM(-1200, 600),
-=======
-	0,7, TLV_DB_SCALE_ITEM(-1200, 600, 0),
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /* Left In PGA Connections */

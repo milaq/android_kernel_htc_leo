@@ -394,19 +394,11 @@ static const struct ethtool_ops atl1e_ethtool_ops = {
 	.get_eeprom             = atl1e_get_eeprom,
 	.set_eeprom             = atl1e_set_eeprom,
 	.get_tx_csum            = atl1e_get_tx_csum,
-<<<<<<< HEAD
-=======
-	.set_tx_csum            = ethtool_op_set_tx_hw_csum,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.get_sg                 = ethtool_op_get_sg,
 	.set_sg                 = ethtool_op_set_sg,
 #ifdef NETIF_F_TSO
 	.get_tso                = ethtool_op_get_tso,
 #endif
-<<<<<<< HEAD
-=======
-	.set_tso                = ethtool_op_set_tso,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 void atl1e_set_ethtool_ops(struct net_device *netdev)

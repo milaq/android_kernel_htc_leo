@@ -1099,22 +1099,13 @@ static int ata_scsi_dev_config(struct scsi_device *sdev,
 	/* configure max sectors */
 	blk_queue_max_sectors(sdev->request_queue, dev->max_sectors);
 
-<<<<<<< HEAD
-=======
-	sdev->sector_size = ATA_SECT_SIZE;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (dev->class == ATA_DEV_ATAPI) {
 		struct request_queue *q = sdev->request_queue;
 		void *buf;
 
-<<<<<<< HEAD
 		/* set the min alignment and padding */
 		blk_queue_update_dma_alignment(sdev->request_queue,
 					       ATA_DMA_PAD_SZ - 1);
-=======
-		/* set DMA padding */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		blk_queue_update_dma_pad(sdev->request_queue,
 					 ATA_DMA_PAD_SZ - 1);
 
@@ -1128,33 +1119,12 @@ static int ata_scsi_dev_config(struct scsi_device *sdev,
 
 		blk_queue_dma_drain(q, atapi_drain_needed, buf, ATAPI_MAX_DRAIN);
 	} else {
-<<<<<<< HEAD
 		/* ATA devices must be sector aligned */
 		blk_queue_update_dma_alignment(sdev->request_queue,
 					       ATA_SECT_SIZE - 1);
 		sdev->manage_start_stop = 1;
 	}
 
-=======
-		sdev->manage_start_stop = 1;
-	}
-
-	/*
-	 * ata_pio_sectors() expects buffer for each sector to not cross
-	 * page boundary.  Enforce it by requiring buffers to be sector
-	 * aligned, which works iff sector_size is not larger than
-	 * PAGE_SIZE.  ATAPI devices also need the alignment as
-	 * IDENTIFY_PACKET is executed as ATA_PROT_PIO.
-	 */
-	if (sdev->sector_size > PAGE_SIZE)
-		ata_dev_printk(dev, KERN_WARNING,
-			"sector_size=%u > PAGE_SIZE, PIO may malfunction\n",
-			sdev->sector_size);
-
-	blk_queue_update_dma_alignment(sdev->request_queue,
-				       sdev->sector_size - 1);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (dev->flags & ATA_DFLAG_AN)
 		set_bit(SDEV_EVT_MEDIA_CHANGE, sdev->supported_events);
 
@@ -2527,16 +2497,8 @@ static void atapi_qc_complete(struct ata_queued_cmd *qc)
 		 *
 		 * If door lock fails, always clear sdev->locked to
 		 * avoid this infinite loop.
-<<<<<<< HEAD
 		 */
 		if (qc->cdb[0] == ALLOW_MEDIUM_REMOVAL)
-=======
-		 *
-		 * This may happen before SCSI scan is complete.  Make
-		 * sure qc->dev->sdev isn't NULL before dereferencing.
-		 */
-		if (qc->cdb[0] == ALLOW_MEDIUM_REMOVAL && qc->dev->sdev)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			qc->dev->sdev->locked = 0;
 
 		qc->scsicmd->result = SAM_STAT_CHECK_CONDITION;
@@ -2863,11 +2825,7 @@ static unsigned int ata_scsi_pass_thru(struct ata_queued_cmd *qc)
 	 * write indication (used for PIO/DMA setup), result TF is
 	 * copied back and we don't whine too much about its failure.
 	 */
-<<<<<<< HEAD
 	tf->flags = ATA_TFLAG_ISADDR | ATA_TFLAG_DEVICE;
-=======
-	tf->flags |= ATA_TFLAG_ISADDR | ATA_TFLAG_DEVICE;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (scmd->sc_data_direction == DMA_TO_DEVICE)
 		tf->flags |= ATA_TFLAG_WRITE;
 

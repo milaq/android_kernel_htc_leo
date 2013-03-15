@@ -288,12 +288,6 @@ vmxnet3_set_flags(struct net_device *netdev, u32 data) {
 		/* toggle the LRO feature*/
 		netdev->features ^= NETIF_F_LRO;
 
-<<<<<<< HEAD
-=======
-		/* Update private LRO flag */
-		adapter->lro = lro_requested;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* update harware LRO capability accordingly */
 		if (lro_requested)
 			adapter->shared->devRead.misc.uptFeatures &= UPT1_F_LRO;

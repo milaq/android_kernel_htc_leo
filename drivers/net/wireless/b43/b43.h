@@ -696,10 +696,6 @@ struct b43_wldev {
 	bool radio_hw_enable;	/* saved state of radio hardware enabled state */
 	bool qos_enabled;		/* TRUE, if QoS is used. */
 	bool hwcrypto_enabled;		/* TRUE, if HW crypto acceleration is enabled. */
-<<<<<<< HEAD
-=======
-	bool use_pio;			/* TRUE if next init should use PIO */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* PHY/Radio device. */
 	struct b43_phy phy;
@@ -754,15 +750,12 @@ struct b43_wldev {
 #endif
 };
 
-<<<<<<< HEAD
 /*
  * Include goes here to avoid a dependency problem.
  * A better fix would be to integrate xmit.h into b43.h.
  */
 #include "xmit.h"
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Data structure for the WLAN parts (802.11 cores) of the b43 chip. */
 struct b43_wl {
 	/* Pointer to the active wireless device on this chip */
@@ -837,7 +830,6 @@ struct b43_wl {
 	/* The device LEDs. */
 	struct b43_leds leds;
 
-<<<<<<< HEAD
 #ifdef CONFIG_B43_PIO
 	/*
 	 * RX/TX header/tail buffers used by the frame transmit functions.
@@ -847,11 +839,6 @@ struct b43_wl {
 	u8 rx_tail[4];
 	u8 tx_tail[4];
 #endif /* CONFIG_B43_PIO */
-=======
-	/* Kmalloc'ed scratch space for PIO TX/RX. Protected by wl->mutex. */
-	u8 pio_scratchspace[110] __attribute__((__aligned__(8)));
-	u8 pio_tailspace[4] __attribute__((__aligned__(8)));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static inline struct b43_wl *hw_to_b43_wl(struct ieee80211_hw *hw)
@@ -902,7 +889,6 @@ static inline void b43_write32(struct b43_wldev *dev, u16 offset, u32 value)
 
 static inline bool b43_using_pio_transfers(struct b43_wldev *dev)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_B43_PIO
 	return dev->__using_pio_transfers;
 #else
@@ -917,17 +903,6 @@ static inline bool b43_using_pio_transfers(struct b43_wldev *dev)
 #endif
 
 
-=======
-	return dev->__using_pio_transfers;
-}
-
-#ifdef CONFIG_B43_FORCE_PIO
-# define B43_PIO_DEFAULT 1
-#else
-# define B43_PIO_DEFAULT 0
-#endif
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Message printing */
 void b43info(struct b43_wl *wl, const char *fmt, ...)
     __attribute__ ((format(printf, 2, 3)));

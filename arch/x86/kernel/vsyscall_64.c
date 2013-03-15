@@ -73,12 +73,7 @@ void update_vsyscall_tz(void)
 	write_sequnlock_irqrestore(&vsyscall_gtod_data.lock, flags);
 }
 
-<<<<<<< HEAD
 void update_vsyscall(struct timespec *wall_time, struct clocksource *clock)
-=======
-void update_vsyscall(struct timespec *wall_time, struct clocksource *clock,
-		     u32 mult)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned long flags;
 
@@ -87,11 +82,7 @@ void update_vsyscall(struct timespec *wall_time, struct clocksource *clock,
 	vsyscall_gtod_data.clock.vread = clock->vread;
 	vsyscall_gtod_data.clock.cycle_last = clock->cycle_last;
 	vsyscall_gtod_data.clock.mask = clock->mask;
-<<<<<<< HEAD
 	vsyscall_gtod_data.clock.mult = clock->mult;
-=======
-	vsyscall_gtod_data.clock.mult = mult;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	vsyscall_gtod_data.clock.shift = clock->shift;
 	vsyscall_gtod_data.wall_time_sec = wall_time->tv_sec;
 	vsyscall_gtod_data.wall_time_nsec = wall_time->tv_nsec;

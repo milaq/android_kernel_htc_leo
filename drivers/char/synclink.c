@@ -2920,41 +2920,6 @@ static int mgsl_break(struct tty_struct *tty, int break_state)
 	
 }	/* end of mgsl_break() */
 
-<<<<<<< HEAD
-=======
-/*
- * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
- * Return: write counters to the user passed counter struct
- * NB: both 1->0 and 0->1 transitions are counted except for
- *     RI where only 0->1 is counted.
- */
-static int msgl_get_icount(struct tty_struct *tty,
-				struct serial_icounter_struct *icount)
-
-{
-	struct mgsl_struct * info = tty->driver_data;
-	struct mgsl_icount cnow;	/* kernel counter temps */
-	unsigned long flags;
-
-	spin_lock_irqsave(&info->irq_spinlock,flags);
-	cnow = info->icount;
-	spin_unlock_irqrestore(&info->irq_spinlock,flags);
-
-	icount->cts = cnow.cts;
-	icount->dsr = cnow.dsr;
-	icount->rng = cnow.rng;
-	icount->dcd = cnow.dcd;
-	icount->rx = cnow.rx;
-	icount->tx = cnow.tx;
-	icount->frame = cnow.frame;
-	icount->overrun = cnow.overrun;
-	icount->parity = cnow.parity;
-	icount->brk = cnow.brk;
-	icount->buf_overrun = cnow.buf_overrun;
-	return 0;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* mgsl_ioctl()	Service an IOCTL request
  * 	
  * Arguments:
@@ -2980,11 +2945,7 @@ static int mgsl_ioctl(struct tty_struct *tty, struct file * file,
 		return -ENODEV;
 
 	if ((cmd != TIOCGSERIAL) && (cmd != TIOCSSERIAL) &&
-<<<<<<< HEAD
 	    (cmd != TIOCMIWAIT) && (cmd != TIOCGICOUNT)) {
-=======
-	    (cmd != TIOCMIWAIT)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (tty->flags & (1 << TTY_IO_ERROR))
 		    return -EIO;
 	}
@@ -2997,15 +2958,11 @@ static int mgsl_ioctl(struct tty_struct *tty, struct file * file,
 
 static int mgsl_ioctl_common(struct mgsl_struct *info, unsigned int cmd, unsigned long arg)
 {
-<<<<<<< HEAD
 	int error;
 	struct mgsl_icount cnow;	/* kernel counter temps */
 	void __user *argp = (void __user *)arg;
 	struct serial_icounter_struct __user *p_cuser;	/* user space */
 	unsigned long flags;
-=======
-	void __user *argp = (void __user *)arg;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	
 	switch (cmd) {
 		case MGSL_IOCGPARAMS:
@@ -3034,7 +2991,6 @@ static int mgsl_ioctl_common(struct mgsl_struct *info, unsigned int cmd, unsigne
 		case TIOCMIWAIT:
 			return modem_input_wait(info,(int)arg);
 
-<<<<<<< HEAD
 		/* 
 		 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 		 * Return: write counters to the user passed counter struct
@@ -3069,8 +3025,6 @@ static int mgsl_ioctl_common(struct mgsl_struct *info, unsigned int cmd, unsigne
 			PUT_USER(error,cnow.buf_overrun, &p_cuser->buf_overrun);
 			if (error) return error;
 			return 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		default:
 			return -ENOIOCTLCMD;
 	}
@@ -4371,10 +4325,6 @@ static const struct tty_operations mgsl_ops = {
 	.hangup = mgsl_hangup,
 	.tiocmget = tiocmget,
 	.tiocmset = tiocmset,
-<<<<<<< HEAD
-=======
-	.get_icount = msgl_get_icount,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops = &mgsl_proc_fops,
 };
 

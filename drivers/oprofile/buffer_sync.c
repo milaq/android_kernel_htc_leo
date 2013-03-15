@@ -140,24 +140,16 @@ static struct notifier_block module_load_nb = {
 	.notifier_call = module_load_notify,
 };
 
-<<<<<<< HEAD
 
 static void end_sync(void)
 {
 	end_cpu_work();
-=======
-static void free_all_tasks(void)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* make sure we don't leak task structs */
 	process_task_mortuary();
 	process_task_mortuary();
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int sync_start(void)
 {
 	int err;
@@ -165,11 +157,8 @@ int sync_start(void)
 	if (!zalloc_cpumask_var(&marked_cpus, GFP_KERNEL))
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	start_cpu_work();
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = task_handoff_register(&task_free_nb);
 	if (err)
 		goto out1;
@@ -183,11 +172,6 @@ int sync_start(void)
 	if (err)
 		goto out4;
 
-<<<<<<< HEAD
-=======
-	start_cpu_work();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out:
 	return err;
 out4:
@@ -196,13 +180,8 @@ out3:
 	profile_event_unregister(PROFILE_TASK_EXIT, &task_exit_nb);
 out2:
 	task_handoff_unregister(&task_free_nb);
-<<<<<<< HEAD
 out1:
 	end_sync();
-=======
-	free_all_tasks();
-out1:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	free_cpumask_var(marked_cpus);
 	goto out;
 }
@@ -210,23 +189,11 @@ out1:
 
 void sync_stop(void)
 {
-<<<<<<< HEAD
-=======
-	end_cpu_work();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unregister_module_notifier(&module_load_nb);
 	profile_event_unregister(PROFILE_MUNMAP, &munmap_nb);
 	profile_event_unregister(PROFILE_TASK_EXIT, &task_exit_nb);
 	task_handoff_unregister(&task_free_nb);
-<<<<<<< HEAD
 	end_sync();
-=======
-	barrier();			/* do all of the above first */
-
-	flush_scheduled_work();
-
-	free_all_tasks();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	free_cpumask_var(marked_cpus);
 }
 

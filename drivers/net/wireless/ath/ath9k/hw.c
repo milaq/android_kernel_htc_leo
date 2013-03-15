@@ -398,10 +398,7 @@ static void ath9k_hw_init_config(struct ath_hw *ah)
 	ah->config.pcie_clock_req = 0;
 	ah->config.pcie_waen = 0;
 	ah->config.analog_shiftreg = 1;
-<<<<<<< HEAD
 	ah->config.ht_enable = 1;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ah->config.ofdm_trig_low = 200;
 	ah->config.ofdm_trig_high = 500;
 	ah->config.cck_trig_high = 200;
@@ -415,14 +412,6 @@ static void ath9k_hw_init_config(struct ath_hw *ah)
 		ah->config.spurchans[i][1] = AR_NO_SPUR;
 	}
 
-<<<<<<< HEAD
-=======
-	if (ah->hw_version.devid != AR2427_DEVID_PCIE)
-		ah->config.ht_enable = 1;
-	else
-		ah->config.ht_enable = 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ah->config.intr_mitigation = true;
 
 	/*
@@ -628,10 +617,6 @@ static bool ath9k_hw_devid_supported(u16 devid)
 	case AR9285_DEVID_PCIE:
 	case AR5416_DEVID_AR9287_PCI:
 	case AR5416_DEVID_AR9287_PCIE:
-<<<<<<< HEAD
-=======
-	case AR2427_DEVID_PCIE:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return true;
 	default:
 		break;
@@ -927,11 +912,6 @@ int ath9k_hw_init(struct ath_hw *ah)
 	ath9k_hw_init_defaults(ah);
 	ath9k_hw_init_config(ah);
 
-<<<<<<< HEAD
-=======
-	ath9k_hw_read_revisions(ah);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!ath9k_hw_set_reset_reg(ah, ATH9K_RESET_POWER_ON)) {
 		DPRINTF(ah->ah_sc, ATH_DBG_FATAL, "Couldn't reset chip\n");
 		return -EIO;
@@ -944,12 +924,7 @@ int ath9k_hw_init(struct ath_hw *ah)
 
 	if (ah->config.serialize_regmode == SER_REG_MODE_AUTO) {
 		if (ah->hw_version.macVersion == AR_SREV_VERSION_5416_PCI ||
-<<<<<<< HEAD
 		    (AR_SREV_9280(ah) && !ah->is_pciexpress)) {
-=======
-		    ((AR_SREV_9160(ah) || AR_SREV_9280(ah)) &&
-		     !ah->is_pciexpress)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ah->config.serialize_regmode =
 				SER_REG_MODE_ON;
 		} else {
@@ -1320,19 +1295,6 @@ static void ath9k_hw_override_ini(struct ath_hw *ah,
 	 * Necessary to avoid issues on AR5416 2.0
 	 */
 	REG_WRITE(ah, 0x9800 + (651 << 2), 0x11);
-<<<<<<< HEAD
-=======
-
-	/*
-	 * Disable RIFS search on some chips to avoid baseband
-	 * hang issues.
-	 */
-	if (AR_SREV_9100(ah) || AR_SREV_9160(ah)) {
-		val = REG_READ(ah, AR_PHY_HEAVY_CLIP_FACTOR_RIFS);
-		val &= ~AR_PHY_RIFS_INIT_DELAY;
-		REG_WRITE(ah, AR_PHY_HEAVY_CLIP_FACTOR_RIFS, val);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static u32 ath9k_hw_def_ini_fixup(struct ath_hw *ah,
@@ -1780,11 +1742,8 @@ static bool ath9k_hw_set_reset_power_on(struct ath_hw *ah)
 		return false;
 	}
 
-<<<<<<< HEAD
 	ath9k_hw_read_revisions(ah);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ath9k_hw_set_reset(ah, ATH9K_RESET_WARM);
 }
 
@@ -2428,12 +2387,7 @@ int ath9k_hw_reset(struct ath_hw *ah, struct ath9k_channel *chan,
 	macStaId1 = REG_READ(ah, AR_STA_ID1) & AR_STA_ID1_BASE_RATE_11B;
 
 	/* For chips on which RTC reset is done, save TSF before it gets cleared */
-<<<<<<< HEAD
 	if (AR_SREV_9280(ah) && ah->eep_ops->get_eeprom(ah, EEP_OL_PWRCTRL))
-=======
-	if (AR_SREV_9100(ah) ||
-	    (AR_SREV_9280(ah) && ah->eep_ops->get_eeprom(ah, EEP_OL_PWRCTRL)))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		tsf = ath9k_hw_gettsf64(ah);
 
 	saveLedState = REG_READ(ah, AR_CFG_LED) &
@@ -2463,11 +2417,7 @@ int ath9k_hw_reset(struct ath_hw *ah, struct ath9k_channel *chan,
 	}
 
 	/* Restore TSF */
-<<<<<<< HEAD
 	if (tsf && AR_SREV_9280(ah) && ah->eep_ops->get_eeprom(ah, EEP_OL_PWRCTRL))
-=======
-	if (tsf)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ath9k_hw_settsf64(ah, tsf);
 
 	if (AR_SREV_9280_10_OR_LATER(ah))
@@ -2487,20 +2437,6 @@ int ath9k_hw_reset(struct ath_hw *ah, struct ath9k_channel *chan,
 	if (r)
 		return r;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Some AR91xx SoC devices frequently fail to accept TSF writes
-	 * right after the chip reset. When that happens, write a new
-	 * value after the initvals have been applied, with an offset
-	 * based on measured time difference
-	 */
-	if (AR_SREV_9100(ah) && (ath9k_hw_gettsf64(ah) < tsf)) {
-		tsf += 1500;
-		ath9k_hw_settsf64(ah, tsf);
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Setup MFP options for CCMP */
 	if (AR_SREV_9280_20_OR_LATER(ah)) {
 		/* Mask Retry(b11), PwrMgt(b12), MoreData(b13) to 0 in mgmt

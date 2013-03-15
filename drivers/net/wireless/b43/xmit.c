@@ -27,11 +27,7 @@
 
 */
 
-<<<<<<< HEAD
 #include "b43.h"
-=======
-#include "xmit.h"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include "phy_common.h"
 #include "dma.h"
 #include "pio.h"

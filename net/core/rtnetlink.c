@@ -817,10 +817,6 @@ static int do_setlink(struct net_device *dev, struct ifinfomsg *ifm,
 			goto errout;
 		send_addr_notify = 1;
 		modified = 1;
-<<<<<<< HEAD
-=======
-		add_device_randomness(dev->dev_addr, dev->addr_len);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (tb[IFLA_MTU]) {

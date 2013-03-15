@@ -878,10 +878,6 @@ static int rfcomm_sock_getsockopt_old(struct socket *sock, int optname, char __u
 
 		l2cap_sk = rfcomm_pi(sk)->dlc->session->sock->sk;
 
-<<<<<<< HEAD
-=======
-		memset(&cinfo, 0, sizeof(cinfo));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		cinfo.hci_handle = l2cap_pi(l2cap_sk)->conn->hcon->handle;
 		memcpy(cinfo.dev_class, l2cap_pi(l2cap_sk)->conn->hcon->dev_class, 3);
 
@@ -1069,31 +1065,13 @@ static ssize_t rfcomm_sock_sysfs_show(struct class *dev, char *buf)
 	struct sock *sk;
 	struct hlist_node *node;
 	char *str = buf;
-<<<<<<< HEAD
-=======
-	int size = PAGE_SIZE;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	read_lock_bh(&rfcomm_sk_list.lock);
 
 	sk_for_each(sk, node, &rfcomm_sk_list.head) {
-<<<<<<< HEAD
 		str += sprintf(str, "%s %s %d %d\n",
 				batostr(&bt_sk(sk)->src), batostr(&bt_sk(sk)->dst),
 				sk->sk_state, rfcomm_pi(sk)->channel);
-=======
-		int len;
-
-		len = snprintf(str, size, "%s %s %d %d\n",
-				batostr(&bt_sk(sk)->src), batostr(&bt_sk(sk)->dst),
-				sk->sk_state, rfcomm_pi(sk)->channel);
-
-		size -= len;
-		if (size <= 0)
-			break;
-
-		str += len;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	read_unlock_bh(&rfcomm_sk_list.lock);

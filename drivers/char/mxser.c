@@ -1736,11 +1736,7 @@ static int mxser_ioctl(struct tty_struct *tty, struct file *file,
 		return 0;
 	}
 
-<<<<<<< HEAD
 	if (cmd != TIOCGSERIAL && cmd != TIOCMIWAIT && cmd != TIOCGICOUNT &&
-=======
-	if (cmd != TIOCGSERIAL && cmd != TIOCMIWAIT &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			test_bit(TTY_IO_ERROR, &tty->flags))
 		return -EIO;
 
@@ -1770,7 +1766,6 @@ static int mxser_ioctl(struct tty_struct *tty, struct file *file,
 
 		return wait_event_interruptible(info->port.delta_msr_wait,
 				mxser_cflags_changed(info, arg, &cnow));
-<<<<<<< HEAD
 	/*
 	 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 	 * Return: write counters to the user passed counter struct
@@ -1797,8 +1792,6 @@ static int mxser_ioctl(struct tty_struct *tty, struct file *file,
 
 		return copy_to_user(argp, &icnt, sizeof(icnt)) ? -EFAULT : 0;
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case MOXA_HighSpeedOn:
 		return put_user(info->baud_base != 115200 ? 1 : 0, (int __user *)argp);
 	case MOXA_SDS_RSTICOUNTER:
@@ -1869,42 +1862,6 @@ static int mxser_ioctl(struct tty_struct *tty, struct file *file,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
-	 * Return: write counters to the user passed counter struct
-	 * NB: both 1->0 and 0->1 transitions are counted except for
-	 *     RI where only 0->1 is counted.
-	 */
-
-static int mxser_get_icount(struct tty_struct *tty,
-		struct serial_icounter_struct *icount)
-
-{
-	struct mxser_port *info = tty->driver_data;
-	struct async_icount cnow;
-	unsigned long flags;
-
-	spin_lock_irqsave(&info->slock, flags);
-	cnow = info->icount;
-	spin_unlock_irqrestore(&info->slock, flags);
-
-	icount->frame = cnow.frame;
-	icount->brk = cnow.brk;
-	icount->overrun = cnow.overrun;
-	icount->buf_overrun = cnow.buf_overrun;
-	icount->parity = cnow.parity;
-	icount->rx = cnow.rx;
-	icount->tx = cnow.tx;
-	icount->cts = cnow.cts;
-	icount->dsr = cnow.dsr;
-	icount->rng = cnow.rng;
-	icount->dcd = cnow.dcd;
-	return 0;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void mxser_stoprx(struct tty_struct *tty)
 {
 	struct mxser_port *info = tty->driver_data;
@@ -2401,10 +2358,6 @@ static const struct tty_operations mxser_ops = {
 	.wait_until_sent = mxser_wait_until_sent,
 	.tiocmget = mxser_tiocmget,
 	.tiocmset = mxser_tiocmset,
-<<<<<<< HEAD
-=======
-	.get_icount = mxser_get_icount,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct tty_port_operations mxser_port_ops = {

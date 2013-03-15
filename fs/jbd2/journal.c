@@ -1183,17 +1183,6 @@ static int journal_get_superblock(journal_t *journal)
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-	if (be32_to_cpu(sb->s_first) == 0 ||
-	    be32_to_cpu(sb->s_first) >= journal->j_maxlen) {
-		printk(KERN_WARNING
-			"JBD2: Invalid start block of journal: %u\n",
-			be32_to_cpu(sb->s_first));
-		goto out;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 
 out:
@@ -2126,12 +2115,7 @@ static void __init jbd2_create_debugfs_entry(void)
 {
 	jbd2_debugfs_dir = debugfs_create_dir("jbd2", NULL);
 	if (jbd2_debugfs_dir)
-<<<<<<< HEAD
 		jbd2_debug = debugfs_create_u8(JBD2_DEBUG_NAME, S_IRUGO,
-=======
-		jbd2_debug = debugfs_create_u8(JBD2_DEBUG_NAME,
-					       S_IRUGO | S_IWUSR,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					       jbd2_debugfs_dir,
 					       &jbd2_journal_enable_debug);
 }

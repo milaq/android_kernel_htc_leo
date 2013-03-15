@@ -216,22 +216,13 @@ static int ethtool_get_drvinfo(struct net_device *dev, void __user *useraddr)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int ethtool_set_rxnfc(struct net_device *dev, void __user *useraddr)
 {
 	struct ethtool_rxnfc cmd;
-=======
-static int ethtool_set_rxnfc(struct net_device *dev,
-			     u32 cmd, void __user *useraddr)
-{
-	struct ethtool_rxnfc info;
-	size_t info_size = sizeof(info);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!dev->ethtool_ops->set_rxnfc)
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	if (copy_from_user(&cmd, useraddr, sizeof(cmd)))
 		return -EFAULT;
 
@@ -241,27 +232,6 @@ static int ethtool_set_rxnfc(struct net_device *dev,
 static int ethtool_get_rxnfc(struct net_device *dev, void __user *useraddr)
 {
 	struct ethtool_rxnfc info;
-=======
-	/* struct ethtool_rxnfc was originally defined for
-	 * ETHTOOL_{G,S}RXFH with only the cmd, flow_type and data
-	 * members.  User-space might still be using that
-	 * definition. */
-	if (cmd == ETHTOOL_SRXFH)
-		info_size = (offsetof(struct ethtool_rxnfc, data) +
-			     sizeof(info.data));
-
-	if (copy_from_user(&info, useraddr, info_size))
-		return -EFAULT;
-
-	return dev->ethtool_ops->set_rxnfc(dev, &info);
-}
-
-static int ethtool_get_rxnfc(struct net_device *dev,
-			     u32 cmd, void __user *useraddr)
-{
-	struct ethtool_rxnfc info;
-	size_t info_size = sizeof(info);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	const struct ethtool_ops *ops = dev->ethtool_ops;
 	int ret;
 	void *rule_buf = NULL;
@@ -269,31 +239,13 @@ static int ethtool_get_rxnfc(struct net_device *dev,
 	if (!ops->get_rxnfc)
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	if (copy_from_user(&info, useraddr, sizeof(info)))
-=======
-	/* struct ethtool_rxnfc was originally defined for
-	 * ETHTOOL_{G,S}RXFH with only the cmd, flow_type and data
-	 * members.  User-space might still be using that
-	 * definition. */
-	if (cmd == ETHTOOL_GRXFH)
-		info_size = (offsetof(struct ethtool_rxnfc, data) +
-			     sizeof(info.data));
-
-	if (copy_from_user(&info, useraddr, info_size))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EFAULT;
 
 	if (info.cmd == ETHTOOL_GRXCLSRLALL) {
 		if (info.rule_cnt > 0) {
-<<<<<<< HEAD
 			rule_buf = kmalloc(info.rule_cnt * sizeof(u32),
 					   GFP_USER);
-=======
-			if (info.rule_cnt <= KMALLOC_MAX_SIZE / sizeof(u32))
-				rule_buf = kzalloc(info.rule_cnt * sizeof(u32),
-						   GFP_USER);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (!rule_buf)
 				return -ENOMEM;
 		}
@@ -304,11 +256,7 @@ static int ethtool_get_rxnfc(struct net_device *dev,
 		goto err_out;
 
 	ret = -EFAULT;
-<<<<<<< HEAD
 	if (copy_to_user(useraddr, &info, sizeof(info)))
-=======
-	if (copy_to_user(useraddr, &info, info_size))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto err_out;
 
 	if (rule_buf) {
@@ -342,11 +290,7 @@ static int ethtool_get_regs(struct net_device *dev, char __user *useraddr)
 	if (regs.len > reglen)
 		regs.len = reglen;
 
-<<<<<<< HEAD
 	regbuf = kmalloc(reglen, GFP_USER);
-=======
-	regbuf = kzalloc(reglen, GFP_USER);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!regbuf)
 		return -ENOMEM;
 
@@ -1167,20 +1111,12 @@ int dev_ethtool(struct net *net, struct ifreq *ifr)
 	case ETHTOOL_GRXCLSRLCNT:
 	case ETHTOOL_GRXCLSRULE:
 	case ETHTOOL_GRXCLSRLALL:
-<<<<<<< HEAD
 		rc = ethtool_get_rxnfc(dev, useraddr);
-=======
-		rc = ethtool_get_rxnfc(dev, ethcmd, useraddr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case ETHTOOL_SRXFH:
 	case ETHTOOL_SRXCLSRLDEL:
 	case ETHTOOL_SRXCLSRLINS:
-<<<<<<< HEAD
 		rc = ethtool_set_rxnfc(dev, useraddr);
-=======
-		rc = ethtool_set_rxnfc(dev, ethcmd, useraddr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	case ETHTOOL_GGRO:
 		rc = ethtool_get_gro(dev, useraddr);

@@ -1953,11 +1953,7 @@ static int igbvf_tso(struct igbvf_adapter *adapter,
 		                                         iph->daddr, 0,
 		                                         IPPROTO_TCP,
 		                                         0);
-<<<<<<< HEAD
 	} else if (skb_shinfo(skb)->gso_type == SKB_GSO_TCPV6) {
-=======
-	} else if (skb_is_gso_v6(skb)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ipv6_hdr(skb)->payload_len = 0;
 		tcp_hdr(skb)->check = ~csum_ipv6_magic(&ipv6_hdr(skb)->saddr,
 		                                       &ipv6_hdr(skb)->daddr,

@@ -899,13 +899,6 @@ static int fuse_notify_inval_entry(struct fuse_conn *fc, unsigned int size,
 	if (outarg.namelen > FUSE_NAME_MAX)
 		goto err;
 
-<<<<<<< HEAD
-=======
-	err = -EINVAL;
-	if (size != sizeof(outarg) + outarg.namelen + 1)
-		goto err;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	name.name = buf;
 	name.len = outarg.namelen;
 	err = fuse_copy_one(cs, buf, outarg.namelen + 1);
@@ -1165,17 +1158,6 @@ __acquires(&fc->lock)
 	}
 }
 
-<<<<<<< HEAD
-=======
-static void end_queued_requests(struct fuse_conn *fc)
-{
-	fc->max_background = UINT_MAX;
-	flush_bg_queue(fc);
-	end_requests(fc, &fc->pending);
-	end_requests(fc, &fc->processing);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Abort all requests.
  *
@@ -1202,12 +1184,8 @@ void fuse_abort_conn(struct fuse_conn *fc)
 		fc->connected = 0;
 		fc->blocked = 0;
 		end_io_requests(fc);
-<<<<<<< HEAD
 		end_requests(fc, &fc->pending);
 		end_requests(fc, &fc->processing);
-=======
-		end_queued_requests(fc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		wake_up_all(&fc->waitq);
 		wake_up_all(&fc->blocked_waitq);
 		kill_fasync(&fc->fasync, SIGIO, POLL_IN);
@@ -1222,14 +1200,8 @@ int fuse_dev_release(struct inode *inode, struct file *file)
 	if (fc) {
 		spin_lock(&fc->lock);
 		fc->connected = 0;
-<<<<<<< HEAD
 		end_requests(fc, &fc->pending);
 		end_requests(fc, &fc->processing);
-=======
-		fc->blocked = 0;
-		end_queued_requests(fc);
-		wake_up_all(&fc->blocked_waitq);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_unlock(&fc->lock);
 		fuse_conn_put(fc);
 	}

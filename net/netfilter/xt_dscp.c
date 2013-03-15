@@ -25,11 +25,7 @@ MODULE_ALIAS("ipt_tos");
 MODULE_ALIAS("ip6t_tos");
 
 static bool
-<<<<<<< HEAD
 dscp_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-dscp_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_dscp_info *info = par->matchinfo;
 	u_int8_t dscp = ipv4_get_dsfield(ip_hdr(skb)) >> XT_DSCP_SHIFT;
@@ -38,11 +34,7 @@ dscp_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 }
 
 static bool
-<<<<<<< HEAD
 dscp_mt6(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-dscp_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_dscp_info *info = par->matchinfo;
 	u_int8_t dscp = ipv6_get_dsfield(ipv6_hdr(skb)) >> XT_DSCP_SHIFT;
@@ -50,11 +42,7 @@ dscp_mt6(const struct sk_buff *skb, const struct xt_match_param *par)
 	return (dscp == info->dscp) ^ !!info->invert;
 }
 
-<<<<<<< HEAD
 static int dscp_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool dscp_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_dscp_info *info = par->matchinfo;
 
@@ -66,12 +54,8 @@ static bool dscp_mt_check(const struct xt_mtchk_param *par)
 	return true;
 }
 
-<<<<<<< HEAD
 static bool tos_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
-=======
-static bool tos_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_tos_match_info *info = par->matchinfo;
 

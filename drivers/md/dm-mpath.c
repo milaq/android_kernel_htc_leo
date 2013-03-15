@@ -33,10 +33,7 @@ struct pgpath {
 	unsigned fail_count;		/* Cumulative failure count */
 
 	struct dm_path path;
-<<<<<<< HEAD
 	struct work_struct deactivate_path;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct work_struct activate_path;
 };
 
@@ -116,10 +113,7 @@ static struct workqueue_struct *kmultipathd, *kmpath_handlerd;
 static void process_queued_ios(struct work_struct *work);
 static void trigger_event(struct work_struct *work);
 static void activate_path(struct work_struct *work);
-<<<<<<< HEAD
 static void deactivate_path(struct work_struct *work);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 /*-----------------------------------------------
@@ -132,10 +126,7 @@ static struct pgpath *alloc_pgpath(void)
 
 	if (pgpath) {
 		pgpath->is_active = 1;
-<<<<<<< HEAD
 		INIT_WORK(&pgpath->deactivate_path, deactivate_path);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		INIT_WORK(&pgpath->activate_path, activate_path);
 	}
 
@@ -147,7 +138,6 @@ static void free_pgpath(struct pgpath *pgpath)
 	kfree(pgpath);
 }
 
-<<<<<<< HEAD
 static void deactivate_path(struct work_struct *work)
 {
 	struct pgpath *pgpath =
@@ -156,8 +146,6 @@ static void deactivate_path(struct work_struct *work)
 	blk_abort_queue(pgpath->path.dev->bdev->bd_disk->queue);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct priority_group *alloc_priority_group(void)
 {
 	struct priority_group *pg;
@@ -703,10 +691,6 @@ static struct priority_group *parse_priority_group(struct arg_set *as,
 
 		if (as->argc < nr_params) {
 			ti->error = "not enough path parameters";
-<<<<<<< HEAD
-=======
-			r = -EINVAL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			goto bad;
 		}
 
@@ -804,14 +788,6 @@ static int parse_features(struct arg_set *as, struct multipath *m)
 	if (!argc)
 		return 0;
 
-<<<<<<< HEAD
-=======
-	if (argc > as->argc) {
-		ti->error = "not enough arguments for features";
-		return -EINVAL;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	do {
 		param_name = shift(as);
 		argc--;
@@ -972,10 +948,7 @@ static int fail_path(struct pgpath *pgpath)
 		      pgpath->path.dev->name, m->nr_valid_paths);
 
 	schedule_work(&m->trigger_event);
-<<<<<<< HEAD
 	queue_work(kmultipathd, &pgpath->deactivate_path);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 out:
 	spin_unlock_irqrestore(&m->lock, flags);
@@ -1497,15 +1470,6 @@ static int multipath_ioctl(struct dm_target *ti, unsigned int cmd,
 
 	spin_unlock_irqrestore(&m->lock, flags);
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Only pass ioctls through if the device sizes match exactly.
-	 */
-	if (!r && ti->len != i_size_read(bdev->bd_inode) >> SECTOR_SHIFT)
-		r = scsi_verify_blk_ioctl(NULL, cmd);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return r ? : __blkdev_driver_ioctl(bdev, mode, cmd, arg);
 }
 

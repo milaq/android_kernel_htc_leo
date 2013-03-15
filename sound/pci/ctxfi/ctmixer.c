@@ -566,7 +566,6 @@ static int ct_spdif_get_mask(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int ct_spdif_default_get(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
 {
@@ -580,8 +579,6 @@ static int ct_spdif_default_get(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int ct_spdif_get(struct snd_kcontrol *kcontrol,
 			struct snd_ctl_elem_value *ucontrol)
 {
@@ -589,13 +586,6 @@ static int ct_spdif_get(struct snd_kcontrol *kcontrol,
 	unsigned int status;
 
 	atc->spdif_out_get_status(atc, &status);
-<<<<<<< HEAD
-=======
-
-	if (status == 0)
-		status = SNDRV_PCM_DEFAULT_CON_SPDIF;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ucontrol->value.iec958.status[0] = (status >> 0) & 0xff;
 	ucontrol->value.iec958.status[1] = (status >> 8) & 0xff;
 	ucontrol->value.iec958.status[2] = (status >> 16) & 0xff;
@@ -639,11 +629,7 @@ static struct snd_kcontrol_new iec958_default_ctl = {
 	.name		= SNDRV_CTL_NAME_IEC958("", PLAYBACK, DEFAULT),
 	.count		= 1,
 	.info		= ct_spdif_info,
-<<<<<<< HEAD
 	.get		= ct_spdif_default_get,
-=======
-	.get		= ct_spdif_get,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.put		= ct_spdif_put,
 	.private_value	= MIXER_IEC958_DEFAULT
 };

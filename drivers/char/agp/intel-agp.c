@@ -8,10 +8,6 @@
 #include <linux/kernel.h>
 #include <linux/pagemap.h>
 #include <linux/agp_backend.h>
-<<<<<<< HEAD
-=======
-#include <asm/smp.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include "agp.h"
 
 /*
@@ -819,15 +815,12 @@ static void intel_i830_setup_flush(void)
 		intel_i830_fini_flush();
 }
 
-<<<<<<< HEAD
 static void
 do_wbinvd(void *null)
 {
 	wbinvd();
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* The chipset_flush interface needs to get data that has already been
  * flushed out of the CPU all the way out to main memory, because the GPU
  * doesn't snoop those buffers.
@@ -844,19 +837,12 @@ static void intel_i830_chipset_flush(struct agp_bridge_data *bridge)
 
 	memset(pg, 0, 1024);
 
-<<<<<<< HEAD
 	if (cpu_has_clflush) {
 		clflush_cache_range(pg, 1024);
 	} else {
 		if (on_each_cpu(do_wbinvd, NULL, 1) != 0)
 			printk(KERN_ERR "Timed out waiting for cache flush.\n");
 	}
-=======
-	if (cpu_has_clflush)
-		clflush_cache_range(pg, 1024);
-	else if (wbinvd_on_all_cpus() != 0)
-		printk(KERN_ERR "Timed out waiting for cache flush.\n");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* The intel i830 automatically initializes the agp aperture during POST.

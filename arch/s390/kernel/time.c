@@ -214,12 +214,7 @@ struct clocksource * __init clocksource_default_clock(void)
 	return &clocksource_tod;
 }
 
-<<<<<<< HEAD
 void update_vsyscall(struct timespec *wall_time, struct clocksource *clock)
-=======
-void update_vsyscall(struct timespec *wall_time, struct clocksource *clock,
-		     u32 mult)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (clock != &clocksource_tod)
 		return;

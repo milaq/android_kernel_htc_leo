@@ -27,11 +27,8 @@
 #include <linux/ppp_channel.h>
 #endif /* __KERNEL__ */
 #include <linux/if_pppol2tp.h>
-<<<<<<< HEAD
 #include <linux/if_pppolac.h>
 #include <linux/if_pppopns.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* For user-space programs to pick up these definitions
  * which they wouldn't get otherwise without defining __KERNEL__
@@ -56,13 +53,9 @@ struct pppoe_addr{
  */ 
 #define PX_PROTO_OE    0 /* Currently just PPPoE */
 #define PX_PROTO_OL2TP 1 /* Now L2TP also */
-<<<<<<< HEAD
 #define PX_PROTO_OLAC  2
 #define PX_PROTO_OPNS  3
 #define PX_MAX_PROTO   4
-=======
-#define PX_MAX_PROTO   2
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct sockaddr_pppox { 
        sa_family_t     sa_family;            /* address family, AF_PPPOX */ 
@@ -152,7 +145,6 @@ struct pppoe_opt {
 					     relayed to (PPPoE relaying) */
 };
 
-<<<<<<< HEAD
 struct pppolac_opt {
 	__u32		local;
 	__u32		remote;
@@ -171,8 +163,6 @@ struct pppopns_opt {
 	int		(*backlog_rcv)(struct sock *sk_raw, struct sk_buff *skb);
 };
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/sock.h>
 
 struct pppox_sock {
@@ -182,11 +172,8 @@ struct pppox_sock {
 	struct pppox_sock	*next;	  /* for hash table */
 	union {
 		struct pppoe_opt pppoe;
-<<<<<<< HEAD
 		struct pppolac_opt lac;
 		struct pppopns_opt pns;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} proto;
 	__be16			num;
 };

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * Copyright (c) 2009, Code Aurora Forum. All rights reserved.
  *
@@ -56,8 +55,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/linkage.h>
 #include <asm/assembler.h>
 /*
@@ -89,7 +86,6 @@ ENTRY(v7_early_abort)
 	 * V6 code adjusts the returned DFSR.
 	 * New designs should not need to patch up faults.
 	 */
-<<<<<<< HEAD
 
 #if defined(CONFIG_VERIFY_PERMISSION_FAULT)
 	/*
@@ -111,7 +107,5 @@ ENTRY(v7_early_abort)
 	orr	r1, r1, r2, LSR #1
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mov	pc, lr
 ENDPROC(v7_early_abort)

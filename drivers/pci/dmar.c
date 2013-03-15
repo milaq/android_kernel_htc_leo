@@ -1380,14 +1380,6 @@ int __init enable_drhd_fault_handling(void)
 			       (unsigned long long)drhd->reg_base_addr, ret);
 			return -1;
 		}
-<<<<<<< HEAD
-=======
-
-		/*
-		 * Clear any previous faults.
-		 */
-		dmar_fault(iommu->irq, iommu);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return 0;

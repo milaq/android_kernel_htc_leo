@@ -277,20 +277,11 @@ static int hw_bitblt_2(void __iomem *engine, u8 op, u32 width, u32 height,
 		writel(tmp, engine + 0x1C);
 	}
 
-<<<<<<< HEAD
 	if (op != VIA_BITBLT_COLOR)
 		writel(fg_color, engine + 0x4C);
 
 	if (op == VIA_BITBLT_MONO)
 		writel(bg_color, engine + 0x50);
-=======
-	if (op == VIA_BITBLT_FILL) {
-		writel(fg_color, engine + 0x58);
-	} else if (op == VIA_BITBLT_MONO) {
-		writel(fg_color, engine + 0x4C);
-		writel(bg_color, engine + 0x50);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (op == VIA_BITBLT_FILL)
 		ge_cmd |= fill_rop << 24 | 0x00002000 | 0x00000001;

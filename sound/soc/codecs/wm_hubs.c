@@ -593,20 +593,12 @@ static const struct snd_soc_dapm_route analogue_routes[] = {
 
 	{ "SPKL", "Input Switch", "MIXINL" },
 	{ "SPKL", "IN1LP Switch", "IN1LP" },
-<<<<<<< HEAD
 	{ "SPKL", "Output Switch", "Left Output Mixer" },
-=======
-	{ "SPKL", "Output Switch", "Left Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ "SPKL", NULL, "TOCLK" },
 
 	{ "SPKR", "Input Switch", "MIXINR" },
 	{ "SPKR", "IN1RP Switch", "IN1RP" },
-<<<<<<< HEAD
 	{ "SPKR", "Output Switch", "Right Output Mixer" },
-=======
-	{ "SPKR", "Output Switch", "Right Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ "SPKR", NULL, "TOCLK" },
 
 	{ "SPKL Boost", "Direct Voice Switch", "Direct Voice" },
@@ -628,13 +620,8 @@ static const struct snd_soc_dapm_route analogue_routes[] = {
 	{ "SPKOUTRP", NULL, "SPKR Driver" },
 	{ "SPKOUTRN", NULL, "SPKR Driver" },
 
-<<<<<<< HEAD
 	{ "Left Headphone Mux", "Mixer", "Left Output Mixer" },
 	{ "Right Headphone Mux", "Mixer", "Right Output Mixer" },
-=======
-	{ "Left Headphone Mux", "Mixer", "Left Output PGA" },
-	{ "Right Headphone Mux", "Mixer", "Right Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ "Headphone PGA", NULL, "Left Headphone Mux" },
 	{ "Headphone PGA", NULL, "Right Headphone Mux" },
@@ -652,28 +639,17 @@ static const struct snd_soc_dapm_route analogue_routes[] = {
 static const struct snd_soc_dapm_route lineout1_diff_routes[] = {
 	{ "LINEOUT1 Mixer", "IN1L Switch", "IN1L PGA" },
 	{ "LINEOUT1 Mixer", "IN1R Switch", "IN1R PGA" },
-<<<<<<< HEAD
 	{ "LINEOUT1 Mixer", "Output Switch", "Left Output Mixer" },
-=======
-	{ "LINEOUT1 Mixer", "Output Switch", "Left Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ "LINEOUT1N Driver", NULL, "LINEOUT1 Mixer" },
 	{ "LINEOUT1P Driver", NULL, "LINEOUT1 Mixer" },
 };
 
 static const struct snd_soc_dapm_route lineout1_se_routes[] = {
-<<<<<<< HEAD
 	{ "LINEOUT1N Mixer", "Left Output Switch", "Left Output Mixer" },
 	{ "LINEOUT1N Mixer", "Right Output Switch", "Left Output Mixer" },
 
 	{ "LINEOUT1P Mixer", "Left Output Switch", "Left Output Mixer" },
-=======
-	{ "LINEOUT1N Mixer", "Left Output Switch", "Left Output PGA" },
-	{ "LINEOUT1N Mixer", "Right Output Switch", "Right Output PGA" },
-
-	{ "LINEOUT1P Mixer", "Left Output Switch", "Left Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ "LINEOUT1N Driver", NULL, "LINEOUT1N Mixer" },
 	{ "LINEOUT1P Driver", NULL, "LINEOUT1P Mixer" },
@@ -682,28 +658,17 @@ static const struct snd_soc_dapm_route lineout1_se_routes[] = {
 static const struct snd_soc_dapm_route lineout2_diff_routes[] = {
 	{ "LINEOUT2 Mixer", "IN2L Switch", "IN2L PGA" },
 	{ "LINEOUT2 Mixer", "IN2R Switch", "IN2R PGA" },
-<<<<<<< HEAD
 	{ "LINEOUT2 Mixer", "Output Switch", "Right Output Mixer" },
-=======
-	{ "LINEOUT2 Mixer", "Output Switch", "Right Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ "LINEOUT2N Driver", NULL, "LINEOUT2 Mixer" },
 	{ "LINEOUT2P Driver", NULL, "LINEOUT2 Mixer" },
 };
 
 static const struct snd_soc_dapm_route lineout2_se_routes[] = {
-<<<<<<< HEAD
 	{ "LINEOUT2N Mixer", "Left Output Switch", "Left Output Mixer" },
 	{ "LINEOUT2N Mixer", "Right Output Switch", "Left Output Mixer" },
 
 	{ "LINEOUT2P Mixer", "Right Output Switch", "Right Output Mixer" },
-=======
-	{ "LINEOUT2N Mixer", "Left Output Switch", "Left Output PGA" },
-	{ "LINEOUT2N Mixer", "Right Output Switch", "Right Output PGA" },
-
-	{ "LINEOUT2P Mixer", "Right Output Switch", "Right Output PGA" },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ "LINEOUT2N Driver", NULL, "LINEOUT2N Mixer" },
 	{ "LINEOUT2P Driver", NULL, "LINEOUT2P Mixer" },
@@ -721,32 +686,17 @@ int wm_hubs_add_analogue_controls(struct snd_soc_codec *codec)
 	snd_soc_update_bits(codec, WM8993_RIGHT_LINE_INPUT_3_4_VOLUME,
 			    WM8993_IN2_VU, WM8993_IN2_VU);
 
-<<<<<<< HEAD
-=======
-	snd_soc_update_bits(codec, WM8993_SPEAKER_VOLUME_LEFT,
-			    WM8993_SPKOUT_VU, WM8993_SPKOUT_VU);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	snd_soc_update_bits(codec, WM8993_SPEAKER_VOLUME_RIGHT,
 			    WM8993_SPKOUT_VU, WM8993_SPKOUT_VU);
 
 	snd_soc_update_bits(codec, WM8993_LEFT_OUTPUT_VOLUME,
-<<<<<<< HEAD
 			    WM8993_HPOUT1L_ZC, WM8993_HPOUT1L_ZC);
-=======
-			    WM8993_HPOUT1_VU | WM8993_HPOUT1L_ZC,
-			    WM8993_HPOUT1_VU | WM8993_HPOUT1L_ZC);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	snd_soc_update_bits(codec, WM8993_RIGHT_OUTPUT_VOLUME,
 			    WM8993_HPOUT1_VU | WM8993_HPOUT1R_ZC,
 			    WM8993_HPOUT1_VU | WM8993_HPOUT1R_ZC);
 
 	snd_soc_update_bits(codec, WM8993_LEFT_OPGA_VOLUME,
-<<<<<<< HEAD
 			    WM8993_MIXOUTL_ZC, WM8993_MIXOUTL_ZC);
-=======
-			    WM8993_MIXOUTL_ZC | WM8993_MIXOUT_VU,
-			    WM8993_MIXOUTL_ZC | WM8993_MIXOUT_VU);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	snd_soc_update_bits(codec, WM8993_RIGHT_OPGA_VOLUME,
 			    WM8993_MIXOUTR_ZC | WM8993_MIXOUT_VU,
 			    WM8993_MIXOUTR_ZC | WM8993_MIXOUT_VU);

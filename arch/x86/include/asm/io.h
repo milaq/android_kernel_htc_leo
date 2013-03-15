@@ -172,10 +172,6 @@ static inline void __iomem *ioremap(resource_size_t offset, unsigned long size)
 
 extern void iounmap(volatile void __iomem *addr);
 
-<<<<<<< HEAD
-=======
-extern void set_iounmap_nonlazy(void);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_X86_32
 # include "io_32.h"

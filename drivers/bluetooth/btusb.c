@@ -59,27 +59,9 @@ static struct usb_device_id btusb_table[] = {
 	/* Generic Bluetooth USB device */
 	{ USB_DEVICE_INFO(0xe0, 0x01, 0x01) },
 
-<<<<<<< HEAD
 	/* Apple iMac11,1 */
 	{ USB_DEVICE(0x05ac, 0x8215) },
 
-=======
-	/* Apple MacBookPro 7,1 */
-	{ USB_DEVICE(0x05ac, 0x8213) },
-
-	/* Apple iMac11,1 */
-	{ USB_DEVICE(0x05ac, 0x8215) },
-
-	/* Apple MacBookPro6,2 */
-	{ USB_DEVICE(0x05ac, 0x8218) },
-
-	/* Apple MacBookAir3,1, MacBookAir3,2 */
-	{ USB_DEVICE(0x05ac, 0x821b) },
-
-	/* Apple MacBookPro8,2 */
-	{ USB_DEVICE(0x05ac, 0x821a) },
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* AVM BlueFRITZ! USB v2.0 */
 	{ USB_DEVICE(0x057c, 0x3800) },
 
@@ -167,10 +149,7 @@ static struct usb_device_id blacklist_table[] = {
 #define BTUSB_BULK_RUNNING	1
 #define BTUSB_ISOC_RUNNING	2
 #define BTUSB_SUSPENDING	3
-<<<<<<< HEAD
 #define BTUSB_DID_ISO_RESUME	4
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct btusb_data {
 	struct hci_dev       *hdev;
@@ -204,10 +183,6 @@ struct btusb_data {
 	unsigned int sco_num;
 	int isoc_altsetting;
 	int suspend_count;
-<<<<<<< HEAD
-=======
-	int did_iso_resume:1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static int inc_tx(struct btusb_data *data)
@@ -483,7 +458,6 @@ static int btusb_submit_isoc_urb(struct hci_dev *hdev, gfp_t mem_flags)
 
 	pipe = usb_rcvisocpipe(data->udev, data->isoc_rx_ep->bEndpointAddress);
 
-<<<<<<< HEAD
 	urb->dev      = data->udev;
 	urb->pipe     = pipe;
 	urb->context  = hdev;
@@ -493,12 +467,6 @@ static int btusb_submit_isoc_urb(struct hci_dev *hdev, gfp_t mem_flags)
 	urb->transfer_flags  = URB_FREE_BUFFER | URB_ISO_ASAP;
 	urb->transfer_buffer = buf;
 	urb->transfer_buffer_length = size;
-=======
-	usb_fill_int_urb(urb, data->udev, pipe, buf, size, btusb_isoc_complete,
-				hdev, data->isoc_rx_ep->bInterval);
-
-	urb->transfer_flags  = URB_FREE_BUFFER | URB_ISO_ASAP;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	__fill_isoc_descriptor(urb, size,
 			le16_to_cpu(data->isoc_rx_ep->wMaxPacketSize));
@@ -842,11 +810,7 @@ static void btusb_work(struct work_struct *work)
 	int err;
 
 	if (hdev->conn_hash.sco_num > 0) {
-<<<<<<< HEAD
 		if (!test_bit(BTUSB_DID_ISO_RESUME, &data->flags)) {
-=======
-		if (!data->did_iso_resume) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			err = usb_autopm_get_interface(data->isoc);
 			if (err < 0) {
 				clear_bit(BTUSB_ISOC_RUNNING, &data->flags);
@@ -854,11 +818,7 @@ static void btusb_work(struct work_struct *work)
 				return;
 			}
 
-<<<<<<< HEAD
 			set_bit(BTUSB_DID_ISO_RESUME, &data->flags);
-=======
-			data->did_iso_resume = 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		if (data->isoc_altsetting != 2) {
 			clear_bit(BTUSB_ISOC_RUNNING, &data->flags);
@@ -879,15 +839,8 @@ static void btusb_work(struct work_struct *work)
 		usb_kill_anchored_urbs(&data->isoc_anchor);
 
 		__set_isoc_interface(hdev, 0);
-<<<<<<< HEAD
 		if (test_and_clear_bit(BTUSB_DID_ISO_RESUME, &data->flags))
 			usb_autopm_put_interface(data->isoc);
-=======
-		if (data->did_iso_resume) {
-			data->did_iso_resume = 0;
-			usb_autopm_put_interface(data->isoc);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 
@@ -987,11 +940,7 @@ static int btusb_probe(struct usb_interface *intf,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	hdev->bus = HCI_USB;
-=======
-	hdev->type = HCI_USB;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	hdev->driver_data = data;
 
 	data->hdev = hdev;
@@ -1119,11 +1068,7 @@ static int btusb_suspend(struct usb_interface *intf, pm_message_t message)
 		return 0;
 
 	spin_lock_irq(&data->txlock);
-<<<<<<< HEAD
 	if (!((message.event & PM_EVENT_AUTO) && data->tx_in_flight)) {
-=======
-	if (!(interface_to_usbdev(intf)->auto_pm && data->tx_in_flight)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		set_bit(BTUSB_SUSPENDING, &data->flags);
 		spin_unlock_irq(&data->txlock);
 	} else {

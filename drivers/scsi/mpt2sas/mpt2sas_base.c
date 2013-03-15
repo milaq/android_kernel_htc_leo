@@ -1947,15 +1947,9 @@ _base_allocate_memory_pools(struct MPT2SAS_ADAPTER *ioc,  int sleep_flag)
 		/* adjust hba_queue_depth, reply_free_queue_depth,
 		 * and queue_size
 		 */
-<<<<<<< HEAD
 		ioc->hba_queue_depth -= queue_diff;
 		ioc->reply_free_queue_depth -= queue_diff;
 		queue_size -= queue_diff;
-=======
-		ioc->hba_queue_depth -= (queue_diff / 2);
-		ioc->reply_free_queue_depth -= (queue_diff / 2);
-		queue_size = facts->MaxReplyDescriptorPostQueueDepth;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	ioc->reply_post_queue_depth = queue_size;
 
@@ -3601,11 +3595,6 @@ mpt2sas_base_detach(struct MPT2SAS_ADAPTER *ioc)
 static void
 _base_reset_handler(struct MPT2SAS_ADAPTER *ioc, int reset_phase)
 {
-<<<<<<< HEAD
-=======
-	mpt2sas_scsih_reset_handler(ioc, reset_phase);
-	mpt2sas_ctl_reset_handler(ioc, reset_phase);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	switch (reset_phase) {
 	case MPT2_IOC_PRE_RESET:
 		dtmprintk(ioc, printk(MPT2SAS_DEBUG_FMT "%s: "
@@ -3636,11 +3625,8 @@ _base_reset_handler(struct MPT2SAS_ADAPTER *ioc, int reset_phase)
 		    "MPT2_IOC_DONE_RESET\n", ioc->name, __func__));
 		break;
 	}
-<<<<<<< HEAD
 	mpt2sas_scsih_reset_handler(ioc, reset_phase);
 	mpt2sas_ctl_reset_handler(ioc, reset_phase);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -3694,10 +3680,6 @@ mpt2sas_base_hard_reset_handler(struct MPT2SAS_ADAPTER *ioc, int sleep_flag,
 {
 	int r;
 	unsigned long flags;
-<<<<<<< HEAD
-=======
-	u8 pe_complete = ioc->wait_for_port_enable_to_complete;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dtmprintk(ioc, printk(MPT2SAS_DEBUG_FMT "%s: enter\n", ioc->name,
 	    __func__));
@@ -3719,17 +3701,6 @@ mpt2sas_base_hard_reset_handler(struct MPT2SAS_ADAPTER *ioc, int sleep_flag,
 	if (r)
 		goto out;
 	_base_reset_handler(ioc, MPT2_IOC_AFTER_RESET);
-<<<<<<< HEAD
-=======
-
-	/* If this hard reset is called while port enable is active, then
-	 * there is no reason to call make_ioc_operational
-	 */
-	if (pe_complete) {
-		r = -EFAULT;
-		goto out;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	r = _base_make_ioc_operational(ioc, sleep_flag);
 	if (!r)
 		_base_reset_handler(ioc, MPT2_IOC_DONE_RESET);

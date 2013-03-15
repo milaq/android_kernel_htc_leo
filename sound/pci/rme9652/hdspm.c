@@ -4127,10 +4127,6 @@ static int snd_hdspm_hwdep_ioctl(struct snd_hwdep * hw, struct file *file,
 
 	case SNDRV_HDSPM_IOCTL_GET_CONFIG_INFO:
 
-<<<<<<< HEAD
-=======
-		memset(&info, 0, sizeof(info));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock_irq(&hdspm->lock);
 		info.pref_sync_ref = hdspm_pref_sync_ref(hdspm);
 		info.wordclock_sync_check = hdspm_wc_sync_check(hdspm);

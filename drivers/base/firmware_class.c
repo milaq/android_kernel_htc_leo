@@ -125,20 +125,6 @@ static ssize_t firmware_loading_show(struct device *dev,
 	return sprintf(buf, "%d\n", loading);
 }
 
-<<<<<<< HEAD
-=======
-static void firmware_free_data(const struct firmware *fw)
-{
-	int i;
-	vunmap(fw->data);
-	if (fw->pages) {
-		for (i = 0; i < PFN_UP(fw->size); i++)
-			__free_page(fw->pages[i]);
-		kfree(fw->pages);
-	}
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Some architectures don't have PAGE_KERNEL_RO */
 #ifndef PAGE_KERNEL_RO
 #define PAGE_KERNEL_RO PAGE_KERNEL
@@ -164,7 +150,6 @@ static ssize_t firmware_loading_store(struct device *dev,
 	int loading = simple_strtol(buf, NULL, 10);
 	int i;
 
-<<<<<<< HEAD
 	switch (loading) {
 	case 1:
 		mutex_lock(&fw_lock);
@@ -174,25 +159,12 @@ static ssize_t firmware_loading_store(struct device *dev,
 		}
 		vfree(fw_priv->fw->data);
 		fw_priv->fw->data = NULL;
-=======
-	mutex_lock(&fw_lock);
-
-	if (!fw_priv->fw)
-		goto out;
-
-	switch (loading) {
-	case 1:
-		firmware_free_data(fw_priv->fw);
-		memset(fw_priv->fw, 0, sizeof(struct firmware));
-		/* If the pages are not owned by 'struct firmware' */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		for (i = 0; i < fw_priv->nr_pages; i++)
 			__free_page(fw_priv->pages[i]);
 		kfree(fw_priv->pages);
 		fw_priv->pages = NULL;
 		fw_priv->page_array_size = 0;
 		fw_priv->nr_pages = 0;
-<<<<<<< HEAD
 		fw_priv->fw->size = 0;
 		set_bit(FW_STATUS_LOADING, &fw_priv->status);
 		mutex_unlock(&fw_lock);
@@ -200,13 +172,6 @@ static ssize_t firmware_loading_store(struct device *dev,
 	case 0:
 		if (test_bit(FW_STATUS_LOADING, &fw_priv->status)) {
 			vfree(fw_priv->fw->data);
-=======
-		set_bit(FW_STATUS_LOADING, &fw_priv->status);
-		break;
-	case 0:
-		if (test_bit(FW_STATUS_LOADING, &fw_priv->status)) {
-			vunmap(fw_priv->fw->data);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			fw_priv->fw->data = vmap(fw_priv->pages,
 						 fw_priv->nr_pages,
 						 0, PAGE_KERNEL_RO);
@@ -214,14 +179,7 @@ static ssize_t firmware_loading_store(struct device *dev,
 				dev_err(dev, "%s: vmap() failed\n", __func__);
 				goto err;
 			}
-<<<<<<< HEAD
 			/* Pages will be freed by vfree() */
-=======
-			/* Pages are now owned by 'struct firmware' */
-			fw_priv->fw->pages = fw_priv->pages;
-			fw_priv->pages = NULL;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			fw_priv->page_array_size = 0;
 			fw_priv->nr_pages = 0;
 			complete(&fw_priv->completion);
@@ -237,12 +195,7 @@ static ssize_t firmware_loading_store(struct device *dev,
 		fw_load_abort(fw_priv);
 		break;
 	}
-<<<<<<< HEAD
 
-=======
-out:
-	mutex_unlock(&fw_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return count;
 }
 
@@ -526,12 +479,8 @@ _request_firmware(const struct firmware **firmware_p, const char *name,
 	if (!firmware) {
 		dev_err(device, "%s: kmalloc(struct firmware) failed\n",
 			__func__);
-<<<<<<< HEAD
 		retval = -ENOMEM;
 		goto out;
-=======
-		return -ENOMEM;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	for (builtin = __start_builtin_fw; builtin != __end_builtin_fw;
@@ -545,17 +494,6 @@ _request_firmware(const struct firmware **firmware_p, const char *name,
 		return 0;
 	}
 
-<<<<<<< HEAD
-=======
-	read_lock_usermodehelper();
-
-	if (WARN_ON(usermodehelper_is_disabled())) {
-		dev_err(device, "firmware: %s will not be loaded\n", name);
-		retval = -EBUSY;
-		goto out;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (uevent)
 		dev_info(device, "firmware: requesting %s\n", name);
 
@@ -593,10 +531,6 @@ error_kfree_fw:
 	kfree(firmware);
 	*firmware_p = NULL;
 out:
-<<<<<<< HEAD
-=======
-	read_unlock_usermodehelper();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return retval;
 }
 
@@ -638,11 +572,7 @@ release_firmware(const struct firmware *fw)
 			if (fw->data == builtin->data)
 				goto free_fw;
 		}
-<<<<<<< HEAD
 		vfree(fw->data);
-=======
-		firmware_free_data(fw);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	free_fw:
 		kfree(fw);
 	}

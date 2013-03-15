@@ -127,15 +127,8 @@ int __ref profile_init(void)
 		return 0;
 
 	prof_buffer = vmalloc(buffer_bytes);
-<<<<<<< HEAD
 	if (prof_buffer)
 		return 0;
-=======
-	if (prof_buffer) {
-		memset(prof_buffer, 0, buffer_bytes);
-		return 0;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	free_cpumask_var(prof_cpu_mask);
 	return -ENOMEM;

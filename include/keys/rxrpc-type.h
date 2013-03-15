@@ -99,10 +99,7 @@ struct rxrpc_key_token {
  * structure of raw payloads passed to add_key() or instantiate key
  */
 struct rxrpc_key_data_v1 {
-<<<<<<< HEAD
 	u32		kif_version;		/* 1 */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u16		security_index;
 	u16		ticket_length;
 	u32		expiry;			/* time_t */

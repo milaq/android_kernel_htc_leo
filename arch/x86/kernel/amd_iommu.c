@@ -544,11 +544,7 @@ static void flush_devices_by_domain(struct protection_domain *domain)
 
 	for (i = 0; i <= amd_iommu_last_bdf; ++i) {
 		if ((domain == NULL && amd_iommu_pd_table[i] == NULL) ||
-<<<<<<< HEAD
 		    (amd_iommu_pd_table[i] != domain))
-=======
-		    (domain != NULL && amd_iommu_pd_table[i] != domain))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			continue;
 
 		iommu = amd_iommu_rlookup_table[i];
@@ -846,11 +842,7 @@ static int alloc_new_range(struct amd_iommu *iommu,
 		if (!pte || !IOMMU_PTE_PRESENT(*pte))
 			continue;
 
-<<<<<<< HEAD
 		dma_ops_reserve_addresses(dma_dom, i << PAGE_SHIFT, 1);
-=======
-		dma_ops_reserve_addresses(dma_dom, i >> PAGE_SHIFT, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	update_domain(&dma_dom->domain);
@@ -1696,10 +1688,6 @@ static void __unmap_single(struct amd_iommu *iommu,
 			   size_t size,
 			   int dir)
 {
-<<<<<<< HEAD
-=======
-	dma_addr_t flush_addr;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dma_addr_t i, start;
 	unsigned int pages;
 
@@ -1707,10 +1695,6 @@ static void __unmap_single(struct amd_iommu *iommu,
 	    (dma_addr + size > dma_dom->aperture_size))
 		return;
 
-<<<<<<< HEAD
-=======
-	flush_addr = dma_addr;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pages = iommu_num_pages(dma_addr, size, PAGE_SIZE);
 	dma_addr &= PAGE_MASK;
 	start = dma_addr;
@@ -1725,11 +1709,7 @@ static void __unmap_single(struct amd_iommu *iommu,
 	dma_ops_free_addresses(dma_dom, dma_addr, pages);
 
 	if (amd_iommu_unmap_flush || dma_dom->need_flush) {
-<<<<<<< HEAD
 		iommu_flush_pages(iommu, dma_dom->domain.id, dma_addr, size);
-=======
-		iommu_flush_pages(iommu, dma_dom->domain.id, flush_addr, size);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		dma_dom->need_flush = false;
 	}
 }
@@ -2259,13 +2239,9 @@ static void amd_iommu_domain_destroy(struct iommu_domain *dom)
 
 	free_pagetable(domain);
 
-<<<<<<< HEAD
 	domain_id_free(domain->id);
 
 	kfree(domain);
-=======
-	protection_domain_free(domain);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dom->priv = NULL;
 }

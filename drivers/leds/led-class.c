@@ -72,11 +72,7 @@ static ssize_t led_max_brightness_show(struct device *dev,
 	return sprintf(buf, "%u\n", led_cdev->max_brightness);
 }
 
-<<<<<<< HEAD
 static DEVICE_ATTR(brightness, 0666, led_brightness_show, led_brightness_store);
-=======
-static DEVICE_ATTR(brightness, 0644, led_brightness_show, led_brightness_store);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DEVICE_ATTR(max_brightness, 0444, led_max_brightness_show, NULL);
 #ifdef CONFIG_LEDS_TRIGGERS
 static DEVICE_ATTR(trigger, 0644, led_trigger_show, led_trigger_store);

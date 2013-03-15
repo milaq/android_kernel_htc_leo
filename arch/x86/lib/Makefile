@@ -2,11 +2,7 @@
 # Makefile for x86 specific library files.
 #
 
-<<<<<<< HEAD
 obj-$(CONFIG_SMP) += msr-smp.o
-=======
-obj-$(CONFIG_SMP) += msr-smp.o cache-smp.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 lib-y := delay.o
 lib-y += thunk_$(BITS).o
@@ -30,8 +26,4 @@ else
         lib-y += thunk_64.o clear_page_64.o copy_page_64.o
         lib-y += memmove_64.o memset_64.o
         lib-y += copy_user_64.o rwlock_64.o copy_user_nocache_64.o
-<<<<<<< HEAD
-=======
-	lib-$(CONFIG_RWSEM_XCHGADD_ALGORITHM) += rwsem_64.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif

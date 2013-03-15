@@ -196,11 +196,7 @@ static void free_object(struct debug_obj *obj)
 	 * initialized:
 	 */
 	if (obj_pool_free > ODEBUG_POOL_SIZE && obj_cache)
-<<<<<<< HEAD
 		sched = !work_pending(&debug_obj_work);
-=======
-		sched = keventd_up() && !work_pending(&debug_obj_work);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	hlist_add_head(&obj->node, &obj_pool);
 	obj_pool_free++;
 	obj_pool_used--;

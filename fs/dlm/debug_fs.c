@@ -404,11 +404,7 @@ static void *table_seq_start(struct seq_file *seq, loff_t *pos)
 	if (bucket >= ls->ls_rsbtbl_size)
 		return NULL;
 
-<<<<<<< HEAD
 	ri = kzalloc(sizeof(struct rsbtbl_iter), GFP_KERNEL);
-=======
-	ri = kzalloc(sizeof(struct rsbtbl_iter), GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!ri)
 		return NULL;
 	if (n == 0)

@@ -44,10 +44,7 @@ enum rfkill_type {
 	RFKILL_TYPE_UWB,
 	RFKILL_TYPE_WIMAX,
 	RFKILL_TYPE_WWAN,
-<<<<<<< HEAD
 	RFKILL_TYPE_FMTX,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	RFKILL_TYPE_GPS,
 	NUM_RFKILL_TYPES,
 };

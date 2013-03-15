@@ -85,11 +85,7 @@ xt_cluster_is_multicast_addr(const struct sk_buff *skb, u_int8_t family)
 }
 
 static bool
-<<<<<<< HEAD
 xt_cluster_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-xt_cluster_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct sk_buff *pskb = (struct sk_buff *)skb;
 	const struct xt_cluster_match_info *info = par->matchinfo;
@@ -123,11 +119,7 @@ xt_cluster_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	if (ct == NULL)
 		return false;
 
-<<<<<<< HEAD
 	if (nf_ct_is_untracked(ct))
-=======
-	if (ct == &nf_conntrack_untracked)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return false;
 
 	if (ct->master)
@@ -139,11 +131,7 @@ xt_cluster_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	       !!(info->flags & XT_CLUSTER_F_INV);
 }
 
-<<<<<<< HEAD
 static int xt_cluster_mt_checkentry(const struct xt_mtchk_param *par)
-=======
-static bool xt_cluster_mt_checkentry(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_cluster_match_info *info = par->matchinfo;
 

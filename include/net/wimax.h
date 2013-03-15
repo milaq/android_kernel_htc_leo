@@ -79,11 +79,7 @@
  * drivers have to only report state changes due to external
  * conditions.
  *
-<<<<<<< HEAD
  * All API operations are 'atomic', serialized through a mutex in the
-=======
- * All API operations are 'atomic', serialized thorough a mutex in the
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * `struct wimax_dev`.
  *
  * EXPORTING TO USER SPACE THROUGH GENERIC NETLINK

@@ -35,10 +35,7 @@
 #define W1_THERM_DS18B20 	0x28
 #define W1_EEPROM_DS2431	0x2D
 #define W1_FAMILY_DS2760	0x30
-<<<<<<< HEAD
 #define W1_FAMILY_DS2784	0x32
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define MAXNAMELEN		32
 

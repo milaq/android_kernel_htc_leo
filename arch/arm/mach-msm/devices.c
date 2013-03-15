@@ -15,7 +15,6 @@
 
 #include <linux/kernel.h>
 #include <linux/platform_device.h>
-<<<<<<< HEAD
 #include <linux/dma-mapping.h>
 #include <linux/delay.h>
 #include <linux/gpio.h>
@@ -26,17 +25,10 @@
 #include <mach/board.h>
 
 #include "smd_private.h"
-=======
-
-#include <mach/irqs.h>
-#include <mach/msm_iomap.h>
-#include "devices.h"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/mach/flash.h>
 #include <linux/mtd/nand.h>
 #include <linux/mtd/partitions.h>
-<<<<<<< HEAD
 #include <asm/mach/mmc.h>
 #include <asm/setup.h>
 
@@ -499,8 +491,6 @@ void __init msm_hsusb_set_product(struct msm_hsusb_product *product,
 	msm_hsusb_pdata.num_products = num_products;
 }
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static struct resource resources_uart1[] = {
 	{
@@ -562,7 +552,6 @@ struct platform_device msm_device_uart3 = {
 	.resource	= resources_uart3,
 };
 
-<<<<<<< HEAD
 static struct resource msm_uart1_dm_resources[] = {
 	{
 		.start = MSM_UART1DM_PHYS,
@@ -671,8 +660,6 @@ struct platform_device msm_device_i2c_2 = {
 };
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct resource resources_i2c[] = {
 	{
 		.start	= MSM_I2C_PHYS,
@@ -693,7 +680,6 @@ struct platform_device msm_device_i2c = {
 	.resource	= resources_i2c,
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_ARCH_MSM7X30
 static struct resource resources_qup[] = {
 	{
@@ -846,31 +832,6 @@ void msm_set_i2c_mux(bool gpio, int *gpio_clk, int *gpio_dat, int clk_str, int d
 	}
 }
 
-=======
-static struct resource resources_hsusb[] = {
-	{
-		.start	= MSM_HSUSB_PHYS,
-		.end	= MSM_HSUSB_PHYS + MSM_HSUSB_SIZE,
-		.flags	= IORESOURCE_MEM,
-	},
-	{
-		.start	= INT_USB_HS,
-		.end	= INT_USB_HS,
-		.flags	= IORESOURCE_IRQ,
-	},
-};
-
-struct platform_device msm_device_hsusb = {
-	.name		= "msm_hsusb",
-	.id		= -1,
-	.num_resources	= ARRAY_SIZE(resources_hsusb),
-	.resource	= resources_hsusb,
-	.dev		= {
-		.coherent_dma_mask	= 0xffffffff,
-	},
-};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct flash_platform_data msm_nand_data = {
 	.parts		= NULL,
 	.nr_parts	= 0,
@@ -907,7 +868,6 @@ static struct resource resources_sdc1[] = {
 	},
 	{
 		.start	= INT_SDC1_0,
-<<<<<<< HEAD
 		.end	= INT_SDC1_0,
 		.flags	= IORESOURCE_IRQ,
 		.name	= "cmd_irq",
@@ -921,10 +881,6 @@ static struct resource resources_sdc1[] = {
 	{
 		.flags	= IORESOURCE_IRQ | IORESOURCE_DISABLED,
 		.name	= "status_irq"
-=======
-		.end	= INT_SDC1_1,
-		.flags	= IORESOURCE_IRQ,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	},
 	{
 		.start	= 8,
@@ -941,7 +897,6 @@ static struct resource resources_sdc2[] = {
 	},
 	{
 		.start	= INT_SDC2_0,
-<<<<<<< HEAD
 		.end	= INT_SDC2_0,
 		.flags	= IORESOURCE_IRQ,
 		.name	= "cmd_irq",
@@ -955,10 +910,6 @@ static struct resource resources_sdc2[] = {
 	{
 		.flags	= IORESOURCE_IRQ | IORESOURCE_DISABLED,
 		.name	= "status_irq"
-=======
-		.end	= INT_SDC2_1,
-		.flags	= IORESOURCE_IRQ,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	},
 	{
 		.start	= 8,
@@ -975,7 +926,6 @@ static struct resource resources_sdc3[] = {
 	},
 	{
 		.start	= INT_SDC3_0,
-<<<<<<< HEAD
 		.end	= INT_SDC3_0,
 		.flags	= IORESOURCE_IRQ,
 		.name	= "cmd_irq",
@@ -989,10 +939,6 @@ static struct resource resources_sdc3[] = {
 	{
 		.flags	= IORESOURCE_IRQ | IORESOURCE_DISABLED,
 		.name	= "status_irq"
-=======
-		.end	= INT_SDC3_1,
-		.flags	= IORESOURCE_IRQ,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	},
 	{
 		.start	= 8,
@@ -1009,7 +955,6 @@ static struct resource resources_sdc4[] = {
 	},
 	{
 		.start	= INT_SDC4_0,
-<<<<<<< HEAD
 		.end	= INT_SDC4_0,
 		.flags	= IORESOURCE_IRQ,
 		.name	= "cmd_irq",
@@ -1023,10 +968,6 @@ static struct resource resources_sdc4[] = {
 	{
 		.flags	= IORESOURCE_IRQ | IORESOURCE_DISABLED,
 		.name	= "status_irq"
-=======
-		.end	= INT_SDC4_1,
-		.flags	= IORESOURCE_IRQ,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	},
 	{
 		.start	= 8,
@@ -1074,7 +1015,6 @@ struct platform_device msm_device_sdc4 = {
 		.coherent_dma_mask	= 0xffffffff,
 	},
 };
-<<<<<<< HEAD
 
 static struct platform_device *msm_sdcc_devices[] __initdata = {
 	&msm_device_sdc1,
@@ -1692,5 +1632,3 @@ int board_emmc_boot(void)
 	return 0;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

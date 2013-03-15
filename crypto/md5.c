@@ -20,10 +20,6 @@
 #include <linux/module.h>
 #include <linux/string.h>
 #include <linux/types.h>
-<<<<<<< HEAD
-=======
-#include <linux/cryptohash.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/byteorder.h>
 
 #define MD5_DIGEST_SIZE		16
@@ -31,7 +27,6 @@
 #define MD5_BLOCK_WORDS		16
 #define MD5_HASH_WORDS		4
 
-<<<<<<< HEAD
 #define F1(x, y, z)	(z ^ (x & (y ^ z)))
 #define F2(x, y, z)	F1(z, x, y)
 #define F3(x, y, z)	(x ^ y ^ z)
@@ -40,15 +35,12 @@
 #define MD5STEP(f, w, x, y, z, in, s) \
 	(w += f(x, y, z) + in, w = (w<<s | w>>(32-s)) + x)
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct md5_ctx {
 	u32 hash[MD5_HASH_WORDS];
 	u32 block[MD5_BLOCK_WORDS];
 	u64 byte_count;
 };
 
-<<<<<<< HEAD
 static void md5_transform(u32 *hash, u32 const *in)
 {
 	u32 a, b, c, d;
@@ -132,8 +124,6 @@ static void md5_transform(u32 *hash, u32 const *in)
 	hash[3] += d;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* XXX: this stuff can be optimized */
 static inline void le32_to_cpu_array(u32 *buf, unsigned int words)
 {

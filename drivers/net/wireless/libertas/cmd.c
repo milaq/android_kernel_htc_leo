@@ -1758,13 +1758,8 @@ int lbs_execute_next_command(struct lbs_private *priv)
 				    cpu_to_le16(CMD_SUBCMD_EXIT_PS)) {
 					lbs_deb_host(
 					       "EXEC_NEXT_CMD: ignore ENTER_PS cmd\n");
-<<<<<<< HEAD
 					list_del(&cmdnode->list);
 					spin_lock_irqsave(&priv->driver_lock, flags);
-=======
-					spin_lock_irqsave(&priv->driver_lock, flags);
-					list_del(&cmdnode->list);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					lbs_complete_command(priv, cmdnode, 0);
 					spin_unlock_irqrestore(&priv->driver_lock, flags);
 
@@ -1776,13 +1771,8 @@ int lbs_execute_next_command(struct lbs_private *priv)
 				    (priv->psstate == PS_STATE_PRE_SLEEP)) {
 					lbs_deb_host(
 					       "EXEC_NEXT_CMD: ignore EXIT_PS cmd in sleep\n");
-<<<<<<< HEAD
 					list_del(&cmdnode->list);
 					spin_lock_irqsave(&priv->driver_lock, flags);
-=======
-					spin_lock_irqsave(&priv->driver_lock, flags);
-					list_del(&cmdnode->list);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					lbs_complete_command(priv, cmdnode, 0);
 					spin_unlock_irqrestore(&priv->driver_lock, flags);
 					priv->needtowakeup = 1;
@@ -1795,13 +1785,7 @@ int lbs_execute_next_command(struct lbs_private *priv)
 				       "EXEC_NEXT_CMD: sending EXIT_PS\n");
 			}
 		}
-<<<<<<< HEAD
 		list_del(&cmdnode->list);
-=======
-		spin_lock_irqsave(&priv->driver_lock, flags);
-		list_del(&cmdnode->list);
-		spin_unlock_irqrestore(&priv->driver_lock, flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		lbs_deb_host("EXEC_NEXT_CMD: sending command 0x%04x\n",
 			    le16_to_cpu(cmd->command));
 		lbs_submit_command(priv, cmdnode);

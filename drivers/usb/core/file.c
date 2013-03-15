@@ -159,15 +159,9 @@ void usb_major_cleanup(void)
 int usb_register_dev(struct usb_interface *intf,
 		     struct usb_class_driver *class_driver)
 {
-<<<<<<< HEAD
 	int retval = -EINVAL;
 	int minor_base = class_driver->minor_base;
 	int minor = 0;
-=======
-	int retval;
-	int minor_base = class_driver->minor_base;
-	int minor;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	char name[20];
 	char *temp;
 
@@ -179,26 +173,12 @@ int usb_register_dev(struct usb_interface *intf,
 	 */
 	minor_base = 0;
 #endif
-<<<<<<< HEAD
 	intf->minor = -1;
 
 	dbg ("looking for a minor, starting at %d", minor_base);
 
 	if (class_driver->fops == NULL)
 		goto exit;
-=======
-
-	if (class_driver->fops == NULL)
-		return -EINVAL;
-	if (intf->minor >= 0)
-		return -EADDRINUSE;
-
-	retval = init_usb_class();
-	if (retval)
-		return retval;
-
-	dev_dbg(&intf->dev, "looking for a minor, starting at %d", minor_base);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	down_write(&minor_rwsem);
 	for (minor = minor_base; minor < MAX_USB_MINORS; ++minor) {
@@ -206,7 +186,6 @@ int usb_register_dev(struct usb_interface *intf,
 			continue;
 
 		usb_minors[minor] = class_driver->fops;
-<<<<<<< HEAD
 
 		retval = 0;
 		break;
@@ -221,14 +200,6 @@ int usb_register_dev(struct usb_interface *intf,
 		goto exit;
 
 	intf->minor = minor;
-=======
-		intf->minor = minor;
-		break;
-	}
-	up_write(&minor_rwsem);
-	if (intf->minor < 0)
-		return -EXFULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* create a usb class device for this usb interface */
 	snprintf(name, sizeof(name), class_driver->name, minor - minor_base);
@@ -242,19 +213,11 @@ int usb_register_dev(struct usb_interface *intf,
 				      "%s", temp);
 	if (IS_ERR(intf->usb_dev)) {
 		down_write(&minor_rwsem);
-<<<<<<< HEAD
 		usb_minors[intf->minor] = NULL;
 		up_write(&minor_rwsem);
 		retval = PTR_ERR(intf->usb_dev);
 	}
 exit:
-=======
-		usb_minors[minor] = NULL;
-		intf->minor = -1;
-		up_write(&minor_rwsem);
-		retval = PTR_ERR(intf->usb_dev);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return retval;
 }
 EXPORT_SYMBOL_GPL(usb_register_dev);

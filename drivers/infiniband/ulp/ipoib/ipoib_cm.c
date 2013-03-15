@@ -752,11 +752,6 @@ void ipoib_cm_send(struct net_device *dev, struct sk_buff *skb, struct ipoib_cm_
 		if (++priv->tx_outstanding == ipoib_sendq_size) {
 			ipoib_dbg(priv, "TX ring 0x%x full, stopping kernel net queue\n",
 				  tx->qp->qp_num);
-<<<<<<< HEAD
-=======
-			if (ib_req_notify_cq(priv->send_cq, IB_CQ_NEXT_COMP))
-				ipoib_warn(priv, "request notify on send CQ failed\n");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			netif_stop_queue(dev);
 		}
 	}

@@ -58,14 +58,6 @@ static struct uvc_format_desc uvc_fmts[] = {
 		.fcc		= V4L2_PIX_FMT_YUYV,
 	},
 	{
-<<<<<<< HEAD
-=======
-		.name		= "YUV 4:2:2 (YUYV)",
-		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
-		.fcc		= V4L2_PIX_FMT_YUYV,
-	},
-	{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.name		= "YUV 4:2:0 (NV12)",
 		.guid		= UVC_GUID_FORMAT_NV12,
 		.fcc		= V4L2_PIX_FMT_NV12,
@@ -91,23 +83,11 @@ static struct uvc_format_desc uvc_fmts[] = {
 		.fcc		= V4L2_PIX_FMT_UYVY,
 	},
 	{
-<<<<<<< HEAD
 		.name		= "Greyscale",
-=======
-		.name		= "Greyscale (8-bit)",
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.guid		= UVC_GUID_FORMAT_Y800,
 		.fcc		= V4L2_PIX_FMT_GREY,
 	},
 	{
-<<<<<<< HEAD
-=======
-		.name		= "Greyscale (16-bit)",
-		.guid		= UVC_GUID_FORMAT_Y16,
-		.fcc		= V4L2_PIX_FMT_Y16,
-	},
-	{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.name		= "RGB Bayer",
 		.guid		= UVC_GUID_FORMAT_BY8,
 		.fcc		= V4L2_PIX_FMT_SBGGR8,
@@ -446,12 +426,7 @@ static int uvc_parse_format(struct uvc_device *dev,
 	/* Parse the frame descriptors. Only uncompressed, MJPEG and frame
 	 * based formats have frame descriptors.
 	 */
-<<<<<<< HEAD
 	while (buflen > 2 && buffer[2] == ftype) {
-=======
-	while (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
-	       buffer[2] == ftype) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		frame = &format->frame[format->nframes];
 		if (ftype != UVC_VS_FRAME_FRAME_BASED)
 			n = buflen > 25 ? buffer[25] : 0;
@@ -528,22 +503,12 @@ static int uvc_parse_format(struct uvc_device *dev,
 		buffer += buffer[0];
 	}
 
-<<<<<<< HEAD
 	if (buflen > 2 && buffer[2] == UVC_VS_STILL_IMAGE_FRAME) {
-=======
-	if (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
-	    buffer[2] == UVC_VS_STILL_IMAGE_FRAME) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		buflen -= buffer[0];
 		buffer += buffer[0];
 	}
 
-<<<<<<< HEAD
 	if (buflen > 2 && buffer[2] == UVC_VS_COLORFORMAT) {
-=======
-	if (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
-	    buffer[2] == UVC_VS_COLORFORMAT) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (buflen < 6) {
 			uvc_trace(UVC_TRACE_DESCR, "device %d videostreaming "
 			       "interface %d COLORFORMAT error\n",
@@ -784,14 +749,6 @@ static int uvc_parse_streaming(struct uvc_device *dev,
 		buffer += buffer[0];
 	}
 
-<<<<<<< HEAD
-=======
-	if (buflen)
-		uvc_trace(UVC_TRACE_DESCR, "device %d videostreaming interface "
-			"%d has %u bytes of trailing descriptor garbage.\n",
-			dev->udev->devnum, alts->desc.bInterfaceNumber, buflen);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Parse the alternate settings to find the maximum bandwidth. */
 	for (i = 0; i < intf->num_altsetting; ++i) {
 		struct usb_host_endpoint *ep;
@@ -1914,11 +1871,7 @@ static int __uvc_resume(struct usb_interface *intf, int reset)
 
 	list_for_each_entry(stream, &dev->streams, list) {
 		if (stream->intf == intf)
-<<<<<<< HEAD
 			return uvc_video_resume(stream);
-=======
-			return uvc_video_resume(stream, reset);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	uvc_trace(UVC_TRACE_SUSPEND, "Resume: video streaming USB interface "
@@ -2095,18 +2048,6 @@ static struct usb_device_id uvc_ids[] = {
 	  .bInterfaceSubClass	= 1,
 	  .bInterfaceProtocol	= 0,
 	  .driver_info		= UVC_QUIRK_STREAM_NO_FID },
-<<<<<<< HEAD
-=======
-	/* Syntek (Packard Bell EasyNote MX52 */
-	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-				| USB_DEVICE_ID_MATCH_INT_INFO,
-	  .idVendor		= 0x174f,
-	  .idProduct		= 0x8a12,
-	  .bInterfaceClass	= USB_CLASS_VIDEO,
-	  .bInterfaceSubClass	= 1,
-	  .bInterfaceProtocol	= 0,
-	  .driver_info		= UVC_QUIRK_STREAM_NO_FID },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Syntek (Asus F9SG) */
 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 				| USB_DEVICE_ID_MATCH_INT_INFO,
@@ -2171,18 +2112,6 @@ static struct usb_device_id uvc_ids[] = {
 	  .bInterfaceSubClass	= 1,
 	  .bInterfaceProtocol	= 0,
 	  .driver_info		= UVC_QUIRK_PROBE_MINMAX },
-<<<<<<< HEAD
-=======
-	/* Arkmicro unbranded */
-	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-				| USB_DEVICE_ID_MATCH_INT_INFO,
-	  .idVendor		= 0x18ec,
-	  .idProduct		= 0x3290,
-	  .bInterfaceClass	= USB_CLASS_VIDEO,
-	  .bInterfaceSubClass	= 1,
-	  .bInterfaceProtocol	= 0,
-	  .driver_info		= UVC_QUIRK_PROBE_DEF },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Bodelin ProScopeHR */
 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 				| USB_DEVICE_ID_MATCH_DEV_HI

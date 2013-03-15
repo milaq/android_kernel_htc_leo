@@ -1430,11 +1430,6 @@ CIFSSMBWrite(const int xid, struct cifsTconInfo *tcon,
 	__u32 bytes_sent;
 	__u16 byte_count;
 
-<<<<<<< HEAD
-=======
-	*nbytes = 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* cFYI(1, ("write at %lld %d bytes", offset, count));*/
 	if (tcon->ses == NULL)
 		return -ECONNABORTED;
@@ -1517,25 +1512,11 @@ CIFSSMBWrite(const int xid, struct cifsTconInfo *tcon,
 	cifs_stats_inc(&tcon->num_writes);
 	if (rc) {
 		cFYI(1, ("Send error in write = %d", rc));
-<<<<<<< HEAD
 		*nbytes = 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else {
 		*nbytes = le16_to_cpu(pSMBr->CountHigh);
 		*nbytes = (*nbytes) << 16;
 		*nbytes += le16_to_cpu(pSMBr->Count);
-<<<<<<< HEAD
-=======
-
-		/*
-		 * Mask off high 16 bits when bytes written as returned by the
-		 * server is greater than bytes requested by the client. Some
-		 * OS/2 servers are known to set incorrect CountHigh values.
-		 */
-		if (*nbytes > count)
-			*nbytes &= 0xFFFF;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	cifs_buf_release(pSMB);
@@ -1624,17 +1605,6 @@ CIFSSMBWrite2(const int xid, struct cifsTconInfo *tcon,
 		*nbytes = le16_to_cpu(pSMBr->CountHigh);
 		*nbytes = (*nbytes) << 16;
 		*nbytes += le16_to_cpu(pSMBr->Count);
-<<<<<<< HEAD
-=======
-
-		/*
-		 * Mask off high 16 bits when bytes written as returned by the
-		 * server is greater than bytes requested by the client. OS/2
-		 * servers are known to set incorrect CountHigh values.
-		 */
-		if (*nbytes > count)
-			*nbytes &= 0xFFFF;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 /*	cifs_small_buf_release(pSMB); */ /* Freed earlier now in SendReceive2 */
@@ -1654,12 +1624,7 @@ int
 CIFSSMBLock(const int xid, struct cifsTconInfo *tcon,
 	    const __u16 smb_file_id, const __u64 len,
 	    const __u64 offset, const __u32 numUnlock,
-<<<<<<< HEAD
 	    const __u32 numLock, const __u8 lockType, const bool waitFlag)
-=======
-	    const __u32 numLock, const __u8 lockType,
-	    const bool waitFlag, const __u8 oplock_level)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int rc = 0;
 	LOCK_REQ *pSMB = NULL;
@@ -1687,10 +1652,6 @@ CIFSSMBLock(const int xid, struct cifsTconInfo *tcon,
 	pSMB->NumberOfLocks = cpu_to_le16(numLock);
 	pSMB->NumberOfUnlocks = cpu_to_le16(numUnlock);
 	pSMB->LockType = lockType;
-<<<<<<< HEAD
-=======
-	pSMB->OplockLevel = oplock_level;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pSMB->AndXCommand = 0xFF;	/* none */
 	pSMB->Fid = smb_file_id; /* netfid stays le */
 
@@ -3616,12 +3577,7 @@ int CIFSFindNext(const int xid, struct cifsTconInfo *tcon,
 	T2_FNEXT_RSP_PARMS *parms;
 	char *response_data;
 	int rc = 0;
-<<<<<<< HEAD
 	int bytes_returned, name_len;
-=======
-	int bytes_returned;
-	unsigned int name_len;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__u16 params, byte_count;
 
 	cFYI(1, ("In FindNext"));

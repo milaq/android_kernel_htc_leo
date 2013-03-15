@@ -893,11 +893,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
 				       do_write);
 	}
 
-<<<<<<< HEAD
 	if (!do_write)
-=======
-	if (!do_write && !PageSlab(page))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		flush_dcache_page(page);
 
 	qc->curbytes += qc->sect_size;

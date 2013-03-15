@@ -233,12 +233,6 @@ void ssb_chipcommon_init(struct ssb_chipcommon *cc)
 {
 	if (!cc->dev)
 		return; /* We don't have a ChipCommon */
-<<<<<<< HEAD
-=======
-	if (cc->dev->id.revision >= 11)
-		cc->status = chipco_read32(cc, SSB_CHIPCO_CHIPSTAT);
-	ssb_dprintk(KERN_INFO PFX "chipcommon status is 0x%x\n", cc->status);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ssb_pmu_init(cc);
 	chipco_powercontrol_init(cc);
 	ssb_chipco_set_clockmode(cc, SSB_CLKMODE_FAST);

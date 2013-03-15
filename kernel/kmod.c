@@ -35,10 +35,6 @@
 #include <linux/resource.h>
 #include <linux/notifier.h>
 #include <linux/suspend.h>
-<<<<<<< HEAD
-=======
-#include <linux/rwsem.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/uaccess.h>
 
 #include <trace/events/module.h>
@@ -47,11 +43,6 @@ extern int max_threads;
 
 static struct workqueue_struct *khelper_wq;
 
-<<<<<<< HEAD
-=======
-static DECLARE_RWSEM(umhelper_sem);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_MODULES
 
 /*
@@ -115,19 +106,10 @@ int __request_module(bool wait, const char *fmt, ...)
 	atomic_inc(&kmod_concurrent);
 	if (atomic_read(&kmod_concurrent) > max_modprobes) {
 		/* We may be blaming an innocent here, but unlikely */
-<<<<<<< HEAD
 		if (kmod_loop_msg++ < 5)
 			printk(KERN_ERR
 			       "request_module: runaway loop modprobe %s\n",
 			       module_name);
-=======
-		if (kmod_loop_msg < 5) {
-			printk(KERN_ERR
-			       "request_module: runaway loop modprobe %s\n",
-			       module_name);
-			kmod_loop_msg++;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		atomic_dec(&kmod_concurrent);
 		return -ENOMEM;
 	}
@@ -302,10 +284,6 @@ static void __call_usermodehelper(struct work_struct *work)
  * If set, call_usermodehelper_exec() will exit immediately returning -EBUSY
  * (used for preventing user land processes from being created after the user
  * land has been frozen during a system-wide hibernation or suspend operation).
-<<<<<<< HEAD
-=======
- * Should always be manipulated under umhelper_sem acquired for write.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 static int usermodehelper_disabled;
 
@@ -324,21 +302,6 @@ static DECLARE_WAIT_QUEUE_HEAD(running_helpers_waitq);
  */
 #define RUNNING_HELPERS_TIMEOUT	(5 * HZ)
 
-<<<<<<< HEAD
-=======
-void read_lock_usermodehelper(void)
-{
-	down_read(&umhelper_sem);
-}
-EXPORT_SYMBOL_GPL(read_lock_usermodehelper);
-
-void read_unlock_usermodehelper(void)
-{
-	up_read(&umhelper_sem);
-}
-EXPORT_SYMBOL_GPL(read_unlock_usermodehelper);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * usermodehelper_disable - prevent new helpers from being started
  */
@@ -346,15 +309,8 @@ int usermodehelper_disable(void)
 {
 	long retval;
 
-<<<<<<< HEAD
 	usermodehelper_disabled = 1;
 	smp_mb();
-=======
-	down_write(&umhelper_sem);
-	usermodehelper_disabled = 1;
-	up_write(&umhelper_sem);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * From now on call_usermodehelper_exec() won't start any new
 	 * helpers, so it is sufficient if running_helpers turns out to
@@ -367,13 +323,7 @@ int usermodehelper_disable(void)
 	if (retval)
 		return 0;
 
-<<<<<<< HEAD
 	usermodehelper_disabled = 0;
-=======
-	down_write(&umhelper_sem);
-	usermodehelper_disabled = 0;
-	up_write(&umhelper_sem);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return -EAGAIN;
 }
 
@@ -382,24 +332,8 @@ int usermodehelper_disable(void)
  */
 void usermodehelper_enable(void)
 {
-<<<<<<< HEAD
 	usermodehelper_disabled = 0;
 }
-=======
-	down_write(&umhelper_sem);
-	usermodehelper_disabled = 0;
-	up_write(&umhelper_sem);
-}
-
-/**
- * usermodehelper_is_disabled - check if new helpers are allowed to be started
- */
-bool usermodehelper_is_disabled(void)
-{
-	return usermodehelper_disabled;
-}
-EXPORT_SYMBOL_GPL(usermodehelper_is_disabled);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static void helper_lock(void)
 {

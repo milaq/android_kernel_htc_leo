@@ -78,10 +78,6 @@ Ip_u2s3u1(_lw);
 Ip_u1u2u3(_mfc0);
 Ip_u1u2u3(_mtc0);
 Ip_u2u1u3(_ori);
-<<<<<<< HEAD
-=======
-Ip_u3u1u2(_or);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 Ip_u2s3u1(_pref);
 Ip_0(_rfe);
 Ip_u2s3u1(_sc);

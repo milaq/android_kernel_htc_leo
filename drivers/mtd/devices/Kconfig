@@ -51,7 +51,6 @@ config MTD_MS02NV
 	  say M here and read <file:Documentation/kbuild/modules.txt>.
 	  The module will be called ms02-nv.
 
-<<<<<<< HEAD
 config MTD_MSM_NAND
 	tristate "MSM NAND Device Support"
 	depends on MTD && ARCH_MSM
@@ -68,8 +67,6 @@ config MTD_HTCLEO_NAND
 	help
 	  Support for some NAND chips connected to the HTC LEO NAND controller.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config MTD_DATAFLASH
 	tristate "Support for AT45xxx DataFlash"
 	depends on SPI_MASTER && EXPERIMENTAL

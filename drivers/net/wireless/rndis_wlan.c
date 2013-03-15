@@ -83,19 +83,11 @@ MODULE_PARM_DESC(roamdelta,
 	"set roaming tendency: 0=aggressive, 1=moderate, "
 				"2=conservative (default: moderate)");
 
-<<<<<<< HEAD
 static int modparam_workaround_interval = 500;
 module_param_named(workaround_interval, modparam_workaround_interval,
 							int, 0444);
 MODULE_PARM_DESC(workaround_interval,
 	"set stall workaround interval in msecs (default: 500)");
-=======
-static int modparam_workaround_interval;
-module_param_named(workaround_interval, modparam_workaround_interval,
-							int, 0444);
-MODULE_PARM_DESC(workaround_interval,
-	"set stall workaround interval in msecs (0=disabled) (default: 0)");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 /* various RNDIS OID defs */
@@ -741,22 +733,12 @@ static int rndis_query_oid(struct usbnet *dev, __le32 oid, void *data, int *len)
 			le32_to_cpu(u.get_c->status));
 
 	if (ret == 0) {
-<<<<<<< HEAD
 		ret = le32_to_cpu(u.get_c->len);
 		if (ret > *len)
 			*len = ret;
 		memcpy(data, u.buf + le32_to_cpu(u.get_c->offset) + 8, *len);
 		ret = rndis_error_status(u.get_c->status);
 
-=======
-		memcpy(data, u.buf + le32_to_cpu(u.get_c->offset) + 8, *len);
-
-		ret = le32_to_cpu(u.get_c->len);
-		if (ret > *len)
-			*len = ret;
-
-		ret = rndis_error_status(u.get_c->status);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (ret < 0)
 			devdbg(dev, "rndis_query_oid(%s): device returned "
 				"error,  0x%08x (%d)", oid_to_string(oid),
@@ -1090,11 +1072,6 @@ static int set_auth_mode(struct usbnet *usbdev, u32 wpa_version,
 		auth_mode = NDIS_80211_AUTH_SHARED;
 	else if (auth_type == NL80211_AUTHTYPE_OPEN_SYSTEM)
 		auth_mode = NDIS_80211_AUTH_OPEN;
-<<<<<<< HEAD
-=======
-	else if (auth_type == NL80211_AUTHTYPE_AUTOMATIC)
-		auth_mode = NDIS_80211_AUTH_AUTO_SWITCH;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	else
 		return -ENOTSUPP;
 
@@ -2570,11 +2547,7 @@ static void rndis_device_poller(struct work_struct *work)
 	/* Workaround transfer stalls on poor quality links.
 	 * TODO: find right way to fix these stalls (as stalls do not happen
 	 * with ndiswrapper/windows driver). */
-<<<<<<< HEAD
 	if (priv->last_qual <= 25) {
-=======
-	if (priv->param_workaround_interval > 0 && priv->last_qual <= 25) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* Decrease stats worker interval to catch stalls.
 		 * faster. Faster than 400-500ms causes packet loss,
 		 * Slower doesn't catch stalls fast enough.

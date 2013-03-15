@@ -27,13 +27,8 @@
 #include <linux/personality.h>
 #include <linux/mm.h>
 #include <linux/module.h>
-<<<<<<< HEAD
 #include <asm/pgalloc.h>
 #include <asm/compat.h>
-=======
-#include <linux/compat.h>
-#include <asm/pgalloc.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * Top of mmap area (just below the process stack).

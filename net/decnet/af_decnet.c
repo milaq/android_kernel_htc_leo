@@ -1555,11 +1555,6 @@ static int __dn_getsockopt(struct socket *sock, int level,int optname, char __us
 			if (r_len > sizeof(struct linkinfo_dn))
 				r_len = sizeof(struct linkinfo_dn);
 
-<<<<<<< HEAD
-=======
-			memset(&link, 0, sizeof(link));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			switch(sock->state) {
 				case SS_CONNECTING:
 					link.idn_linkstate = LL_CONNECTING;

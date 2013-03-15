@@ -344,10 +344,7 @@ static int hpt36x_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 	const struct ata_port_info *ppi[] = { &info_hpt366, NULL };
 
 	void *hpriv = NULL;
-<<<<<<< HEAD
 	u32 class_rev;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 reg1;
 	int rc;
 
@@ -355,7 +352,6 @@ static int hpt36x_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 	if (rc)
 		return rc;
 
-<<<<<<< HEAD
 	pci_read_config_dword(dev, PCI_CLASS_REVISION, &class_rev);
 	class_rev &= 0xFF;
 
@@ -363,12 +359,6 @@ static int hpt36x_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 	/* Newer chips are not in the HPT36x driver. Ignore them */
 	if (class_rev > 2)
 			return -ENODEV;
-=======
-	/* May be a later chip in disguise. Check */
-	/* Newer chips are not in the HPT36x driver. Ignore them */
-	if (dev->revision > 2)
-		return -ENODEV;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	hpt36x_init_chipset(dev);
 

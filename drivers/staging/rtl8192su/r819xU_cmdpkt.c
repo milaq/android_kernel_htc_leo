@@ -56,15 +56,6 @@ SendTxCommandPacket(
 
 	//Get TCB and local buffer from common pool. (It is shared by CmdQ, MgntQ, and USB coalesce DataQ)
 	skb  = dev_alloc_skb(USB_HWDESC_HEADER_LEN + DataLen + 4);
-<<<<<<< HEAD
-=======
-	if (skb == NULL) {
-		RT_TRACE(COMP_ERR, "(%s): unable to alloc skb buffer\n",
-								__func__);
-		rtStatus = false;
-		return rtStatus;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	memcpy((unsigned char *)(skb->cb),&dev,sizeof(dev));
 	tcb_desc = (cb_desc*)(skb->cb + MAX_DEV_ADDR_SIZE);
 	tcb_desc->queue_index = TXCMD_QUEUE;

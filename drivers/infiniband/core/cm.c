@@ -2986,10 +2986,6 @@ static int cm_sidr_req_handler(struct cm_work *work)
 		goto out; /* No match. */
 	}
 	atomic_inc(&cur_cm_id_priv->refcount);
-<<<<<<< HEAD
-=======
-	atomic_inc(&cm_id_priv->refcount);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_irq(&cm.lock);
 
 	cm_id_priv->id.cm_handler = cur_cm_id_priv->id.cm_handler;

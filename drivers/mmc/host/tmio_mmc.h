@@ -102,14 +102,10 @@
 
 #define ack_mmc_irqs(host, i) \
 	do { \
-<<<<<<< HEAD
 		u32 mask;\
 		mask  = sd_ctrl_read32((host), CTL_STATUS); \
 		mask &= ~((i) & TMIO_MASK_IRQ); \
 		sd_ctrl_write32((host), CTL_STATUS, mask); \
-=======
-		sd_ctrl_write32((host), CTL_STATUS, ~(i)); \
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} while (0)
 
 
@@ -204,32 +200,19 @@ static inline int tmio_mmc_next_sg(struct tmio_mmc_host *host)
 	return --host->sg_len;
 }
 
-<<<<<<< HEAD
 static inline char *tmio_mmc_kmap_atomic(struct tmio_mmc_host *host,
 	unsigned long *flags)
 {
 	struct scatterlist *sg = host->sg_ptr;
 
-=======
-static inline char *tmio_mmc_kmap_atomic(struct scatterlist *sg,
-	unsigned long *flags)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	local_irq_save(*flags);
 	return kmap_atomic(sg_page(sg), KM_BIO_SRC_IRQ) + sg->offset;
 }
 
-<<<<<<< HEAD
 static inline void tmio_mmc_kunmap_atomic(struct tmio_mmc_host *host,
 	unsigned long *flags)
 {
 	kunmap_atomic(sg_page(host->sg_ptr), KM_BIO_SRC_IRQ);
-=======
-static inline void tmio_mmc_kunmap_atomic(void *virt,
-	unsigned long *flags)
-{
-	kunmap_atomic(virt, KM_BIO_SRC_IRQ);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	local_irq_restore(*flags);
 }
 

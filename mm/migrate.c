@@ -314,11 +314,7 @@ static int migrate_page_move_mapping(struct address_space *mapping,
 	 */
 	__dec_zone_page_state(page, NR_FILE_PAGES);
 	__inc_zone_page_state(newpage, NR_FILE_PAGES);
-<<<<<<< HEAD
 	if (PageSwapBacked(page)) {
-=======
-	if (!PageSwapCache(page) && PageSwapBacked(page)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		__dec_zone_page_state(page, NR_SHMEM);
 		__inc_zone_page_state(newpage, NR_SHMEM);
 	}

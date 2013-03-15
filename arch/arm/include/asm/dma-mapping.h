@@ -15,7 +15,6 @@
  * must not be used by drivers.
  */
 #ifndef __arch_page_to_dma
-<<<<<<< HEAD
 static inline dma_addr_t page_to_dma(struct device *dev, struct page *page)
 {
 	return (dma_addr_t)__pfn_to_bus(page_to_pfn(page));
@@ -25,22 +24,6 @@ static inline struct page *dma_to_page(struct device *dev, dma_addr_t addr)
 {
 	return pfn_to_page(__bus_to_pfn(addr));
 }
-=======
-
-#if !defined(CONFIG_HIGHMEM)
-static inline dma_addr_t page_to_dma(struct device *dev, struct page *page)
-{
-	return (dma_addr_t)__virt_to_bus((unsigned long)page_address(page));
-}
-#elif defined(__pfn_to_bus)
-static inline dma_addr_t page_to_dma(struct device *dev, struct page *page)
-{
-	return (dma_addr_t)__pfn_to_bus(page_to_pfn(page));
-}
-#else
-#error "this machine class needs to define __arch_page_to_dma to use HIGHMEM"
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline void *dma_to_virt(struct device *dev, dma_addr_t addr)
 {
@@ -57,14 +40,11 @@ static inline dma_addr_t page_to_dma(struct device *dev, struct page *page)
 	return __arch_page_to_dma(dev, page);
 }
 
-<<<<<<< HEAD
 static inline struct page *dma_to_page(struct device *dev, dma_addr_t addr)
 {
 	return __arch_dma_to_page(dev, addr);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline void *dma_to_virt(struct device *dev, dma_addr_t addr)
 {
 	return __arch_dma_to_virt(dev, addr);
@@ -149,7 +129,6 @@ static inline void dma_free_noncoherent(struct device *dev, size_t size,
 {
 }
 
-<<<<<<< HEAD
 /*
  * dma_coherent_pre_ops - barrier functions for coherent memory before DMA.
  * A barrier is required to ensure memory operations are complete before the
@@ -189,8 +168,6 @@ static inline void dma_coherent_post_ops(void)
 #endif
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * dma_alloc_coherent - allocate consistent memory for DMA
  * @dev: valid struct device pointer, or NULL for ISA and EISA-like devices
@@ -412,16 +389,12 @@ static inline dma_addr_t dma_map_page(struct device *dev, struct page *page,
 static inline void dma_unmap_single(struct device *dev, dma_addr_t handle,
 		size_t size, enum dma_data_direction dir)
 {
-<<<<<<< HEAD
 	BUG_ON(!valid_dma_direction(dir));
 
 	if (arch_has_speculative_dfetch() && !arch_is_coherent() &&
 	    dir != DMA_TO_DEVICE)
 		dma_cache_maint(dma_to_virt(dev, handle), size,
 				DMA_FROM_DEVICE);
-=======
-	/* nothing to do */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 #endif /* CONFIG_DMABOUNCE */
 
@@ -442,7 +415,6 @@ static inline void dma_unmap_single(struct device *dev, dma_addr_t handle,
 static inline void dma_unmap_page(struct device *dev, dma_addr_t handle,
 		size_t size, enum dma_data_direction dir)
 {
-<<<<<<< HEAD
 	BUG_ON(!valid_dma_direction(dir));
 
 	if (arch_has_speculative_dfetch() && !arch_is_coherent() &&
@@ -450,9 +422,6 @@ static inline void dma_unmap_page(struct device *dev, dma_addr_t handle,
 		dma_cache_maint_page(dma_to_page(dev, handle),
 				     handle & ~PAGE_MASK, size,
 				     DMA_FROM_DEVICE);
-=======
-	dma_unmap_single(dev, handle, size, dir);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -479,7 +448,6 @@ static inline void dma_sync_single_range_for_cpu(struct device *dev,
 {
 	BUG_ON(!valid_dma_direction(dir));
 
-<<<<<<< HEAD
 	if (!dmabounce_sync_for_cpu(dev, handle, offset, size, dir))
 		return;
 
@@ -487,9 +455,6 @@ static inline void dma_sync_single_range_for_cpu(struct device *dev,
 	    && dir != DMA_TO_DEVICE)
 		dma_cache_maint(dma_to_virt(dev, handle) + offset, size,
 				DMA_FROM_DEVICE);
-=======
-	dmabounce_sync_for_cpu(dev, handle, offset, size, dir);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void dma_sync_single_range_for_device(struct device *dev,

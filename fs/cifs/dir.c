@@ -183,23 +183,13 @@ cifs_new_fileinfo(struct inode *newinode, __u16 fileHandle,
 }
 
 int cifs_posix_open(char *full_path, struct inode **pinode,
-<<<<<<< HEAD
 		    struct vfsmount *mnt, int mode, int oflags,
 		    __u32 *poplock, __u16 *pnetfid, int xid)
-=======
-			struct vfsmount *mnt, struct super_block *sb,
-			int mode, int oflags,
-			__u32 *poplock, __u16 *pnetfid, int xid)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int rc;
 	FILE_UNIX_BASIC_INFO *presp_data;
 	__u32 posix_flags = 0;
-<<<<<<< HEAD
 	struct cifs_sb_info *cifs_sb = CIFS_SB(mnt->mnt_sb);
-=======
-	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct cifs_fattr fattr;
 
 	cFYI(1, ("posix open %s", full_path));
@@ -251,11 +241,7 @@ int cifs_posix_open(char *full_path, struct inode **pinode,
 
 	/* get new inode and set it up */
 	if (*pinode == NULL) {
-<<<<<<< HEAD
 		*pinode = cifs_iget(mnt->mnt_sb, &fattr);
-=======
-		*pinode = cifs_iget(sb, &fattr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!*pinode) {
 			rc = -ENOMEM;
 			goto posix_open_ret;
@@ -264,12 +250,7 @@ int cifs_posix_open(char *full_path, struct inode **pinode,
 		cifs_fattr_to_inode(*pinode, &fattr);
 	}
 
-<<<<<<< HEAD
 	cifs_new_fileinfo(*pinode, *pnetfid, NULL, mnt, oflags);
-=======
-	if (mnt)
-		cifs_new_fileinfo(*pinode, *pnetfid, NULL, mnt, oflags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 posix_open_ret:
 	kfree(presp_data);
@@ -333,23 +314,13 @@ cifs_create(struct inode *inode, struct dentry *direntry, int mode,
 	if (nd && (nd->flags & LOOKUP_OPEN))
 		oflags = nd->intent.open.flags;
 	else
-<<<<<<< HEAD
 		oflags = FMODE_READ;
-=======
-		oflags = FMODE_READ | SMB_O_CREAT;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (tcon->unix_ext && (tcon->ses->capabilities & CAP_UNIX) &&
 	    (CIFS_UNIX_POSIX_PATH_OPS_CAP &
 			le64_to_cpu(tcon->fsUnixInfo.Capability))) {
-<<<<<<< HEAD
 		rc = cifs_posix_open(full_path, &newinode, nd->path.mnt,
 				     mode, oflags, &oplock, &fileHandle, xid);
-=======
-		rc = cifs_posix_open(full_path, &newinode,
-			nd ? nd->path.mnt : NULL,
-			inode->i_sb, mode, oflags, &oplock, &fileHandle, xid);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* EIO could indicate that (posix open) operation is not
 		   supported, despite what server claimed in capability
 		   negotation.  EREMOTE indicates DFS junction, which is not
@@ -706,10 +677,6 @@ cifs_lookup(struct inode *parent_dir_inode, struct dentry *direntry,
 		     (nd->flags & LOOKUP_OPEN) && !pTcon->broken_posix_open &&
 		     (nd->intent.open.flags & O_CREAT)) {
 			rc = cifs_posix_open(full_path, &newInode, nd->path.mnt,
-<<<<<<< HEAD
-=======
-					parent_dir_inode->i_sb,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					nd->intent.open.create_mode,
 					nd->intent.open.flags, &oplock,
 					&fileHandle, xid);
@@ -720,33 +687,10 @@ cifs_lookup(struct inode *parent_dir_inode, struct dentry *direntry,
 			 * If either that or op not supported returned, follow
 			 * the normal lookup.
 			 */
-<<<<<<< HEAD
 			if ((rc == 0) || (rc == -ENOENT))
 				posix_open = true;
 			else if ((rc == -EINVAL) || (rc != -EOPNOTSUPP))
 				pTcon->broken_posix_open = true;
-=======
-			switch (rc) {
-			case 0:
-				/*
-				 * The server may allow us to open things like
-				 * FIFOs, but the client isn't set up to deal
-				 * with that. If it's not a regular file, just
-				 * close it and proceed as if it were a normal
-				 * lookup.
-				 */
-				if (newInode && !S_ISREG(newInode->i_mode)) {
-					CIFSSMBClose(xid, pTcon, fileHandle);
-					break;
-				}
-			case -ENOENT:
-				posix_open = true;
-			case -EOPNOTSUPP:
-				break;
-			default:
-				pTcon->broken_posix_open = true;
-			}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		if (!posix_open)
 			rc = cifs_get_inode_info_unix(&newInode, full_path,

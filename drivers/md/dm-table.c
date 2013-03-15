@@ -348,10 +348,6 @@ static void close_dev(struct dm_dev_internal *d, struct mapped_device *md)
 static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
 				  sector_t start, sector_t len, void *data)
 {
-<<<<<<< HEAD
-=======
-	struct request_queue *q;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct queue_limits *limits = data;
 	struct block_device *bdev = dev->bdev;
 	sector_t dev_size =
@@ -360,25 +356,6 @@ static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
 		limits->logical_block_size >> SECTOR_SHIFT;
 	char b[BDEVNAME_SIZE];
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Some devices exist without request functions,
-	 * such as loop devices not yet bound to backing files.
-	 * Forbid the use of such devices.
-	 */
-	q = bdev_get_queue(bdev);
-	if (!q || !q->make_request_fn) {
-		DMWARN("%s: %s is not yet initialised: "
-		       "start=%llu, len=%llu, dev_size=%llu",
-		       dm_device_name(ti->table->md), bdevname(bdev, b),
-		       (unsigned long long)start,
-		       (unsigned long long)len,
-		       (unsigned long long)dev_size);
-		return 1;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!dev_size)
 		return 0;
 
@@ -1105,14 +1082,11 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
 	 */
 	q->limits = *limits;
 
-<<<<<<< HEAD
 	if (limits->no_cluster)
 		queue_flag_clear_unlocked(QUEUE_FLAG_CLUSTER, q);
 	else
 		queue_flag_set_unlocked(QUEUE_FLAG_CLUSTER, q);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dm_table_set_integrity(t);
 
 	/*

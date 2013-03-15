@@ -281,13 +281,10 @@ void cpu_idle_wait(void);
 
 void default_idle(void);
 
-<<<<<<< HEAD
 #ifdef CONFIG_VIRT_CPU_ACCOUNTING
 extern void account_system_vtime(struct task_struct *);
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* __KERNEL__ */
 
 #endif /* __ASSEMBLY__ */

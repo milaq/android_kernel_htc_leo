@@ -89,11 +89,7 @@ int __ext4_handle_dirty_metadata(const char *where, handle_t *handle,
 			ext4_journal_abort_handle(where, __func__, bh,
 						  handle, err);
 	} else {
-<<<<<<< HEAD
 		if (inode && bh)
-=======
-		if (inode)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			mark_buffer_dirty_inode(bh, inode);
 		else
 			mark_buffer_dirty(bh);

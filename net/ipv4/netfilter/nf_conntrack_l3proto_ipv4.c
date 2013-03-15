@@ -22,10 +22,7 @@
 #include <net/netfilter/nf_conntrack_helper.h>
 #include <net/netfilter/nf_conntrack_l4proto.h>
 #include <net/netfilter/nf_conntrack_l3proto.h>
-<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/netfilter/nf_conntrack_core.h>
 #include <net/netfilter/ipv4/nf_conntrack_ipv4.h>
 #include <net/netfilter/nf_nat_helper.h>
@@ -104,11 +101,7 @@ static unsigned int ipv4_confirm(unsigned int hooknum,
 
 	/* This is where we call the helper: as the packet goes out. */
 	ct = nf_ct_get(skb, &ctinfo);
-<<<<<<< HEAD
 	if (!ct || ctinfo == IP_CT_RELATED_REPLY)
-=======
-	if (!ct || ctinfo == IP_CT_RELATED + IP_CT_IS_REPLY)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out;
 
 	help = nfct_help(ct);
@@ -282,11 +275,7 @@ getorigdst(struct sock *sk, int optval, void __user *user, int *len)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	h = nf_conntrack_find_get(sock_net(sk), NF_CT_DEFAULT_ZONE, &tuple);
-=======
-	h = nf_conntrack_find_get(sock_net(sk), &tuple);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (h) {
 		struct sockaddr_in sin;
 		struct nf_conn *ct = nf_ct_tuplehash_to_ctrack(h);

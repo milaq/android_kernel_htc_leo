@@ -435,18 +435,9 @@ int __log_space_left(journal_t *journal)
 int __log_start_commit(journal_t *journal, tid_t target)
 {
 	/*
-<<<<<<< HEAD
 	 * Are we already doing a recent enough commit?
 	 */
 	if (!tid_geq(journal->j_commit_request, target)) {
-=======
-	 * The only transaction we can possibly wait upon is the
-	 * currently running transaction (if it exists).  Otherwise,
-	 * the target tid must be an old one.
-	 */
-	if (journal->j_running_transaction &&
-	    journal->j_running_transaction->t_tid == target) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * We want a new commit: OK, mark the request and wakup the
 		 * commit thread.  We do _not_ do the commit ourselves.
@@ -458,18 +449,7 @@ int __log_start_commit(journal_t *journal, tid_t target)
 			  journal->j_commit_sequence);
 		wake_up(&journal->j_wait_commit);
 		return 1;
-<<<<<<< HEAD
 	}
-=======
-	} else if (!tid_geq(journal->j_commit_request, target))
-		/* This should never happen, but if it does, preserve
-		   the evidence before kjournald goes into a loop and
-		   increments j_commit_sequence beyond all recognition. */
-		WARN_ONCE(1, "jbd: bad log_start_commit: %u %u %u %u\n",
-		    journal->j_commit_request, journal->j_commit_sequence,
-		    target, journal->j_running_transaction ?
-		    journal->j_running_transaction->t_tid : 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 
@@ -1080,17 +1060,6 @@ static int journal_get_superblock(journal_t *journal)
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-	if (be32_to_cpu(sb->s_first) == 0 ||
-	    be32_to_cpu(sb->s_first) >= journal->j_maxlen) {
-		printk(KERN_WARNING
-			"JBD: Invalid start block of journal: %u\n",
-			be32_to_cpu(sb->s_first));
-		goto out;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 
 out:
@@ -1944,11 +1913,7 @@ static void __init jbd_create_debugfs_entry(void)
 {
 	jbd_debugfs_dir = debugfs_create_dir("jbd", NULL);
 	if (jbd_debugfs_dir)
-<<<<<<< HEAD
 		jbd_debug = debugfs_create_u8("jbd-debug", S_IRUGO,
-=======
-		jbd_debug = debugfs_create_u8("jbd-debug", S_IRUGO | S_IWUSR,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					       jbd_debugfs_dir,
 					       &journal_enable_debug);
 }

@@ -158,17 +158,10 @@ asmlinkage void smp_reboot_interrupt(void)
 	irq_exit();
 }
 
-<<<<<<< HEAD
 static void native_smp_send_stop(void)
 {
 	unsigned long flags;
 	unsigned long wait;
-=======
-static void native_stop_other_cpus(int wait)
-{
-	unsigned long flags;
-	unsigned long timeout;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (reboot_force)
 		return;
@@ -185,18 +178,9 @@ static void native_stop_other_cpus(int wait)
 	if (num_online_cpus() > 1) {
 		apic->send_IPI_allbutself(REBOOT_VECTOR);
 
-<<<<<<< HEAD
 		/* Don't wait longer than a second */
 		wait = USEC_PER_SEC;
 		while (num_online_cpus() > 1 && wait--)
-=======
-		/*
-		 * Don't wait longer than a second if the caller
-		 * didn't ask us to wait.
-		 */
-		timeout = USEC_PER_SEC;
-		while (num_online_cpus() > 1 && (wait || timeout--))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			udelay(1);
 	}
 
@@ -242,11 +226,7 @@ struct smp_ops smp_ops = {
 	.smp_prepare_cpus	= native_smp_prepare_cpus,
 	.smp_cpus_done		= native_smp_cpus_done,
 
-<<<<<<< HEAD
 	.smp_send_stop		= native_smp_send_stop,
-=======
-	.stop_other_cpus	= native_stop_other_cpus,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.smp_send_reschedule	= native_smp_send_reschedule,
 
 	.cpu_up			= native_cpu_up,

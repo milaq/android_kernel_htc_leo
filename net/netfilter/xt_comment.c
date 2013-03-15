@@ -16,11 +16,7 @@ MODULE_ALIAS("ipt_comment");
 MODULE_ALIAS("ip6t_comment");
 
 static bool
-<<<<<<< HEAD
 comment_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-comment_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	/* We always match */
 	return true;

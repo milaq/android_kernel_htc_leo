@@ -39,12 +39,8 @@ config CAN_PM_TRACE
 	depends on PM_DEBUG && PM_SLEEP && EXPERIMENTAL
 
 config PM_TRACE
-<<<<<<< HEAD
 	bool "Power Management Trace Support"
 	depends on PM
-=======
-	bool
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	help
 	  This enables code to save the last PM event point across
 	  reboot. The architecture needs to support this, x86 for
@@ -124,7 +120,6 @@ config SUSPEND_FREEZER
 config HIBERNATION_NVS
 	bool
 
-<<<<<<< HEAD
 config HAS_WAKELOCK
 	bool
 
@@ -192,8 +187,6 @@ choice
 		  to the screen and notifies user-space when it should resume.
 endchoice
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config HIBERNATION
 	bool "Hibernation (aka 'suspend to disk')"
 	depends on PM && SWAP && ARCH_HIBERNATION_POSSIBLE

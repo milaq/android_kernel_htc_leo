@@ -33,9 +33,5 @@ extern const struct cpu_dev *const __x86_cpu_dev_start[],
 			    *const __x86_cpu_dev_end[];
 
 extern void display_cacheinfo(struct cpuinfo_x86 *c);
-<<<<<<< HEAD
-=======
-extern void get_cpu_cap(struct cpuinfo_x86 *c);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif

@@ -145,19 +145,11 @@ struct inodes_stat_t {
  *
  */
 #define RW_MASK		1
-<<<<<<< HEAD
 #define RWA_MASK	2
 #define READ 0
 #define WRITE 1
 #define READA 2		/* read-ahead  - don't block if no resources */
 #define SWRITE 3	/* for ll_rw_block() - wait for buffer lock */
-=======
-#define RWA_MASK		16
-#define READ 0
-#define WRITE 1
-#define READA			16 /* readahead - don't block if no resources */
-#define SWRITE			17 /* for ll_rw_block(), wait for buffer lock */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define READ_SYNC	(READ | (1 << BIO_RW_SYNCIO) | (1 << BIO_RW_UNPLUG))
 #define READ_META	(READ | (1 << BIO_RW_META))
 #define WRITE_SYNC_PLUG	(WRITE | (1 << BIO_RW_SYNCIO) | (1 << BIO_RW_NOIDLE))
@@ -643,10 +635,6 @@ struct address_space {
 	spinlock_t		private_lock;	/* for use by the address_space */
 	struct list_head	private_list;	/* ditto */
 	struct address_space	*assoc_mapping;	/* ditto */
-<<<<<<< HEAD
-=======
-	struct mutex		unmap_mutex;    /* to protect unmapping */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 } __attribute__((aligned(sizeof(long))));
 	/*
 	 * On most architectures that alignment is already the case; but
@@ -952,10 +940,6 @@ struct file {
 #ifdef CONFIG_EPOLL
 	/* Used by fs/eventpoll.c to link all the hooks to this file */
 	struct list_head	f_ep_links;
-<<<<<<< HEAD
-=======
-	struct list_head	f_tfile_llink;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* #ifdef CONFIG_EPOLL */
 	struct address_space	*f_mapping;
 #ifdef CONFIG_DEBUG_WRITECOUNT
@@ -1326,11 +1310,6 @@ extern int send_sigurg(struct fown_struct *fown);
 #define MNT_FORCE	0x00000001	/* Attempt to forcibily umount */
 #define MNT_DETACH	0x00000002	/* Just detach from the tree */
 #define MNT_EXPIRE	0x00000004	/* Mark for expiry */
-<<<<<<< HEAD
-=======
-#define UMOUNT_NOFOLLOW	0x00000008	/* Don't follow symlink on umount */
-#define UMOUNT_UNUSED	0x80000000	/* Flag guaranteed to be unused */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern struct list_head super_blocks;
 extern spinlock_t sb_lock;
@@ -2177,10 +2156,6 @@ extern loff_t vfs_llseek(struct file *file, loff_t offset, int origin);
 
 extern int inode_init_always(struct super_block *, struct inode *);
 extern void inode_init_once(struct inode *);
-<<<<<<< HEAD
-=======
-extern void address_space_init_once(struct address_space *mapping);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void inode_add_to_lists(struct super_block *, struct inode *);
 extern void iput(struct inode *);
 extern struct inode * igrab(struct inode *);
@@ -2401,11 +2376,7 @@ extern const struct file_operations simple_dir_operations;
 extern const struct inode_operations simple_dir_inode_operations;
 struct tree_descr { char *name; const struct file_operations *ops; int mode; };
 struct dentry *d_alloc_name(struct dentry *, const char *);
-<<<<<<< HEAD
 extern int simple_fill_super(struct super_block *, int, struct tree_descr *);
-=======
-extern int simple_fill_super(struct super_block *, unsigned long, struct tree_descr *);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int simple_pin_fs(struct file_system_type *, struct vfsmount **mount, int *count);
 extern void simple_release_fs(struct vfsmount **mount, int *count);
 

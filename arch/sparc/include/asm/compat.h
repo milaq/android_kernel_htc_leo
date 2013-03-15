@@ -166,11 +166,7 @@ static inline compat_uptr_t ptr_to_compat(void __user *uptr)
 	return (u32)(unsigned long)uptr;
 }
 
-<<<<<<< HEAD
 static inline void __user *compat_alloc_user_space(long len)
-=======
-static inline void __user *arch_compat_alloc_user_space(long len)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct pt_regs *regs = current_thread_info()->kregs;
 	unsigned long usp = regs->u_regs[UREG_I6];

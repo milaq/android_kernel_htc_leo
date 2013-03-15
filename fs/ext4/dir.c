@@ -84,17 +84,9 @@ int ext4_check_dir_entry(const char *function, struct inode *dir,
 
 	if (error_msg != NULL)
 		ext4_error(dir->i_sb, function,
-<<<<<<< HEAD
 			"bad entry in directory #%lu: %s - "
 			"offset=%u, inode=%u, rec_len=%d, name_len=%d",
 			dir->i_ino, error_msg, offset,
-=======
-			"bad entry in directory #%lu: %s - block=%llu"
-			"offset=%u(%u), inode=%u, rec_len=%d, name_len=%d",
-			dir->i_ino, error_msg,
-			(unsigned long long) bh->b_blocknr,
-			(unsigned) (offset%bh->b_size), offset,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			le32_to_cpu(de->inode),
 			rlen, de->name_len);
 	return error_msg == NULL ? 1 : 0;
@@ -117,11 +109,7 @@ static int ext4_readdir(struct file *filp,
 
 	if (EXT4_HAS_COMPAT_FEATURE(inode->i_sb,
 				    EXT4_FEATURE_COMPAT_DIR_INDEX) &&
-<<<<<<< HEAD
 	    ((EXT4_I(inode)->i_flags & EXT4_INDEX_FL) ||
-=======
-	    ((ext4_test_inode_flag(inode, EXT4_INODE_INDEX)) ||
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	     ((inode->i_size >> sb->s_blocksize_bits) == 1))) {
 		err = ext4_dx_readdir(filp, dirent, filldir);
 		if (err != ERR_BAD_DX_DIR) {
@@ -132,11 +120,7 @@ static int ext4_readdir(struct file *filp,
 		 * We don't set the inode dirty flag since it's not
 		 * critical that it get flushed back to the disk.
 		 */
-<<<<<<< HEAD
 		EXT4_I(filp->f_path.dentry->d_inode)->i_flags &= ~EXT4_INDEX_FL;
-=======
-		ext4_clear_inode_flag(filp->f_path.dentry->d_inode, EXT4_INODE_INDEX);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	stored = 0;
 	offset = filp->f_pos & (sb->s_blocksize - 1);

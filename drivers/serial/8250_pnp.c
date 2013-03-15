@@ -348,11 +348,6 @@ static const struct pnp_device_id pnp_dev_table[] = {
 	{	"FUJ02E6",		0	},
 	/* Fujitsu Wacom 2FGT Tablet PC device */
 	{	"FUJ02E7",		0	},
-<<<<<<< HEAD
-=======
-	/* Fujitsu Wacom 1FGT Tablet PC device */
-	{	"FUJ02E9",		0	},
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * LG C1 EXPRESS DUAL (C1-PB11A3) touch screen (actually a FUJ02E6 in
 	 * disguise)

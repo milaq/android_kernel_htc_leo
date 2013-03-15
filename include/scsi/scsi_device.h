@@ -446,11 +446,7 @@ static inline int scsi_device_qas(struct scsi_device *sdev)
 }
 static inline int scsi_device_enclosure(struct scsi_device *sdev)
 {
-<<<<<<< HEAD
 	return sdev->inquiry[6] & (1<<6);
-=======
-	return sdev->inquiry ? (sdev->inquiry[6] & (1<<6)) : 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline int scsi_device_protection(struct scsi_device *sdev)

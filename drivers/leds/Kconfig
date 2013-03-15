@@ -157,7 +157,6 @@ config LEDS_LP3944
 	  To compile this driver as a module, choose M here: the
 	  module will be called leds-lp3944.
 
-<<<<<<< HEAD
 config LEDS_CPLD
 	tristate "LED Support for CPLD connected LEDs"
 	default y
@@ -165,8 +164,6 @@ config LEDS_CPLD
 	help
 	  This option enables support for the LEDs connected to CPLD
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config LEDS_CLEVO_MAIL
 	tristate "Mail LED on Clevo notebook"
 	depends on LEDS_CLASS && X86 && SERIO_I8042 && DMI
@@ -311,7 +308,6 @@ config LEDS_TRIGGER_DEFAULT_ON
 	  This allows LEDs to be initialised in the ON state.
 	  If unsure, say Y.
 
-<<<<<<< HEAD
 config LEDS_TRIGGER_SLEEP
 	tristate "LED Sleep Mode Trigger"
 	depends on LEDS_TRIGGERS && HAS_EARLYSUSPEND
@@ -327,9 +323,4 @@ config LEDS_PM8058
 	help
 	  This option enables support for LEDs connected to PM8058
 	  LED driver chips accessed via the SSBI bus and rpc.
-=======
-comment "iptables trigger is under Netfilter config (LED target)"
-	depends on LEDS_TRIGGERS
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif # NEW_LEDS

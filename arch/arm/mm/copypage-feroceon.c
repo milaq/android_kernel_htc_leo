@@ -18,11 +18,7 @@ feroceon_copy_user_page(void *kto, const void *kfrom)
 {
 	asm("\
 	stmfd	sp!, {r4-r9, lr}		\n\
-<<<<<<< HEAD
 	mov	ip, %0				\n\
-=======
-	mov	ip, %2				\n\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 1:	mov	lr, r1				\n\
 	ldmia	r1!, {r2 - r9}			\n\
 	pld	[lr, #32]			\n\
@@ -68,11 +64,7 @@ feroceon_copy_user_page(void *kto, const void *kfrom)
 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB\n\
 	ldmfd	sp!, {r4-r9, pc}"
 	:
-<<<<<<< HEAD
 	: "I" (PAGE_SIZE));
-=======
-	: "r" (kto), "r" (kfrom), "I" (PAGE_SIZE));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void feroceon_copy_user_highpage(struct page *to, struct page *from,

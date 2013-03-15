@@ -466,11 +466,7 @@ static int ttm_tt_swapin(struct ttm_tt *ttm)
 	void *from_virtual;
 	void *to_virtual;
 	int i;
-<<<<<<< HEAD
 	int ret;
-=======
-	int ret = -ENOMEM;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (ttm->page_flags & TTM_PAGE_FLAG_USER) {
 		ret = ttm_tt_set_user(ttm, ttm->tsk, ttm->start,
@@ -489,15 +485,8 @@ static int ttm_tt_swapin(struct ttm_tt *ttm)
 
 	for (i = 0; i < ttm->num_pages; ++i) {
 		from_page = read_mapping_page(swap_space, i, NULL);
-<<<<<<< HEAD
 		if (IS_ERR(from_page))
 			goto out_err;
-=======
-		if (IS_ERR(from_page)) {
-			ret = PTR_ERR(from_page);
-			goto out_err;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		to_page = __ttm_tt_get_page(ttm, i);
 		if (unlikely(to_page == NULL))
 			goto out_err;
@@ -520,11 +509,7 @@ static int ttm_tt_swapin(struct ttm_tt *ttm)
 	return 0;
 out_err:
 	ttm_tt_free_alloced_pages(ttm);
-<<<<<<< HEAD
 	return -ENOMEM;
-=======
-	return ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int ttm_tt_swapout(struct ttm_tt *ttm, struct file *persistant_swap_storage)
@@ -536,10 +521,6 @@ int ttm_tt_swapout(struct ttm_tt *ttm, struct file *persistant_swap_storage)
 	void *from_virtual;
 	void *to_virtual;
 	int i;
-<<<<<<< HEAD
-=======
-	int ret = -ENOMEM;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	BUG_ON(ttm->state != tt_unbound && ttm->state != tt_unpopulated);
 	BUG_ON(ttm->caching_state != tt_cached);
@@ -562,11 +543,7 @@ int ttm_tt_swapout(struct ttm_tt *ttm, struct file *persistant_swap_storage)
 						0);
 		if (unlikely(IS_ERR(swap_storage))) {
 			printk(KERN_ERR "Failed allocating swap storage.\n");
-<<<<<<< HEAD
 			return -ENOMEM;
-=======
-			return PTR_ERR(swap_storage);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	} else
 		swap_storage = persistant_swap_storage;
@@ -578,16 +555,9 @@ int ttm_tt_swapout(struct ttm_tt *ttm, struct file *persistant_swap_storage)
 		if (unlikely(from_page == NULL))
 			continue;
 		to_page = read_mapping_page(swap_space, i, NULL);
-<<<<<<< HEAD
 		if (unlikely(to_page == NULL))
 			goto out_err;
 
-=======
-		if (unlikely(IS_ERR(to_page))) {
-			ret = PTR_ERR(to_page);
-			goto out_err;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		preempt_disable();
 		from_virtual = kmap_atomic(from_page, KM_USER0);
 		to_virtual = kmap_atomic(to_page, KM_USER1);
@@ -611,9 +581,5 @@ out_err:
 	if (!persistant_swap_storage)
 		fput(swap_storage);
 
-<<<<<<< HEAD
 	return -ENOMEM;
-=======
-	return ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }

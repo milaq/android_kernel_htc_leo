@@ -1202,11 +1202,6 @@ static int _aac_reset_adapter(struct aac_dev *aac, int forced)
 	kfree(aac->queues);
 	aac->queues = NULL;
 	free_irq(aac->pdev->irq, aac);
-<<<<<<< HEAD
-=======
-	if (aac->msi)
-		pci_disable_msi(aac->pdev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(aac->fsa_dev);
 	aac->fsa_dev = NULL;
 	quirks = aac_get_driver_ident(index)->quirks;

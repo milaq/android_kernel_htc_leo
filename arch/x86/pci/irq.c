@@ -590,11 +590,6 @@ static __init int intel_router_probe(struct irq_router *r, struct pci_dev *route
 	case PCI_DEVICE_ID_INTEL_ICH10_1:
 	case PCI_DEVICE_ID_INTEL_ICH10_2:
 	case PCI_DEVICE_ID_INTEL_ICH10_3:
-<<<<<<< HEAD
-=======
-	case PCI_DEVICE_ID_INTEL_CPT_LPC1:
-	case PCI_DEVICE_ID_INTEL_CPT_LPC2:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		r->name = "PIIX/ICH";
 		r->get = pirq_piix_get;
 		r->set = pirq_piix_set;

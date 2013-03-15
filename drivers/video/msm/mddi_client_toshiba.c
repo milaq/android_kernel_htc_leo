@@ -21,10 +21,7 @@
 #include <linux/interrupt.h>
 #include <linux/gpio.h>
 #include <linux/sched.h>
-<<<<<<< HEAD
 #include <linux/slab.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <mach/msm_fb.h>
 
 

@@ -13,27 +13,15 @@ extern unsigned char *trampoline_base;
 
 extern unsigned long init_rsp;
 extern unsigned long initial_code;
-<<<<<<< HEAD
-=======
-extern unsigned long initial_page_table;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern unsigned long initial_gs;
 
 #define TRAMPOLINE_SIZE roundup(trampoline_end - trampoline_data, PAGE_SIZE)
 #define TRAMPOLINE_BASE 0x6000
 
 extern unsigned long setup_trampoline(void);
-<<<<<<< HEAD
 extern void __init reserve_trampoline_memory(void);
 #else
 static inline void reserve_trampoline_memory(void) {};
-=======
-extern void __init setup_trampoline_page_table(void);
-extern void __init reserve_trampoline_memory(void);
-#else
-static inline void setup_trampoline_page_table(void) {}
-static inline void reserve_trampoline_memory(void) {}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_X86_TRAMPOLINE */
 
 #endif /* __ASSEMBLY__ */

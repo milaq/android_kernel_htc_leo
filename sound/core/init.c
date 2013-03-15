@@ -848,10 +848,6 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
 		return -ENOMEM;
 	mfile->file = file;
 	mfile->disconnected_f_op = NULL;
-<<<<<<< HEAD
-=======
-	INIT_LIST_HEAD(&mfile->shutdown_list);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_lock(&card->files_lock);
 	if (card->shutdown) {
 		spin_unlock(&card->files_lock);
@@ -887,12 +883,6 @@ int snd_card_file_remove(struct snd_card *card, struct file *file)
 	list_for_each_entry(mfile, &card->files_list, list) {
 		if (mfile->file == file) {
 			list_del(&mfile->list);
-<<<<<<< HEAD
-=======
-			spin_lock(&shutdown_lock);
-			list_del(&mfile->shutdown_list);
-			spin_unlock(&shutdown_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (mfile->disconnected_f_op)
 				fops_put(mfile->disconnected_f_op);
 			found = mfile;

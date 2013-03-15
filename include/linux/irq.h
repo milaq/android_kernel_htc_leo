@@ -174,10 +174,7 @@ struct irq_2_iommu;
  */
 struct irq_desc {
 	unsigned int		irq;
-<<<<<<< HEAD
 	struct timer_rand_state *timer_rand_state;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned int            *kstat_irqs;
 #ifdef CONFIG_INTR_REMAP
 	struct irq_2_iommu      *irq_2_iommu;

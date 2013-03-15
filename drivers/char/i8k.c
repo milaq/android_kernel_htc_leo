@@ -119,11 +119,7 @@ static int i8k_smm(struct smm_regs *regs)
 	int eax = regs->eax;
 
 #if defined(CONFIG_X86_64)
-<<<<<<< HEAD
 	asm("pushq %%rax\n\t"
-=======
-	asm volatile("pushq %%rax\n\t"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		"movl 0(%%rax),%%edx\n\t"
 		"pushq %%rdx\n\t"
 		"movl 4(%%rax),%%ebx\n\t"
@@ -142,23 +138,14 @@ static int i8k_smm(struct smm_regs *regs)
 		"movl %%edi,20(%%rax)\n\t"
 		"popq %%rdx\n\t"
 		"movl %%edx,0(%%rax)\n\t"
-<<<<<<< HEAD
 		"lahf\n\t"
 		"shrl $8,%%eax\n\t"
-=======
-		"pushfq\n\t"
-		"popq %%rax\n\t"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		"andl $1,%%eax\n"
 		:"=a"(rc)
 		:    "a"(regs)
 		:    "%ebx", "%ecx", "%edx", "%esi", "%edi", "memory");
 #else
-<<<<<<< HEAD
 	asm("pushl %%eax\n\t"
-=======
-	asm volatile("pushl %%eax\n\t"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    "movl 0(%%eax),%%edx\n\t"
 	    "push %%edx\n\t"
 	    "movl 4(%%eax),%%ebx\n\t"
@@ -179,12 +166,7 @@ static int i8k_smm(struct smm_regs *regs)
 	    "movl %%edx,0(%%eax)\n\t"
 	    "lahf\n\t"
 	    "shrl $8,%%eax\n\t"
-<<<<<<< HEAD
 	    "andl $1,%%eax\n":"=a"(rc)
-=======
-	    "andl $1,%%eax\n"
-	    :"=a"(rc)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    :    "a"(regs)
 	    :    "%ebx", "%ecx", "%edx", "%esi", "%edi", "memory");
 #endif

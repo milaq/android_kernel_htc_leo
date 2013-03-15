@@ -2,10 +2,7 @@
  * arch/arm/mm/cache-l2x0.c - L210/L220 cache controller support
  *
  * Copyright (C) 2007 ARM Limited
-<<<<<<< HEAD
  * Copyright (c) 2009, Code Aurora Forum. All rights reserved.
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -30,10 +27,7 @@
 #define CACHE_LINE_SIZE		32
 
 static void __iomem *l2x0_base;
-<<<<<<< HEAD
 static uint32_t aux_ctrl_save;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static DEFINE_SPINLOCK(l2x0_lock);
 
 static inline void sync_writel(unsigned long val, unsigned long reg,
@@ -54,14 +48,11 @@ static inline void cache_sync(void)
 	sync_writel(0, L2X0_CACHE_SYNC, 1);
 }
 
-<<<<<<< HEAD
 void l2x0_cache_sync(void)
 {
 	cache_sync();
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline void l2x0_inv_all(void)
 {
 	/* invalidate all ways */
@@ -69,7 +60,6 @@ static inline void l2x0_inv_all(void)
 	cache_sync();
 }
 
-<<<<<<< HEAD
 static inline void l2x0_flush_all(void)
 {
 	/* clean and invalidate all ways */
@@ -77,8 +67,6 @@ static inline void l2x0_flush_all(void)
 	cache_sync();
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void l2x0_inv_range(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -99,7 +87,6 @@ static void l2x0_inv_range(unsigned long start, unsigned long end)
 	cache_sync();
 }
 
-<<<<<<< HEAD
 static void l2x0_inv_range_atomic(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -119,8 +106,6 @@ static void l2x0_inv_range_atomic(unsigned long start, unsigned long end)
 		writel(addr, l2x0_base + L2X0_INV_LINE_PA);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void l2x0_clean_range(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -131,7 +116,6 @@ static void l2x0_clean_range(unsigned long start, unsigned long end)
 	cache_sync();
 }
 
-<<<<<<< HEAD
 static void l2x0_clean_range_atomic(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -141,8 +125,6 @@ static void l2x0_clean_range_atomic(unsigned long start, unsigned long end)
 		writel(addr, l2x0_base + L2X0_CLEAN_LINE_PA);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void l2x0_flush_range(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -153,7 +135,6 @@ static void l2x0_flush_range(unsigned long start, unsigned long end)
 	cache_sync();
 }
 
-<<<<<<< HEAD
 void l2x0_flush_range_atomic(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -166,16 +147,10 @@ void l2x0_flush_range_atomic(unsigned long start, unsigned long end)
 void __init l2x0_init(void __iomem *base, __u32 aux_val, __u32 aux_mask)
 {
 	__u32 bits;
-=======
-void __init l2x0_init(void __iomem *base, __u32 aux_val, __u32 aux_mask)
-{
-	__u32 aux;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	l2x0_base = base;
 
 	/* disable L2X0 */
-<<<<<<< HEAD
 	bits = readl(l2x0_base + L2X0_CTRL);
 	bits &= ~0x01;	/* clear bit 0 */
 	writel(bits, l2x0_base + L2X0_CTRL);
@@ -184,19 +159,10 @@ void __init l2x0_init(void __iomem *base, __u32 aux_val, __u32 aux_mask)
 	bits &= aux_mask;
 	bits |= aux_val;
 	writel(bits, l2x0_base + L2X0_AUX_CTRL);
-=======
-	writel(0, l2x0_base + L2X0_CTRL);
-
-	aux = readl(l2x0_base + L2X0_AUX_CTRL);
-	aux &= aux_mask;
-	aux |= aux_val;
-	writel(aux, l2x0_base + L2X0_AUX_CTRL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	l2x0_inv_all();
 
 	/* enable L2X0 */
-<<<<<<< HEAD
 	bits = readl(l2x0_base + L2X0_CTRL);
 	bits |= 0x01;	/* set bit 0 */
 	writel(bits, l2x0_base + L2X0_CTRL);
@@ -247,13 +213,4 @@ void l2x0_resume(int collapsed)
 
 	/* Enable the cache */
 	writel(1, l2x0_base + L2X0_CTRL);
-=======
-	writel(1, l2x0_base + L2X0_CTRL);
-
-	outer_cache.inv_range = l2x0_inv_range;
-	outer_cache.clean_range = l2x0_clean_range;
-	outer_cache.flush_range = l2x0_flush_range;
-
-	printk(KERN_INFO "L2X0 cache controller enabled\n");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }

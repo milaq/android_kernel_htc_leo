@@ -121,7 +121,6 @@ config TWL4030_POWER
 	  and load scripts controling which resources are switched off/on
 	  or reset when a sleep, wakeup or warm reset event occurs.
 
-<<<<<<< HEAD
 config MARIMBA_CORE
 	tristate "Marimba Core"
 	depends on I2C && ARCH_MSM7X30
@@ -139,8 +138,6 @@ config MARIMBA_CODEC
 	 This driver programs Marimba Wideband Codec for input/output of
 	 audio signal.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config MFD_TMIO
 	bool
 	default n
@@ -325,7 +322,6 @@ config EZX_PCAP
 	  This enables the PCAP ASIC present on EZX Phones. This is
 	  needed for MMC, TouchScreen, Sound, USB, etc..
 
-<<<<<<< HEAD
 config PMIC8058
 	tristate "PMIC8058 Power Management chip"
 	depends on I2C && ARCH_MSM7X30
@@ -342,8 +338,6 @@ config MARIMBA_TSADC
 	  Say yes here if you want to include support for TSADC in the
 	  Qualcomm Marimba chip.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endmenu
 
 menu "Multimedia Capabilities Port drivers"

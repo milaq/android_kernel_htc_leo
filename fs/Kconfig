@@ -174,13 +174,10 @@ source "fs/hfsplus/Kconfig"
 source "fs/befs/Kconfig"
 source "fs/bfs/Kconfig"
 source "fs/efs/Kconfig"
-<<<<<<< HEAD
 
 # Patched by YAFFS
 source "fs/yaffs2/Kconfig"
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 source "fs/jffs2/Kconfig"
 # UBIFS File system configuration
 source "fs/ubifs/Kconfig"

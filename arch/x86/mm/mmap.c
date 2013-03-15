@@ -87,15 +87,9 @@ static unsigned long mmap_rnd(void)
 	*/
 	if (current->flags & PF_RANDOMIZE) {
 		if (mmap_is_ia32())
-<<<<<<< HEAD
 			rnd = (long)get_random_int() % (1<<8);
 		else
 			rnd = (long)(get_random_int() % (1<<28));
-=======
-			rnd = get_random_int() % (1<<8);
-		else
-			rnd = get_random_int() % (1<<28);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	return rnd << PAGE_SHIFT;
 }

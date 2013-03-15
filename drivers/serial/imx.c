@@ -119,12 +119,7 @@
 #define  MX2_UCR3_RXDMUXSEL	 (1<<2)  /* RXD Muxed Input Select, on mx2/mx3 */
 #define  UCR3_INVT  	 (1<<1)  /* Inverted Infrared transmission */
 #define  UCR3_BPEN  	 (1<<0)  /* Preset registers enable */
-<<<<<<< HEAD
 #define  UCR4_CTSTL_32   (32<<10) /* CTS trigger level (32 chars) */
-=======
-#define  UCR4_CTSTL_SHF  10      /* CTS trigger level shift */
-#define  UCR4_CTSTL_MASK 0x3F    /* CTS trigger is 6 bits wide */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define  UCR4_INVR  	 (1<<9)  /* Inverted infrared reception */
 #define  UCR4_ENIRI 	 (1<<8)  /* Serial infrared interrupt enable */
 #define  UCR4_WKEN  	 (1<<7)  /* Wake interrupt enable */
@@ -386,20 +381,12 @@ static void imx_start_tx(struct uart_port *port)
 static irqreturn_t imx_rtsint(int irq, void *dev_id)
 {
 	struct imx_port *sport = dev_id;
-<<<<<<< HEAD
 	unsigned int val = readl(sport->port.membase + USR1) & USR1_RTSS;
-=======
-	unsigned int val;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long flags;
 
 	spin_lock_irqsave(&sport->port.lock, flags);
 
 	writel(USR1_RTSD, sport->port.membase + USR1);
-<<<<<<< HEAD
-=======
-	val = readl(sport->port.membase + USR1) & USR1_RTSS;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	uart_handle_cts_change(&sport->port, !!val);
 	wake_up_interruptible(&sport->port.state->port.delta_msr_wait);
 
@@ -603,12 +590,6 @@ static int imx_setup_ufcr(struct imx_port *sport, unsigned int mode)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-/* half the RX buffer size */
-#define CTSTL 16
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int imx_startup(struct uart_port *port)
 {
 	struct imx_port *sport = (struct imx_port *)port;
@@ -625,13 +606,6 @@ static int imx_startup(struct uart_port *port)
 	if (USE_IRDA(sport))
 		temp |= UCR4_IRSC;
 
-<<<<<<< HEAD
-=======
-	/* set the trigger level for CTS */
-	temp &= ~(UCR4_CTSTL_MASK<<  UCR4_CTSTL_SHF);
-	temp |= CTSTL<<  UCR4_CTSTL_SHF;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	writel(temp & ~UCR4_DREN, sport->port.membase + UCR4);
 
 	if (USE_IRDA(sport)) {
@@ -1305,11 +1279,7 @@ static int serial_imx_probe(struct platform_device *pdev)
 		sport->use_irda = 1;
 #endif
 
-<<<<<<< HEAD
 	if (pdata->init) {
-=======
-	if (pdata && pdata->init) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = pdata->init(pdev);
 		if (ret)
 			goto clkput;
@@ -1322,11 +1292,7 @@ static int serial_imx_probe(struct platform_device *pdev)
 
 	return 0;
 deinit:
-<<<<<<< HEAD
 	if (pdata->exit)
-=======
-	if (pdata && pdata->exit)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pdata->exit(pdev);
 clkput:
 	clk_put(sport->clk);
@@ -1355,11 +1321,7 @@ static int serial_imx_remove(struct platform_device *pdev)
 
 	clk_disable(sport->clk);
 
-<<<<<<< HEAD
 	if (pdata->exit)
-=======
-	if (pdata && pdata->exit)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pdata->exit(pdev);
 
 	iounmap(sport->port.membase);

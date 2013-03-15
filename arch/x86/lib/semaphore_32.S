@@ -36,11 +36,7 @@
  */
 #ifdef CONFIG_SMP
 ENTRY(__write_lock_failed)
-<<<<<<< HEAD
 	CFI_STARTPROC simple
-=======
-	CFI_STARTPROC
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	FRAME
 2: 	LOCK_PREFIX
 	addl	$ RW_LOCK_BIAS,(%eax)

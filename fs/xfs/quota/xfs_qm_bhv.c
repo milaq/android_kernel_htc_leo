@@ -59,11 +59,7 @@ xfs_fill_statvfs_from_dquot(
 		be64_to_cpu(dp->d_blk_hardlimit);
 	if (limit && statp->f_blocks > limit) {
 		statp->f_blocks = limit;
-<<<<<<< HEAD
 		statp->f_bfree =
-=======
-		statp->f_bfree = statp->f_bavail =
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			(statp->f_blocks > be64_to_cpu(dp->d_bcount)) ?
 			 (statp->f_blocks - be64_to_cpu(dp->d_bcount)) : 0;
 	}

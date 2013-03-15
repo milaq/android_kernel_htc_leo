@@ -14,10 +14,7 @@
 #define __LINUX_POWER_SUPPLY_H__
 
 #include <linux/device.h>
-<<<<<<< HEAD
 #include <linux/wakelock.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/workqueue.h>
 #include <linux/leds.h>
 
@@ -156,12 +153,9 @@ struct power_supply {
 	/* private */
 	struct device *dev;
 	struct work_struct changed_work;
-<<<<<<< HEAD
 	spinlock_t changed_lock;
 	bool changed;
 	struct wake_lock work_wake_lock;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_LEDS_TRIGGERS
 	struct led_trigger *charging_full_trig;

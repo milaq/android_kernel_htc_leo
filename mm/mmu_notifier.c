@@ -32,27 +32,6 @@
 void __mmu_notifier_release(struct mm_struct *mm)
 {
 	struct mmu_notifier *mn;
-<<<<<<< HEAD
-=======
-	struct hlist_node *n;
-
-	/*
-	 * RCU here will block mmu_notifier_unregister until
-	 * ->release returns.
-	 */
-	rcu_read_lock();
-	hlist_for_each_entry_rcu(mn, n, &mm->mmu_notifier_mm->list, hlist)
-		/*
-		 * if ->release runs before mmu_notifier_unregister it
-		 * must be handled as it's the only way for the driver
-		 * to flush all existing sptes and stop the driver
-		 * from establishing any more sptes before all the
-		 * pages in the mm are freed.
-		 */
-		if (mn->ops->release)
-			mn->ops->release(mn, mm);
-	rcu_read_unlock();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	spin_lock(&mm->mmu_notifier_mm->lock);
 	while (unlikely(!hlist_empty(&mm->mmu_notifier_mm->list))) {
@@ -66,7 +45,6 @@ void __mmu_notifier_release(struct mm_struct *mm)
 		 * mmu_notifier_unregister to return.
 		 */
 		hlist_del_init_rcu(&mn->hlist);
-<<<<<<< HEAD
 		/*
 		 * RCU here will block mmu_notifier_unregister until
 		 * ->release returns.
@@ -84,8 +62,6 @@ void __mmu_notifier_release(struct mm_struct *mm)
 			mn->ops->release(mn, mm);
 		rcu_read_unlock();
 		spin_lock(&mm->mmu_notifier_mm->lock);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	spin_unlock(&mm->mmu_notifier_mm->lock);
 
@@ -287,24 +263,16 @@ void mmu_notifier_unregister(struct mmu_notifier *mn, struct mm_struct *mm)
 {
 	BUG_ON(atomic_read(&mm->mm_count) <= 0);
 
-<<<<<<< HEAD
 	spin_lock(&mm->mmu_notifier_mm->lock);
 	if (!hlist_unhashed(&mn->hlist)) {
 		hlist_del_rcu(&mn->hlist);
 
-=======
-	if (!hlist_unhashed(&mn->hlist)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * RCU here will force exit_mmap to wait ->release to finish
 		 * before freeing the pages.
 		 */
 		rcu_read_lock();
-<<<<<<< HEAD
 		spin_unlock(&mm->mmu_notifier_mm->lock);
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/*
 		 * exit_mmap will block in mmu_notifier_release to
 		 * guarantee ->release is called before freeing the
@@ -313,16 +281,8 @@ void mmu_notifier_unregister(struct mmu_notifier *mn, struct mm_struct *mm)
 		if (mn->ops->release)
 			mn->ops->release(mn, mm);
 		rcu_read_unlock();
-<<<<<<< HEAD
 	} else
 		spin_unlock(&mm->mmu_notifier_mm->lock);
-=======
-
-		spin_lock(&mm->mmu_notifier_mm->lock);
-		hlist_del_rcu(&mn->hlist);
-		spin_unlock(&mm->mmu_notifier_mm->lock);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Wait any running method to finish, of course including

@@ -655,15 +655,9 @@ static int aac_send_raw_srb(struct aac_dev* dev, void __user * arg)
 				/* Does this really need to be GFP_DMA? */
 				p = kmalloc(usg->sg[i].count,GFP_KERNEL|__GFP_DMA);
 				if(!p) {
-<<<<<<< HEAD
 					kfree (usg);
 					dprintk((KERN_DEBUG"aacraid: Could not allocate SG buffer - size = %d buffer number %d of %d\n",
 					  usg->sg[i].count,i,usg->count));
-=======
-					dprintk((KERN_DEBUG "aacraid: Could not allocate SG buffer - size = %d buffer number %d of %d\n",
-					  usg->sg[i].count,i,usg->count));
-					kfree(usg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					rcode = -ENOMEM;
 					goto cleanup;
 				}

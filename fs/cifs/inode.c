@@ -610,19 +610,6 @@ cifs_find_inode(struct inode *inode, void *opaque)
 	if (CIFS_I(inode)->uniqueid != fattr->cf_uniqueid)
 		return 0;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * uh oh -- it's a directory. We can't use it since hardlinked dirs are
-	 * verboten. Disable serverino and return it as if it were found, the
-	 * caller can discard it, generate a uniqueid and retry the find
-	 */
-	if (S_ISDIR(inode->i_mode) && !list_empty(&inode->i_dentry)) {
-		fattr->cf_flags |= CIFS_FATTR_INO_COLLISION;
-		cifs_autodisable_serverino(CIFS_SB(inode->i_sb));
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 1;
 }
 
@@ -642,31 +629,15 @@ cifs_iget(struct super_block *sb, struct cifs_fattr *fattr)
 	unsigned long hash;
 	struct inode *inode;
 
-<<<<<<< HEAD
-=======
-retry_iget5_locked:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cFYI(1, ("looking for uniqueid=%llu", fattr->cf_uniqueid));
 
 	/* hash down to 32-bits on 32-bit arch */
 	hash = cifs_uniqueid_to_ino_t(fattr->cf_uniqueid);
 
 	inode = iget5_locked(sb, hash, cifs_find_inode, cifs_init_inode, fattr);
-<<<<<<< HEAD
 
 	/* we have fattrs in hand, update the inode */
 	if (inode) {
-=======
-	if (inode) {
-		/* was there a problematic inode number collision? */
-		if (fattr->cf_flags & CIFS_FATTR_INO_COLLISION) {
-			iput(inode);
-			fattr->cf_uniqueid = iunique(sb, ROOT_I);
-			fattr->cf_flags &= ~CIFS_FATTR_INO_COLLISION;
-			goto retry_iget5_locked;
-		}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		cifs_fattr_to_inode(inode, fattr);
 		if (sb->s_flags & MS_NOATIME)
 			inode->i_flags |= S_NOATIME | S_NOCMTIME;
@@ -700,15 +671,8 @@ struct inode *cifs_root_iget(struct super_block *sb, unsigned long ino)
 		rc = cifs_get_inode_info(&inode, full_path, NULL, sb,
 						xid, NULL);
 
-<<<<<<< HEAD
 	if (!inode)
 		return ERR_PTR(-ENOMEM);
-=======
-	if (!inode) {
-		inode = ERR_PTR(rc);
-		goto out;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (rc && cifs_sb->tcon->ipc) {
 		cFYI(1, ("ipc connection - fake read inode"));
@@ -719,7 +683,6 @@ struct inode *cifs_root_iget(struct super_block *sb, unsigned long ino)
 		inode->i_uid = cifs_sb->mnt_uid;
 		inode->i_gid = cifs_sb->mnt_gid;
 	} else if (rc) {
-<<<<<<< HEAD
 		kfree(full_path);
 		_FreeXid(xid);
 		iget_failed(inode);
@@ -727,13 +690,6 @@ struct inode *cifs_root_iget(struct super_block *sb, unsigned long ino)
 	}
 
 
-=======
-		iget_failed(inode);
-		inode = ERR_PTR(rc);
-	}
-
-out:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(full_path);
 	/* can not call macro FreeXid here since in a void func
 	 * TODO: This is no longer true
@@ -1311,13 +1267,6 @@ cifs_do_rename(int xid, struct dentry *from_dentry, const char *fromPath,
 	if (rc == 0 || rc != -ETXTBSY)
 		return rc;
 
-<<<<<<< HEAD
-=======
-	/* open-file renames don't work across directories */
-	if (to_dentry->d_parent != from_dentry->d_parent)
-		return rc;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* open the file to be renamed -- we need DELETE perms */
 	rc = CIFSSMBOpen(xid, pTcon, fromPath, FILE_OPEN, DELETE,
 			 CREATE_NOT_DIR, &srcfid, &oplock, NULL,

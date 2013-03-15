@@ -357,11 +357,6 @@ struct ethtool_rxnfc {
 	__u32				flow_type;
 	/* The rx flow hash value or the rule DB size */
 	__u64				data;
-<<<<<<< HEAD
-=======
-	/* The following fields are not valid and must not be used for
-	 * the ETHTOOL_{G,X}RXFH commands. */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct ethtool_rx_flow_spec	fs;
 	__u32				rule_cnt;
 	__u32				rule_locs[0];

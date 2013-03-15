@@ -503,10 +503,6 @@ int vt_ioctl(struct tty_struct *tty, struct file * file,
 	struct kbd_struct * kbd;
 	unsigned int console;
 	unsigned char ucval;
-<<<<<<< HEAD
-=======
-	unsigned int uival;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void __user *up = (void __user *)arg;
 	int i, perm;
 	int ret = 0;
@@ -661,11 +657,7 @@ int vt_ioctl(struct tty_struct *tty, struct file * file,
 		break;
 
 	case KDGETMODE:
-<<<<<<< HEAD
 		ucval = vc->vc_mode;
-=======
-		uival = vc->vc_mode;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto setint;
 
 	case KDMAPDISP:
@@ -703,11 +695,7 @@ int vt_ioctl(struct tty_struct *tty, struct file * file,
 		break;
 
 	case KDGKBMODE:
-<<<<<<< HEAD
 		ucval = ((kbd->kbdmode == VC_RAW) ? K_RAW :
-=======
-		uival = ((kbd->kbdmode == VC_RAW) ? K_RAW :
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				 (kbd->kbdmode == VC_MEDIUMRAW) ? K_MEDIUMRAW :
 				 (kbd->kbdmode == VC_UNICODE) ? K_UNICODE :
 				 K_XLATE);
@@ -729,15 +717,9 @@ int vt_ioctl(struct tty_struct *tty, struct file * file,
 		break;
 
 	case KDGKBMETA:
-<<<<<<< HEAD
 		ucval = (vc_kbd_mode(kbd, VC_META) ? K_ESCPREFIX : K_METABIT);
 	setint:
 		ret = put_user(ucval, (int __user *)arg);
-=======
-		uival = (vc_kbd_mode(kbd, VC_META) ? K_ESCPREFIX : K_METABIT);
-	setint:
-		ret = put_user(uival, (int __user *)arg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 
 	case KDGETKEYCODE:
@@ -967,11 +949,7 @@ int vt_ioctl(struct tty_struct *tty, struct file * file,
 		for (i = 0; i < MAX_NR_CONSOLES; ++i)
 			if (! VT_IS_IN_USE(i))
 				break;
-<<<<<<< HEAD
 		ucval = i < MAX_NR_CONSOLES ? (i+1) : -1;
-=======
-		uival = i < MAX_NR_CONSOLES ? (i+1) : -1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto setint;		 
 
 	/*

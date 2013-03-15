@@ -18,11 +18,7 @@
 #include <linux/netfilter/xt_owner.h>
 
 static bool
-<<<<<<< HEAD
 owner_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-owner_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_owner_match_info *info = par->matchinfo;
 	const struct file *filp;

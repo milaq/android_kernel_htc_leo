@@ -19,10 +19,7 @@
  **/
 
 #include <linux/firmware.h>
-<<<<<<< HEAD
 #include <linux/slab.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <linux/mmc/sdio_ids.h>
 #include <linux/mmc/sdio_func.h>
@@ -50,10 +47,7 @@
  * module_exit function is called.
  */
 static u8 user_rmmod;
-<<<<<<< HEAD
 static u8 sdio_ireg;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static const struct btmrvl_sdio_device btmrvl_sdio_sd6888 = {
 	.helper		= "sd8688_helper.bin",
@@ -90,17 +84,10 @@ static int btmrvl_sdio_read_fw_status(struct btmrvl_sdio_card *card, u16 *dat)
 	*dat = 0;
 
 	fws0 = sdio_readb(card->func, CARD_FW_STATUS0_REG, &ret);
-<<<<<<< HEAD
 	if (ret)
 		return -EIO;
 
 	fws1 = sdio_readb(card->func, CARD_FW_STATUS1_REG, &ret);
-=======
-
-	if (!ret)
-		fws1 = sdio_readb(card->func, CARD_FW_STATUS1_REG, &ret);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (ret)
 		return -EIO;
 
@@ -230,11 +217,7 @@ static int btmrvl_sdio_download_helper(struct btmrvl_sdio_card *card)
 
 	tmphlprbufsz = ALIGN_SZ(BTM_UPLD_SIZE, BTSDIO_DMA_ALIGN);
 
-<<<<<<< HEAD
 	tmphlprbuf = kzalloc(tmphlprbufsz, GFP_KERNEL);
-=======
-	tmphlprbuf = kmalloc(tmphlprbufsz, GFP_KERNEL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!tmphlprbuf) {
 		BT_ERR("Unable to allocate buffer for helper."
 			" Terminating download");
@@ -242,11 +225,6 @@ static int btmrvl_sdio_download_helper(struct btmrvl_sdio_card *card)
 		goto done;
 	}
 
-<<<<<<< HEAD
-=======
-	memset(tmphlprbuf, 0, tmphlprbufsz);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	helperbuf = (u8 *) ALIGN_ADDR(tmphlprbuf, BTSDIO_DMA_ALIGN);
 
 	/* Perform helper data transfer */
@@ -339,11 +317,7 @@ static int btmrvl_sdio_download_fw_w_helper(struct btmrvl_sdio_card *card)
 	BT_DBG("Downloading FW image (%d bytes)", firmwarelen);
 
 	tmpfwbufsz = ALIGN_SZ(BTM_UPLD_SIZE, BTSDIO_DMA_ALIGN);
-<<<<<<< HEAD
 	tmpfwbuf = kzalloc(tmpfwbufsz, GFP_KERNEL);
-=======
-	tmpfwbuf = kmalloc(tmpfwbufsz, GFP_KERNEL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!tmpfwbuf) {
 		BT_ERR("Unable to allocate buffer for firmware."
 		       " Terminating download");
@@ -351,11 +325,6 @@ static int btmrvl_sdio_download_fw_w_helper(struct btmrvl_sdio_card *card)
 		goto done;
 	}
 
-<<<<<<< HEAD
-=======
-	memset(tmpfwbuf, 0, tmpfwbufsz);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Ensure aligned firmware buffer */
 	fwbuf = (u8 *) ALIGN_ADDR(tmpfwbuf, BTSDIO_DMA_ALIGN);
 
@@ -564,11 +533,7 @@ static int btmrvl_sdio_card_to_host(struct btmrvl_private *priv)
 		break;
 
 	default:
-<<<<<<< HEAD
 		BT_ERR("Unknown packet type:%d", type);
-=======
-		BT_ERR("Unknow packet type:%d", type);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		print_hex_dump_bytes("", DUMP_PREFIX_OFFSET, payload,
 						blksz * buf_block_len);
 
@@ -587,7 +552,6 @@ exit:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int btmrvl_sdio_process_int_status(struct btmrvl_private *priv)
 {
 	ulong flags;
@@ -604,74 +568,21 @@ static int btmrvl_sdio_process_int_status(struct btmrvl_private *priv)
 		if (priv->btmrvl_dev.tx_dnld_rdy)
 			BT_DBG("tx_done already received: "
 				" int_status=0x%x", ireg);
-=======
-static int btmrvl_sdio_get_int_status(struct btmrvl_private *priv, u8 * ireg)
-{
-	int ret;
-	u8 sdio_ireg = 0;
-	struct btmrvl_sdio_card *card = priv->btmrvl_dev.card;
-
-	*ireg = 0;
-
-	sdio_ireg = sdio_readb(card->func, HOST_INTSTATUS_REG, &ret);
-	if (ret) {
-		BT_ERR("sdio_readb: read int status register failed");
-		ret = -EIO;
-		goto done;
-	}
-
-	if (sdio_ireg != 0) {
-		/*
-		 * DN_LD_HOST_INT_STATUS and/or UP_LD_HOST_INT_STATUS
-		 * Clear the interrupt status register and re-enable the
-		 * interrupt.
-		 */
-		BT_DBG("sdio_ireg = 0x%x", sdio_ireg);
-
-		sdio_writeb(card->func, ~(sdio_ireg) & (DN_LD_HOST_INT_STATUS |
-							UP_LD_HOST_INT_STATUS),
-			    HOST_INTSTATUS_REG, &ret);
-		if (ret) {
-			BT_ERR("sdio_writeb: clear int status register "
-				"failed");
-			ret = -EIO;
-			goto done;
-		}
-	}
-
-	if (sdio_ireg & DN_LD_HOST_INT_STATUS) {
-		if (priv->btmrvl_dev.tx_dnld_rdy)
-			BT_DBG("tx_done already received: "
-				" int_status=0x%x", sdio_ireg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		else
 			priv->btmrvl_dev.tx_dnld_rdy = true;
 	}
 
-<<<<<<< HEAD
 	if (ireg & UP_LD_HOST_INT_STATUS)
 		btmrvl_sdio_card_to_host(priv);
 
 	sdio_release_host(card->func);
 
 	return 0;
-=======
-	if (sdio_ireg & UP_LD_HOST_INT_STATUS)
-		btmrvl_sdio_card_to_host(priv);
-
-	*ireg = sdio_ireg;
-
-	ret = 0;
-
-done:
-	return ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void btmrvl_sdio_interrupt(struct sdio_func *func)
 {
 	struct btmrvl_private *priv;
-<<<<<<< HEAD
 	struct btmrvl_sdio_card *card;
 	ulong flags;
 	u8 ireg = 0;
@@ -714,24 +625,6 @@ static void btmrvl_sdio_interrupt(struct sdio_func *func)
 	spin_unlock_irqrestore(&priv->driver_lock, flags);
 
 	btmrvl_interrupt(priv);
-=======
-	struct hci_dev *hcidev;
-	struct btmrvl_sdio_card *card;
-	u8 ireg = 0;
-
-	card = sdio_get_drvdata(func);
-	if (card && card->priv) {
-		priv = card->priv;
-		hcidev = priv->btmrvl_dev.hcidev;
-
-		if (btmrvl_sdio_get_int_status(priv, &ireg))
-			BT_ERR("reading HOST_INT_STATUS_REG failed");
-		else
-			BT_DBG("HOST_INT_STATUS_REG %#x", ireg);
-
-		btmrvl_interrupt(priv);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int btmrvl_sdio_register_dev(struct btmrvl_sdio_card *card)
@@ -914,10 +807,7 @@ static int btmrvl_sdio_host_to_card(struct btmrvl_private *priv,
 
 exit:
 	sdio_release_host(card->func);
-<<<<<<< HEAD
 	kfree(tmpbuf);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return ret;
 }
@@ -1038,7 +928,6 @@ static int btmrvl_sdio_probe(struct sdio_func *func,
 	/* Initialize the interface specific function pointers */
 	priv->hw_host_to_card = btmrvl_sdio_host_to_card;
 	priv->hw_wakeup_firmware = btmrvl_sdio_wakeup_fw;
-<<<<<<< HEAD
 	priv->hw_process_int_status = btmrvl_sdio_process_int_status;
 
 	if (btmrvl_register_hdev(priv)) {
@@ -1049,10 +938,6 @@ static int btmrvl_sdio_probe(struct sdio_func *func,
 
 	priv->btmrvl_dev.psmode = 1;
 	btmrvl_enable_ps(priv);
-=======
-
-	btmrvl_send_module_cfg_cmd(priv, MODULE_BRINGUP_REQ);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return 0;
 
@@ -1096,11 +981,7 @@ static struct sdio_driver bt_mrvl_sdio = {
 	.remove		= btmrvl_sdio_remove,
 };
 
-<<<<<<< HEAD
 static int __init btmrvl_sdio_init_module(void)
-=======
-static int btmrvl_sdio_init_module(void)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (sdio_register_driver(&bt_mrvl_sdio) != 0) {
 		BT_ERR("SDIO Driver Registration Failed");
@@ -1113,11 +994,7 @@ static int btmrvl_sdio_init_module(void)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void __exit btmrvl_sdio_exit_module(void)
-=======
-static void btmrvl_sdio_exit_module(void)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	/* Set the flag as user is removing this module. */
 	user_rmmod = 1;
@@ -1132,8 +1009,5 @@ MODULE_AUTHOR("Marvell International Ltd.");
 MODULE_DESCRIPTION("Marvell BT-over-SDIO driver ver " VERSION);
 MODULE_VERSION(VERSION);
 MODULE_LICENSE("GPL v2");
-<<<<<<< HEAD
 MODULE_FIRMWARE("sd8688_helper.bin");
 MODULE_FIRMWARE("sd8688.bin");
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

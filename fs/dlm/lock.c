@@ -1,11 +1,7 @@
 /******************************************************************************
 *******************************************************************************
 **
-<<<<<<< HEAD
 **  Copyright (C) 2005-2008 Red Hat, Inc.  All rights reserved.
-=======
-**  Copyright (C) 2005-2010 Red Hat, Inc.  All rights reserved.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 **
 **  This copyrighted material is made available to anyone wishing to use,
 **  modify, copy, or redistribute it subject to the terms and conditions
@@ -311,11 +307,7 @@ static void queue_cast(struct dlm_rsb *r, struct dlm_lkb *lkb, int rv)
 	lkb->lkb_lksb->sb_status = rv;
 	lkb->lkb_lksb->sb_flags = lkb->lkb_sbflags;
 
-<<<<<<< HEAD
 	dlm_add_ast(lkb, AST_COMP, 0);
-=======
-	dlm_add_ast(lkb, AST_COMP, lkb->lkb_grmode);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void queue_cast_overlap(struct dlm_rsb *r, struct dlm_lkb *lkb)
@@ -2288,44 +2280,20 @@ static int do_request(struct dlm_rsb *r, struct dlm_lkb *lkb)
 	if (can_be_queued(lkb)) {
 		error = -EINPROGRESS;
 		add_lkb(r, lkb, DLM_LKSTS_WAITING);
-<<<<<<< HEAD
 		send_blocking_asts(r, lkb);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		add_timeout(lkb);
 		goto out;
 	}
 
 	error = -EAGAIN;
-<<<<<<< HEAD
 	if (force_blocking_asts(lkb))
 		send_blocking_asts_all(r, lkb);
 	queue_cast(r, lkb, -EAGAIN);
 
-=======
-	queue_cast(r, lkb, -EAGAIN);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	return error;
 }
 
-<<<<<<< HEAD
-=======
-static void do_request_effects(struct dlm_rsb *r, struct dlm_lkb *lkb,
-			       int error)
-{
-	switch (error) {
-	case -EAGAIN:
-		if (force_blocking_asts(lkb))
-			send_blocking_asts_all(r, lkb);
-		break;
-	case -EINPROGRESS:
-		send_blocking_asts(r, lkb);
-		break;
-	}
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int do_convert(struct dlm_rsb *r, struct dlm_lkb *lkb)
 {
 	int error = 0;
@@ -2336,10 +2304,7 @@ static int do_convert(struct dlm_rsb *r, struct dlm_lkb *lkb)
 	if (can_be_granted(r, lkb, 1, &deadlk)) {
 		grant_lock(r, lkb);
 		queue_cast(r, lkb, 0);
-<<<<<<< HEAD
 		grant_pending_locks(r);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out;
 	}
 
@@ -2369,10 +2334,7 @@ static int do_convert(struct dlm_rsb *r, struct dlm_lkb *lkb)
 		if (_can_be_granted(r, lkb, 1)) {
 			grant_lock(r, lkb);
 			queue_cast(r, lkb, 0);
-<<<<<<< HEAD
 			grant_pending_locks(r);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			goto out;
 		}
 		/* else fall through and move to convert queue */
@@ -2382,68 +2344,28 @@ static int do_convert(struct dlm_rsb *r, struct dlm_lkb *lkb)
 		error = -EINPROGRESS;
 		del_lkb(r, lkb);
 		add_lkb(r, lkb, DLM_LKSTS_CONVERT);
-<<<<<<< HEAD
 		send_blocking_asts(r, lkb);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		add_timeout(lkb);
 		goto out;
 	}
 
 	error = -EAGAIN;
-<<<<<<< HEAD
 	if (force_blocking_asts(lkb))
 		send_blocking_asts_all(r, lkb);
 	queue_cast(r, lkb, -EAGAIN);
 
-=======
-	queue_cast(r, lkb, -EAGAIN);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	return error;
 }
 
-<<<<<<< HEAD
-=======
-static void do_convert_effects(struct dlm_rsb *r, struct dlm_lkb *lkb,
-			       int error)
-{
-	switch (error) {
-	case 0:
-		grant_pending_locks(r);
-		/* grant_pending_locks also sends basts */
-		break;
-	case -EAGAIN:
-		if (force_blocking_asts(lkb))
-			send_blocking_asts_all(r, lkb);
-		break;
-	case -EINPROGRESS:
-		send_blocking_asts(r, lkb);
-		break;
-	}
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int do_unlock(struct dlm_rsb *r, struct dlm_lkb *lkb)
 {
 	remove_lock(r, lkb);
 	queue_cast(r, lkb, -DLM_EUNLOCK);
-<<<<<<< HEAD
 	grant_pending_locks(r);
 	return -DLM_EUNLOCK;
 }
 
-=======
-	return -DLM_EUNLOCK;
-}
-
-static void do_unlock_effects(struct dlm_rsb *r, struct dlm_lkb *lkb,
-			      int error)
-{
-	grant_pending_locks(r);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* returns: 0 did nothing, -DLM_ECANCEL canceled lock */
  
 static int do_cancel(struct dlm_rsb *r, struct dlm_lkb *lkb)
@@ -2453,25 +2375,12 @@ static int do_cancel(struct dlm_rsb *r, struct dlm_lkb *lkb)
 	error = revert_lock(r, lkb);
 	if (error) {
 		queue_cast(r, lkb, -DLM_ECANCEL);
-<<<<<<< HEAD
 		grant_pending_locks(r);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -DLM_ECANCEL;
 	}
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-static void do_cancel_effects(struct dlm_rsb *r, struct dlm_lkb *lkb,
-			      int error)
-{
-	if (error)
-		grant_pending_locks(r);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Four stage 3 varieties:
  * _request_lock(), _convert_lock(), _unlock_lock(), _cancel_lock()
@@ -2493,23 +2402,11 @@ static int _request_lock(struct dlm_rsb *r, struct dlm_lkb *lkb)
 		goto out;
 	}
 
-<<<<<<< HEAD
 	if (is_remote(r))
 		/* receive_request() calls do_request() on remote node */
 		error = send_request(r, lkb);
 	else
 		error = do_request(r, lkb);
-=======
-	if (is_remote(r)) {
-		/* receive_request() calls do_request() on remote node */
-		error = send_request(r, lkb);
-	} else {
-		error = do_request(r, lkb);
-		/* for remote locks the request_reply is sent
-		   between do_request and do_request_effects */
-		do_request_effects(r, lkb, error);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	return error;
 }
@@ -2520,23 +2417,11 @@ static int _convert_lock(struct dlm_rsb *r, struct dlm_lkb *lkb)
 {
 	int error;
 
-<<<<<<< HEAD
 	if (is_remote(r))
 		/* receive_convert() calls do_convert() on remote node */
 		error = send_convert(r, lkb);
 	else
 		error = do_convert(r, lkb);
-=======
-	if (is_remote(r)) {
-		/* receive_convert() calls do_convert() on remote node */
-		error = send_convert(r, lkb);
-	} else {
-		error = do_convert(r, lkb);
-		/* for remote locks the convert_reply is sent
-		   between do_convert and do_convert_effects */
-		do_convert_effects(r, lkb, error);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return error;
 }
@@ -2547,23 +2432,11 @@ static int _unlock_lock(struct dlm_rsb *r, struct dlm_lkb *lkb)
 {
 	int error;
 
-<<<<<<< HEAD
 	if (is_remote(r))
 		/* receive_unlock() calls do_unlock() on remote node */
 		error = send_unlock(r, lkb);
 	else
 		error = do_unlock(r, lkb);
-=======
-	if (is_remote(r)) {
-		/* receive_unlock() calls do_unlock() on remote node */
-		error = send_unlock(r, lkb);
-	} else {
-		error = do_unlock(r, lkb);
-		/* for remote locks the unlock_reply is sent
-		   between do_unlock and do_unlock_effects */
-		do_unlock_effects(r, lkb, error);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return error;
 }
@@ -2574,23 +2447,11 @@ static int _cancel_lock(struct dlm_rsb *r, struct dlm_lkb *lkb)
 {
 	int error;
 
-<<<<<<< HEAD
 	if (is_remote(r))
 		/* receive_cancel() calls do_cancel() on remote node */
 		error = send_cancel(r, lkb);
 	else
 		error = do_cancel(r, lkb);
-=======
-	if (is_remote(r)) {
-		/* receive_cancel() calls do_cancel() on remote node */
-		error = send_cancel(r, lkb);
-	} else {
-		error = do_cancel(r, lkb);
-		/* for remote locks the cancel_reply is sent
-		   between do_cancel and do_cancel_effects */
-		do_cancel_effects(r, lkb, error);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return error;
 }
@@ -2828,11 +2689,7 @@ static int _create_message(struct dlm_ls *ls, int mb_len,
 	   pass into lowcomms_commit and a message buffer (mb) that we
 	   write our data into */
 
-<<<<<<< HEAD
 	mh = dlm_lowcomms_get_buffer(to_nodeid, mb_len, ls->ls_allocation, &mb);
-=======
-	mh = dlm_lowcomms_get_buffer(to_nodeid, mb_len, GFP_NOFS, &mb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!mh)
 		return -ENOBUFS;
 
@@ -3334,10 +3191,6 @@ static void receive_request(struct dlm_ls *ls, struct dlm_message *ms)
 	attach_lkb(r, lkb);
 	error = do_request(r, lkb);
 	send_request_reply(r, lkb, error);
-<<<<<<< HEAD
-=======
-	do_request_effects(r, lkb, error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	unlock_rsb(r);
 	put_rsb(r);
@@ -3373,7 +3226,6 @@ static void receive_convert(struct dlm_ls *ls, struct dlm_message *ms)
 		goto out;
 
 	receive_flags(lkb, ms);
-<<<<<<< HEAD
 	error = receive_convert_args(ls, lkb, ms);
 	if (error)
 		goto out_reply;
@@ -3383,21 +3235,6 @@ static void receive_convert(struct dlm_ls *ls, struct dlm_message *ms)
  out_reply:
 	if (reply)
 		send_convert_reply(r, lkb, error);
-=======
-
-	error = receive_convert_args(ls, lkb, ms);
-	if (error) {
-		send_convert_reply(r, lkb, error);
-		goto out;
-	}
-
-	reply = !down_conversion(lkb);
-
-	error = do_convert(r, lkb);
-	if (reply)
-		send_convert_reply(r, lkb, error);
-	do_convert_effects(r, lkb, error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	unlock_rsb(r);
 	put_rsb(r);
@@ -3429,7 +3266,6 @@ static void receive_unlock(struct dlm_ls *ls, struct dlm_message *ms)
 		goto out;
 
 	receive_flags(lkb, ms);
-<<<<<<< HEAD
 	error = receive_unlock_args(ls, lkb, ms);
 	if (error)
 		goto out_reply;
@@ -3437,18 +3273,6 @@ static void receive_unlock(struct dlm_ls *ls, struct dlm_message *ms)
 	error = do_unlock(r, lkb);
  out_reply:
 	send_unlock_reply(r, lkb, error);
-=======
-
-	error = receive_unlock_args(ls, lkb, ms);
-	if (error) {
-		send_unlock_reply(r, lkb, error);
-		goto out;
-	}
-
-	error = do_unlock(r, lkb);
-	send_unlock_reply(r, lkb, error);
-	do_unlock_effects(r, lkb, error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	unlock_rsb(r);
 	put_rsb(r);
@@ -3483,10 +3307,6 @@ static void receive_cancel(struct dlm_ls *ls, struct dlm_message *ms)
 
 	error = do_cancel(r, lkb);
 	send_cancel_reply(r, lkb, error);
-<<<<<<< HEAD
-=======
-	do_cancel_effects(r, lkb, error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out:
 	unlock_rsb(r);
 	put_rsb(r);
@@ -4692,11 +4512,7 @@ int dlm_user_request(struct dlm_ls *ls, struct dlm_user_args *ua,
 	}
 
 	if (flags & DLM_LKF_VALBLK) {
-<<<<<<< HEAD
 		ua->lksb.sb_lvbptr = kzalloc(DLM_USER_LVB_LEN, GFP_KERNEL);
-=======
-		ua->lksb.sb_lvbptr = kzalloc(DLM_USER_LVB_LEN, GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!ua->lksb.sb_lvbptr) {
 			kfree(ua);
 			__put_lkb(ls, lkb);
@@ -4766,11 +4582,7 @@ int dlm_user_convert(struct dlm_ls *ls, struct dlm_user_args *ua_tmp,
 	ua = lkb->lkb_ua;
 
 	if (flags & DLM_LKF_VALBLK && !ua->lksb.sb_lvbptr) {
-<<<<<<< HEAD
 		ua->lksb.sb_lvbptr = kzalloc(DLM_USER_LVB_LEN, GFP_KERNEL);
-=======
-		ua->lksb.sb_lvbptr = kzalloc(DLM_USER_LVB_LEN, GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!ua->lksb.sb_lvbptr) {
 			error = -ENOMEM;
 			goto out_put;

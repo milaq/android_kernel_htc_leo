@@ -120,11 +120,7 @@ int usb_choose_configuration(struct usb_device *udev)
 		 * than a vendor-specific driver. */
 		else if (udev->descriptor.bDeviceClass !=
 						USB_CLASS_VENDOR_SPEC &&
-<<<<<<< HEAD
 				(!desc || desc->bInterfaceClass !=
-=======
-				(desc && desc->bInterfaceClass !=
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 						USB_CLASS_VENDOR_SPEC)) {
 			best = c;
 			break;

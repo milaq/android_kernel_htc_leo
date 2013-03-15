@@ -69,24 +69,12 @@ export MMU DTB
 
 all: linux.bin
 
-<<<<<<< HEAD
 BOOT_TARGETS = linux.bin linux.bin.gz simpleImage.%
-=======
-# With make 3.82 we cannot mix normal and wildcard targets
-BOOT_TARGETS1 = linux.bin linux.bin.gz
-BOOT_TARGETS2 = simpleImage.%
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 archclean:
 	$(Q)$(MAKE) $(clean)=$(boot)
 
-<<<<<<< HEAD
 $(BOOT_TARGETS): vmlinux
-=======
-$(BOOT_TARGETS1): vmlinux
-	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
-$(BOOT_TARGETS2): vmlinux
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
 
 define archhelp

@@ -407,33 +407,16 @@ static void __init setup_command_line(char *command_line)
  * gcc-3.4 accidentally inlines this function, so use noinline.
  */
 
-<<<<<<< HEAD
-=======
-static __initdata DECLARE_COMPLETION(kthreadd_done);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static noinline void __init_refok rest_init(void)
 	__releases(kernel_lock)
 {
 	int pid;
 
 	rcu_scheduler_starting();
-<<<<<<< HEAD
-=======
-	/*
-	 * We need to spawn init first so that it obtains pid-1, however
-	 * the init task will end up wanting to create kthreads, which, if
-	 * we schedule it before we create kthreadd, will OOPS.
-	 */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kernel_thread(kernel_init, NULL, CLONE_FS | CLONE_SIGHAND);
 	numa_default_policy();
 	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);
 	kthreadd_task = find_task_by_pid_ns(pid, &init_pid_ns);
-<<<<<<< HEAD
-=======
-	complete(&kthreadd_done);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unlock_kernel();
 
 	/*
@@ -858,13 +841,6 @@ static noinline int init_post(void)
 
 static int __init kernel_init(void * unused)
 {
-<<<<<<< HEAD
-=======
-	/*
-	 * Wait until kthreadd is all set-up.
-	 */
-	wait_for_completion(&kthreadd_done);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	lock_kernel();
 
 	/*

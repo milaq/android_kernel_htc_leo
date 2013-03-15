@@ -95,15 +95,8 @@ extern struct cifsFileInfo *cifs_new_fileinfo(struct inode *newinode,
 				__u16 fileHandle, struct file *file,
 				struct vfsmount *mnt, unsigned int oflags);
 extern int cifs_posix_open(char *full_path, struct inode **pinode,
-<<<<<<< HEAD
 			   struct vfsmount *mnt, int mode, int oflags,
 			   __u32 *poplock, __u16 *pnetfid, int xid);
-=======
-				struct vfsmount *mnt,
-				struct super_block *sb,
-				int mode, int oflags,
-				__u32 *poplock, __u16 *pnetfid, int xid);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void cifs_unix_basic_to_fattr(struct cifs_fattr *fattr,
 				     FILE_UNIX_BASIC_INFO *info,
 				     struct cifs_sb_info *cifs_sb);
@@ -328,11 +321,7 @@ extern int CIFSSMBLock(const int xid, struct cifsTconInfo *tcon,
 			const __u16 netfid, const __u64 len,
 			const __u64 offset, const __u32 numUnlock,
 			const __u32 numLock, const __u8 lockType,
-<<<<<<< HEAD
 			const bool waitFlag);
-=======
-			const bool waitFlag, const __u8 oplock_level);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int CIFSSMBPosixLock(const int xid, struct cifsTconInfo *tcon,
 			const __u16 smb_file_id, const int get_flag,
 			const __u64 len, struct file_lock *,

@@ -89,10 +89,6 @@ extern int acpi_ht;
 extern int acpi_pci_disabled;
 extern int acpi_skip_timer_override;
 extern int acpi_use_timer_override;
-<<<<<<< HEAD
-=======
-extern int acpi_fix_pin2_polarity;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern u8 acpi_sci_flags;
 extern int acpi_sci_override_gsi;

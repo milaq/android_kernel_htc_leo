@@ -52,10 +52,6 @@ Devices: [JR3] PCI force sensor board (jr3_pci)
 
 #define PCI_VENDOR_ID_JR3 0x1762
 #define PCI_DEVICE_ID_JR3_1_CHANNEL 0x3111
-<<<<<<< HEAD
-=======
-#define PCI_DEVICE_ID_JR3_1_CHANNEL_NEW 0x1111
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define PCI_DEVICE_ID_JR3_2_CHANNEL 0x3112
 #define PCI_DEVICE_ID_JR3_3_CHANNEL 0x3113
 #define PCI_DEVICE_ID_JR3_4_CHANNEL 0x3114
@@ -75,11 +71,6 @@ static DEFINE_PCI_DEVICE_TABLE(jr3_pci_pci_table) = {
 	{
 	PCI_VENDOR_ID_JR3, PCI_DEVICE_ID_JR3_1_CHANNEL,
 		    PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, {
-<<<<<<< HEAD
-=======
-	PCI_VENDOR_ID_JR3, PCI_DEVICE_ID_JR3_1_CHANNEL_NEW,
-		    PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	PCI_VENDOR_ID_JR3, PCI_DEVICE_ID_JR3_2_CHANNEL,
 		    PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, {
 	PCI_VENDOR_ID_JR3, PCI_DEVICE_ID_JR3_3_CHANNEL,
@@ -816,13 +807,6 @@ static int jr3_pci_attach(struct comedi_device *dev,
 					devpriv->n_channels = 1;
 				}
 				break;
-<<<<<<< HEAD
-=======
-			case PCI_DEVICE_ID_JR3_1_CHANNEL_NEW:{
-					devpriv->n_channels = 1;
-				}
-				break;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			case PCI_DEVICE_ID_JR3_2_CHANNEL:{
 					devpriv->n_channels = 2;
 				}
@@ -865,16 +849,8 @@ static int jr3_pci_attach(struct comedi_device *dev,
 	}
 
 	devpriv->pci_enabled = 1;
-<<<<<<< HEAD
 	devpriv->iobase =
 	    ioremap(pci_resource_start(card, 0), sizeof(struct jr3_t));
-=======
-	devpriv->iobase = ioremap(pci_resource_start(card, 0),
-			offsetof(struct jr3_t, channel[devpriv->n_channels]));
-	if (!devpriv->iobase)
-		return -ENOMEM;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	result = alloc_subdevices(dev, devpriv->n_channels);
 	if (result < 0)
 		goto out;

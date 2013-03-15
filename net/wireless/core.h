@@ -385,11 +385,6 @@ int rdev_set_freq(struct cfg80211_registered_device *rdev,
 		  struct wireless_dev *for_wdev,
 		  int freq, enum nl80211_channel_type channel_type);
 
-<<<<<<< HEAD
-=======
-u16 cfg80211_calculate_bitrate(struct rate_info *rate);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_CFG80211_DEVELOPER_WARNINGS
 #define CFG80211_DEV_WARN_ON(cond)	WARN_ON(cond)
 #else

@@ -61,10 +61,6 @@ extern struct ams ams_info;
 
 extern void ams_sensors(s8 *x, s8 *y, s8 *z);
 extern int ams_sensor_attach(void);
-<<<<<<< HEAD
-=======
-extern void ams_sensor_detach(void);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern int ams_pmu_init(struct device_node *np);
 extern int ams_i2c_init(struct device_node *np);

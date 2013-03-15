@@ -449,11 +449,7 @@ void stop_this_cpu(void *dummy);
  *
  * (Could use an alternative three way for this if there was one.)
  */
-<<<<<<< HEAD
 static inline void rdtsc_barrier(void)
-=======
-static __always_inline void rdtsc_barrier(void)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	alternative(ASM_NOP3, "mfence", X86_FEATURE_MFENCE_RDTSC);
 	alternative(ASM_NOP3, "lfence", X86_FEATURE_LFENCE_RDTSC);

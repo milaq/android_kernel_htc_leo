@@ -98,7 +98,6 @@ static const struct net_device_ops hydra_netdev_ops = {
 	.ndo_open		= hydra_open,
 	.ndo_stop		= hydra_close,
 
-<<<<<<< HEAD
 	.ndo_start_xmit		= ei_start_xmit,
 	.ndo_tx_timeout		= ei_tx_timeout,
 	.ndo_get_stats		= ei_get_stats,
@@ -108,17 +107,6 @@ static const struct net_device_ops hydra_netdev_ops = {
 	.ndo_change_mtu		= eth_change_mtu,
 #ifdef CONFIG_NET_POLL_CONTROLLER
 	.ndo_poll_controller	= ei_poll,
-=======
-	.ndo_start_xmit		= __ei_start_xmit,
-	.ndo_tx_timeout		= __ei_tx_timeout,
-	.ndo_get_stats		= __ei_get_stats,
-	.ndo_set_multicast_list = __ei_set_multicast_list,
-	.ndo_validate_addr	= eth_validate_addr,
-	.ndo_set_mac_address	= eth_mac_addr,
-	.ndo_change_mtu		= eth_change_mtu,
-#ifdef CONFIG_NET_POLL_CONTROLLER
-	.ndo_poll_controller	= __ei_poll,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 };
 
@@ -137,11 +125,7 @@ static int __devinit hydra_init(struct zorro_dev *z)
 	0x10, 0x12, 0x14, 0x16, 0x18, 0x1a, 0x1c, 0x1e,
     };
 
-<<<<<<< HEAD
     dev = alloc_ei_netdev();
-=======
-    dev = ____alloc_ei_netdev(0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
     if (!dev)
 	return -ENOMEM;
 

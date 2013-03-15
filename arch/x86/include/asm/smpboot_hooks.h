@@ -34,11 +34,7 @@ static inline void smpboot_restore_warm_reset_vector(void)
 	 */
 	CMOS_WRITE(0, 0xf);
 
-<<<<<<< HEAD
 	*((volatile long *)phys_to_virt(apic->trampoline_phys_low)) = 0;
-=======
-	*((volatile u32 *)phys_to_virt(apic->trampoline_phys_low)) = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void __init smpboot_setup_io_apic(void)

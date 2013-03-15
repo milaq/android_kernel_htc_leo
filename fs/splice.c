@@ -365,7 +365,6 @@ __generic_file_splice_read(struct file *in, loff_t *ppos,
 		 * If the page isn't uptodate, we may need to start io on it
 		 */
 		if (!PageUptodate(page)) {
-<<<<<<< HEAD
 			/*
 			 * If in nonblock mode then dont block on waiting
 			 * for an in-flight io page
@@ -377,9 +376,6 @@ __generic_file_splice_read(struct file *in, loff_t *ppos,
 				}
 			} else
 				lock_page(page);
-=======
-			lock_page(page);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 			/*
 			 * Page was truncated, or invalidated by the
@@ -652,17 +648,9 @@ static int pipe_to_sendpage(struct pipe_inode_info *pipe,
 	ret = buf->ops->confirm(pipe, buf);
 	if (!ret) {
 		more = (sd->flags & SPLICE_F_MORE) || sd->len < sd->total_len;
-<<<<<<< HEAD
 
 		ret = file->f_op->sendpage(file, buf->page, buf->offset,
 					   sd->len, &pos, more);
-=======
-		if (file->f_op && file->f_op->sendpage)
-			ret = file->f_op->sendpage(file, buf->page, buf->offset,
-						   sd->len, &pos, more);
-		else
-			ret = -EINVAL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return ret;
@@ -1080,14 +1068,8 @@ static long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
 	if (unlikely(ret < 0))
 		return ret;
 
-<<<<<<< HEAD
 	splice_write = out->f_op->splice_write;
 	if (!splice_write)
-=======
-	if (out->f_op && out->f_op->splice_write)
-		splice_write = out->f_op->splice_write;
-	else
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		splice_write = default_file_splice_write;
 
 	return splice_write(pipe, out, ppos, len, flags);
@@ -1111,14 +1093,8 @@ static long do_splice_to(struct file *in, loff_t *ppos,
 	if (unlikely(ret < 0))
 		return ret;
 
-<<<<<<< HEAD
 	splice_read = in->f_op->splice_read;
 	if (!splice_read)
-=======
-	if (in->f_op && in->f_op->splice_read)
-		splice_read = in->f_op->splice_read;
-	else
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		splice_read = default_file_splice_read;
 
 	return splice_read(in, ppos, pipe, len, flags);
@@ -1251,12 +1227,7 @@ static int direct_splice_actor(struct pipe_inode_info *pipe,
 {
 	struct file *file = sd->u.file;
 
-<<<<<<< HEAD
 	return do_splice_from(pipe, file, &sd->pos, sd->total_len, sd->flags);
-=======
-	return do_splice_from(pipe, file, &file->f_pos, sd->total_len,
-			      sd->flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
@@ -1345,12 +1316,7 @@ static long do_splice(struct file *in, loff_t __user *off_in,
 		if (off_in)
 			return -ESPIPE;
 		if (off_out) {
-<<<<<<< HEAD
 			if (out->f_op->llseek == no_llseek)
-=======
-			if (!out->f_op || !out->f_op->llseek ||
-			    out->f_op->llseek == no_llseek)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return -EINVAL;
 			if (copy_from_user(&offset, off_out, sizeof(loff_t)))
 				return -EFAULT;
@@ -1370,12 +1336,7 @@ static long do_splice(struct file *in, loff_t __user *off_in,
 		if (off_out)
 			return -ESPIPE;
 		if (off_in) {
-<<<<<<< HEAD
 			if (in->f_op->llseek == no_llseek)
-=======
-			if (!in->f_op || !in->f_op->llseek ||
-			    in->f_op->llseek == no_llseek)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return -EINVAL;
 			if (copy_from_user(&offset, off_in, sizeof(loff_t)))
 				return -EFAULT;

@@ -172,11 +172,7 @@ static inline void task_state(struct seq_file *m, struct pid_namespace *ns,
 		if (tracer)
 			tpid = task_pid_nr_ns(tracer, ns);
 	}
-<<<<<<< HEAD
 	cred = get_cred((struct cred *) __task_cred(p));
-=======
-	cred = get_task_cred(p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	seq_printf(m,
 		"State:\t%s\n"
 		"Tgid:\t%d\n"
@@ -340,12 +336,9 @@ int proc_pid_status(struct seq_file *m, struct pid_namespace *ns,
 	task_sig(m, task);
 	task_cap(m, task);
 	cpuset_task_status_allowed(m, task);
-<<<<<<< HEAD
 #if defined(CONFIG_S390)
 	task_show_regs(m, task);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	task_context_switch_counts(m, task);
 	return 0;
 }
@@ -412,10 +405,7 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
 
 		/* add up live thread stats at the group level */
 		if (whole) {
-<<<<<<< HEAD
 			struct task_cputime cputime;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			struct task_struct *t = task;
 			do {
 				min_flt += t->min_flt;
@@ -426,13 +416,9 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
 
 			min_flt += sig->min_flt;
 			maj_flt += sig->maj_flt;
-<<<<<<< HEAD
 			thread_group_cputime(task, &cputime);
 			utime = cputime.utime;
 			stime = cputime.stime;
-=======
-			thread_group_times(task, &utime, &stime);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			gtime = cputime_add(gtime, sig->gtime);
 		}
 
@@ -468,11 +454,7 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
 
 	seq_printf(m, "%d (%s) %c %d %d %d %d %d %u %lu \
 %lu %lu %lu %lu %lu %ld %ld %ld %ld %d 0 %llu %lu %ld %lu %lu %lu %lu %lu \
-<<<<<<< HEAD
 %lu %lu %lu %lu %lu %lu %lu %lu %d %d %u %u %llu %lu %ld %lld\n",
-=======
-%lu %lu %lu %lu %lu %lu %lu %lu %d %d %u %u %llu %lu %ld\n",
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pid_nr_ns(pid, ns),
 		tcomm,
 		state,
@@ -497,13 +479,8 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
 		vsize,
 		mm ? get_mm_rss(mm) : 0,
 		rsslim,
-<<<<<<< HEAD
 		mm ? mm->start_code : 0,
 		mm ? mm->end_code : 0,
-=======
-		mm ? (permitted ? mm->start_code : 1) : 0,
-		mm ? (permitted ? mm->end_code : 1) : 0,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		(permitted && mm) ? mm->start_stack : 0,
 		esp,
 		eip,
@@ -524,12 +501,8 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
 		task->policy,
 		(unsigned long long)delayacct_blkio_ticks(task),
 		cputime_to_clock_t(gtime),
-<<<<<<< HEAD
 		cputime_to_clock_t(cgtime),
                 cputime64_to_clock_t(task->iowait));
-=======
-		cputime_to_clock_t(cgtime));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (mm)
 		mmput(mm);
 	return 0;

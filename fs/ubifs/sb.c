@@ -474,12 +474,7 @@ failed:
  * @c: UBIFS file-system description object
  *
  * This function returns a pointer to the superblock node or a negative error
-<<<<<<< HEAD
  * code.
-=======
- * code. Note, the user of this function is responsible of kfree()'ing the
- * returned superblock buffer.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 struct ubifs_sb_node *ubifs_read_sb_node(struct ubifs_info *c)
 {

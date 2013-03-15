@@ -24,10 +24,7 @@
 #include <linux/kernel_stat.h>
 #include <linux/slab.h>
 #include <linux/ptrace.h>
-<<<<<<< HEAD
 #include <linux/random.h>	/* for rand_initialize_irq() */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/signal.h>
 #include <linux/smp.h>
 #include <linux/threads.h>

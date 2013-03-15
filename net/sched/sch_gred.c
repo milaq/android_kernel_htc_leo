@@ -544,16 +544,11 @@ static int gred_dump(struct Qdisc *sch, struct sk_buff *skb)
 		opt.packets	= q->packetsin;
 		opt.bytesin	= q->bytesin;
 
-<<<<<<< HEAD
 		if (gred_wred_mode(table)) {
 			q->parms.qidlestart =
 				table->tab[table->def]->parms.qidlestart;
 			q->parms.qavg = table->tab[table->def]->parms.qavg;
 		}
-=======
-		if (gred_wred_mode(table))
-			gred_load_wred_set(table, q);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		opt.qave = red_calc_qavg(&q->parms, q->parms.qavg);
 

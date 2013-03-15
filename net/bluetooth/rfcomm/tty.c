@@ -844,13 +844,10 @@ static int rfcomm_tty_ioctl(struct tty_struct *tty, struct file *filp, unsigned 
 		BT_DBG("TIOCMIWAIT");
 		break;
 
-<<<<<<< HEAD
 	case TIOCGICOUNT:
 		BT_DBG("TIOCGICOUNT");
 		break;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case TIOCGSERIAL:
 		BT_ERR("TIOCGSERIAL is not supported");
 		return -ENOIOCTLCMD;

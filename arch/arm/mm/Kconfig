@@ -576,12 +576,9 @@ config CPU_TLB_V6
 config CPU_TLB_V7
 	bool
 
-<<<<<<< HEAD
 config VERIFY_PERMISSION_FAULT
 	bool
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif
 
 config CPU_HAS_ASID
@@ -764,11 +761,7 @@ config CACHE_FEROCEON_L2_WRITETHROUGH
 config CACHE_L2X0
 	bool "Enable the L2x0 outer cache controller"
 	depends on REALVIEW_EB_ARM11MP || MACH_REALVIEW_PB11MP || MACH_REALVIEW_PB1176 || \
-<<<<<<< HEAD
 		   REALVIEW_EB_A9MP || ARCH_MX35 || ARCH_MX31 || MACH_REALVIEW_PBX || ARCH_NOMADIK || ARCH_MSM7227
-=======
-		   REALVIEW_EB_A9MP || ARCH_MX35 || ARCH_MX31 || MACH_REALVIEW_PBX || ARCH_NOMADIK
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default y
 	select OUTER_CACHE
 	help

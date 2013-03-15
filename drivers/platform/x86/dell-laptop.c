@@ -71,22 +71,6 @@ static const struct dmi_system_id __initdata dell_device_table[] = {
 			DMI_MATCH(DMI_CHASSIS_TYPE, "8"),
 		},
 	},
-<<<<<<< HEAD
-=======
-	{
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-			DMI_MATCH(DMI_CHASSIS_TYPE, "9"), /*Laptop*/
-		},
-	},
-	{
-		.ident = "Dell Computer Corporation",
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Computer Corporation"),
-			DMI_MATCH(DMI_CHASSIS_TYPE, "8"),
-		},
-	},
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ }
 };
 
@@ -413,8 +397,3 @@ MODULE_AUTHOR("Matthew Garrett <mjg@redhat.com>");
 MODULE_DESCRIPTION("Dell laptop driver");
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("dmi:*svnDellInc.:*:ct8:*");
-<<<<<<< HEAD
-=======
-MODULE_ALIAS("dmi:*svnDellInc.:*:ct9:*");
-MODULE_ALIAS("dmi:*svnDellComputerCorporation.:*:ct8:*");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

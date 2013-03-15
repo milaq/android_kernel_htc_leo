@@ -25,11 +25,7 @@
 #include <linux/libata.h>
 
 #define DRV_NAME	"pata_hpt3x2n"
-<<<<<<< HEAD
 #define DRV_VERSION	"0.3.8"
-=======
-#define DRV_VERSION	"0.3.9"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 enum {
 	HPT_PCI_FAST	=	(1 << 31),
@@ -456,15 +452,10 @@ static int hpt3x2n_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 		.port_ops = &hpt3x2n_port_ops
 	};
 	const struct ata_port_info *ppi[] = { &info, NULL };
-<<<<<<< HEAD
 
 	u8 irqmask;
 	u32 class_rev;
 
-=======
-	u8 rev = dev->revision;
-	u8 irqmask;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned int pci_mhz;
 	unsigned int f_low, f_high;
 	int adjust;
@@ -476,7 +467,6 @@ static int hpt3x2n_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 	if (rc)
 		return rc;
 
-<<<<<<< HEAD
 	pci_read_config_dword(dev, PCI_CLASS_REVISION, &class_rev);
 	class_rev &= 0xFF;
 
@@ -487,33 +477,16 @@ static int hpt3x2n_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 			break;
 		case PCI_DEVICE_ID_TTI_HPT371:
 			if (class_rev < 2)
-=======
-	switch(dev->device) {
-		case PCI_DEVICE_ID_TTI_HPT366:
-			if (rev < 6)
-				return -ENODEV;
-			break;
-		case PCI_DEVICE_ID_TTI_HPT371:
-			if (rev < 2)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return -ENODEV;
 			/* 371N if rev > 1 */
 			break;
 		case PCI_DEVICE_ID_TTI_HPT372:
 			/* 372N if rev >= 2*/
-<<<<<<< HEAD
 			if (class_rev < 2)
 				return -ENODEV;
 			break;
 		case PCI_DEVICE_ID_TTI_HPT302:
 			if (class_rev < 2)
-=======
-			if (rev < 2)
-				return -ENODEV;
-			break;
-		case PCI_DEVICE_ID_TTI_HPT302:
-			if (rev < 2)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				return -ENODEV;
 			break;
 		case PCI_DEVICE_ID_TTI_HPT372N:
@@ -574,7 +547,6 @@ static int hpt3x2n_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 	       pci_mhz);
 	/* Set our private data up. We only need a few flags so we use
 	   it directly */
-<<<<<<< HEAD
 	if (pci_mhz > 60) {
 		hpriv = (void *)(PCI66 | USE_DPLL);
 		/*
@@ -585,18 +557,6 @@ static int hpt3x2n_init_one(struct pci_dev *dev, const struct pci_device_id *id)
 		if (dev->device == PCI_DEVICE_ID_TTI_HPT371)
 			outb(inb(iobase + 0x9c) | 0x04, iobase + 0x9c);
 	}
-=======
-	if (pci_mhz > 60)
-		hpriv = (void *)(PCI66 | USE_DPLL);
-
-	/*
-	 * On  HPT371N, if ATA clock is 66 MHz we must set bit 2 in
-	 * the MISC. register to stretch the UltraDMA Tss timing.
-	 * NOTE: This register is only writeable via I/O space.
-	 */
-	if (dev->device == PCI_DEVICE_ID_TTI_HPT371)
-		outb(inb(iobase + 0x9c) | 0x04, iobase + 0x9c);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Now kick off ATA set up */
 	return ata_pci_sff_init_one(dev, ppi, &hpt3x2n_sht, hpriv);

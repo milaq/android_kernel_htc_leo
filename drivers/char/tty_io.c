@@ -96,10 +96,6 @@
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/seq_file.h>
-<<<<<<< HEAD
-=======
-#include <linux/serial.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <linux/uaccess.h>
 #include <asm/system.h>
@@ -2440,23 +2436,6 @@ static int tty_tiocmset(struct tty_struct *tty, struct file *file, unsigned int 
 	return tty->ops->tiocmset(tty, file, set, clear);
 }
 
-<<<<<<< HEAD
-=======
-static int tty_tiocgicount(struct tty_struct *tty, void __user *arg)
-{
-	int retval = -EINVAL;
-	struct serial_icounter_struct icount;
-	memset(&icount, 0, sizeof(icount));
-	if (tty->ops->get_icount)
-		retval = tty->ops->get_icount(tty, &icount);
-	if (retval != 0)
-		return retval;
-	if (copy_to_user(arg, &icount, sizeof(icount)))
-		return -EFAULT;
-	return 0;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct tty_struct *tty_pair_get_tty(struct tty_struct *tty)
 {
 	if (tty->driver->type == TTY_DRIVER_TYPE_PTY &&
@@ -2577,15 +2556,6 @@ long tty_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case TIOCMBIC:
 	case TIOCMBIS:
 		return tty_tiocmset(tty, file, cmd, p);
-<<<<<<< HEAD
-=======
-	case TIOCGICOUNT:
-		retval = tty_tiocgicount(tty, p);
-		/* For the moment allow fall through to the old method */
-        	if (retval != -EINVAL)
-			return retval;
-		break;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case TCFLSH:
 		switch (arg) {
 		case TCIFLUSH:

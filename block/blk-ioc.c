@@ -66,7 +66,6 @@ static void cfq_exit(struct io_context *ioc)
 }
 
 /* Called by the exitting task */
-<<<<<<< HEAD
 void exit_io_context(void)
 {
 	struct io_context *ioc;
@@ -75,29 +74,14 @@ void exit_io_context(void)
 	ioc = current->io_context;
 	current->io_context = NULL;
 	task_unlock(current);
-=======
-void exit_io_context(struct task_struct *task)
-{
-	struct io_context *ioc;
-
-	task_lock(task);
-	ioc = task->io_context;
-	task->io_context = NULL;
-	task_unlock(task);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (atomic_dec_and_test(&ioc->nr_tasks)) {
 		if (ioc->aic && ioc->aic->exit)
 			ioc->aic->exit(ioc->aic);
 		cfq_exit(ioc);
 
-<<<<<<< HEAD
 		put_io_context(ioc);
 	}
-=======
-	}
-	put_io_context(ioc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 struct io_context *alloc_io_context(gfp_t gfp_flags, int node)

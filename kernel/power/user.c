@@ -113,15 +113,8 @@ static int snapshot_open(struct inode *inode, struct file *filp)
 		if (error)
 			pm_notifier_call_chain(PM_POST_RESTORE);
 	}
-<<<<<<< HEAD
 	if (error)
 		atomic_inc(&snapshot_device_available);
-=======
-	if (error) {
-		free_basic_memory_bitmaps();
-		atomic_inc(&snapshot_device_available);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	data->frozen = 0;
 	data->ready = 0;
 	data->platform_support = 0;
@@ -144,11 +137,7 @@ static int snapshot_release(struct inode *inode, struct file *filp)
 	free_all_swap_pages(data->swap);
 	if (data->frozen)
 		thaw_processes();
-<<<<<<< HEAD
 	pm_notifier_call_chain(data->mode == O_WRONLY ?
-=======
-	pm_notifier_call_chain(data->mode == O_RDONLY ?
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			PM_POST_HIBERNATION : PM_POST_RESTORE);
 	atomic_inc(&snapshot_device_available);
 

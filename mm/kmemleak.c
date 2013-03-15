@@ -1354,18 +1354,9 @@ static void *kmemleak_seq_next(struct seq_file *seq, void *v, loff_t *pos)
 	++(*pos);
 
 	list_for_each_continue_rcu(n, &object_list) {
-<<<<<<< HEAD
 		next_obj = list_entry(n, struct kmemleak_object, object_list);
 		if (get_object(next_obj))
 			break;
-=======
-		struct kmemleak_object *obj =
-			list_entry(n, struct kmemleak_object, object_list);
-		if (get_object(obj)) {
-			next_obj = obj;
-			break;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	put_object(prev_obj);

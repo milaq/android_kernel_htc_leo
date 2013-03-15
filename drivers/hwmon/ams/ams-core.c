@@ -213,11 +213,7 @@ int __init ams_init(void)
 	return -ENODEV;
 }
 
-<<<<<<< HEAD
 void ams_exit(void)
-=======
-void ams_sensor_detach(void)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	/* Remove input device */
 	ams_input_exit();
@@ -225,12 +221,9 @@ void ams_sensor_detach(void)
 	/* Remove attributes */
 	device_remove_file(&ams_info.of_dev->dev, &dev_attr_current);
 
-<<<<<<< HEAD
 	/* Shut down implementation */
 	ams_info.exit();
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Flush interrupt worker
 	 *
 	 * We do this after ams_info.exit(), because an interrupt might
@@ -246,15 +239,6 @@ void ams_sensor_detach(void)
 	pmf_unregister_irq_client(&ams_freefall_client);
 }
 
-<<<<<<< HEAD
-=======
-static void __exit ams_exit(void)
-{
-	/* Shut down implementation */
-	ams_info.exit();
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 MODULE_AUTHOR("Stelian Pop, Michael Hanselmann");
 MODULE_DESCRIPTION("Apple Motion Sensor driver");
 MODULE_LICENSE("GPL");

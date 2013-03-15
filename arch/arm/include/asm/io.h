@@ -185,15 +185,12 @@ extern void _memset_io(volatile void __iomem *, int, size_t);
 #define readsw(p,d,l)		__raw_readsw(__mem_pci(p),d,l)
 #define readsl(p,d,l)		__raw_readsl(__mem_pci(p),d,l)
 
-<<<<<<< HEAD
 #define writeb_relaxed(v,c)  ((void)__raw_writeb(v,__mem_pci(c)))
 #define writew_relaxed(v,c)  ((void)__raw_writew((__force u16) \
           cpu_to_le16(v),__mem_pci(c)))
 #define writel_relaxed(v,c)  ((void)__raw_writel((__force u32) \
           cpu_to_le32(v),__mem_pci(c)))
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define writeb(v,c)		__raw_writeb(v,__mem_pci(c))
 #define writew(v,c)		__raw_writew((__force __u16) \
 					cpu_to_le16(v),__mem_pci(c))
@@ -231,20 +228,14 @@ extern void _memset_io(volatile void __iomem *, int, size_t);
 #ifndef __arch_ioremap
 #define ioremap(cookie,size)		__arm_ioremap(cookie, size, MT_DEVICE)
 #define ioremap_nocache(cookie,size)	__arm_ioremap(cookie, size, MT_DEVICE)
-<<<<<<< HEAD
 #define ioremap_strongly_ordered(cookie,size)  __arm_ioremap(cookie, size, MT_DEVICE_STRONGLY_ORDERED)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define ioremap_cached(cookie,size)	__arm_ioremap(cookie, size, MT_DEVICE_CACHED)
 #define ioremap_wc(cookie,size)		__arm_ioremap(cookie, size, MT_DEVICE_WC)
 #define iounmap(cookie)			__iounmap(cookie)
 #else
 #define ioremap(cookie,size)		__arch_ioremap((cookie), (size), MT_DEVICE)
 #define ioremap_nocache(cookie,size)	__arch_ioremap((cookie), (size), MT_DEVICE)
-<<<<<<< HEAD
 #define ioremap_strongly_ordered(cookie,size)  __arch_ioremap((cookie), (size), MT_DEVICE_STRONGLY_ORDERED)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define ioremap_cached(cookie,size)	__arch_ioremap((cookie), (size), MT_DEVICE_CACHED)
 #define ioremap_wc(cookie,size)		__arch_ioremap((cookie), (size), MT_DEVICE_WC)
 #define iounmap(cookie)			__arch_iounmap(cookie)

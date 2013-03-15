@@ -27,11 +27,7 @@ v4wb_copy_user_page(void *kto, const void *kfrom)
 {
 	asm("\
 	stmfd	sp!, {r4, lr}			@ 2\n\
-<<<<<<< HEAD
 	mov	r2, %0				@ 1\n\
-=======
-	mov	r2, %2				@ 1\n\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ldmia	r1!, {r3, r4, ip, lr}		@ 4\n\
 1:	mcr	p15, 0, r0, c7, c6, 1		@ 1   invalidate D line\n\
 	stmia	r0!, {r3, r4, ip, lr}		@ 4\n\
@@ -48,11 +44,7 @@ v4wb_copy_user_page(void *kto, const void *kfrom)
 	mcr	p15, 0, r1, c7, c10, 4		@ 1   drain WB\n\
 	ldmfd	 sp!, {r4, pc}			@ 3"
 	:
-<<<<<<< HEAD
 	: "I" (PAGE_SIZE / 64));
-=======
-	: "r" (kto), "r" (kfrom), "I" (PAGE_SIZE / 64));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void v4wb_copy_user_highpage(struct page *to, struct page *from,

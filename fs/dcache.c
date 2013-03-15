@@ -1175,18 +1175,9 @@ struct dentry *d_obtain_alias(struct inode *inode)
 	spin_unlock(&tmp->d_lock);
 
 	spin_unlock(&dcache_lock);
-<<<<<<< HEAD
 	return tmp;
 
  out_iput:
-=======
-	security_d_instantiate(tmp, inode);
-	return tmp;
-
- out_iput:
-	if (res && !IS_ERR(res))
-		security_d_instantiate(res, inode);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	iput(inode);
 	return res;
 }

@@ -160,10 +160,6 @@ disable:
 	sdio_disable_func(func);
 release:
 	sdio_release_host(func);
-<<<<<<< HEAD
-=======
-	wl1251_free_hw(wl);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 

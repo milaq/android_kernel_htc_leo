@@ -113,10 +113,6 @@ int ima_add_template_entry(struct ima_template_entry *entry, int violation,
 		memcpy(digest, entry->digest, sizeof digest);
 		if (ima_lookup_digest_entry(digest)) {
 			audit_cause = "hash_exists";
-<<<<<<< HEAD
-=======
-			result = -EEXIST;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			goto out;
 		}
 	}

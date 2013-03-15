@@ -277,23 +277,11 @@ static struct kvm_timer_ops kpit_ops = {
 	.is_periodic = kpit_is_periodic,
 };
 
-<<<<<<< HEAD
 static void create_pit_timer(struct kvm_kpit_state *ps, u32 val, int is_period)
 {
 	struct kvm_timer *pt = &ps->pit_timer;
 	s64 interval;
 
-=======
-static void create_pit_timer(struct kvm *kvm, u32 val, int is_period)
-{
-	struct kvm_kpit_state *ps = &kvm->arch.vpit->pit_state;
-	struct kvm_timer *pt = &ps->pit_timer;
-	s64 interval;
-
-	if (!irqchip_in_kernel(kvm))
-		return;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	interval = muldiv64(val, NSEC_PER_SEC, KVM_PIT_FREQ);
 
 	pr_debug("pit: create pit timer, interval is %llu nsec\n", interval);
@@ -345,21 +333,13 @@ static void pit_load_count(struct kvm *kvm, int channel, u32 val)
         /* FIXME: enhance mode 4 precision */
 	case 4:
 		if (!(ps->flags & KVM_PIT_FLAGS_HPET_LEGACY)) {
-<<<<<<< HEAD
 			create_pit_timer(ps, val, 0);
-=======
-			create_pit_timer(kvm, val, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		break;
 	case 2:
 	case 3:
 		if (!(ps->flags & KVM_PIT_FLAGS_HPET_LEGACY)){
-<<<<<<< HEAD
 			create_pit_timer(ps, val, 1);
-=======
-			create_pit_timer(kvm, val, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		break;
 	default:

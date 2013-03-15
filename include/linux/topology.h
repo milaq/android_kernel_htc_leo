@@ -99,11 +99,7 @@ int arch_update_cpu_topology(void);
 				| 1*SD_WAKE_AFFINE			\
 				| 1*SD_SHARE_CPUPOWER			\
 				| 0*SD_POWERSAVINGS_BALANCE		\
-<<<<<<< HEAD
 				| 0*SD_SHARE_PKG_RESOURCES		\
-=======
-				| 1*SD_SHARE_PKG_RESOURCES		\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				| 0*SD_SERIALIZE			\
 				| 0*SD_PREFER_SIBLING			\
 				,					\

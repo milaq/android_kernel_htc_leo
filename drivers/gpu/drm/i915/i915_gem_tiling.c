@@ -353,7 +353,6 @@ i915_tiling_ok(struct drm_device *dev, int stride, int size, int tiling_mode)
 		 * reg, so dont bother to check the size */
 		if (stride / 128 > I965_FENCE_MAX_PITCH_VAL)
 			return false;
-<<<<<<< HEAD
 	} else if (IS_I9XX(dev)) {
 		uint32_t pitch_val = ffs(stride / tile_width) - 1;
 
@@ -369,19 +368,6 @@ i915_tiling_ok(struct drm_device *dev, int stride, int size, int tiling_mode)
 		if (pitch_val > I830_FENCE_MAX_PITCH_VAL ||
 		    size > (I830_FENCE_MAX_SIZE_VAL << 19))
 			return false;
-=======
-	} else if (IS_I9XX(dev) || IS_I8XX(dev)) {
-		if (stride > 8192)
-			return false;
-
-		if (IS_I9XX(dev)) {
-			if (size > I830_FENCE_MAX_SIZE_VAL << 20)
-				return false;
-		} else {
-			if (size > I830_FENCE_MAX_SIZE_VAL << 19)
-				return false;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* 965+ just needs multiples of tile width */

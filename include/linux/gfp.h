@@ -15,11 +15,7 @@ struct vm_area_struct;
  * Zone modifiers (see linux/mmzone.h - low three bits)
  *
  * Do not put any conditional on these. If necessary modify the definitions
-<<<<<<< HEAD
  * without the underscores and use them consistently. The definitions here may
-=======
- * without the underscores and use the consistently. The definitions here may
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * be used in bit comparisons.
  */
 #define __GFP_DMA	((__force gfp_t)0x01u)
@@ -34,12 +30,8 @@ struct vm_area_struct;
  * _might_ fail.  This depends upon the particular VM implementation.
  *
  * __GFP_NOFAIL: The VM implementation _must_ retry infinitely: the caller
-<<<<<<< HEAD
  * cannot handle allocation failures.  This modifier is deprecated and no new
  * users should be added.
-=======
- * cannot handle allocation failures.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * __GFP_NORETRY: The VM implementation must not retry indefinitely.
  *
@@ -92,10 +84,7 @@ struct vm_area_struct;
 #define GFP_HIGHUSER_MOVABLE	(__GFP_WAIT | __GFP_IO | __GFP_FS | \
 				 __GFP_HARDWALL | __GFP_HIGHMEM | \
 				 __GFP_MOVABLE)
-<<<<<<< HEAD
 #define GFP_IOFS	(__GFP_IO | __GFP_FS)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_NUMA
 #define GFP_THISNODE	(__GFP_THISNODE | __GFP_NOWARN | __GFP_NORETRY)
@@ -112,11 +101,7 @@ struct vm_area_struct;
 			__GFP_NORETRY|__GFP_NOMEMALLOC)
 
 /* Control slab gfp mask during early boot */
-<<<<<<< HEAD
 #define GFP_BOOT_MASK (__GFP_BITS_MASK & ~(__GFP_WAIT|__GFP_IO|__GFP_FS))
-=======
-#define GFP_BOOT_MASK __GFP_BITS_MASK & ~(__GFP_WAIT|__GFP_IO|__GFP_FS)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Control allocation constraints */
 #define GFP_CONSTRAINT_MASK (__GFP_HARDWALL|__GFP_THISNODE)
@@ -167,20 +152,12 @@ static inline int allocflags_to_migratetype(gfp_t gfp_flags)
  * GFP_ZONE_TABLE is a word size bitstring that is used for looking up the
  * zone to use given the lowest 4 bits of gfp_t. Entries are ZONE_SHIFT long
  * and there are 16 of them to cover all possible combinations of
-<<<<<<< HEAD
  * __GFP_DMA, __GFP_DMA32, __GFP_MOVABLE and __GFP_HIGHMEM.
-=======
- * __GFP_DMA, __GFP_DMA32, __GFP_MOVABLE and __GFP_HIGHMEM
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * The zone fallback order is MOVABLE=>HIGHMEM=>NORMAL=>DMA32=>DMA.
  * But GFP_MOVABLE is not only a zone specifier but also an allocation
  * policy. Therefore __GFP_MOVABLE plus another zone selector is valid.
-<<<<<<< HEAD
  * Only 1 bit of the lowest 3 bits (DMA,DMA32,HIGHMEM) can be set to "1".
-=======
- * Only 1bit of the lowest 3 bit (DMA,DMA32,HIGHMEM) can be set to "1".
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  *       bit       result
  *       =================
@@ -210,11 +187,7 @@ static inline int allocflags_to_migratetype(gfp_t gfp_flags)
 
 #define GFP_ZONE_TABLE ( \
 	(ZONE_NORMAL << 0 * ZONES_SHIFT)				\
-<<<<<<< HEAD
 	| (OPT_ZONE_DMA << __GFP_DMA * ZONES_SHIFT)			\
-=======
-	| (OPT_ZONE_DMA << __GFP_DMA * ZONES_SHIFT) 			\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	| (OPT_ZONE_HIGHMEM << __GFP_HIGHMEM * ZONES_SHIFT)		\
 	| (OPT_ZONE_DMA32 << __GFP_DMA32 * ZONES_SHIFT)			\
 	| (ZONE_NORMAL << __GFP_MOVABLE * ZONES_SHIFT)			\
@@ -224,11 +197,7 @@ static inline int allocflags_to_migratetype(gfp_t gfp_flags)
 )
 
 /*
-<<<<<<< HEAD
  * GFP_ZONE_BAD is a bitmap for all combinations of __GFP_DMA, __GFP_DMA32
-=======
- * GFP_ZONE_BAD is a bitmap for all combination of __GFP_DMA, __GFP_DMA32
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * __GFP_HIGHMEM and __GFP_MOVABLE that are not permitted. One flag per
  * entry starting with bit 0. Bit is set if the combination is not
  * allowed.
@@ -351,17 +320,10 @@ void *alloc_pages_exact(size_t size, gfp_t gfp_mask);
 void free_pages_exact(void *virt, size_t size);
 
 #define __get_free_page(gfp_mask) \
-<<<<<<< HEAD
 		__get_free_pages((gfp_mask), 0)
 
 #define __get_dma_pages(gfp_mask, order) \
 		__get_free_pages((gfp_mask) | GFP_DMA, (order))
-=======
-		__get_free_pages((gfp_mask),0)
-
-#define __get_dma_pages(gfp_mask, order) \
-		__get_free_pages((gfp_mask) | GFP_DMA,(order))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern void __free_pages(struct page *page, unsigned int order);
 extern void free_pages(unsigned long addr, unsigned int order);

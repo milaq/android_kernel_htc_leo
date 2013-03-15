@@ -4,11 +4,8 @@
  * Copyright (C) 2003-2005,2008 David Brownell
  * Copyright (C) 2003-2004 Robert Schwebel, Benedikt Spranger
  * Copyright (C) 2008 Nokia Corporation
-<<<<<<< HEAD
  * Copyright (C) 2009 Samsung Electronics
  *                    Author: Michal Nazarewicz (m.nazarewicz@samsung.com)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,17 +24,11 @@
 
 /* #define VERBOSE_DEBUG */
 
-<<<<<<< HEAD
 #include <linux/slab.h>
 #include <linux/kernel.h>
 #include <linux/platform_device.h>
 #include <linux/etherdevice.h>
 #include <linux/usb/android_composite.h>
-=======
-#include <linux/kernel.h>
-#include <linux/device.h>
-#include <linux/etherdevice.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/atomic.h>
 
@@ -96,11 +87,8 @@ struct f_rndis {
 	struct gether			port;
 	u8				ctrl_id, data_id;
 	u8				ethaddr[ETH_ALEN];
-<<<<<<< HEAD
 	u32  			vendorID;
 	const char 		*manufacturer;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int				config;
 
 	struct rndis_ep_descs		fs;
@@ -112,11 +100,8 @@ struct f_rndis {
 	atomic_t			notify_count;
 };
 
-<<<<<<< HEAD
 static char		manufacturer [10] = "HTC";
 static u32		vendorID = 0x0bb4;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline struct f_rndis *func_to_rndis(struct usb_function *f)
 {
 	return container_of(f, struct f_rndis, port.func);
@@ -149,7 +134,6 @@ static struct usb_interface_descriptor rndis_control_intf __initdata = {
 	/* .bInterfaceNumber = DYNAMIC */
 	/* status endpoint is optional; this could be patched later */
 	.bNumEndpoints =	1,
-<<<<<<< HEAD
 #ifdef CONFIG_USB_ANDROID_RNDIS_WCEIS
 	/* "Wireless" RNDIS; auto-detected by Windows */
 	.bInterfaceClass =	USB_CLASS_WIRELESS_CONTROLLER,
@@ -160,11 +144,6 @@ static struct usb_interface_descriptor rndis_control_intf __initdata = {
 	.bInterfaceSubClass =   USB_CDC_SUBCLASS_ACM,
 	.bInterfaceProtocol =   USB_CDC_ACM_PROTO_VENDOR,
 #endif
-=======
-	.bInterfaceClass =	USB_CLASS_COMM,
-	.bInterfaceSubClass =   USB_CDC_SUBCLASS_ACM,
-	.bInterfaceProtocol =   USB_CDC_ACM_PROTO_VENDOR,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* .iInterface = DYNAMIC */
 };
 
@@ -320,13 +299,10 @@ static struct usb_gadget_strings *rndis_strings[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_ANDROID_RNDIS
 static struct usb_ether_platform_data *rndis_pdata;
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*-------------------------------------------------------------------------*/
 
 static struct sk_buff *rndis_add_header(struct gether *port,
@@ -509,17 +485,10 @@ static int rndis_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 			usb_ep_disable(rndis->notify);
 		} else {
 			VDBG(cdev, "init rndis ctrl %d\n", intf);
-<<<<<<< HEAD
 		}
 		rndis->notify_desc = ep_choose(cdev->gadget,
 				rndis->hs.notify,
 				rndis->fs.notify);
-=======
-			rndis->notify_desc = ep_choose(cdev->gadget,
-					rndis->hs.notify,
-					rndis->fs.notify);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		usb_ep_enable(rndis->notify, rndis->notify_desc);
 		rndis->notify->driver_data = rndis;
 
@@ -533,19 +502,11 @@ static int rndis_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 
 		if (!rndis->port.in) {
 			DBG(cdev, "init rndis\n");
-<<<<<<< HEAD
 		}
 		rndis->port.in = ep_choose(cdev->gadget,
 				rndis->hs.in, rndis->fs.in);
 		rndis->port.out = ep_choose(cdev->gadget,
 				rndis->hs.out, rndis->fs.out);
-=======
-			rndis->port.in = ep_choose(cdev->gadget,
-					rndis->hs.in, rndis->fs.in);
-			rndis->port.out = ep_choose(cdev->gadget,
-					rndis->hs.out, rndis->fs.out);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Avoid ZLPs; they can be troublesome. */
 		rndis->port.is_zlp_ok = false;
@@ -743,20 +704,12 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
 	rndis_set_param_medium(rndis->config, NDIS_MEDIUM_802_3, 0);
 	rndis_set_host_mac(rndis->config, rndis->ethaddr);
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_ANDROID_RNDIS
 	if (rndis_pdata) {
 		if (rndis_set_param_vendor(rndis->config, rndis_pdata->vendorID,
 					rndis_pdata->vendorDescr))
 			goto fail;
 	}
-=======
-#if 0
-// FIXME
-	if (rndis_set_param_vendor(rndis->config, vendorID,
-				manufacturer))
-		goto fail0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 	/* NOTE:  all that is done without knowing or caring about
@@ -873,11 +826,8 @@ int __init rndis_bind_config(struct usb_configuration *c, u8 ethaddr[ETH_ALEN])
 		goto fail;
 
 	memcpy(rndis->ethaddr, ethaddr, ETH_ALEN);
-<<<<<<< HEAD
 	rndis->vendorID = vendorID;
 	rndis->manufacturer = manufacturer;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* RNDIS activates when the host changes this filter */
 	rndis->port.cdc_filter = 0;
@@ -896,14 +846,11 @@ int __init rndis_bind_config(struct usb_configuration *c, u8 ethaddr[ETH_ALEN])
 	rndis->port.func.setup = rndis_setup;
 	rndis->port.func.disable = rndis_disable;
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_ANDROID_RNDIS
 	/* start disabled */
 	rndis->port.func.hidden = 1;
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	status = usb_add_function(c, &rndis->port.func);
 	if (status) {
 		kfree(rndis);
@@ -912,7 +859,6 @@ fail:
 	}
 	return status;
 }
-<<<<<<< HEAD
 
 #ifdef CONFIG_USB_ANDROID_RNDIS
 #include "rndis.c"
@@ -964,5 +910,3 @@ static int __init init(void)
 module_init(init);
 
 #endif /* CONFIG_USB_ANDROID_RNDIS */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

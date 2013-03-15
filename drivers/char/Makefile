@@ -107,10 +107,7 @@ obj-$(CONFIG_IPMI_HANDLER)	+= ipmi/
 obj-$(CONFIG_HANGCHECK_TIMER)	+= hangcheck-timer.o
 obj-$(CONFIG_TCG_TPM)		+= tpm/
 
-<<<<<<< HEAD
 obj-$(CONFIG_DCC_TTY)		+= dcc_tty.o
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 obj-$(CONFIG_PS3_FLASH)		+= ps3flash.o
 
 obj-$(CONFIG_JS_RTC)		+= js-rtc.o

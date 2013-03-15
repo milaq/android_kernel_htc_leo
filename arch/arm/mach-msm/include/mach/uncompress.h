@@ -15,7 +15,6 @@
 
 #ifndef __ASM_ARCH_MSM_UNCOMPRESS_H
 
-<<<<<<< HEAD
 #include "linux/io.h"
 #include "mach/msm_iomap.h"
 
@@ -26,12 +25,6 @@ static void putc(int c)
 	while (!(readl(base + 0x08) & 0x04)) ;
 	writel(c, base + 0x0c);
 #endif
-=======
-#include "hardware.h"
-
-static void putc(int c)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static inline void flush(void)

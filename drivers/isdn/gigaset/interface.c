@@ -635,10 +635,7 @@ void gigaset_if_receive(struct cardstate *cs,
 	if ((tty = cs->tty) == NULL)
 		gig_dbg(DEBUG_ANY, "receive on closed device");
 	else {
-<<<<<<< HEAD
 		tty_buffer_request_room(tty, len);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		tty_insert_flip_string(tty, buffer, len);
 		tty_flip_buffer_push(tty);
 	}

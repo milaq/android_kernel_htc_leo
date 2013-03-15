@@ -337,7 +337,6 @@ static inline void LPD7_SMC_outsw (unsigned char* a, int r,
 #define SMC_outsl(a, r, p, l)	writesl((a) + (r), p, l)
 #define SMC_IRQ_FLAGS		(-1)	/* from resource */
 
-<<<<<<< HEAD
 #elif defined(CONFIG_ARCH_MSM)
 
 #define SMC_CAN_USE_8BIT	0
@@ -352,8 +351,6 @@ static inline void LPD7_SMC_outsw (unsigned char* a, int r,
 
 #define SMC_IRQ_FLAGS		IRQF_TRIGGER_HIGH
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #elif defined(CONFIG_MN10300)
 
 /*

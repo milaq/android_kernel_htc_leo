@@ -83,7 +83,6 @@ config NF_CONNTRACK_SECMARK
 
 	  If unsure, say 'N'.
 
-<<<<<<< HEAD
 config NF_CONNTRACK_ZONES
 	bool  'Connection tracking zones'
 	depends on NETFILTER_ADVANCED
@@ -97,8 +96,6 @@ config NF_CONNTRACK_ZONES
 
 	  If unsure, say `N'.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NF_CONNTRACK_EVENTS
 	bool "Connection tracking events"
 	depends on NETFILTER_ADVANCED
@@ -317,7 +314,6 @@ config NETFILTER_XTABLES
 
 if NETFILTER_XTABLES
 
-<<<<<<< HEAD
 comment "Xtables combined modules"
 
 config NETFILTER_XT_MARK
@@ -347,8 +343,6 @@ config NETFILTER_XT_CONNMARK
 	ctmark), similarly to the packet mark (nfmark). Using this
 	target and match, you can set and match on this mark.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 # alphabetically ordered list of targets
 
 config NETFILTER_XT_TARGET_CLASSIFY
@@ -367,23 +361,11 @@ config NETFILTER_XT_TARGET_CONNMARK
 	tristate  '"CONNMARK" target support'
 	depends on NF_CONNTRACK
 	depends on NETFILTER_ADVANCED
-<<<<<<< HEAD
 	select NETFILTER_XT_CONNMARK
 	---help---
 	This is a backwards-compat option for the user's convenience
 	(e.g. when running oldconfig). It selects
 	CONFIG_NETFILTER_XT_CONNMARK (combined connmark/CONNMARK module).
-=======
-	select NF_CONNTRACK_MARK
-	help
-	  This option adds a `CONNMARK' target, which allows one to manipulate
-	  the connection mark value.  Similar to the MARK target, but
-	  affects the connection mark value rather than the packet mark value.
-
-	  If you want to compile it as a module, say M here and read
-	  <file:Documentation/kbuild/modules.txt>.  The module will be called
-	  ipt_CONNMARK.  If unsure, say `N'.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config NETFILTER_XT_TARGET_CONNSECMARK
 	tristate '"CONNSECMARK" target support'
@@ -397,7 +379,6 @@ config NETFILTER_XT_TARGET_CONNSECMARK
 
 	  To compile it as a module, choose M here.  If unsure, say N.
 
-<<<<<<< HEAD
 config NETFILTER_XT_TARGET_CT
 	tristate '"CT" target support'
 	depends on NF_CONNTRACK
@@ -410,8 +391,6 @@ config NETFILTER_XT_TARGET_CT
 
 	  To compile it as a module, choose M here.  If unsure, say N.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETFILTER_XT_TARGET_DSCP
 	tristate '"DSCP" and "TOS" target support'
 	depends on IP_NF_MANGLE || IP6_NF_MANGLE
@@ -469,25 +448,12 @@ config NETFILTER_XT_TARGET_LED
 
 config NETFILTER_XT_TARGET_MARK
 	tristate '"MARK" target support'
-<<<<<<< HEAD
 	depends on NETFILTER_ADVANCED
 	select NETFILTER_XT_MARK
 	---help---
 	This is a backwards-compat option for the user's convenience
 	(e.g. when running oldconfig). It selects
 	CONFIG_NETFILTER_XT_MARK (combined mark/MARK module).
-=======
-	default m if NETFILTER_ADVANCED=n
-	help
-	  This option adds a `MARK' target, which allows you to create rules
-	  in the `mangle' table which alter the netfilter mark (nfmark) field
-	  associated with the packet prior to routing. This can change
-	  the routing method (see `Use netfilter MARK value as routing
-	  key') and can also be used by other subsystems to change their
-	  behavior.
-
-	  To compile it as a module, choose M here.  If unsure, say N.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config NETFILTER_XT_TARGET_NFLOG
 	tristate '"NFLOG" target support'
@@ -534,7 +500,6 @@ config NETFILTER_XT_TARGET_RATEEST
 
 	  To compile it as a module, choose M here.  If unsure, say N.
 
-<<<<<<< HEAD
 config NETFILTER_XT_TARGET_TEE
 	tristate '"TEE" - packet cloning to alternate destiantion'
 	depends on NETFILTER_ADVANCED
@@ -542,8 +507,6 @@ config NETFILTER_XT_TARGET_TEE
 	This option adds a "TEE" target with which a packet can be cloned and
 	this clone be rerouted to another nexthop.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETFILTER_XT_TARGET_TPROXY
 	tristate '"TPROXY" target support (EXPERIMENTAL)'
 	depends on EXPERIMENTAL
@@ -551,10 +514,7 @@ config NETFILTER_XT_TARGET_TPROXY
 	depends on NETFILTER_XTABLES
 	depends on NETFILTER_ADVANCED
 	select NF_DEFRAG_IPV4
-<<<<<<< HEAD
 	select NF_DEFRAG_IPV6 if IP6_NF_IPTABLES
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	help
 	  This option adds a `TPROXY' target, which is somewhat similar to
 	  REDIRECT.  It can only be used in the mangle table and is useful
@@ -671,22 +631,11 @@ config NETFILTER_XT_MATCH_CONNMARK
 	tristate  '"connmark" connection mark match support'
 	depends on NF_CONNTRACK
 	depends on NETFILTER_ADVANCED
-<<<<<<< HEAD
 	select NETFILTER_XT_CONNMARK
 	---help---
 	This is a backwards-compat option for the user's convenience
 	(e.g. when running oldconfig). It selects
 	CONFIG_NETFILTER_XT_CONNMARK (combined connmark/CONNMARK module).
-=======
-	select NF_CONNTRACK_MARK
-	help
-	  This option adds a `connmark' match, which allows you to match the
-	  connection mark value previously set for the session by `CONNMARK'. 
-
-	  If you want to compile it as a module, say M here and read
-	  <file:Documentation/kbuild/modules.txt>.  The module will be called
-	  ipt_connmark.  If unsure, say `N'.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config NETFILTER_XT_MATCH_CONNTRACK
 	tristate '"conntrack" connection tracking match support'
@@ -810,22 +759,12 @@ config NETFILTER_XT_MATCH_MAC
 
 config NETFILTER_XT_MATCH_MARK
 	tristate '"mark" match support'
-<<<<<<< HEAD
 	depends on NETFILTER_ADVANCED
 	select NETFILTER_XT_MARK
 	---help---
 	This is a backwards-compat option for the user's convenience
 	(e.g. when running oldconfig). It selects
 	CONFIG_NETFILTER_XT_MARK (combined mark/MARK module).
-=======
-	default m if NETFILTER_ADVANCED=n
-	help
-	  Netfilter mark matching allows you to match packets based on the
-	  `nfmark' value in the packet.  This can be set by the MARK target
-	  (see below).
-
-	  To compile it as a module, choose M here.  If unsure, say N.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 config NETFILTER_XT_MATCH_MULTIPORT
 	tristate '"multiport" Multiple port match support'
@@ -845,11 +784,8 @@ config NETFILTER_XT_MATCH_OWNER
 	based on who created the socket: the user or group. It is also
 	possible to check whether a socket actually exists.
 
-<<<<<<< HEAD
 	Conflicts with '"quota, tag, uid" match'
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETFILTER_XT_MATCH_POLICY
 	tristate 'IPsec "policy" match support'
 	depends on XFRM
@@ -883,7 +819,6 @@ config NETFILTER_XT_MATCH_PKTTYPE
 
 	  To compile it as a module, choose M here.  If unsure, say N.
 
-<<<<<<< HEAD
 config NETFILTER_XT_MATCH_QTAGUID
 	bool '"quota, tag, owner" match and stats support'
         depends on NETFILTER_XT_MATCH_SOCKET
@@ -900,8 +835,6 @@ config NETFILTER_XT_MATCH_QTAGUID
 
 	  If unsure, say `N'.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETFILTER_XT_MATCH_QUOTA
 	tristate '"quota" match support'
 	depends on NETFILTER_ADVANCED
@@ -912,7 +845,6 @@ config NETFILTER_XT_MATCH_QUOTA
 	  If you want to compile it as a module, say M here and read
 	  <file:Documentation/kbuild/modules.txt>.  If unsure, say `N'.
 
-<<<<<<< HEAD
 config NETFILTER_XT_MATCH_QUOTA2
 	tristate '"quota2" match support'
 	depends on NETFILTER_ADVANCED
@@ -937,8 +869,6 @@ config NETFILTER_XT_MATCH_QUOTA2_LOG
 
 	  If unsure, say `N'.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config NETFILTER_XT_MATCH_RATEEST
 	tristate '"rateest" match support'
 	depends on NETFILTER_ADVANCED
@@ -1001,10 +931,7 @@ config NETFILTER_XT_MATCH_SOCKET
 	depends on NETFILTER_ADVANCED
 	depends on !NF_CONNTRACK || NF_CONNTRACK
 	select NF_DEFRAG_IPV4
-<<<<<<< HEAD
 	select NF_DEFRAG_IPV6 if IP6_NF_IPTABLES
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	help
 	  This option adds a `socket' match, which can be used to match
 	  packets for which a TCP or UDP socket lookup finds a valid socket.

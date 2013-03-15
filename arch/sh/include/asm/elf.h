@@ -212,13 +212,7 @@ extern void __kernel_vsyscall;
 
 #define VSYSCALL_AUX_ENT					\
 	if (vdso_enabled)					\
-<<<<<<< HEAD
 		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_BASE);
-=======
-		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_BASE);	\
-	else							\
-		NEW_AUX_ENT(AT_IGNORE, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else
 #define VSYSCALL_AUX_ENT
 #endif /* CONFIG_VSYSCALL */
@@ -226,11 +220,7 @@ extern void __kernel_vsyscall;
 #ifdef CONFIG_SH_FPU
 #define FPU_AUX_ENT	NEW_AUX_ENT(AT_FPUCW, FPSCR_INIT)
 #else
-<<<<<<< HEAD
 #define FPU_AUX_ENT
-=======
-#define FPU_AUX_ENT	NEW_AUX_ENT(AT_IGNORE, 0)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 extern int l1i_cache_shape, l1d_cache_shape, l2_cache_shape;

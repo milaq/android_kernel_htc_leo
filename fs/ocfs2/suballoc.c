@@ -152,11 +152,7 @@ static u32 ocfs2_bits_per_group(struct ocfs2_chain_list *cl)
 
 #define do_error(fmt, ...)						\
 	do{								\
-<<<<<<< HEAD
 		if (clean_error)					\
-=======
-		if (resize)					\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			mlog(ML_ERROR, fmt "\n", ##__VA_ARGS__);	\
 		else							\
 			ocfs2_error(sb, fmt, ##__VA_ARGS__);		\
@@ -164,11 +160,7 @@ static u32 ocfs2_bits_per_group(struct ocfs2_chain_list *cl)
 
 static int ocfs2_validate_gd_self(struct super_block *sb,
 				  struct buffer_head *bh,
-<<<<<<< HEAD
 				  int clean_error)
-=======
-				  int resize)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct ocfs2_group_desc *gd = (struct ocfs2_group_desc *)bh->b_data;
 
@@ -219,11 +211,7 @@ static int ocfs2_validate_gd_self(struct super_block *sb,
 static int ocfs2_validate_gd_parent(struct super_block *sb,
 				    struct ocfs2_dinode *di,
 				    struct buffer_head *bh,
-<<<<<<< HEAD
 				    int clean_error)
-=======
-				    int resize)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	unsigned int max_bits;
 	struct ocfs2_group_desc *gd = (struct ocfs2_group_desc *)bh->b_data;
@@ -245,16 +233,8 @@ static int ocfs2_validate_gd_parent(struct super_block *sb,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (le16_to_cpu(gd->bg_chain) >=
 	    le16_to_cpu(di->id2.i_chain.cl_next_free_rec)) {
-=======
-	/* In resize, we may meet the case bg_chain == cl_next_free_rec. */
-	if ((le16_to_cpu(gd->bg_chain) >
-	     le16_to_cpu(di->id2.i_chain.cl_next_free_rec)) ||
-	    ((le16_to_cpu(gd->bg_chain) ==
-	     le16_to_cpu(di->id2.i_chain.cl_next_free_rec)) && !resize)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		do_error("Group descriptor #%llu has bad chain %u",
 			 (unsigned long long)bh->b_blocknr,
 			 le16_to_cpu(gd->bg_chain));

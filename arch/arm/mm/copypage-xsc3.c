@@ -34,11 +34,7 @@ xsc3_mc_copy_user_page(void *kto, const void *kfrom)
 {
 	asm("\
 	stmfd	sp!, {r4, r5, lr}		\n\
-<<<<<<< HEAD
 	mov	lr, %0				\n\
-=======
-	mov	lr, %2				\n\
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 						\n\
 	pld	[r1, #0]			\n\
 	pld	[r1, #32]			\n\
@@ -71,11 +67,7 @@ xsc3_mc_copy_user_page(void *kto, const void *kfrom)
 						\n\
 	ldmfd	sp!, {r4, r5, pc}"
 	:
-<<<<<<< HEAD
 	: "I" (PAGE_SIZE / 64 - 1));
-=======
-	: "r" (kto), "r" (kfrom), "I" (PAGE_SIZE / 64 - 1));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void xsc3_mc_copy_user_highpage(struct page *to, struct page *from,

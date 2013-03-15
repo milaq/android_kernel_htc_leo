@@ -158,17 +158,10 @@ __secondary_data:
  * registers.
  */
 __enable_mmu:
-<<<<<<< HEAD
 #ifdef CONFIG_ALLOW_CPU_ALIGNMENT
 	bic	r0, r0, #CR_A
 #else
 	orr  	r0, r0, #CR_A
-=======
-#ifdef CONFIG_ALIGNMENT_TRAP
-	orr	r0, r0, #CR_A
-#else
-	bic	r0, r0, #CR_A
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 #ifdef CONFIG_CPU_DCACHE_DISABLE
 	bic	r0, r0, #CR_C
@@ -179,15 +172,9 @@ __enable_mmu:
 #ifdef CONFIG_CPU_ICACHE_DISABLE
 	bic	r0, r0, #CR_I
 #endif
-<<<<<<< HEAD
 	mov	r5, #(domain_val(DOMAIN_USER, DOMAIN_CLIENT) | \
 		      domain_val(DOMAIN_KERNEL, DOMAIN_MANAGER) | \
 		      domain_val(DOMAIN_TABLE, DOMAIN_CLIENT) | \
-=======
-	mov	r5, #(domain_val(DOMAIN_USER, DOMAIN_MANAGER) | \
-		      domain_val(DOMAIN_KERNEL, DOMAIN_MANAGER) | \
-		      domain_val(DOMAIN_TABLE, DOMAIN_MANAGER) | \
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		      domain_val(DOMAIN_IO, DOMAIN_CLIENT))
 	mcr	p15, 0, r5, c3, c0, 0		@ load domain access register
 	mcr	p15, 0, r4, c2, c0, 0		@ load page table pointer

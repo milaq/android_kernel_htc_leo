@@ -201,15 +201,12 @@ static struct mem_type mem_types[] = {
 		.prot_sect	= PROT_SECT_DEVICE | PMD_SECT_S,
 		.domain		= DOMAIN_IO,
 	},
-<<<<<<< HEAD
 	[MT_DEVICE_STRONGLY_ORDERED] = {  /* Guaranteed strongly ordered */
 		.prot_pte       = PROT_PTE_DEVICE,
 		.prot_l1        = PMD_TYPE_TABLE,
 		.prot_sect      = PROT_SECT_DEVICE | PMD_SECT_UNCACHED,
 		.domain         = DOMAIN_IO,
 	},
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	[MT_DEVICE_NONSHARED] = { /* ARMv6 non-shared device */
 		.prot_pte	= PROT_PTE_DEVICE | L_PTE_MT_DEV_NONSHARED,
 		.prot_l1	= PMD_TYPE_TABLE,
@@ -673,11 +670,7 @@ void __init iotable_init(struct map_desc *io_desc, int nr)
 		create_mapping(io_desc + i);
 }
 
-<<<<<<< HEAD
 static unsigned long __initdata vmalloc_reserve = CONFIG_VMALLOC_RESERVE;
-=======
-static unsigned long __initdata vmalloc_reserve = SZ_128M;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * vmalloc=size forces the vmalloc area to be exactly 'size'
@@ -926,14 +919,11 @@ void __init reserve_node_zero(pg_data_t *pgdat)
 	 */
 	res_size = __pa(swapper_pg_dir) - PHYS_OFFSET;
 #endif
-<<<<<<< HEAD
 
 #ifdef CONFIG_ARCH_MSM_SCORPION
 	res_size = PAGE_SIZE; /* protect first page */
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (res_size)
 		reserve_bootmem_node(pgdat, PHYS_OFFSET, res_size,
 				BOOTMEM_DEFAULT);

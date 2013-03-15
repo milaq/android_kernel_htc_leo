@@ -128,11 +128,7 @@ int ebitmap_netlbl_export(struct ebitmap *ebmap,
 			cmap_idx = delta / NETLBL_CATMAP_MAPSIZE;
 			cmap_sft = delta % NETLBL_CATMAP_MAPSIZE;
 			c_iter->bitmap[cmap_idx]
-<<<<<<< HEAD
 				|= e_iter->maps[cmap_idx] << cmap_sft;
-=======
-				|= e_iter->maps[i] << cmap_sft;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		e_iter = e_iter->next;
 	}

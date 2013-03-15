@@ -653,10 +653,6 @@ struct transaction_s
 	 * waiting for it to finish.
 	 */
 	unsigned int t_synchronous_commit:1;
-<<<<<<< HEAD
-=======
-	unsigned int t_flushed_data_blocks:1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * For use by the filesystem to store fs-specific data

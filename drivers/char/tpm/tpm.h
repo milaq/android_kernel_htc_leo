@@ -56,11 +56,6 @@ extern ssize_t tpm_show_owned(struct device *, struct device_attribute *attr,
 				char *);
 extern ssize_t tpm_show_temp_deactivated(struct device *,
 					 struct device_attribute *attr, char *);
-<<<<<<< HEAD
-=======
-extern ssize_t tpm_show_timeouts(struct device *,
-				 struct device_attribute *attr, char *);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct tpm_chip;
 
@@ -229,10 +224,6 @@ struct	tpm_readpubek_params_out {
 	u8	algorithm[4];
 	u8	encscheme[2];
 	u8	sigscheme[2];
-<<<<<<< HEAD
-=======
-	__be32	paramsize;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u8	parameters[12]; /*assuming RSA*/
 	__be32	keysize;
 	u8	modulus[256];

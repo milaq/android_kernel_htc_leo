@@ -133,11 +133,7 @@ int ocfs2_lock(struct file *file, int cmd, struct file_lock *fl)
 
 	if (!(fl->fl_flags & FL_POSIX))
 		return -ENOLCK;
-<<<<<<< HEAD
 	if (__mandatory_lock(inode))
-=======
-	if (__mandatory_lock(inode) && fl->fl_type != F_UNLCK)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -ENOLCK;
 
 	return ocfs2_plock(osb->cconn, OCFS2_I(inode)->ip_blkno, file, cmd, fl);

@@ -2274,20 +2274,12 @@ xfs_rtmount_inodes(
 	sbp = &mp->m_sb;
 	if (sbp->sb_rbmino == NULLFSINO)
 		return 0;
-<<<<<<< HEAD
 	error = xfs_iget(mp, NULL, sbp->sb_rbmino, 0, 0, &mp->m_rbmip, 0);
-=======
-	error = xfs_iget(mp, NULL, sbp->sb_rbmino, 0, 0, &mp->m_rbmip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error)
 		return error;
 	ASSERT(mp->m_rbmip != NULL);
 	ASSERT(sbp->sb_rsumino != NULLFSINO);
-<<<<<<< HEAD
 	error = xfs_iget(mp, NULL, sbp->sb_rsumino, 0, 0, &mp->m_rsumip, 0);
-=======
-	error = xfs_iget(mp, NULL, sbp->sb_rsumino, 0, 0, &mp->m_rsumip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error) {
 		IRELE(mp->m_rbmip);
 		return error;

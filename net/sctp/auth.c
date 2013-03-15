@@ -542,30 +542,16 @@ struct sctp_hmac *sctp_auth_asoc_get_hmac(const struct sctp_association *asoc)
 		id = ntohs(hmacs->hmac_ids[i]);
 
 		/* Check the id is in the supported range */
-<<<<<<< HEAD
 		if (id > SCTP_AUTH_HMAC_ID_MAX)
 			continue;
-=======
-		if (id > SCTP_AUTH_HMAC_ID_MAX) {
-			id = 0;
-			continue;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* See is we support the id.  Supported IDs have name and
 		 * length fields set, so that we can allocated and use
 		 * them.  We can safely just check for name, for without the
 		 * name, we can't allocate the TFM.
 		 */
-<<<<<<< HEAD
 		if (!sctp_hmac_list[id].hmac_name)
 			continue;
-=======
-		if (!sctp_hmac_list[id].hmac_name) {
-			id = 0;
-			continue;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		break;
 	}

@@ -153,10 +153,6 @@ struct cred {
 extern void __put_cred(struct cred *);
 extern void exit_creds(struct task_struct *);
 extern int copy_creds(struct task_struct *, unsigned long);
-<<<<<<< HEAD
-=======
-extern const struct cred *get_task_cred(struct task_struct *);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern struct cred *cred_alloc_blank(void);
 extern struct cred *prepare_creds(void);
 extern struct cred *prepare_exec_creds(void);
@@ -287,7 +283,6 @@ static inline void put_cred(const struct cred *_cred)
 	((const struct cred *)(rcu_dereference((task)->real_cred)))
 
 /**
-<<<<<<< HEAD
  * get_task_cred - Get another task's objective credentials
  * @task: The task to query
  *
@@ -308,8 +303,6 @@ static inline void put_cred(const struct cred *_cred)
 })
 
 /**
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * get_current_cred - Get the current task's subjective credentials
  *
  * Get the subjective credentials of the current task, pinning them so that

@@ -273,11 +273,7 @@ static int nfs_sockaddr_match_ipaddr6(const struct sockaddr *sa1,
 	    sin1->sin6_scope_id != sin2->sin6_scope_id)
 		return 0;
 
-<<<<<<< HEAD
 	return ipv6_addr_equal(&sin1->sin6_addr, &sin1->sin6_addr);
-=======
-	return ipv6_addr_equal(&sin1->sin6_addr, &sin2->sin6_addr);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 #else	/* !defined(CONFIG_IPV6) && !defined(CONFIG_IPV6_MODULE) */
 static int nfs_sockaddr_match_ipaddr6(const struct sockaddr *sa1,
@@ -969,11 +965,6 @@ out_error:
 static void nfs_server_copy_userdata(struct nfs_server *target, struct nfs_server *source)
 {
 	target->flags = source->flags;
-<<<<<<< HEAD
-=======
-	target->rsize = source->rsize;
-	target->wsize = source->wsize;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	target->acregmin = source->acregmin;
 	target->acregmax = source->acregmax;
 	target->acdirmin = source->acdirmin;
@@ -1292,12 +1283,7 @@ static int nfs4_init_server(struct nfs_server *server,
 
 	/* Initialise the client representation from the mount data */
 	server->flags = data->flags;
-<<<<<<< HEAD
 	server->caps |= NFS_CAP_ATOMIC_OPEN|NFS_CAP_CHANGE_ATTR;
-=======
-	server->caps |= NFS_CAP_ATOMIC_OPEN|NFS_CAP_CHANGE_ATTR|
-		NFS_CAP_POSIX_LOCK;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	server->options = data->options;
 
 	/* Get a client record */

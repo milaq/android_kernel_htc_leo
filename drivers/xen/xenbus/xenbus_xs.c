@@ -499,11 +499,7 @@ int xenbus_printf(struct xenbus_transaction t,
 #define PRINTF_BUFFER_SIZE 4096
 	char *printf_buffer;
 
-<<<<<<< HEAD
 	printf_buffer = kmalloc(PRINTF_BUFFER_SIZE, GFP_KERNEL);
-=======
-	printf_buffer = kmalloc(PRINTF_BUFFER_SIZE, GFP_NOIO | __GFP_HIGH);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (printf_buffer == NULL)
 		return -ENOMEM;
 
@@ -770,15 +766,6 @@ static int process_msg(void)
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-	if (msg->hdr.len > XENSTORE_PAYLOAD_MAX) {
-		kfree(msg);
-		err = -EINVAL;
-		goto out;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	body = kmalloc(msg->hdr.len + 1, GFP_NOIO | __GFP_HIGH);
 	if (body == NULL) {
 		kfree(msg);

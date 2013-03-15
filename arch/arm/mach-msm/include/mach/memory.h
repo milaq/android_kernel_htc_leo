@@ -1,10 +1,7 @@
 /* arch/arm/mach-msm/include/mach/memory.h
  *
  * Copyright (C) 2007 Google, Inc.
-<<<<<<< HEAD
  * Copyright (c) 2009-2010, Code Aurora Forum. All rights reserved.
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -16,15 +13,10 @@
  * GNU General Public License for more details.
  *
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifndef __ASM_ARCH_MEMORY_H
 #define __ASM_ARCH_MEMORY_H
 
 /* physical offset of RAM */
-<<<<<<< HEAD
 #if defined(CONFIG_PHYS_OFFSET)
 #define PHYS_OFFSET		UL(CONFIG_PHYS_OFFSET)
 #elif defined(CONFIG_ARCH_QSD8X50)
@@ -102,9 +94,3 @@ extern void l2x0_cache_flush_all(void);
 #define MEMORY_ACTIVE		2
 
 #define NPA_MEMORY_NODE_NAME	"/mem/ebi1/cs1"
-=======
-#define PHYS_OFFSET		UL(0x10000000)
-
-#endif
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

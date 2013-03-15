@@ -311,18 +311,6 @@ is_gpt_valid(struct block_device *bdev, u64 lba,
 		goto fail;
 	}
 
-<<<<<<< HEAD
-=======
-	/* Check the GUID Partition Table header size */
-	if (le32_to_cpu((*gpt)->header_size) >
-			bdev_logical_block_size(bdev)) {
-		pr_debug("GUID Partition Table Header size is wrong: %u > %u\n",
-			le32_to_cpu((*gpt)->header_size),
-			bdev_logical_block_size(bdev));
-		goto fail;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Check the GUID Partition Table CRC */
 	origcrc = le32_to_cpu((*gpt)->header_crc32);
 	(*gpt)->header_crc32 = 0;
@@ -361,15 +349,6 @@ is_gpt_valid(struct block_device *bdev, u64 lba,
 		goto fail;
 	}
 
-<<<<<<< HEAD
-=======
-	/* Check that sizeof_partition_entry has the correct value */
-	if (le32_to_cpu((*gpt)->sizeof_partition_entry) != sizeof(gpt_entry)) {
-		pr_debug("GUID Partitition Entry Size check failed.\n");
-		goto fail;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!(*ptes = alloc_read_gpt_entries(bdev, *gpt)))
 		goto fail;
 

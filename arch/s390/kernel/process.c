@@ -32,10 +32,7 @@
 #include <linux/kernel_stat.h>
 #include <linux/syscalls.h>
 #include <linux/compat.h>
-<<<<<<< HEAD
 #include <asm/compat.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/uaccess.h>
 #include <asm/pgtable.h>
 #include <asm/system.h>

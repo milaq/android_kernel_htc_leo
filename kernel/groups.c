@@ -143,16 +143,10 @@ int groups_search(const struct group_info *group_info, gid_t grp)
 	right = group_info->ngroups;
 	while (left < right) {
 		unsigned int mid = (left+right)/2;
-<<<<<<< HEAD
 		int cmp = grp - GROUP_AT(group_info, mid);
 		if (cmp > 0)
 			left = mid + 1;
 		else if (cmp < 0)
-=======
-		if (grp > GROUP_AT(group_info, mid))
-			left = mid + 1;
-		else if (grp < GROUP_AT(group_info, mid))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			right = mid;
 		else
 			return 1;

@@ -1525,19 +1525,11 @@ struct em28xx_board em28xx_boards[] = {
 		.input           = { {
 			.type     = EM28XX_VMUX_COMPOSITE1,
 			.vmux     = SAA7115_COMPOSITE0,
-<<<<<<< HEAD
 			.amux     = EM28XX_AMUX_VIDEO2,
 		}, {
 			.type     = EM28XX_VMUX_SVIDEO,
 			.vmux     = SAA7115_SVIDEO3,
 			.amux     = EM28XX_AMUX_VIDEO2,
-=======
-			.amux     = EM28XX_AMUX_LINE_IN,
-		}, {
-			.type     = EM28XX_VMUX_SVIDEO,
-			.vmux     = SAA7115_SVIDEO3,
-			.amux     = EM28XX_AMUX_LINE_IN,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		} },
 	},
 	[EM2860_BOARD_TERRATEC_AV350] = {

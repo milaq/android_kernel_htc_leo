@@ -201,11 +201,7 @@ static void recent_table_flush(struct recent_table *t)
 }
 
 static bool
-<<<<<<< HEAD
 recent_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-recent_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_recent_mtinfo *info = par->matchinfo;
 	struct recent_table *t;
@@ -281,11 +277,7 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int recent_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool recent_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_recent_mtinfo *info = par->matchinfo;
 	struct recent_table *t;

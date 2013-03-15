@@ -49,10 +49,6 @@
 #include <linux/prefetch.h>
 #include <linux/zlib.h>
 #include <linux/io.h>
-<<<<<<< HEAD
-=======
-#include <linux/stringify.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 #include "bnx2x.h"
@@ -67,18 +63,8 @@
 #include <linux/firmware.h>
 #include "bnx2x_fw_file_hdr.h"
 /* FW files */
-<<<<<<< HEAD
 #define FW_FILE_PREFIX_E1	"bnx2x-e1-"
 #define FW_FILE_PREFIX_E1H	"bnx2x-e1h-"
-=======
-#define FW_FILE_VERSION					\
-	__stringify(BCM_5710_FW_MAJOR_VERSION) "."	\
-	__stringify(BCM_5710_FW_MINOR_VERSION) "."	\
-	__stringify(BCM_5710_FW_REVISION_VERSION) "."	\
-	__stringify(BCM_5710_FW_ENGINEERING_VERSION)
-#define FW_FILE_NAME_E1		"bnx2x-e1-" FW_FILE_VERSION ".fw"
-#define FW_FILE_NAME_E1H	"bnx2x-e1h-" FW_FILE_VERSION ".fw"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Time in jiffies before concluding the transmitter is hung */
 #define TX_TIMEOUT		(5*HZ)
@@ -91,11 +77,6 @@ MODULE_AUTHOR("Eliezer Tamir");
 MODULE_DESCRIPTION("Broadcom NetXtreme II BCM57710/57711/57711E Driver");
 MODULE_LICENSE("GPL");
 MODULE_VERSION(DRV_MODULE_VERSION);
-<<<<<<< HEAD
-=======
-MODULE_FIRMWARE(FW_FILE_NAME_E1);
-MODULE_FIRMWARE(FW_FILE_NAME_E1H);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static int multi_mode = 1;
 module_param(multi_mode, int, 0);
@@ -11849,7 +11830,6 @@ static inline void be16_to_cpu_n(const u8 *_source, u8 *_target, u32 n)
 
 static int __devinit bnx2x_init_firmware(struct bnx2x *bp, struct device *dev)
 {
-<<<<<<< HEAD
 	char fw_file_name[40] = {0};
 	struct bnx2x_fw_file_hdr *fw_hdr;
 	int rc, offset;
@@ -11865,16 +11845,6 @@ static int __devinit bnx2x_init_firmware(struct bnx2x *bp, struct device *dev)
 		BCM_5710_FW_MINOR_VERSION,
 		BCM_5710_FW_REVISION_VERSION,
 		BCM_5710_FW_ENGINEERING_VERSION);
-=======
-	const char *fw_file_name;
-	struct bnx2x_fw_file_hdr *fw_hdr;
-	int rc;
-
-	if (CHIP_IS_E1(bp))
-		fw_file_name = FW_FILE_NAME_E1;
-	else
-		fw_file_name = FW_FILE_NAME_E1H;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	printk(KERN_INFO PFX "Loading %s\n", fw_file_name);
 

@@ -21,10 +21,6 @@
 #include <linux/rwsem.h>
 #include <linux/rbtree.h>
 #include <linux/poll.h>
-<<<<<<< HEAD
-=======
-#include <linux/workqueue.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /** Max number of pages that can be used in a single read request */
 #define FUSE_MAX_PAGES_PER_REQ 32
@@ -79,12 +75,6 @@ struct fuse_inode {
 	    preserve the original mode */
 	mode_t orig_i_mode;
 
-<<<<<<< HEAD
-=======
-	/** 64 bit inode number */
-	u64 orig_ino;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/** Version of last attribute change */
 	u64 attr_version;
 
@@ -264,14 +254,7 @@ struct fuse_req {
 	union {
 		struct fuse_forget_in forget_in;
 		struct {
-<<<<<<< HEAD
 			struct fuse_release_in in;
-=======
-			union {
-				struct fuse_release_in in;
-				struct work_struct work;
-			};
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			struct path path;
 		} release;
 		struct fuse_init_in init_in;

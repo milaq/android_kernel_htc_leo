@@ -71,11 +71,7 @@ _GLOBAL(strcmp)
 
 _GLOBAL(strncmp)
 	PPC_LCMPI r5,0
-<<<<<<< HEAD
 	beqlr
-=======
-	ble-	2f
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mtctr	r5
 	addi	r5,r3,-1
 	addi	r4,r4,-1
@@ -86,11 +82,6 @@ _GLOBAL(strncmp)
 	beqlr	1
 	bdnzt	eq,1b
 	blr
-<<<<<<< HEAD
-=======
-2:	li	r3,0
-	blr
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 _GLOBAL(strlen)
 	addi	r4,r3,-1

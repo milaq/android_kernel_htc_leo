@@ -56,12 +56,6 @@ xfs_fs_geometry(
 	xfs_fsop_geom_t		*geo,
 	int			new_version)
 {
-<<<<<<< HEAD
-=======
-
-	memset(geo, 0, sizeof(*geo));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	geo->blocksize = mp->m_sb.sb_blocksize;
 	geo->rtextsize = mp->m_sb.sb_rextsize;
 	geo->agblocks = mp->m_sb.sb_agblocks;
@@ -617,11 +611,7 @@ xfs_fs_log_dummy(
 	xfs_inode_t	*ip;
 	int		error;
 
-<<<<<<< HEAD
 	tp = _xfs_trans_alloc(mp, XFS_TRANS_DUMMY1);
-=======
-	tp = _xfs_trans_alloc(mp, XFS_TRANS_DUMMY1, KM_SLEEP);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	error = xfs_trans_reserve(tp, 0, XFS_ICHANGE_LOG_RES(mp), 0, 0, 0);
 	if (error) {
 		xfs_trans_cancel(tp, 0);

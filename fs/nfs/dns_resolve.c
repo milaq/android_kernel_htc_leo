@@ -36,22 +36,6 @@ struct nfs_dns_ent {
 };
 
 
-<<<<<<< HEAD
-=======
-static void nfs_dns_ent_update(struct cache_head *cnew,
-		struct cache_head *ckey)
-{
-	struct nfs_dns_ent *new;
-	struct nfs_dns_ent *key;
-
-	new = container_of(cnew, struct nfs_dns_ent, h);
-	key = container_of(ckey, struct nfs_dns_ent, h);
-
-	memcpy(&new->addr, &key->addr, key->addrlen);
-	new->addrlen = key->addrlen;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void nfs_dns_ent_init(struct cache_head *cnew,
 		struct cache_head *ckey)
 {
@@ -65,12 +49,8 @@ static void nfs_dns_ent_init(struct cache_head *cnew,
 	new->hostname = kstrndup(key->hostname, key->namelen, GFP_KERNEL);
 	if (new->hostname) {
 		new->namelen = key->namelen;
-<<<<<<< HEAD
 		memcpy(&new->addr, &key->addr, key->addrlen);
 		new->addrlen = key->addrlen;
-=======
-		nfs_dns_ent_update(cnew, ckey);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else {
 		new->namelen = 0;
 		new->addrlen = 0;
@@ -254,11 +234,7 @@ static struct cache_detail nfs_dns_resolve = {
 	.cache_show = nfs_dns_show,
 	.match = nfs_dns_match,
 	.init = nfs_dns_ent_init,
-<<<<<<< HEAD
 	.update = nfs_dns_ent_init,
-=======
-	.update = nfs_dns_ent_update,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.alloc = nfs_dns_ent_alloc,
 };
 

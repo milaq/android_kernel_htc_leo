@@ -1,11 +1,7 @@
 VERSION = 2
 PATCHLEVEL = 6
 SUBLEVEL = 32
-<<<<<<< HEAD
 EXTRAVERSION = .15
-=======
-EXTRAVERSION = .60
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 NAME = Man-Eating Seals of Antiquity
 
 # *DOCUMENTATION*
@@ -165,11 +161,8 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
 				  -e s/sh[234].*/sh/ )
 
-<<<<<<< HEAD
 SUBARCH := arm
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 # Cross compiling and selecting different set of gcc/bin-utils
 # ---------------------------------------------------------------------------
 #
@@ -190,11 +183,7 @@ SUBARCH := arm
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= $(SUBARCH)
-<<<<<<< HEAD
 CROSS_COMPILE	?= arm-eabi-
-=======
-CROSS_COMPILE	?=
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -533,13 +522,10 @@ endif # $(dot-config)
 # Defaults vmlinux but it is usually overridden in the arch makefile
 all: vmlinux
 
-<<<<<<< HEAD
 #ifdef CONFIG_MACH_HTCLEO
 KBUILD_CFLAGS   += -march=armv7-a -mtune=cortex-a8 -mfpu=vfpv3
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
@@ -557,12 +543,6 @@ ifndef CONFIG_CC_STACKPROTECTOR
 KBUILD_CFLAGS += $(call cc-option, -fno-stack-protector)
 endif
 
-<<<<<<< HEAD
-=======
-# This warning generated too much noise in a regular build.
-KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 ifdef CONFIG_FRAME_POINTER
 KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
 else
@@ -591,11 +571,7 @@ CHECKFLAGS     += $(NOSTDINC_FLAGS)
 KBUILD_CFLAGS += $(call cc-option,-Wdeclaration-after-statement,)
 
 # disable pointer signed / unsigned warnings in gcc 4.0
-<<<<<<< HEAD
 KBUILD_CFLAGS += $(call cc-option,-Wno-pointer-sign,)
-=======
-KBUILD_CFLAGS += $(call cc-disable-warning, pointer-sign)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 # disable invalid "can't wrap" optimizations for signed / pointers
 KBUILD_CFLAGS	+= $(call cc-option,-fno-strict-overflow)

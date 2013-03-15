@@ -1,10 +1,6 @@
 /* arch/arm/mach-msm/proc_comm.h
  *
-<<<<<<< HEAD
  * Copyright (c) 2007-2009, Code Aurora Forum. All rights reserved.
-=======
- * Copyright (c) 2007 QUALCOMM Incorporated
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -20,7 +16,6 @@
 #ifndef _ARCH_ARM_MACH_MSM_PROC_COMM_H_
 #define _ARCH_ARM_MACH_MSM_PROC_COMM_H_
 
-<<<<<<< HEAD
 
 // Supported by LEO:
 // 
@@ -65,8 +60,6 @@
 // 106
 // 107
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 enum {
 	PCOM_CMD_IDLE = 0x0,
 	PCOM_CMD_DONE,
@@ -113,7 +106,6 @@ enum {
 	PCOM_RESET_CHIP_IMM,
 	PCOM_PM_VID_EN,
 	PCOM_VREG_PULLDOWN,
-<<<<<<< HEAD
 	PCOM_GET_MODEM_VERSION,
 	PCOM_CLK_REGIME_SEC_RESET,
 	PCOM_CLK_REGIME_SEC_RESET_ASSERT,
@@ -222,21 +214,6 @@ enum {
 
 /* List of VREGs that support the Pull Down Resistor setting. */
 enum vreg_pdown_id {
-=======
-	PCOM_NUM_CMDS,
-};
-
-enum {
-	 PCOM_INVALID_STATUS = 0x0,
-	 PCOM_READY,
-	 PCOM_CMD_RUNNING,
-	 PCOM_CMD_SUCCESS,
-	 PCOM_CMD_FAIL,
-};
-
-/* List of VREGs that support the Pull Down Resistor setting. */
-enum {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	PM_VREG_PDOWN_MSMA_ID,
 	PM_VREG_PDOWN_MSMP_ID,
 	PM_VREG_PDOWN_MSME1_ID,	/* Not supported in Panoramix */
@@ -293,14 +270,11 @@ enum {
 	PM_VREG_PDOWN_XO_ID = PM_VREG_PDOWN_TCXO_ID
 };
 
-<<<<<<< HEAD
 enum {
         PCOM_CLKRGM_APPS_RESET_USB_PHY  = 34,
         PCOM_CLKRGM_APPS_RESET_USBH     = 37,
 };
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* gpio info for PCOM_RPC_GPIO_TLMM_CONFIG_EX */
 
 #define GPIO_ENABLE	0
@@ -330,10 +304,7 @@ enum {
 		(((pull) & 0x3) << 15)		| \
 		(((drvstr) & 0xF) << 17))
 
-<<<<<<< HEAD
 void msm_proc_comm_reset_modem_now(void);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int msm_proc_comm(unsigned cmd, unsigned *data1, unsigned *data2);
 
 #endif

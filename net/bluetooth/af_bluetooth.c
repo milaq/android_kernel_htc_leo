@@ -41,7 +41,6 @@
 
 #include <net/bluetooth/bluetooth.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_ANDROID_PARANOID_NETWORK
 #include <linux/android_aid.h>
 #endif
@@ -51,8 +50,6 @@
 #define BT_DBG(D...)
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define VERSION "2.15"
 
 /* Bluetooth sockets */
@@ -138,7 +135,6 @@ int bt_sock_unregister(int proto)
 }
 EXPORT_SYMBOL(bt_sock_unregister);
 
-<<<<<<< HEAD
 #ifdef CONFIG_ANDROID_PARANOID_NETWORK
 static inline int current_has_bt_admin(void)
 {
@@ -161,13 +157,10 @@ static inline int current_has_bt(void)
 }
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int bt_sock_create(struct net *net, struct socket *sock, int proto)
 {
 	int err;
 
-<<<<<<< HEAD
 	if (proto == BTPROTO_RFCOMM || proto == BTPROTO_SCO ||
 			proto == BTPROTO_L2CAP) {
 		if (!current_has_bt())
@@ -175,8 +168,6 @@ static int bt_sock_create(struct net *net, struct socket *sock, int proto)
 	} else if (!current_has_bt_admin())
 		return -EPERM;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (net != &init_net)
 		return -EAFNOSUPPORT;
 

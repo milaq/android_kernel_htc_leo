@@ -247,11 +247,6 @@ void __init mips_pcibios_init(void)
 	iomem_resource.end &= 0xfffffffffULL;			/* 64 GB */
 	ioport_resource.end = controller->io_resource->end;
 
-<<<<<<< HEAD
-=======
-	controller->io_map_base = mips_io_port_base;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	register_pci_controller(controller);
 }
 

@@ -260,15 +260,9 @@ static int bf5xx_ac97_suspend(struct snd_soc_dai *dai)
 	pr_debug("%s : sport %d\n", __func__, dai->id);
 	if (!dai->active)
 		return 0;
-<<<<<<< HEAD
 	if (dai->capture.active)
 		sport_rx_stop(sport);
 	if (dai->playback.active)
-=======
-	if (dai->capture_active)
-		sport_rx_stop(sport);
-	if (dai->playback_active)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		sport_tx_stop(sport);
 	return 0;
 }

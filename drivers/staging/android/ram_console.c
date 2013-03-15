@@ -20,7 +20,6 @@
 #include <linux/proc_fs.h>
 #include <linux/string.h>
 #include <linux/uaccess.h>
-<<<<<<< HEAD
 #include <asm/io.h>
 
 #if defined(CONFIG_VERY_EARLY_CONSOLE)
@@ -30,9 +29,6 @@
  * It should work pretty early in the boot process, that why we use it */
 extern void create_mapping(struct map_desc *md);
 #endif
-=======
-#include <linux/io.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifdef CONFIG_ANDROID_RAM_CONSOLE_ERROR_CORRECTION
 #include <linux/rslib.h>
@@ -158,7 +154,6 @@ static struct console ram_console = {
 	.index	= -1,
 };
 
-<<<<<<< HEAD
 void ram_console_enable_console(int enabled)
 {
 	if (enabled)
@@ -167,8 +162,6 @@ void ram_console_enable_console(int enabled)
 		ram_console.flags &= ~CON_ENABLED;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void __init
 ram_console_save_old(struct ram_console_buffer *buffer, char *dest)
 {
@@ -323,7 +316,6 @@ static int __init ram_console_init(struct ram_console_buffer *buffer,
 }
 
 #ifdef CONFIG_ANDROID_RAM_CONSOLE_EARLY_INIT
-<<<<<<< HEAD
 
 #if defined(CONFIG_VERY_EARLY_CONSOLE)
 static bool ram_console_early_init_done = false;
@@ -339,10 +331,6 @@ int __init ram_console_early_init(void)
 static int __init ram_console_early_init(void)
 {
 #endif
-=======
-static int __init ram_console_early_init(void)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ram_console_init((struct ram_console_buffer *)
 		CONFIG_ANDROID_RAM_CONSOLE_EARLY_ADDR,
 		CONFIG_ANDROID_RAM_CONSOLE_EARLY_SIZE,
@@ -407,11 +395,7 @@ static ssize_t ram_console_read_old(struct file *file, char __user *buf,
 	return count;
 }
 
-<<<<<<< HEAD
 static struct file_operations ram_console_file_ops = {
-=======
-static const struct file_operations ram_console_file_ops = {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.owner = THIS_MODULE,
 	.read = ram_console_read_old,
 };
@@ -449,11 +433,7 @@ static int __init ram_console_late_init(void)
 #ifdef CONFIG_ANDROID_RAM_CONSOLE_EARLY_INIT
 console_initcall(ram_console_early_init);
 #else
-<<<<<<< HEAD
 postcore_initcall(ram_console_module_init);
-=======
-module_init(ram_console_module_init);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 late_initcall(ram_console_late_init);
 

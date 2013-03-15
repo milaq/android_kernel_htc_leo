@@ -112,24 +112,6 @@ nx_fw_cmd_set_mtu(struct netxen_adapter *adapter, int mtu)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-int
-nx_fw_cmd_set_gbe_port(struct netxen_adapter *adapter,
-	u32 speed, u32 duplex, u32 autoneg)
-{
-
-	return netxen_issue_cmd(adapter,
-		adapter->ahw.pci_func,
-		NXHAL_VERSION,
-		speed,
-		duplex,
-		autoneg,
-		NX_CDRP_CMD_CONFIG_GBE_PORT);
-
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int
 nx_fw_cmd_create_rx_ctx(struct netxen_adapter *adapter)
 {

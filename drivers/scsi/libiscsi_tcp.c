@@ -1069,12 +1069,7 @@ iscsi_tcp_conn_setup(struct iscsi_cls_session *cls_session, int dd_data_size,
 	struct iscsi_cls_conn *cls_conn;
 	struct iscsi_tcp_conn *tcp_conn;
 
-<<<<<<< HEAD
 	cls_conn = iscsi_conn_setup(cls_session, sizeof(*tcp_conn), conn_idx);
-=======
-	cls_conn = iscsi_conn_setup(cls_session,
-				    sizeof(*tcp_conn) + dd_data_size, conn_idx);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!cls_conn)
 		return NULL;
 	conn = cls_conn->dd_data;
@@ -1086,29 +1081,22 @@ iscsi_tcp_conn_setup(struct iscsi_cls_session *cls_session, int dd_data_size,
 
 	tcp_conn = conn->dd_data;
 	tcp_conn->iscsi_conn = conn;
-<<<<<<< HEAD
 
 	tcp_conn->dd_data = kzalloc(dd_data_size, GFP_KERNEL);
 	if (!tcp_conn->dd_data) {
 		iscsi_conn_teardown(cls_conn);
 		return NULL;
 	}
-=======
-	tcp_conn->dd_data = conn->dd_data + sizeof(*tcp_conn);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return cls_conn;
 }
 EXPORT_SYMBOL_GPL(iscsi_tcp_conn_setup);
 
 void iscsi_tcp_conn_teardown(struct iscsi_cls_conn *cls_conn)
 {
-<<<<<<< HEAD
 	struct iscsi_conn *conn = cls_conn->dd_data;
 	struct iscsi_tcp_conn *tcp_conn = conn->dd_data;
 
 	kfree(tcp_conn->dd_data);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	iscsi_conn_teardown(cls_conn);
 }
 EXPORT_SYMBOL_GPL(iscsi_tcp_conn_teardown);

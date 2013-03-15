@@ -38,11 +38,7 @@ MODULE_PARM_DESC(debug,
 	DEBSTATUS);
 
 #define DRIVER_VERSION "0.1"
-<<<<<<< HEAD
 #define DRIVER_NAME "Technisat/B2C2 FlexCop II/IIb/III Digital TV PCI Driver"
-=======
-#define DRIVER_NAME "flexcop-pci"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define DRIVER_AUTHOR "Patrick Boettcher <patrick.boettcher@desy.de>"
 
 struct flexcop_pci {

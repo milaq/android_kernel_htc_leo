@@ -800,21 +800,8 @@ inserted:
 			/* We need to allocate a new block */
 			ext3_fsblk_t goal = ext3_group_first_block_no(sb,
 						EXT3_I(inode)->i_block_group);
-<<<<<<< HEAD
 			ext3_fsblk_t block = ext3_new_block(handle, inode,
 							goal, &error);
-=======
-			ext3_fsblk_t block;
-
-			/*
-			 * Protect us agaist concurrent allocations to the
-			 * same inode from ext3_..._writepage(). Reservation
-			 * code does not expect racing allocations.
-			 */
-			mutex_lock(&EXT3_I(inode)->truncate_mutex);
-			block = ext3_new_block(handle, inode, goal, &error);
-			mutex_unlock(&EXT3_I(inode)->truncate_mutex);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (error)
 				goto cleanup;
 			ea_idebug(inode, "creating block %d", block);

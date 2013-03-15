@@ -1299,7 +1299,6 @@ static int dispatch_ioctl(struct client *client,
 	int ret;
 
 	if (_IOC_TYPE(cmd) != '#' ||
-<<<<<<< HEAD
 	    _IOC_NR(cmd) >= ARRAY_SIZE(ioctl_handlers))
 		return -EINVAL;
 
@@ -1308,34 +1307,16 @@ static int dispatch_ioctl(struct client *client,
 		    copy_from_user(buffer, arg, _IOC_SIZE(cmd)))
 			return -EFAULT;
 	}
-=======
-	    _IOC_NR(cmd) >= ARRAY_SIZE(ioctl_handlers) ||
-	    _IOC_SIZE(cmd) > sizeof(buffer))
-		return -EINVAL;
-
-	if (_IOC_DIR(cmd) == _IOC_READ)
-		memset(&buffer, 0, _IOC_SIZE(cmd));
-
-	if (_IOC_DIR(cmd) & _IOC_WRITE)
-		if (copy_from_user(buffer, arg, _IOC_SIZE(cmd)))
-			return -EFAULT;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ret = ioctl_handlers[_IOC_NR(cmd)](client, buffer);
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
 	if (_IOC_DIR(cmd) & _IOC_READ) {
 		if (_IOC_SIZE(cmd) > sizeof(buffer) ||
 		    copy_to_user(arg, buffer, _IOC_SIZE(cmd)))
 			return -EFAULT;
 	}
-=======
-	if (_IOC_DIR(cmd) & _IOC_READ)
-		if (copy_to_user(arg, buffer, _IOC_SIZE(cmd)))
-			return -EFAULT;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return ret;
 }

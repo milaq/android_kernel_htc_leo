@@ -126,11 +126,6 @@ static const struct hid_device_id cp_devices[] = {
 		.driver_data = CP_RDESC_SWAPPED_MIN_MAX },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYPRESS, USB_DEVICE_ID_CYPRESS_BARCODE_2),
 		.driver_data = CP_RDESC_SWAPPED_MIN_MAX },
-<<<<<<< HEAD
-=======
-	{ HID_USB_DEVICE(USB_VENDOR_ID_CYPRESS, USB_DEVICE_ID_CYPRESS_BARCODE_3),
-		.driver_data = CP_RDESC_SWAPPED_MIN_MAX },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYPRESS, USB_DEVICE_ID_CYPRESS_MOUSE),
 		.driver_data = CP_2WHEEL_MOUSE_HACK },
 	{ }

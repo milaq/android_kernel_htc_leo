@@ -38,11 +38,7 @@ static int create_rcom(struct dlm_ls *ls, int to_nodeid, int type, int len,
 	char *mb;
 	int mb_len = sizeof(struct dlm_rcom) + len;
 
-<<<<<<< HEAD
 	mh = dlm_lowcomms_get_buffer(to_nodeid, mb_len, ls->ls_allocation, &mb);
-=======
-	mh = dlm_lowcomms_get_buffer(to_nodeid, mb_len, GFP_NOFS, &mb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!mh) {
 		log_print("create_rcom to %d type %d len %d ENOBUFS",
 			  to_nodeid, type, len);

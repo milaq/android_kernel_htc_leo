@@ -281,11 +281,7 @@ clusterip_responsible(const struct clusterip_config *config, u_int32_t hash)
  ***********************************************************************/
 
 static unsigned int
-<<<<<<< HEAD
 clusterip_tg(struct sk_buff *skb, const struct xt_action_param *par)
-=======
-clusterip_tg(struct sk_buff *skb, const struct xt_target_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ipt_clusterip_tgt_info *cipinfo = par->targinfo;
 	struct nf_conn *ct;
@@ -323,20 +319,12 @@ clusterip_tg(struct sk_buff *skb, const struct xt_target_param *par)
 			ct->mark = hash;
 			break;
 		case IP_CT_RELATED:
-<<<<<<< HEAD
 		case IP_CT_RELATED_REPLY:
-=======
-		case IP_CT_RELATED+IP_CT_IS_REPLY:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/* FIXME: we don't handle expectations at the
 			 * moment.  they can arrive on a different node than
 			 * the master connection (e.g. FTP passive mode) */
 		case IP_CT_ESTABLISHED:
-<<<<<<< HEAD
 		case IP_CT_ESTABLISHED_REPLY:
-=======
-		case IP_CT_ESTABLISHED+IP_CT_IS_REPLY:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 		default:
 			break;

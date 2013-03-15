@@ -280,7 +280,6 @@ static void __ieee80211_wake_queue(struct ieee80211_hw *hw, int queue,
 		/* someone still has this queue stopped */
 		return;
 
-<<<<<<< HEAD
 	if (!skb_queue_empty(&local->pending[queue]))
 		tasklet_schedule(&local->tx_pending_tasklet);
 
@@ -288,15 +287,6 @@ static void __ieee80211_wake_queue(struct ieee80211_hw *hw, int queue,
 	list_for_each_entry_rcu(sdata, &local->interfaces, list)
 		netif_tx_wake_queue(netdev_get_tx_queue(sdata->dev, queue));
 	rcu_read_unlock();
-=======
-	if (skb_queue_empty(&local->pending[queue])) {
-		rcu_read_lock();
-		list_for_each_entry_rcu(sdata, &local->interfaces, list)
-			netif_tx_wake_queue(netdev_get_tx_queue(sdata->dev, queue));
-		rcu_read_unlock();
-	} else
-		tasklet_schedule(&local->tx_pending_tasklet);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void ieee80211_wake_queue_by_reason(struct ieee80211_hw *hw, int queue,
@@ -1147,17 +1137,6 @@ int ieee80211_reconfig(struct ieee80211_local *local)
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	rcu_read_lock();
-	if (hw->flags & IEEE80211_HW_AMPDU_AGGREGATION) {
-		list_for_each_entry_rcu(sta, &local->sta_list, list) {
-			ieee80211_sta_tear_down_BA_sessions(sta);
-		}
-	}
-	rcu_read_unlock();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* add back keys */
 	list_for_each_entry(sdata, &local->interfaces, list)
 		if (netif_running(sdata->dev))

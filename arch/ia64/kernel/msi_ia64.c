@@ -25,11 +25,7 @@ static int ia64_set_msi_irq_affinity(unsigned int irq,
 	if (irq_prepare_move(irq, cpu))
 		return -1;
 
-<<<<<<< HEAD
 	read_msi_msg(irq, &msg);
-=======
-	get_cached_msi_msg(irq, &msg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	addr = msg.address_lo;
 	addr &= MSI_ADDR_DEST_ID_MASK;

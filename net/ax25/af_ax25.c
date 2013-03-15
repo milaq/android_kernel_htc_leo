@@ -1391,10 +1391,6 @@ static int ax25_getname(struct socket *sock, struct sockaddr *uaddr,
 	ax25_cb *ax25;
 	int err = 0;
 
-<<<<<<< HEAD
-=======
-	memset(fsa, 0, sizeof(*fsa));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	lock_sock(sk);
 	ax25 = ax25_sk(sk);
 
@@ -1406,10 +1402,7 @@ static int ax25_getname(struct socket *sock, struct sockaddr *uaddr,
 
 		fsa->fsa_ax25.sax25_family = AF_AX25;
 		fsa->fsa_ax25.sax25_call   = ax25->dest_addr;
-<<<<<<< HEAD
 		fsa->fsa_ax25.sax25_ndigis = 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (ax25->digipeat != NULL) {
 			ndigi = ax25->digipeat->ndigi;

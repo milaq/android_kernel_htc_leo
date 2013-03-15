@@ -389,10 +389,7 @@ int mmc_spi_set_crc(struct mmc_host *host, int use_crc)
 int mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value)
 {
 	int err;
-<<<<<<< HEAD
 	int retries = 3;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct mmc_command cmd;
 	u32 status;
 
@@ -412,7 +409,6 @@ int mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value)
 	if (err)
 		return err;
 
-<<<<<<< HEAD
 	mmc_delay(1);
 	/* Must check status to be sure of no errors */
 	do {
@@ -425,22 +421,11 @@ int mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value)
 			continue;
 		}
 
-=======
-	/* Must check status to be sure of no errors */
-	do {
-		err = mmc_send_status(card, &status);
-		if (err)
-			return err;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (card->host->caps & MMC_CAP_WAIT_WHILE_BUSY)
 			break;
 		if (mmc_host_is_spi(card->host))
 			break;
-<<<<<<< HEAD
 	} while (retries && R1_CURRENT_STATE(status) == 7);
-=======
-	} while (R1_CURRENT_STATE(status) == 7);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (mmc_host_is_spi(card->host)) {
 		if (status & R1_SPI_ILLEGAL_COMMAND)

@@ -32,11 +32,8 @@
 static int irqs[] = {
 #ifdef CONFIG_ARCH_OMAP2
 	3,
-<<<<<<< HEAD
 #else defined(CONFIG_ARCH_MSM)
 	INT_ARM11_PMU,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 #ifdef CONFIG_ARCH_BCMRING
 	IRQ_PMUIRQ, /* for BCMRING, ARM PMU interrupt is 43 */

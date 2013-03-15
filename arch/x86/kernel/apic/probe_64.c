@@ -67,7 +67,6 @@ void __init default_setup_apic_routing(void)
 	}
 #endif
 
-<<<<<<< HEAD
 	if (apic == &apic_flat) {
 		switch (boot_cpu_data.x86_vendor) {
 		case X86_VENDOR_INTEL:
@@ -79,10 +78,6 @@ void __init default_setup_apic_routing(void)
 				apic = &apic_physflat;
 		}
 	}
-=======
-	if (apic == &apic_flat && num_possible_cpus() > 8)
-		apic = &apic_physflat;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	printk(KERN_INFO "Setting APIC routing to %s\n", apic->name);
 
@@ -90,7 +85,6 @@ void __init default_setup_apic_routing(void)
 		/* need to update phys_pkg_id */
 		apic->phys_pkg_id = apicid_phys_pkg_id;
 	}
-<<<<<<< HEAD
 
 	/*
 	 * Now that apic routing model is selected, configure the
@@ -98,8 +92,6 @@ void __init default_setup_apic_routing(void)
 	 */
 	if (intr_remapping_enabled)
 		enable_drhd_fault_handling();
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Same for both flat and physical. */

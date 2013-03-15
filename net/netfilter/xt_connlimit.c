@@ -28,10 +28,7 @@
 #include <net/netfilter/nf_conntrack.h>
 #include <net/netfilter/nf_conntrack_core.h>
 #include <net/netfilter/nf_conntrack_tuple.h>
-<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* we will save the tuples of all connections we care about */
 struct xt_connlimit_conn {
@@ -103,12 +100,8 @@ same_source_net(const union nf_inet_addr *addr,
 	}
 }
 
-<<<<<<< HEAD
 static int count_them(struct net *net,
 		      struct xt_connlimit_data *data,
-=======
-static int count_them(struct xt_connlimit_data *data,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		      const struct nf_conntrack_tuple *tuple,
 		      const union nf_inet_addr *addr,
 		      const union nf_inet_addr *mask,
@@ -131,12 +124,8 @@ static int count_them(struct xt_connlimit_data *data,
 
 	/* check the saved connections */
 	list_for_each_entry_safe(conn, tmp, hash, list) {
-<<<<<<< HEAD
 		found    = nf_conntrack_find_get(net, NF_CT_DEFAULT_ZONE,
 						 &conn->tuple);
-=======
-		found    = nf_conntrack_find_get(&init_net, &conn->tuple);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		found_ct = NULL;
 
 		if (found != NULL)
@@ -192,14 +181,9 @@ static int count_them(struct xt_connlimit_data *data,
 }
 
 static bool
-<<<<<<< HEAD
 connlimit_mt(const struct sk_buff *skb, const struct xt_action_param *par)
 {
 	struct net *net = dev_net(par->in ? par->in : par->out);
-=======
-connlimit_mt(const struct sk_buff *skb, const struct xt_match_param *par)
-{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	const struct xt_connlimit_info *info = par->matchinfo;
 	union nf_inet_addr addr;
 	struct nf_conntrack_tuple tuple;
@@ -224,11 +208,7 @@ connlimit_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	}
 
 	spin_lock_bh(&info->data->lock);
-<<<<<<< HEAD
 	connections = count_them(net, info->data, tuple_ptr, &addr,
-=======
-	connections = count_them(info->data, tuple_ptr, &addr,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	                         &info->mask, par->family);
 	spin_unlock_bh(&info->data->lock);
 
@@ -245,11 +225,7 @@ connlimit_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	return false;
 }
 
-<<<<<<< HEAD
 static int connlimit_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool connlimit_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_connlimit_info *info = par->matchinfo;
 	unsigned int i;

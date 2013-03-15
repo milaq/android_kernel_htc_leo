@@ -8,11 +8,7 @@ int midi_synth_open (int dev, int mode);
 void midi_synth_close (int dev);
 void midi_synth_hw_control (int dev, unsigned char *event);
 int midi_synth_load_patch (int dev, int format, const char __user * addr,
-<<<<<<< HEAD
 		 int offs, int count, int pmgr_flag);
-=======
-		 int count, int pmgr_flag);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void midi_synth_panning (int dev, int channel, int pressure);
 void midi_synth_aftertouch (int dev, int channel, int pressure);
 void midi_synth_controller (int dev, int channel, int ctrl_num, int value);

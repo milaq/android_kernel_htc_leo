@@ -112,11 +112,7 @@ int geth_bind_config(struct usb_configuration *c, u8 ethaddr[ETH_ALEN]);
 int ecm_bind_config(struct usb_configuration *c, u8 ethaddr[ETH_ALEN]);
 int eem_bind_config(struct usb_configuration *c);
 
-<<<<<<< HEAD
 #if defined(CONFIG_USB_ETH_RNDIS) || defined(CONFIG_USB_ANDROID_RNDIS)
-=======
-#ifdef CONFIG_USB_ETH_RNDIS
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int rndis_bind_config(struct usb_configuration *c, u8 ethaddr[ETH_ALEN]);
 

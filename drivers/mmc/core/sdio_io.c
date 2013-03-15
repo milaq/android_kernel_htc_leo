@@ -378,7 +378,6 @@ u8 sdio_readb(struct sdio_func *func, unsigned int addr, int *err_ret)
 EXPORT_SYMBOL_GPL(sdio_readb);
 
 /**
-<<<<<<< HEAD
  *	sdio_readb_ext - read a single byte from a SDIO function
  *	@func: SDIO function to access
  *	@addr: address to read
@@ -412,8 +411,6 @@ unsigned char sdio_readb_ext(struct sdio_func *func, unsigned int addr,
 EXPORT_SYMBOL_GPL(sdio_readb_ext);
 
 /**
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *	sdio_writeb - write a single byte to a SDIO function
  *	@func: SDIO function to access
  *	@b: byte to write
@@ -660,19 +657,13 @@ void sdio_f0_writeb(struct sdio_func *func, unsigned char b, unsigned int addr,
 
 	BUG_ON(!func);
 
-<<<<<<< HEAD
 #if 0
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if ((addr < 0xF0 || addr > 0xFF) && (!mmc_card_lenient_fn0(func->card))) {
 		if (err_ret)
 			*err_ret = -EINVAL;
 		return;
 	}
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ret = mmc_io_rw_direct(func->card, 1, 0, addr, b, NULL);
 	if (err_ret)

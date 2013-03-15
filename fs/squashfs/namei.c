@@ -175,14 +175,6 @@ static struct dentry *squashfs_lookup(struct inode *dir, struct dentry *dentry,
 		length += sizeof(dirh);
 
 		dir_count = le32_to_cpu(dirh.count) + 1;
-<<<<<<< HEAD
-=======
-
-		/* dir_count should never be larger than 256 */
-		if (dir_count > 256)
-			goto data_error;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		while (dir_count--) {
 			/*
 			 * Read directory entry.
@@ -194,13 +186,6 @@ static struct dentry *squashfs_lookup(struct inode *dir, struct dentry *dentry,
 
 			size = le16_to_cpu(dire->size) + 1;
 
-<<<<<<< HEAD
-=======
-			/* size should never be larger than SQUASHFS_NAME_LEN */
-			if (size > SQUASHFS_NAME_LEN)
-				goto data_error;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			err = squashfs_read_metadata(dir->i_sb, dire->name,
 					&block, &offset, size);
 			if (err < 0)
@@ -242,12 +227,6 @@ exit_lookup:
 	d_add(dentry, inode);
 	return ERR_PTR(0);
 
-<<<<<<< HEAD
-=======
-data_error:
-	err = -EIO;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 read_failure:
 	ERROR("Unable to read directory block [%llx:%x]\n",
 		squashfs_i(dir)->start + msblk->directory_table,

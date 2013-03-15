@@ -53,12 +53,6 @@ asmlinkage long compat_sys_mq_open(const char __user *u_name,
 	void __user *p = NULL;
 	if (u_attr && oflag & O_CREAT) {
 		struct mq_attr attr;
-<<<<<<< HEAD
-=======
-
-		memset(&attr, 0, sizeof(attr));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		p = compat_alloc_user_space(sizeof(attr));
 		if (get_compat_mq_attr(&attr, u_attr) ||
 		    copy_to_user(p, &attr, sizeof(attr)))
@@ -133,11 +127,6 @@ asmlinkage long compat_sys_mq_getsetattr(mqd_t mqdes,
 	struct mq_attr __user *p = compat_alloc_user_space(2 * sizeof(*p));
 	long ret;
 
-<<<<<<< HEAD
-=======
-	memset(&mqstat, 0, sizeof(mqstat));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (u_mqstat) {
 		if (get_compat_mq_attr(&mqstat, u_mqstat) ||
 		    copy_to_user(p, &mqstat, sizeof(mqstat)))

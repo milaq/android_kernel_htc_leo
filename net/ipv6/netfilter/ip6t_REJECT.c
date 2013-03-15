@@ -177,22 +177,12 @@ send_unreach(struct net *net, struct sk_buff *skb_in, unsigned char code,
 }
 
 static unsigned int
-<<<<<<< HEAD
 reject_tg6(struct sk_buff *skb, const struct xt_action_param *par)
-=======
-reject_tg6(struct sk_buff *skb, const struct xt_target_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ip6t_reject_info *reject = par->targinfo;
 	struct net *net = dev_net((par->in != NULL) ? par->in : par->out);
 
 	pr_debug("%s: medium point\n", __func__);
-<<<<<<< HEAD
-=======
-	/* WARNING: This code causes reentry within ip6tables.
-	   This means that the ip6tables jump stack is now crap.  We
-	   must return an absolute verdict. --RR */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	switch (reject->with) {
 	case IP6T_ICMP6_NO_ROUTE:
 		send_unreach(net, skb, ICMPV6_NOROUTE, par->hooknum);

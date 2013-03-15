@@ -723,7 +723,6 @@ ssetup_ntlmssp_authenticate:
 
 		/* calculate session key */
 		setup_ntlmv2_rsp(ses, v2_sess_key, nls_cp);
-<<<<<<< HEAD
 		if (first_time) /* should this be moved into common code
 				   with similar ntlmv2 path? */
 		/*   cifs_calculate_ntlmv2_mac_key(ses->server->mac_signing_key,
@@ -733,9 +732,6 @@ ssetup_ntlmssp_authenticate:
 
 	/*	memcpy(bcc_ptr, (char *)ntlm_session_key,LM2_SESS_KEY_SIZE);
 		bcc_ptr += LM2_SESS_KEY_SIZE; */
-=======
-		/* FIXME: calculate MAC key */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		memcpy(bcc_ptr, (char *)v2_sess_key,
 		       sizeof(struct ntlmv2_resp));
 		bcc_ptr += sizeof(struct ntlmv2_resp);
@@ -918,13 +914,7 @@ ssetup_ntlmssp_authenticate:
 	}
 
 	/* BB check if Unicode and decode strings */
-<<<<<<< HEAD
 	if (smb_buf->Flags2 & SMBFLG2_UNICODE) {
-=======
-	if (bytes_remaining == 0) {
-		/* no string area to decode, do nothing */
-	} else if (smb_buf->Flags2 & SMBFLG2_UNICODE) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* unicode string area must be word-aligned */
 		if (((unsigned long) bcc_ptr - (unsigned long) smb_buf) % 2) {
 			++bcc_ptr;

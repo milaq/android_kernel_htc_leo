@@ -971,11 +971,7 @@ static int mon_bin_ioctl(struct inode *inode, struct file *file,
 
 		mutex_lock(&rp->fetch_lock);
 		spin_lock_irqsave(&rp->b_lock, flags);
-<<<<<<< HEAD
 		mon_free_buff(rp->b_vec, size/CHUNK_SIZE);
-=======
-		mon_free_buff(rp->b_vec, rp->b_size/CHUNK_SIZE);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		kfree(rp->b_vec);
 		rp->b_vec  = vec;
 		rp->b_size = size;
@@ -1045,11 +1041,7 @@ static int mon_bin_ioctl(struct inode *inode, struct file *file,
 		nevents = mon_bin_queued(rp);
 
 		sp = (struct mon_bin_stats __user *)arg;
-<<<<<<< HEAD
 		if (put_user(rp->cnt_lost, &sp->dropped))
-=======
-		if (put_user(ndropped, &sp->dropped))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return -EFAULT;
 		if (put_user(nevents, &sp->queued))
 			return -EFAULT;

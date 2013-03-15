@@ -103,12 +103,6 @@ MODULE_PARM_DESC (ignore_oc, "ignore bogus hardware overcurrent indications");
 
 #define	INTR_MASK (STS_IAA | STS_FATAL | STS_PCD | STS_ERR | STS_INT)
 
-<<<<<<< HEAD
-=======
-/* for ASPM quirk of ISOC on AMD SB800 */
-static struct pci_dev *amd_nb_dev;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*-------------------------------------------------------------------------*/
 
 #include "ehci.h"
@@ -508,14 +502,6 @@ static void ehci_stop (struct usb_hcd *hcd)
 	spin_unlock_irq (&ehci->lock);
 	ehci_mem_cleanup (ehci);
 
-<<<<<<< HEAD
-=======
-	if (amd_nb_dev) {
-		pci_dev_put(amd_nb_dev);
-		amd_nb_dev = NULL;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef	EHCI_STATS
 	ehci_dbg (ehci, "irq normal %ld err %ld reclaim %ld (lost %ld)\n",
 		ehci->stats.normal, ehci->stats.error, ehci->stats.reclaim,
@@ -551,39 +537,17 @@ static int ehci_init(struct usb_hcd *hcd)
 	ehci->iaa_watchdog.function = ehci_iaa_watchdog;
 	ehci->iaa_watchdog.data = (unsigned long) ehci;
 
-<<<<<<< HEAD
-=======
-	hcc_params = ehci_readl(ehci, &ehci->caps->hcc_params);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * hw default: 1K periodic list heads, one per frame.
 	 * periodic_size can shrink by USBCMD update if hcc_params allows.
 	 */
 	ehci->periodic_size = DEFAULT_I_TDPS;
 	INIT_LIST_HEAD(&ehci->cached_itd_list);
-<<<<<<< HEAD
-=======
-	INIT_LIST_HEAD(&ehci->cached_sitd_list);
-
-	if (HCC_PGM_FRAMELISTLEN(hcc_params)) {
-		/* periodic schedule size can be smaller than default */
-		switch (EHCI_TUNE_FLS) {
-		case 0: ehci->periodic_size = 1024; break;
-		case 1: ehci->periodic_size = 512; break;
-		case 2: ehci->periodic_size = 256; break;
-		default:	BUG();
-		}
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if ((retval = ehci_mem_init(ehci, GFP_KERNEL)) < 0)
 		return retval;
 
 	/* controllers may cache some of the periodic schedule ... */
-<<<<<<< HEAD
 	hcc_params = ehci_readl(ehci, &ehci->caps->hcc_params);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (HCC_ISOC_CACHE(hcc_params))		// full frame cache
 		ehci->i_thresh = 8;
 	else					// N microframes cached
@@ -632,15 +596,12 @@ static int ehci_init(struct usb_hcd *hcd)
 		/* periodic schedule size can be smaller than default */
 		temp &= ~(3 << 2);
 		temp |= (EHCI_TUNE_FLS << 2);
-<<<<<<< HEAD
 		switch (EHCI_TUNE_FLS) {
 		case 0: ehci->periodic_size = 1024; break;
 		case 1: ehci->periodic_size = 512; break;
 		case 2: ehci->periodic_size = 256; break;
 		default:	BUG();
 		}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	ehci->command = temp;
 
@@ -1032,11 +993,7 @@ rescan:
 	/* endpoints can be iso streams.  for now, we don't
 	 * accelerate iso completions ... so spin a while.
 	 */
-<<<<<<< HEAD
 	if (qh->hw->hw_info1 == 0) {
-=======
-	if (qh->hw == NULL) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ehci_vdbg (ehci, "iso delay\n");
 		goto idle_timeout;
 	}
@@ -1050,18 +1007,10 @@ rescan:
 				tmp && tmp != qh;
 				tmp = tmp->qh_next.qh)
 			continue;
-<<<<<<< HEAD
 		/* periodic qh self-unlinks on empty */
 		if (!tmp)
 			goto nogood;
 		unlink_async (ehci, qh);
-=======
-		/* periodic qh self-unlinks on empty, and a COMPLETING qh
-		 * may already be unlinked.
-		 */
-		if (tmp)
-			unlink_async(ehci, qh);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* FALL THROUGH */
 	case QH_STATE_UNLINK:		/* wait for hw to finish? */
 	case QH_STATE_UNLINK_WAIT:
@@ -1078,10 +1027,7 @@ idle_timeout:
 		}
 		/* else FALL THROUGH */
 	default:
-<<<<<<< HEAD
 nogood:
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* caller was supposed to have unlinked any requests;
 		 * that's not our job.  just leak this memory.
 		 */
@@ -1185,14 +1131,11 @@ MODULE_LICENSE ("GPL");
 #define	PLATFORM_DRIVER		ixp4xx_ehci_driver
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_EHCI_MSM7201
 #include "ehci-msm7201.c"
 #define PLATFORM_DRIVER         ehci_msm7201_driver
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_USB_W90X900_EHCI
 #include "ehci-w90x900.c"
 #define	PLATFORM_DRIVER		ehci_hcd_w90x900_driver

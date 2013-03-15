@@ -88,7 +88,6 @@ config VT_HW_CONSOLE_BINDING
 	 information. For framebuffer console users, please refer to
 	 <file:Documentation/fb/fbcon.txt>.
 
-<<<<<<< HEAD
 config DEVMEM
 	bool "Memory device driver"
 	default y
@@ -102,8 +101,6 @@ config DEVMEM
 	  system and most users should say Y here. You might say N if very
 	  security conscience or memory is tight.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config DEVKMEM
 	bool "/dev/kmem virtual device support"
 	default y
@@ -1132,13 +1129,10 @@ config DEVPORT
 	depends on ISA || PCI
 	default y
 
-<<<<<<< HEAD
 config DCC_TTY
 	tristate "DCC tty driver"
 	depends on ARM
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 source "drivers/s390/char/Kconfig"
 
 endmenu

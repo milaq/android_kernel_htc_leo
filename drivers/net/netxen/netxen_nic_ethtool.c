@@ -216,10 +216,7 @@ skip:
 			check_sfp_module = netif_running(dev) &&
 				adapter->has_link_events;
 		} else {
-<<<<<<< HEAD
 			ecmd->autoneg = AUTONEG_ENABLE;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			ecmd->supported |= (SUPPORTED_TP |SUPPORTED_Autoneg);
 			ecmd->advertising |=
 				(ADVERTISED_TP | ADVERTISED_Autoneg);
@@ -257,7 +254,6 @@ static int
 netxen_nic_set_settings(struct net_device *dev, struct ethtool_cmd *ecmd)
 {
 	struct netxen_adapter *adapter = netdev_priv(dev);
-<<<<<<< HEAD
 	__u32 status;
 
 	/* read which mode */
@@ -305,26 +301,6 @@ netxen_nic_set_settings(struct net_device *dev, struct ethtool_cmd *ecmd)
 		}
 	} else
 		return -EOPNOTSUPP;
-=======
-	int ret;
-
-	if (adapter->ahw.port_type != NETXEN_NIC_GBE)
-		return -EOPNOTSUPP;
-
-	if (!(adapter->capabilities & NX_FW_CAPABILITY_GBE_LINK_CFG))
-		return -EOPNOTSUPP;
-
-	ret = nx_fw_cmd_set_gbe_port(adapter, ecmd->speed, ecmd->duplex,
-				     ecmd->autoneg);
-	if (ret == NX_RCODE_NOT_SUPPORTED)
-		return -EOPNOTSUPP;
-	else if (ret)
-		return -EIO;
-
-	adapter->link_speed = ecmd->speed;
-	adapter->link_duplex = ecmd->duplex;
-	adapter->link_autoneg = ecmd->autoneg;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!netif_running(dev))
 		return 0;

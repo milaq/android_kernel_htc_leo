@@ -202,11 +202,7 @@ static void usb_tranzport_abort_transfers(struct usb_tranzport *dev)
     t->value = temp;							\
     return count;							\
   }									\
-<<<<<<< HEAD
   static DEVICE_ATTR(value, S_IWUGO | S_IRUGO, show_##value, set_##value);
-=======
-  static DEVICE_ATTR(value, S_IWUSR | S_IRUGO, show_##value, set_##value);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 show_int(enable);
 show_int(offline);

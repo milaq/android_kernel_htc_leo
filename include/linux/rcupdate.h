@@ -84,7 +84,6 @@ extern int rcu_scheduler_active;
 } while (0)
 
 #ifdef CONFIG_DEBUG_LOCK_ALLOC
-<<<<<<< HEAD
 
 extern struct lockdep_map rcu_lock_map;
 # define rcu_read_acquire() \
@@ -201,16 +200,6 @@ extern int rcu_my_thread_group_empty(void);
 #define rcu_dereference_check(p, c)	rcu_dereference_raw(p)
 
 #endif /* #else #ifdef CONFIG_PROVE_RCU */
-=======
-extern struct lockdep_map rcu_lock_map;
-# define rcu_read_acquire()	\
-			lock_acquire(&rcu_lock_map, 0, 0, 2, 1, NULL, _THIS_IP_)
-# define rcu_read_release()	lock_release(&rcu_lock_map, 1, _THIS_IP_)
-#else
-# define rcu_read_acquire()	do { } while (0)
-# define rcu_read_release()	do { } while (0)
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * rcu_read_lock - mark the beginning of an RCU read-side critical section.
@@ -285,11 +274,7 @@ static inline void rcu_read_lock_bh(void)
 {
 	__rcu_read_lock_bh();
 	__acquire(RCU_BH);
-<<<<<<< HEAD
 	rcu_read_acquire_bh();
-=======
-	rcu_read_acquire();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -299,11 +284,7 @@ static inline void rcu_read_lock_bh(void)
  */
 static inline void rcu_read_unlock_bh(void)
 {
-<<<<<<< HEAD
 	rcu_read_release_bh();
-=======
-	rcu_read_release();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__release(RCU_BH);
 	__rcu_read_unlock_bh();
 }
@@ -321,11 +302,7 @@ static inline void rcu_read_lock_sched(void)
 {
 	preempt_disable();
 	__acquire(RCU_SCHED);
-<<<<<<< HEAD
 	rcu_read_acquire_sched();
-=======
-	rcu_read_acquire();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Used by lockdep and tracing: cannot be traced, cannot call lockdep. */
@@ -342,11 +319,7 @@ static inline notrace void rcu_read_lock_sched_notrace(void)
  */
 static inline void rcu_read_unlock_sched(void)
 {
-<<<<<<< HEAD
 	rcu_read_release_sched();
-=======
-	rcu_read_release();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	__release(RCU_SCHED);
 	preempt_enable();
 }
@@ -360,7 +333,6 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
 
 
 /**
-<<<<<<< HEAD
  * rcu_dereference_raw - fetch an RCU-protected pointer
  *
  * The caller must be within some flavor of RCU read-side critical
@@ -368,29 +340,18 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
  * for example, by holding an appropriate lock.  This pointer may later
  * be safely dereferenced.  It is the caller's responsibility to have
  * done the right thing, as this primitive does no checking of any kind.
-=======
- * rcu_dereference - fetch an RCU-protected pointer in an
- * RCU read-side critical section.  This pointer may later
- * be safely dereferenced.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * Inserts memory barriers on architectures that require them
  * (currently only the Alpha), and, more importantly, documents
  * exactly which pointers are protected by RCU.
  */
-<<<<<<< HEAD
 #define rcu_dereference_raw(p)	({ \
-=======
-
-#define rcu_dereference(p)     ({ \
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				typeof(p) _________p1 = ACCESS_ONCE(p); \
 				smp_read_barrier_depends(); \
 				(_________p1); \
 				})
 
 /**
-<<<<<<< HEAD
  * rcu_dereference - fetch an RCU-protected pointer, checking for RCU
  *
  * Makes rcu_dereference_check() do the dirty work.
@@ -415,8 +376,6 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
 		rcu_dereference_check(p, rcu_read_lock_sched_held())
 
 /**
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * rcu_assign_pointer - assign (publicize) a pointer to a newly
  * initialized structure that will be dereferenced by RCU read-side
  * critical sections.  Returns the value assigned.

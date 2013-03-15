@@ -888,23 +888,12 @@ static int acpi_idle_enter_simple(struct cpuidle_device *dev,
 		return(acpi_idle_enter_c1(dev, state));
 
 	local_irq_disable();
-<<<<<<< HEAD
 	current_thread_info()->status &= ~TS_POLLING;
 	/*
 	 * TS_POLLING-cleared state must be visible before we test
 	 * NEED_RESCHED:
 	 */
 	smp_mb();
-=======
-	if (cx->entry_method != ACPI_CSTATE_FFH) {
-		current_thread_info()->status &= ~TS_POLLING;
-		/*
-		 * TS_POLLING-cleared state must be visible before we test
-		 * NEED_RESCHED:
-		 */
-		smp_mb();
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (unlikely(need_resched())) {
 		current_thread_info()->status |= TS_POLLING;
@@ -971,11 +960,7 @@ static int acpi_idle_enter_bm(struct cpuidle_device *dev,
 	if (acpi_idle_suspend)
 		return(acpi_idle_enter_c1(dev, state));
 
-<<<<<<< HEAD
 	if (acpi_idle_bm_check()) {
-=======
-	if (!cx->bm_sts_skip && acpi_idle_bm_check()) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (dev->safe_state) {
 			dev->last_state = dev->safe_state;
 			return dev->safe_state->enter(dev, dev->safe_state);
@@ -988,23 +973,12 @@ static int acpi_idle_enter_bm(struct cpuidle_device *dev,
 	}
 
 	local_irq_disable();
-<<<<<<< HEAD
 	current_thread_info()->status &= ~TS_POLLING;
 	/*
 	 * TS_POLLING-cleared state must be visible before we test
 	 * NEED_RESCHED:
 	 */
 	smp_mb();
-=======
-	if (cx->entry_method != ACPI_CSTATE_FFH) {
-		current_thread_info()->status &= ~TS_POLLING;
-		/*
-		 * TS_POLLING-cleared state must be visible before we test
-		 * NEED_RESCHED:
-		 */
-		smp_mb();
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (unlikely(need_resched())) {
 		current_thread_info()->status |= TS_POLLING;

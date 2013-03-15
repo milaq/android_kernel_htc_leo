@@ -159,13 +159,6 @@ int libata_allow_tpm = 0;
 module_param_named(allow_tpm, libata_allow_tpm, int, 0444);
 MODULE_PARM_DESC(allow_tpm, "Permit the use of TPM commands (0=off [default], 1=on)");
 
-<<<<<<< HEAD
-=======
-static int atapi_an;
-module_param(atapi_an, int, 0444);
-MODULE_PARM_DESC(atapi_an, "Enable ATAPI AN media presence notification (0=0ff [default], 1=on)");
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 MODULE_AUTHOR("Jeff Garzik");
 MODULE_DESCRIPTION("Library module for ATA devices");
 MODULE_LICENSE("GPL");
@@ -2577,12 +2570,7 @@ int ata_dev_configure(struct ata_device *dev)
 		 * to enable ATAPI AN to discern between PHY status
 		 * changed notifications and ATAPI ANs.
 		 */
-<<<<<<< HEAD
 		if ((ap->flags & ATA_FLAG_AN) && ata_id_has_atapi_AN(id) &&
-=======
-		if (atapi_an &&
-		    (ap->flags & ATA_FLAG_AN) && ata_id_has_atapi_AN(id) &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		    (!sata_pmp_attached(ap) ||
 		     sata_scr_read(&ap->link, SCR_NOTIFICATION, &sntf) == 0)) {
 			unsigned int err_mask;
@@ -4360,12 +4348,6 @@ static const struct ata_blacklist_entry ata_device_blacklist [] = {
 	{ "HTS541080G9SA00",    "MB4OC60D",     ATA_HORKAGE_NONCQ, },
 	{ "HTS541010G9SA00",    "MBZOC60D",     ATA_HORKAGE_NONCQ, },
 
-<<<<<<< HEAD
-=======
-	/* https://bugzilla.kernel.org/show_bug.cgi?id=15573 */
-	{ "C300-CTFDDAC128MAG",	"0001",		ATA_HORKAGE_NONCQ, },
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* devices which puke on READ_NATIVE_MAX */
 	{ "HDS724040KLSA80",	"KFAOA20N",	ATA_HORKAGE_BROKEN_HPA, },
 	{ "WDC WD3200JD-00KLB0", "WD-WCAMR1130137", ATA_HORKAGE_BROKEN_HPA },
@@ -5026,12 +5008,9 @@ static void ata_verify_xfer(struct ata_queued_cmd *qc)
 {
 	struct ata_device *dev = qc->dev;
 
-<<<<<<< HEAD
 	if (ata_tag_internal(qc->tag))
 		return;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (ata_is_nodata(qc->tf.protocol))
 		return;
 
@@ -5075,7 +5054,6 @@ void ata_qc_complete(struct ata_queued_cmd *qc)
 		if (unlikely(qc->err_mask))
 			qc->flags |= ATA_QCFLAG_FAILED;
 
-<<<<<<< HEAD
 		if (unlikely(qc->flags & ATA_QCFLAG_FAILED)) {
 			/* always fill result TF for failed qc */
 			fill_result_tf(qc);
@@ -5084,25 +5062,6 @@ void ata_qc_complete(struct ata_queued_cmd *qc)
 				ata_qc_schedule_eh(qc);
 			else
 				__ata_qc_complete(qc);
-=======
-		/*
-		 * Finish internal commands without any further processing
-		 * and always with the result TF filled.
-		 */
-		if (unlikely(ata_tag_internal(qc->tag))) {
-			fill_result_tf(qc);
-			__ata_qc_complete(qc);
-			return;
-		}
-
-		/*
-		 * Non-internal qc has failed.  Fill the result TF and
-		 * summon EH.
-		 */
-		if (unlikely(qc->flags & ATA_QCFLAG_FAILED)) {
-			fill_result_tf(qc);
-			ata_qc_schedule_eh(qc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return;
 		}
 
@@ -5537,10 +5496,6 @@ static int ata_host_request_pm(struct ata_host *host, pm_message_t mesg,
  */
 int ata_host_suspend(struct ata_host *host, pm_message_t mesg)
 {
-<<<<<<< HEAD
-=======
-	unsigned int ehi_flags = ATA_EHI_QUIET;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int rc;
 
 	/*
@@ -5549,22 +5504,7 @@ int ata_host_suspend(struct ata_host *host, pm_message_t mesg)
 	 */
 	ata_lpm_enable(host);
 
-<<<<<<< HEAD
 	rc = ata_host_request_pm(host, mesg, 0, ATA_EHI_QUIET, 1);
-=======
-	/*
-	 * On some hardware, device fails to respond after spun down
-	 * for suspend.  As the device won't be used before being
-	 * resumed, we don't need to touch the device.  Ask EH to skip
-	 * the usual stuff and proceed directly to suspend.
-	 *
-	 * http://thread.gmane.org/gmane.linux.ide/46764
-	 */
-	if (mesg.event == PM_EVENT_SUSPEND)
-		ehi_flags |= ATA_EHI_NO_AUTOPSY | ATA_EHI_NO_RECOVERY;
-
-	rc = ata_host_request_pm(host, mesg, 0, ehi_flags, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (rc == 0)
 		host->dev->power.power_state = mesg;
 	return rc;

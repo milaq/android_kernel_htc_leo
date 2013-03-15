@@ -102,10 +102,6 @@ static const int multicast_filter_limit = 32;
 #include <linux/ethtool.h>
 #include <linux/crc32.h>
 #include <linux/bitops.h>
-<<<<<<< HEAD
-=======
-#include <linux/workqueue.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/processor.h>	/* Processor type for cache alignment. */
 #include <asm/io.h>
 #include <asm/irq.h>
@@ -393,10 +389,6 @@ struct rhine_private {
 	struct net_device *dev;
 	struct napi_struct napi;
 	spinlock_t lock;
-<<<<<<< HEAD
-=======
-	struct work_struct reset_task;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Frequently used values: keep some adjacent for cache effect. */
 	u32 quirks;
@@ -415,10 +407,6 @@ struct rhine_private {
 static int  mdio_read(struct net_device *dev, int phy_id, int location);
 static void mdio_write(struct net_device *dev, int phy_id, int location, int value);
 static int  rhine_open(struct net_device *dev);
-<<<<<<< HEAD
-=======
-static void rhine_reset_task(struct work_struct *work);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void rhine_tx_timeout(struct net_device *dev);
 static netdev_tx_t rhine_start_tx(struct sk_buff *skb,
 				  struct net_device *dev);
@@ -787,11 +775,6 @@ static int __devinit rhine_init_one(struct pci_dev *pdev,
 	dev->irq = pdev->irq;
 
 	spin_lock_init(&rp->lock);
-<<<<<<< HEAD
-=======
-	INIT_WORK(&rp->reset_task, rhine_reset_task);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	rp->mii_if.dev = dev;
 	rp->mii_if.mdio_read = mdio_read;
 	rp->mii_if.mdio_write = mdio_write;
@@ -1196,7 +1179,6 @@ static int rhine_open(struct net_device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void rhine_tx_timeout(struct net_device *dev)
 {
 	struct rhine_private *rp = netdev_priv(dev);
@@ -1206,24 +1188,13 @@ static void rhine_tx_timeout(struct net_device *dev)
 	       "%4.4x, resetting...\n",
 	       dev->name, ioread16(ioaddr + IntrStatus),
 	       mdio_read(dev, rp->mii_if.phy_id, MII_BMSR));
-=======
-static void rhine_reset_task(struct work_struct *work)
-{
-	struct rhine_private *rp = container_of(work, struct rhine_private,
-						reset_task);
-	struct net_device *dev = rp->dev;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* protect against concurrent rx interrupts */
 	disable_irq(rp->pdev->irq);
 
 	napi_disable(&rp->napi);
 
-<<<<<<< HEAD
 	spin_lock(&rp->lock);
-=======
-	spin_lock_bh(&rp->lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* clear all descriptors */
 	free_tbufs(dev);
@@ -1235,11 +1206,7 @@ static void rhine_reset_task(struct work_struct *work)
 	rhine_chip_reset(dev);
 	init_registers(dev);
 
-<<<<<<< HEAD
 	spin_unlock(&rp->lock);
-=======
-	spin_unlock_bh(&rp->lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	enable_irq(rp->pdev->irq);
 
 	dev->trans_start = jiffies;
@@ -1247,22 +1214,6 @@ static void rhine_reset_task(struct work_struct *work)
 	netif_wake_queue(dev);
 }
 
-<<<<<<< HEAD
-=======
-static void rhine_tx_timeout(struct net_device *dev)
-{
-	struct rhine_private *rp = netdev_priv(dev);
-	void __iomem *ioaddr = rp->base;
-
-	printk(KERN_WARNING "%s: Transmit timed out, status %4.4x, PHY status "
-	       "%4.4x, resetting...\n",
-	       dev->name, ioread16(ioaddr + IntrStatus),
-	       mdio_read(dev, rp->mii_if.phy_id, MII_BMSR));
-
-	schedule_work(&rp->reset_task);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static netdev_tx_t rhine_start_tx(struct sk_buff *skb,
 				  struct net_device *dev)
 {
@@ -1879,18 +1830,10 @@ static int rhine_close(struct net_device *dev)
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
-<<<<<<< HEAD
 	spin_lock_irq(&rp->lock);
 
 	netif_stop_queue(dev);
 	napi_disable(&rp->napi);
-=======
-	napi_disable(&rp->napi);
-	cancel_work_sync(&rp->reset_task);
-	netif_stop_queue(dev);
-
-	spin_lock_irq(&rp->lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (debug > 1)
 		printk(KERN_DEBUG "%s: Shutting down ethercard, "

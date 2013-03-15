@@ -15,12 +15,7 @@ Supported adapters:
   * Intel 82801I (ICH9)
   * Intel EP80579 (Tolapai)
   * Intel 82801JI (ICH10)
-<<<<<<< HEAD
   * Intel PCH
-=======
-  * Intel 3400/5 Series (PCH)
-  * Intel Cougar Point (PCH)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
    Datasheets: Publicly available at the Intel website
 
 Authors: 

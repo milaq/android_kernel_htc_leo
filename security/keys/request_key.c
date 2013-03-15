@@ -336,15 +336,8 @@ static int construct_alloc_key(struct key_type *type,
 
 key_already_present:
 	mutex_unlock(&key_construction_mutex);
-<<<<<<< HEAD
 	if (dest_keyring)
 		up_write(&dest_keyring->sem);
-=======
-	if (dest_keyring) {
-		__key_link(dest_keyring, key_ref_to_ptr(key_ref));
-		up_write(&dest_keyring->sem);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&user->cons_lock);
 	key_put(key);
 	*_key = key = key_ref_to_ptr(key_ref);
@@ -435,14 +428,6 @@ struct key *request_key_and_link(struct key_type *type,
 
 	if (!IS_ERR(key_ref)) {
 		key = key_ref_to_ptr(key_ref);
-<<<<<<< HEAD
-=======
-		if (dest_keyring) {
-			construct_get_dest_keyring(&dest_keyring);
-			key_link(dest_keyring, key);
-			key_put(dest_keyring);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	} else if (PTR_ERR(key_ref) != -EAGAIN) {
 		key = ERR_CAST(key_ref);
 	} else  {

@@ -402,11 +402,7 @@ static struct irqaction psurge_irqaction = {
 
 static void __init smp_psurge_setup_cpu(int cpu_nr)
 {
-<<<<<<< HEAD
 	if (cpu_nr != 0)
-=======
-	if (cpu_nr != 0 || !psurge_start)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 
 	/* reset the entry point so if we get another intr we won't

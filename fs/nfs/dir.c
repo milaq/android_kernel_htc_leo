@@ -837,11 +837,6 @@ out_zap_parent:
 		/* If we have submounts, don't unhash ! */
 		if (have_submounts(dentry))
 			goto out_valid;
-<<<<<<< HEAD
-=======
-		if (dentry->d_flags & DCACHE_DISCONNECTED)
-			goto out_valid;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		shrink_dcache_parent(dentry);
 	}
 	d_drop(dentry);
@@ -1030,19 +1025,12 @@ static struct dentry *nfs_atomic_lookup(struct inode *dir, struct dentry *dentry
 				res = NULL;
 				goto out;
 			/* This turned out not to be a regular file */
-<<<<<<< HEAD
-=======
-			case -EISDIR:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			case -ENOTDIR:
 				goto no_open;
 			case -ELOOP:
 				if (!(nd->intent.open.flags & O_NOFOLLOW))
 					goto no_open;
-<<<<<<< HEAD
 			/* case -EISDIR: */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/* case -EINVAL: */
 			default:
 				goto out;
@@ -1809,11 +1797,7 @@ static int nfs_access_get_cached(struct inode *inode, struct rpc_cred *cred, str
 	cache = nfs_access_search_rbtree(inode, cred);
 	if (cache == NULL)
 		goto out;
-<<<<<<< HEAD
 	if (!nfs_have_delegation(inode, FMODE_READ) &&
-=======
-	if (!nfs_have_delegated_attributes(inode) &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    !time_in_range_open(jiffies, cache->jiffies, cache->jiffies + nfsi->attrtimeo))
 		goto out_stale;
 	res->jiffies = cache->jiffies;

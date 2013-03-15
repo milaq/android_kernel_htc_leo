@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  *	xt_connmark - Netfilter module to operate on connection marks
-=======
- *	xt_connmark - Netfilter module to match connection mark values
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  *	Copyright (C) 2002,2004 MARA Systems AB <http://www.marasystems.com>
  *	by Henrik Nordstrom <hno@marasystems.com>
@@ -28,15 +24,11 @@
 #include <linux/module.h>
 #include <linux/skbuff.h>
 #include <net/netfilter/nf_conntrack.h>
-<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_ecache.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_connmark.h>
 
 MODULE_AUTHOR("Henrik Nordstrom <hno@marasystems.com>");
-<<<<<<< HEAD
 MODULE_DESCRIPTION("Xtables: connection mark operations");
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("ipt_CONNMARK");
@@ -99,15 +91,6 @@ static void connmark_tg_destroy(const struct xt_tgdtor_param *par)
 
 static bool
 connmark_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-MODULE_DESCRIPTION("Xtables: connection mark match");
-MODULE_LICENSE("GPL");
-MODULE_ALIAS("ipt_connmark");
-MODULE_ALIAS("ip6t_connmark");
-
-static bool
-connmark_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_connmark_mtinfo1 *info = par->matchinfo;
 	enum ip_conntrack_info ctinfo;
@@ -120,11 +103,7 @@ connmark_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	return ((ct->mark & info->mask) == info->mark) ^ info->invert;
 }
 
-<<<<<<< HEAD
 static int connmark_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool connmark_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (nf_ct_l3proto_try_module_get(par->family) < 0) {
 		printk(KERN_WARNING "cannot load conntrack support for "
@@ -139,7 +118,6 @@ static void connmark_mt_destroy(const struct xt_mtdtor_param *par)
 	nf_ct_l3proto_module_put(par->family);
 }
 
-<<<<<<< HEAD
 static struct xt_target connmark_tg_reg __read_mostly = {
 	.name           = "CONNMARK",
 	.revision       = 1,
@@ -151,8 +129,6 @@ static struct xt_target connmark_tg_reg __read_mostly = {
 	.me             = THIS_MODULE,
 };
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct xt_match connmark_mt_reg __read_mostly = {
 	.name           = "connmark",
 	.revision       = 1,
@@ -166,7 +142,6 @@ static struct xt_match connmark_mt_reg __read_mostly = {
 
 static int __init connmark_mt_init(void)
 {
-<<<<<<< HEAD
 	int ret;
 
 	ret = xt_register_target(&connmark_tg_reg);
@@ -178,18 +153,12 @@ static int __init connmark_mt_init(void)
 		return ret;
 	}
 	return 0;
-=======
-	return xt_register_match(&connmark_mt_reg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __exit connmark_mt_exit(void)
 {
 	xt_unregister_match(&connmark_mt_reg);
-<<<<<<< HEAD
 	xt_unregister_target(&connmark_tg_reg);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_init(connmark_mt_init);

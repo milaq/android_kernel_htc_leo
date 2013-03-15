@@ -272,11 +272,7 @@ static struct request *get_req(struct scsi_device *sdev, int cmd,
 	int len = 0;
 
 	rq = blk_get_request(sdev->request_queue,
-<<<<<<< HEAD
 			(cmd == MODE_SELECT) ? WRITE : READ, GFP_NOIO);
-=======
-			(cmd != INQUIRY) ? WRITE : READ, GFP_NOIO);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!rq) {
 		sdev_printk(KERN_INFO, sdev, "get_req: blk_get_request failed");
 		return NULL;
@@ -288,7 +284,6 @@ static struct request *get_req(struct scsi_device *sdev, int cmd,
 	switch (cmd) {
 	case MODE_SELECT:
 		len = sizeof(short_trespass);
-<<<<<<< HEAD
 		rq->cmd_flags |= REQ_RW;
 		rq->cmd[1] = 0x10;
 		break;
@@ -299,19 +294,6 @@ static struct request *get_req(struct scsi_device *sdev, int cmd,
 		break;
 	case INQUIRY:
 		len = CLARIION_BUFFER_SIZE;
-=======
-		rq->cmd[1] = 0x10;
-		rq->cmd[4] = len;
-		break;
-	case MODE_SELECT_10:
-		len = sizeof(long_trespass);
-		rq->cmd[1] = 0x10;
-		rq->cmd[8] = len;
-		break;
-	case INQUIRY:
-		len = CLARIION_BUFFER_SIZE;
-		rq->cmd[4] = len;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		memset(buffer, 0, len);
 		break;
 	default:
@@ -319,10 +301,7 @@ static struct request *get_req(struct scsi_device *sdev, int cmd,
 		break;
 	}
 
-<<<<<<< HEAD
 	rq->cmd[4] = len;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	rq->cmd_type = REQ_TYPE_BLOCK_PC;
 	rq->cmd_flags |= REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT |
 			 REQ_FAILFAST_DRIVER;

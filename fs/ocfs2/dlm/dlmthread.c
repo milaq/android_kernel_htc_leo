@@ -93,7 +93,6 @@ int __dlm_lockres_has_locks(struct dlm_lock_resource *res)
  * truly ready to be freed. */
 int __dlm_lockres_unused(struct dlm_lock_resource *res)
 {
-<<<<<<< HEAD
 	if (!__dlm_lockres_has_locks(res) &&
 	    (list_empty(&res->dirty) && !(res->state & DLM_LOCK_RES_DIRTY))) {
 		/* try not to scan the bitmap unless the first two
@@ -107,29 +106,6 @@ int __dlm_lockres_unused(struct dlm_lock_resource *res)
 		}
 	}
 	return 0;
-=======
-	int bit;
-
-	if (__dlm_lockres_has_locks(res))
-		return 0;
-
-	if (!list_empty(&res->dirty) || res->state & DLM_LOCK_RES_DIRTY)
-		return 0;
-
-	if (res->state & DLM_LOCK_RES_RECOVERING)
-		return 0;
-
-	bit = find_next_bit(res->refmap, O2NM_MAX_NODES, 0);
-	if (bit < O2NM_MAX_NODES)
-		return 0;
-
-	/*
-	 * since the bit for dlm->node_num is not set, inflight_locks better
-	 * be zero
-	 */
-	BUG_ON(res->inflight_locks != 0);
-	return 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 
@@ -177,17 +153,12 @@ void dlm_lockres_calc_usage(struct dlm_ctxt *dlm,
 	spin_unlock(&dlm->spinlock);
 }
 
-<<<<<<< HEAD
 static int dlm_purge_lockres(struct dlm_ctxt *dlm,
-=======
-static void dlm_purge_lockres(struct dlm_ctxt *dlm,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     struct dlm_lock_resource *res)
 {
 	int master;
 	int ret = 0;
 
-<<<<<<< HEAD
 	spin_lock(&res->spinlock);
 	if (!__dlm_lockres_unused(res)) {
 		mlog(0, "%s:%.*s: tried to purge but not unused\n",
@@ -215,25 +186,12 @@ static void dlm_purge_lockres(struct dlm_ctxt *dlm,
 	if (!master)
 		res->state |= DLM_LOCK_RES_DROPPING_REF;
 	spin_unlock(&res->spinlock);
-=======
-	assert_spin_locked(&dlm->spinlock);
-	assert_spin_locked(&res->spinlock);
-
-	master = (res->owner == dlm->node_num);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	mlog(0, "purging lockres %.*s, master = %d\n", res->lockname.len,
 	     res->lockname.name, master);
 
 	if (!master) {
-<<<<<<< HEAD
 		/* drop spinlock...  retake below */
-=======
-		res->state |= DLM_LOCK_RES_DROPPING_REF;
-		/* drop spinlock...  retake below */
-		spin_unlock(&res->spinlock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_unlock(&dlm->spinlock);
 
 		spin_lock(&res->spinlock);
@@ -251,58 +209,31 @@ static void dlm_purge_lockres(struct dlm_ctxt *dlm,
 		mlog(0, "%s:%.*s: dlm_deref_lockres returned %d\n",
 		     dlm->name, res->lockname.len, res->lockname.name, ret);
 		spin_lock(&dlm->spinlock);
-<<<<<<< HEAD
 	}
 
 	spin_lock(&res->spinlock);
-=======
-		spin_lock(&res->spinlock);
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!list_empty(&res->purge)) {
 		mlog(0, "removing lockres %.*s:%p from purgelist, "
 		     "master = %d\n", res->lockname.len, res->lockname.name,
 		     res, master);
 		list_del_init(&res->purge);
-<<<<<<< HEAD
 		spin_unlock(&res->spinlock);
 		dlm_lockres_put(res);
 		dlm->purge_count--;
 	} else
 		spin_unlock(&res->spinlock);
-=======
-		dlm_lockres_put(res);
-		dlm->purge_count--;
-	}
-
-	if (!__dlm_lockres_unused(res)) {
-		mlog(ML_ERROR, "found lockres %s:%.*s: in use after deref\n",
-		     dlm->name, res->lockname.len, res->lockname.name);
-		__dlm_print_one_lock_resource(res);
-		BUG();
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	__dlm_unhash_lockres(res);
 
 	/* lockres is not in the hash now.  drop the flag and wake up
 	 * any processes waiting in dlm_get_lock_resource. */
 	if (!master) {
-<<<<<<< HEAD
 		spin_lock(&res->spinlock);
 		res->state &= ~DLM_LOCK_RES_DROPPING_REF;
 		spin_unlock(&res->spinlock);
 		wake_up(&res->wq);
 	}
 	return 0;
-=======
-		res->state &= ~DLM_LOCK_RES_DROPPING_REF;
-		spin_unlock(&res->spinlock);
-		wake_up(&res->wq);
-	} else
-		spin_unlock(&res->spinlock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void dlm_run_purge_list(struct dlm_ctxt *dlm,
@@ -321,7 +252,6 @@ static void dlm_run_purge_list(struct dlm_ctxt *dlm,
 		lockres = list_entry(dlm->purge_list.next,
 				     struct dlm_lock_resource, purge);
 
-<<<<<<< HEAD
 		/* Status of the lockres *might* change so double
 		 * check. If the lockres is unused, holding the dlm
 		 * spinlock will prevent people from getting and more
@@ -333,9 +263,6 @@ static void dlm_run_purge_list(struct dlm_ctxt *dlm,
 
 		if (!unused)
 			continue;
-=======
-		spin_lock(&lockres->spinlock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		purge_jiffies = lockres->last_used +
 			msecs_to_jiffies(DLM_PURGE_INTERVAL_MS);
@@ -347,7 +274,6 @@ static void dlm_run_purge_list(struct dlm_ctxt *dlm,
 			 * in tail order, we can stop at the first
 			 * unpurgable resource -- anyone added after
 			 * him will have a greater last_used value */
-<<<<<<< HEAD
 			break;
 		}
 
@@ -357,31 +283,6 @@ static void dlm_run_purge_list(struct dlm_ctxt *dlm,
 		 * has to do migration. */
 		if (dlm_purge_lockres(dlm, lockres))
 			BUG();
-=======
-			spin_unlock(&lockres->spinlock);
-			break;
-		}
-
-		/* Status of the lockres *might* change so double
-		 * check. If the lockres is unused, holding the dlm
-		 * spinlock will prevent people from getting and more
-		 * refs on it. */
-		unused = __dlm_lockres_unused(lockres);
-		if (!unused ||
-		    (lockres->state & DLM_LOCK_RES_MIGRATING)) {
-			mlog(0, "lockres %s:%.*s: is in use or "
-			     "being remastered, used %d, state %d\n",
-			     dlm->name, lockres->lockname.len,
-			     lockres->lockname.name, !unused, lockres->state);
-			list_move_tail(&dlm->purge_list, &lockres->purge);
-			spin_unlock(&lockres->spinlock);
-			continue;
-		}
-
-		dlm_lockres_get(lockres);
-
-		dlm_purge_lockres(dlm, lockres);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		dlm_lockres_put(lockres);
 

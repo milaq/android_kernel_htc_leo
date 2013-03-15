@@ -2,10 +2,6 @@ menu "Android"
 
 config ANDROID
 	bool "Android Drivers"
-<<<<<<< HEAD
-=======
-	depends on BROKEN
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default N
 	---help---
 	  Enable support for various drivers needed on the Android platform

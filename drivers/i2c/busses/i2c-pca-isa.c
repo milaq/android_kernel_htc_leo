@@ -71,13 +71,8 @@ static int pca_isa_readbyte(void *pd, int reg)
 
 static int pca_isa_waitforcompletion(void *pd)
 {
-<<<<<<< HEAD
 	long ret = ~0;
 	unsigned long timeout;
-=======
-	unsigned long timeout;
-	long ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (irq > -1) {
 		ret = wait_event_timeout(pca_wait,
@@ -86,23 +81,11 @@ static int pca_isa_waitforcompletion(void *pd)
 	} else {
 		/* Do polling */
 		timeout = jiffies + pca_isa_ops.timeout;
-<<<<<<< HEAD
 		while (((pca_isa_readbyte(pd, I2C_PCA_CON)
 				& I2C_PCA_CON_SI) == 0)
 				&& (ret = time_before(jiffies, timeout)))
 			udelay(100);
 	}
-=======
-		do {
-			ret = time_before(jiffies, timeout);
-			if (pca_isa_readbyte(pd, I2C_PCA_CON)
-					& I2C_PCA_CON_SI)
-				break;
-			udelay(100);
-		} while (ret);
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret > 0;
 }
 

@@ -954,10 +954,6 @@ static ssize_t vga_arb_write(struct file *file, const char __user * buf,
 		}
 
 	} else if (strncmp(curr_pos, "target ", 7) == 0) {
-<<<<<<< HEAD
-=======
-		struct pci_bus *pbus;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		unsigned int domain, bus, devfn;
 		struct vga_device *vgadev;
 
@@ -965,11 +961,7 @@ static ssize_t vga_arb_write(struct file *file, const char __user * buf,
 		remaining -= 7;
 		pr_devel("client 0x%p called 'target'\n", priv);
 		/* if target is default */
-<<<<<<< HEAD
 		if (!strncmp(buf, "default", 7))
-=======
-		if (!strncmp(curr_pos, "default", 7))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			pdev = pci_dev_get(vga_default_device());
 		else {
 			if (!vga_pci_str_to_vars(curr_pos, remaining,
@@ -977,43 +969,18 @@ static ssize_t vga_arb_write(struct file *file, const char __user * buf,
 				ret_val = -EPROTO;
 				goto done;
 			}
-<<<<<<< HEAD
 
 			pdev = pci_get_bus_and_slot(bus, devfn);
 			if (!pdev) {
 				pr_info("vgaarb: invalid PCI address!\n");
-=======
-			pr_devel("vgaarb: %s ==> %x:%x:%x.%x\n", curr_pos,
-				domain, bus, PCI_SLOT(devfn), PCI_FUNC(devfn));
-
-			pbus = pci_find_bus(domain, bus);
-			pr_devel("vgaarb: pbus %p\n", pbus);
-			if (pbus == NULL) {
-				pr_err("vgaarb: invalid PCI domain and/or bus address %x:%x\n",
-					domain, bus);
-				ret_val = -ENODEV;
-				goto done;
-			}
-			pdev = pci_get_slot(pbus, devfn);
-			pr_devel("vgaarb: pdev %p\n", pdev);
-			if (!pdev) {
-				pr_err("vgaarb: invalid PCI address %x:%x\n",
-					bus, devfn);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				ret_val = -ENODEV;
 				goto done;
 			}
 		}
 
 		vgadev = vgadev_find(pdev);
-<<<<<<< HEAD
 		if (vgadev == NULL) {
 			pr_info("vgaarb: this pci device is not a vga device\n");
-=======
-		pr_devel("vgaarb: vgadev %p\n", vgadev);
-		if (vgadev == NULL) {
-			pr_err("vgaarb: this pci device is not a vga device\n");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			pci_dev_put(pdev);
 			ret_val = -ENODEV;
 			goto done;
@@ -1031,12 +998,7 @@ static ssize_t vga_arb_write(struct file *file, const char __user * buf,
 			}
 		}
 		if (i == MAX_USER_CARDS) {
-<<<<<<< HEAD
 			pr_err("vgaarb: maximum user cards number reached!\n");
-=======
-			pr_err("vgaarb: maximum user cards (%d) number reached!\n",
-				MAX_USER_CARDS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			pci_dev_put(pdev);
 			/* XXX: which value to return? */
 			ret_val =  -ENOMEM;

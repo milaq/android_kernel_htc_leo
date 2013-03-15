@@ -32,7 +32,6 @@ config MMC_BLOCK_BOUNCE
 
 	  If unsure, say Y here.
 
-<<<<<<< HEAD
 config MMC_BLOCK_PARANOID_RESUME
 	bool "Check card status on resume"
         depends on MMC_BLOCK
@@ -49,8 +48,6 @@ config MMC_BLOCK_DEFERRED_RESUME
 	  is requested. This will reduce overall resume latency and
 	  save power when theres an SD card inserted but not being used.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config SDIO_UART
 	tristate "SDIO UART/GPS class support"
 	help

@@ -1163,11 +1163,7 @@ static ssize_t create_child(struct device *dev,
 
 	return ret ? ret : count;
 }
-<<<<<<< HEAD
 static DEVICE_ATTR(create_child, S_IWUGO, NULL, create_child);
-=======
-static DEVICE_ATTR(create_child, S_IWUSR, NULL, create_child);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static ssize_t delete_child(struct device *dev,
 			    struct device_attribute *attr,
@@ -1187,11 +1183,7 @@ static ssize_t delete_child(struct device *dev,
 	return ret ? ret : count;
 
 }
-<<<<<<< HEAD
 static DEVICE_ATTR(delete_child, S_IWUGO, NULL, delete_child);
-=======
-static DEVICE_ATTR(delete_child, S_IWUSR, NULL, delete_child);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int ipoib_add_pkey_attr(struct net_device *dev)
 {

@@ -423,7 +423,6 @@ config KEYBOARD_W90P910
 	  To compile this driver as a module, choose M here: the
 	  module will be called w90p910_keypad.
 
-<<<<<<< HEAD
 config KEYBOARD_PMIC8058
 	tristate "Qualcomm PMIC8058 keypad"
 	depends on PMIC8058 && ARCH_MSM7X30
@@ -435,6 +434,4 @@ config KEYBOARD_PMIC8058
 
 	  To compile this driver as a module, choose M here: the module will
 	  be called pmic8058-keypad.
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif

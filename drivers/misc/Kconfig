@@ -13,13 +13,10 @@ menuconfig MISC_DEVICES
 
 if MISC_DEVICES
 
-<<<<<<< HEAD
 config ANDROID_PMEM
 	bool "Android pmem allocator"
 	default y
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config ATMEL_PWM
 	tristate "Atmel AT32/AT91 PWM support"
 	depends on AVR32 || ARCH_AT91SAM9263 || ARCH_AT91SAM9RL || ARCH_AT91CAP9
@@ -166,7 +163,6 @@ config ENCLOSURE_SERVICES
 	  driver (SCSI/ATA) which supports enclosures
 	  or a SCSI enclosure device (SES) to use these services.
 
-<<<<<<< HEAD
 config KERNEL_DEBUGGER_CORE
 	bool "Kernel Debugger Core"
 	default n
@@ -174,8 +170,6 @@ config KERNEL_DEBUGGER_CORE
 	  Generic kernel debugging command processor used by low level
 	  (interrupt context) platform-specific debuggers.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config SGI_XP
 	tristate "Support communication between SGI SSIs"
 	depends on NET
@@ -263,7 +257,6 @@ config EP93XX_PWM
 	  To compile this driver as a module, choose M here: the module will
 	  be called ep93xx_pwm.
 
-<<<<<<< HEAD
 config UID_STAT
 	bool "UID based statistics tracking exported to /proc/uid_stat"
 	default n
@@ -323,10 +316,5 @@ source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"
 source "drivers/misc/video_core/720p/Kconfig"
-=======
-source "drivers/misc/c2port/Kconfig"
-source "drivers/misc/eeprom/Kconfig"
-source "drivers/misc/cb710/Kconfig"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 endif # MISC_DEVICES

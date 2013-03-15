@@ -8,36 +8,6 @@
 
 #define RAW_VALID_HOOKS ((1 << NF_INET_PRE_ROUTING) | (1 << NF_INET_LOCAL_OUT))
 
-<<<<<<< HEAD
-=======
-static const struct
-{
-	struct ip6t_replace repl;
-	struct ip6t_standard entries[2];
-	struct ip6t_error term;
-} initial_table __net_initdata = {
-	.repl = {
-		.name = "raw",
-		.valid_hooks = RAW_VALID_HOOKS,
-		.num_entries = 3,
-		.size = sizeof(struct ip6t_standard) * 2 + sizeof(struct ip6t_error),
-		.hook_entry = {
-			[NF_INET_PRE_ROUTING] = 0,
-			[NF_INET_LOCAL_OUT] = sizeof(struct ip6t_standard)
-		},
-		.underflow = {
-			[NF_INET_PRE_ROUTING] = 0,
-			[NF_INET_LOCAL_OUT] = sizeof(struct ip6t_standard)
-		},
-	},
-	.entries = {
-		IP6T_STANDARD_INIT(NF_ACCEPT),	/* PRE_ROUTING */
-		IP6T_STANDARD_INIT(NF_ACCEPT),	/* LOCAL_OUT */
-	},
-	.term = IP6T_ERROR_INIT,		/* ERROR */
-};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static const struct xt_table packet_raw = {
 	.name = "raw",
 	.valid_hooks = RAW_VALID_HOOKS,
@@ -87,7 +57,6 @@ static struct nf_hook_ops ip6t_ops[] __read_mostly = {
 
 static int __net_init ip6table_raw_net_init(struct net *net)
 {
-<<<<<<< HEAD
 	struct ip6t_replace *repl;
 
 	repl = ip6t_alloc_initial_table(&packet_raw);
@@ -96,11 +65,6 @@ static int __net_init ip6table_raw_net_init(struct net *net)
 	net->ipv6.ip6table_raw =
 		ip6t_register_table(net, &packet_raw, repl);
 	kfree(repl);
-=======
-	/* Register table */
-	net->ipv6.ip6table_raw =
-		ip6t_register_table(net, &packet_raw, &initial_table.repl);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (IS_ERR(net->ipv6.ip6table_raw))
 		return PTR_ERR(net->ipv6.ip6table_raw);
 	return 0;
@@ -108,11 +72,7 @@ static int __net_init ip6table_raw_net_init(struct net *net)
 
 static void __net_exit ip6table_raw_net_exit(struct net *net)
 {
-<<<<<<< HEAD
 	ip6t_unregister_table(net, net->ipv6.ip6table_raw);
-=======
-	ip6t_unregister_table(net->ipv6.ip6table_raw);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct pernet_operations ip6table_raw_net_ops = {

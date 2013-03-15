@@ -32,14 +32,6 @@
  *	A generic parallel ATA driver using libata
  */
 
-<<<<<<< HEAD
-=======
-enum {
-	ATA_GEN_CLASS_MATCH		= (1 << 0),
-	ATA_GEN_FORCE_DMA		= (1 << 1),
-};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  *	generic_set_mode	-	mode setting
  *	@link: link to set up
@@ -54,26 +46,13 @@ enum {
 static int generic_set_mode(struct ata_link *link, struct ata_device **unused)
 {
 	struct ata_port *ap = link->ap;
-<<<<<<< HEAD
-=======
-	const struct pci_device_id *id = ap->host->private_data;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int dma_enabled = 0;
 	struct ata_device *dev;
 	struct pci_dev *pdev = to_pci_dev(ap->host->dev);
 
-<<<<<<< HEAD
 	/* Bits 5 and 6 indicate if DMA is active on master/slave */
 	if (ap->ioaddr.bmdma_addr)
 		dma_enabled = ioread8(ap->ioaddr.bmdma_addr + ATA_DMA_STATUS);
-=======
-	if (id->driver_data & ATA_GEN_FORCE_DMA) {
-		dma_enabled = 0xff;
-	} else if (ap->ioaddr.bmdma_addr) {
-		/* Bits 5 and 6 indicate if DMA is active on master/slave */
-		dma_enabled = ioread8(ap->ioaddr.bmdma_addr + ATA_DMA_STATUS);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (pdev->vendor == PCI_VENDOR_ID_CENATEK)
 		dma_enabled = 0xFF;
@@ -147,11 +126,7 @@ static int ata_generic_init_one(struct pci_dev *dev, const struct pci_device_id 
 	const struct ata_port_info *ppi[] = { &info, NULL };
 
 	/* Don't use the generic entry unless instructed to do so */
-<<<<<<< HEAD
 	if (id->driver_data == 1 && all_generic_ide == 0)
-=======
-	if ((id->driver_data & ATA_GEN_CLASS_MATCH) && all_generic_ide == 0)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -ENODEV;
 
 	/* Devices that need care */
@@ -180,11 +155,7 @@ static int ata_generic_init_one(struct pci_dev *dev, const struct pci_device_id 
 			return rc;
 		pcim_pin_device(dev);
 	}
-<<<<<<< HEAD
 	return ata_pci_sff_init_one(dev, ppi, &generic_sht, NULL);
-=======
-	return ata_pci_sff_init_one(dev, ppi, &generic_sht, (void *)id);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct pci_device_id ata_generic[] = {
@@ -196,29 +167,12 @@ static struct pci_device_id ata_generic[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_HINT,   PCI_DEVICE_ID_HINT_VXPROII_IDE), },
 	{ PCI_DEVICE(PCI_VENDOR_ID_VIA,    PCI_DEVICE_ID_VIA_82C561), },
 	{ PCI_DEVICE(PCI_VENDOR_ID_OPTI,   PCI_DEVICE_ID_OPTI_82C558), },
-<<<<<<< HEAD
 	{ PCI_DEVICE(PCI_VENDOR_ID_CENATEK,PCI_DEVICE_ID_CENATEK_IDE), },
-=======
-	{ PCI_DEVICE(PCI_VENDOR_ID_CENATEK,PCI_DEVICE_ID_CENATEK_IDE),
-	  .driver_data = ATA_GEN_FORCE_DMA },
-	/*
-	 * For some reason, MCP89 on MacBook 7,1 doesn't work with
-	 * ahci, use ata_generic instead.
-	 */
-	{ PCI_VENDOR_ID_NVIDIA, PCI_DEVICE_ID_NVIDIA_NFORCE_MCP89_SATA,
-	  PCI_VENDOR_ID_APPLE, 0xcb89,
-	  .driver_data = ATA_GEN_FORCE_DMA },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ PCI_DEVICE(PCI_VENDOR_ID_TOSHIBA,PCI_DEVICE_ID_TOSHIBA_PICCOLO), },
 	{ PCI_DEVICE(PCI_VENDOR_ID_TOSHIBA,PCI_DEVICE_ID_TOSHIBA_PICCOLO_1), },
 	{ PCI_DEVICE(PCI_VENDOR_ID_TOSHIBA,PCI_DEVICE_ID_TOSHIBA_PICCOLO_2),  },
 	/* Must come last. If you add entries adjust this table appropriately */
-<<<<<<< HEAD
 	{ PCI_ANY_ID,		PCI_ANY_ID,			   PCI_ANY_ID, PCI_ANY_ID, PCI_CLASS_STORAGE_IDE << 8, 0xFFFFFF00UL, 1},
-=======
-	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_IDE << 8, 0xFFFFFF00UL),
-	  .driver_data = ATA_GEN_CLASS_MATCH },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ 0, },
 };
 

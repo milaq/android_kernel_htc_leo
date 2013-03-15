@@ -59,10 +59,5 @@ extern void check_tsc_sync_source(int cpu);
 extern void check_tsc_sync_target(void);
 
 extern int notsc_setup(char *);
-<<<<<<< HEAD
-=======
-extern void save_sched_clock_state(void);
-extern void restore_sched_clock_state(void);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif /* _ASM_X86_TSC_H */

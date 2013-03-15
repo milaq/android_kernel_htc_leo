@@ -2,11 +2,7 @@
 *******************************************************************************
 **
 **  Copyright (C) Sistina Software, Inc.  1997-2003  All rights reserved.
-<<<<<<< HEAD
 **  Copyright (C) 2004-2008 Red Hat, Inc.  All rights reserved.
-=======
-**  Copyright (C) 2004-2010 Red Hat, Inc.  All rights reserved.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 **
 **  This copyrighted material is made available to anyone wishing to use,
 **  modify, copy, or redistribute it subject to the terms and conditions
@@ -37,17 +33,10 @@ void dlm_del_ast(struct dlm_lkb *lkb)
 	spin_unlock(&ast_queue_lock);
 }
 
-<<<<<<< HEAD
 void dlm_add_ast(struct dlm_lkb *lkb, int type, int bastmode)
 {
 	if (lkb->lkb_flags & DLM_IFL_USER) {
 		dlm_user_add_ast(lkb, type, bastmode);
-=======
-void dlm_add_ast(struct dlm_lkb *lkb, int type, int mode)
-{
-	if (lkb->lkb_flags & DLM_IFL_USER) {
-		dlm_user_add_ast(lkb, type, mode);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 	}
 
@@ -55,28 +44,10 @@ void dlm_add_ast(struct dlm_lkb *lkb, int type, int mode)
 	if (!(lkb->lkb_ast_type & (AST_COMP | AST_BAST))) {
 		kref_get(&lkb->lkb_ref);
 		list_add_tail(&lkb->lkb_astqueue, &ast_queue);
-<<<<<<< HEAD
 	}
 	lkb->lkb_ast_type |= type;
 	if (bastmode)
 		lkb->lkb_bastmode = bastmode;
-=======
-		lkb->lkb_ast_first = type;
-	}
-
-	/* sanity check, this should not happen */
-
-	if ((type == AST_COMP) && (lkb->lkb_ast_type & AST_COMP))
-		log_print("repeat cast %d castmode %d lock %x %s",
-			  mode, lkb->lkb_castmode,
-			  lkb->lkb_id, lkb->lkb_resource->res_name);
-
-	lkb->lkb_ast_type |= type;
-	if (type == AST_BAST)
-		lkb->lkb_bastmode = mode;
-	else
-		lkb->lkb_castmode = mode;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock(&ast_queue_lock);
 
 	set_bit(WAKE_ASTS, &astd_wakeflags);
@@ -88,15 +59,9 @@ static void process_asts(void)
 	struct dlm_ls *ls = NULL;
 	struct dlm_rsb *r = NULL;
 	struct dlm_lkb *lkb;
-<<<<<<< HEAD
 	void (*cast) (void *astparam);
 	void (*bast) (void *astparam, int mode);
 	int type = 0, bastmode;
-=======
-	void (*castfn) (void *astparam);
-	void (*bastfn) (void *astparam, int mode);
-	int type, first, bastmode, castmode, do_bast, do_cast, last_castmode;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 repeat:
 	spin_lock(&ast_queue_lock);
@@ -110,7 +75,6 @@ repeat:
 		list_del(&lkb->lkb_astqueue);
 		type = lkb->lkb_ast_type;
 		lkb->lkb_ast_type = 0;
-<<<<<<< HEAD
 		bastmode = lkb->lkb_bastmode;
 
 		spin_unlock(&ast_queue_lock);
@@ -122,50 +86,6 @@ repeat:
 
 		if ((type & AST_BAST) && bast)
 			bast(lkb->lkb_astparam, bastmode);
-=======
-		first = lkb->lkb_ast_first;
-		lkb->lkb_ast_first = 0;
-		bastmode = lkb->lkb_bastmode;
-		castmode = lkb->lkb_castmode;
-		castfn = lkb->lkb_astfn;
-		bastfn = lkb->lkb_bastfn;
-		spin_unlock(&ast_queue_lock);
-
-		do_cast = (type & AST_COMP) && castfn;
-		do_bast = (type & AST_BAST) && bastfn;
-
-		/* Skip a bast if its blocking mode is compatible with the
-		   granted mode of the preceding cast. */
-
-		if (do_bast) {
-			if (first == AST_COMP)
-				last_castmode = castmode;
-			else
-				last_castmode = lkb->lkb_castmode_done;
-			if (dlm_modes_compat(bastmode, last_castmode))
-				do_bast = 0;
-		}
-
-		if (first == AST_COMP) {
-			if (do_cast)
-				castfn(lkb->lkb_astparam);
-			if (do_bast)
-				bastfn(lkb->lkb_astparam, bastmode);
-		} else if (first == AST_BAST) {
-			if (do_bast)
-				bastfn(lkb->lkb_astparam, bastmode);
-			if (do_cast)
-				castfn(lkb->lkb_astparam);
-		} else {
-			log_error(ls, "bad ast_first %d ast_type %d",
-				  first, type);
-		}
-
-		if (do_cast)
-			lkb->lkb_castmode_done = castmode;
-		if (do_bast)
-			lkb->lkb_bastmode_done = bastmode;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* this removes the reference added by dlm_add_ast
 		   and may result in the lkb being freed */

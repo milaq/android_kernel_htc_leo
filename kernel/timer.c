@@ -1173,15 +1173,6 @@ unsigned long get_next_timer_interrupt(unsigned long now)
 	struct tvec_base *base = __get_cpu_var(tvec_bases);
 	unsigned long expires;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Pretend that there is no timer pending if the cpu is offline.
-	 * Possible pending timers will be migrated later to an active cpu.
-	 */
-	if (cpu_is_offline(smp_processor_id()))
-		return now + NEXT_TIMER_MAX_DELTA;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_lock(&base->lock);
 	if (time_before_eq(base->next_timer, base->timer_jiffies))
 		base->next_timer = __next_timer_interrupt(base);
@@ -1693,7 +1684,6 @@ unsigned long msleep_interruptible(unsigned int msecs)
 }
 
 EXPORT_SYMBOL(msleep_interruptible);
-<<<<<<< HEAD
 
 static void do_nsleep(unsigned int nsecs, struct hrtimer_sleeper *sleeper,
 	int sigs)
@@ -1751,5 +1741,3 @@ unsigned long hr_msleep_interruptible(unsigned int msecs)
 }
 
 EXPORT_SYMBOL(hr_msleep_interruptible);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

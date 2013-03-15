@@ -1673,10 +1673,7 @@ static void nv_mcp55_freeze(struct ata_port *ap)
 	mask = readl(mmio_base + NV_INT_ENABLE_MCP55);
 	mask &= ~(NV_INT_ALL_MCP55 << shift);
 	writel(mask, mmio_base + NV_INT_ENABLE_MCP55);
-<<<<<<< HEAD
 	ata_sff_freeze(ap);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void nv_mcp55_thaw(struct ata_port *ap)
@@ -1690,10 +1687,7 @@ static void nv_mcp55_thaw(struct ata_port *ap)
 	mask = readl(mmio_base + NV_INT_ENABLE_MCP55);
 	mask |= (NV_INT_MASK_MCP55 << shift);
 	writel(mask, mmio_base + NV_INT_ENABLE_MCP55);
-<<<<<<< HEAD
 	ata_sff_thaw(ap);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void nv_adma_error_handler(struct ata_port *ap)
@@ -2484,12 +2478,8 @@ static int nv_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
 	}
 
 	pci_set_master(pdev);
-<<<<<<< HEAD
 	return ata_host_activate(host, pdev->irq, ipriv->irq_handler,
 				 IRQF_SHARED, ipriv->sht);
-=======
-	return ata_pci_sff_activate_host(host, ipriv->irq_handler, ipriv->sht);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_PM

@@ -20,12 +20,9 @@ extern struct platform_device msm_device_uart1;
 extern struct platform_device msm_device_uart2;
 extern struct platform_device msm_device_uart3;
 
-<<<<<<< HEAD
 extern struct platform_device msm_device_uart_dm1;
 extern struct platform_device msm_device_uart_dm2;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern struct platform_device msm_device_sdc1;
 extern struct platform_device msm_device_sdc2;
 extern struct platform_device msm_device_sdc3;
@@ -38,7 +35,6 @@ extern struct platform_device msm_device_i2c;
 extern struct platform_device msm_device_smd;
 
 extern struct platform_device msm_device_nand;
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_ROTATOR
 extern struct platform_device msm_rotator_device;
 #endif
@@ -64,7 +60,5 @@ extern unsigned engineer_id;
 #ifdef CONFIG_MSM_SSBI
 extern struct platform_device msm_device_ssbi_pmic;
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif

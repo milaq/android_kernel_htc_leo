@@ -85,10 +85,7 @@ static void ecryptfs_destroy_inode(struct inode *inode)
 		if (lower_dentry->d_inode) {
 			fput(inode_info->lower_file);
 			inode_info->lower_file = NULL;
-<<<<<<< HEAD
 			d_drop(lower_dentry);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 	ecryptfs_destroy_crypt_stat(&inode_info->crypt_stat);

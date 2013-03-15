@@ -237,10 +237,7 @@ static noinline int create_subvol(struct btrfs_root *root,
 	u64 objectid;
 	u64 new_dirid = BTRFS_FIRST_FREE_OBJECTID;
 	u64 index = 0;
-<<<<<<< HEAD
 	unsigned long nr = 1;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * 1 - inode item
@@ -289,22 +286,11 @@ static noinline int create_subvol(struct btrfs_root *root,
 	inode_item->nbytes = cpu_to_le64(root->leafsize);
 	inode_item->mode = cpu_to_le32(S_IFDIR | 0755);
 
-<<<<<<< HEAD
-=======
-	root_item.flags = 0;
-	root_item.byte_limit = 0;
-	inode_item->flags = cpu_to_le64(BTRFS_INODE_ROOT_ITEM_INIT);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	btrfs_set_root_bytenr(&root_item, leaf->start);
 	btrfs_set_root_generation(&root_item, trans->transid);
 	btrfs_set_root_level(&root_item, 0);
 	btrfs_set_root_refs(&root_item, 1);
-<<<<<<< HEAD
 	btrfs_set_root_used(&root_item, 0);
-=======
-	btrfs_set_root_used(&root_item, leaf->len);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	btrfs_set_root_last_snapshot(&root_item, 0);
 
 	memset(&root_item.drop_progress, 0, sizeof(root_item.drop_progress));
@@ -356,37 +342,24 @@ static noinline int create_subvol(struct btrfs_root *root,
 
 	d_instantiate(dentry, btrfs_lookup_dentry(dir, dentry));
 fail:
-<<<<<<< HEAD
 	nr = trans->blocks_used;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = btrfs_commit_transaction(trans, root);
 	if (err && !ret)
 		ret = err;
 
 	btrfs_unreserve_metadata_space(root, 6);
-<<<<<<< HEAD
 	btrfs_btree_balance_dirty(root, nr);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
 static int create_snapshot(struct btrfs_root *root, struct dentry *dentry,
 			   char *name, int namelen)
 {
-<<<<<<< HEAD
 	struct btrfs_pending_snapshot *pending_snapshot;
 	struct btrfs_trans_handle *trans;
 	int ret = 0;
 	int err;
 	unsigned long nr = 0;
-=======
-	struct inode *inode;
-	struct btrfs_pending_snapshot *pending_snapshot;
-	struct btrfs_trans_handle *trans;
-	int ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!root->ref_cows)
 		return -EINVAL;
@@ -399,32 +372,20 @@ static int create_snapshot(struct btrfs_root *root, struct dentry *dentry,
 	 */
 	ret = btrfs_reserve_metadata_space(root, 6);
 	if (ret)
-<<<<<<< HEAD
 		goto fail_unlock;
-=======
-		goto fail;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pending_snapshot = kzalloc(sizeof(*pending_snapshot), GFP_NOFS);
 	if (!pending_snapshot) {
 		ret = -ENOMEM;
 		btrfs_unreserve_metadata_space(root, 6);
-<<<<<<< HEAD
 		goto fail_unlock;
-=======
-		goto fail;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	pending_snapshot->name = kmalloc(namelen + 1, GFP_NOFS);
 	if (!pending_snapshot->name) {
 		ret = -ENOMEM;
 		kfree(pending_snapshot);
 		btrfs_unreserve_metadata_space(root, 6);
-<<<<<<< HEAD
 		goto fail_unlock;
-=======
-		goto fail;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	memcpy(pending_snapshot->name, name, namelen);
 	pending_snapshot->name[namelen] = '\0';
@@ -434,26 +395,10 @@ static int create_snapshot(struct btrfs_root *root, struct dentry *dentry,
 	pending_snapshot->root = root;
 	list_add(&pending_snapshot->list,
 		 &trans->transaction->pending_snapshots);
-<<<<<<< HEAD
 	err = btrfs_commit_transaction(trans, root);
 
 fail_unlock:
 	btrfs_btree_balance_dirty(root, nr);
-=======
-	ret = btrfs_commit_transaction(trans, root);
-	BUG_ON(ret);
-	btrfs_unreserve_metadata_space(root, 6);
-
-	inode = btrfs_lookup_dentry(dentry->d_parent->d_inode, dentry);
-	if (IS_ERR(inode)) {
-		ret = PTR_ERR(inode);
-		goto fail;
-	}
-	BUG_ON(!inode);
-	d_instantiate(dentry, inode);
-	ret = 0;
-fail:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -1002,11 +947,7 @@ static noinline long btrfs_ioctl_clone(struct file *file, unsigned long srcfd,
 	 */
 
 	/* the destination must be opened for writing */
-<<<<<<< HEAD
 	if (!(file->f_mode & FMODE_WRITE))
-=======
-	if (!(file->f_mode & FMODE_WRITE) || (file->f_flags & O_APPEND))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EINVAL;
 
 	ret = mnt_want_write(file->f_path.mnt);
@@ -1018,23 +959,12 @@ static noinline long btrfs_ioctl_clone(struct file *file, unsigned long srcfd,
 		ret = -EBADF;
 		goto out_drop_write;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	src = src_file->f_dentry->d_inode;
 
 	ret = -EINVAL;
 	if (src == inode)
 		goto out_fput;
 
-<<<<<<< HEAD
-=======
-	/* the src must be open for reading */
-	if (!(src_file->f_mode & FMODE_READ))
-		goto out_fput;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ret = -EISDIR;
 	if (S_ISDIR(src->i_mode) || S_ISDIR(inode->i_mode))
 		goto out_fput;
@@ -1065,11 +995,7 @@ static noinline long btrfs_ioctl_clone(struct file *file, unsigned long srcfd,
 
 	/* determine range to clone */
 	ret = -EINVAL;
-<<<<<<< HEAD
 	if (off >= src->i_size || off + len > src->i_size)
-=======
-	if (off + len > src->i_size || off + len < off)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		goto out_unlock;
 	if (len == 0)
 		olen = len = src->i_size - off;
@@ -1101,12 +1027,8 @@ static noinline long btrfs_ioctl_clone(struct file *file, unsigned long srcfd,
 	BUG_ON(!trans);
 
 	/* punch hole in destination first */
-<<<<<<< HEAD
 	btrfs_drop_extents(trans, root, inode, off, off + len,
 			   off + len, 0, &hint_byte, 1);
-=======
-	btrfs_drop_extents(trans, inode, off, off + len, &hint_byte, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* clone data */
 	key.objectid = src->i_ino;

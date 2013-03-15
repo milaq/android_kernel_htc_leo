@@ -391,17 +391,8 @@ void __exit x25_link_free(void)
 	write_lock_bh(&x25_neigh_list_lock);
 
 	list_for_each_safe(entry, tmp, &x25_neigh_list) {
-<<<<<<< HEAD
 		nb = list_entry(entry, struct x25_neigh, node);
 		__x25_remove_neigh(nb);
-=======
-		struct net_device *dev;
-
-		nb = list_entry(entry, struct x25_neigh, node);
-		dev = nb->dev;
-		__x25_remove_neigh(nb);
-		dev_put(dev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	write_unlock_bh(&x25_neigh_list_lock);
 }

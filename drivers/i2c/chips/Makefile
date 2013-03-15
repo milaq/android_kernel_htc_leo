@@ -10,7 +10,6 @@
 # * I/O expander drivers go to drivers/gpio
 #
 
-<<<<<<< HEAD
 obj-$(CONFIG_SENSORS_AKM8973)	+= akm8973.o
 obj-$(CONFIG_SENSORS_AKM8975)   += akm8975.o
 obj-$(CONFIG_SENSORS_AKM8976)	+= akm8976.o
@@ -27,10 +26,6 @@ obj-$(CONFIG_AMP_TPA2018D1)	+= tpa2018d1.o
 obj-$(CONFIG_ARCH_MSM_FLASHLIGHT)	+= adp1650_flashlight.o
 obj-$(CONFIG_INPUT_ISL29028)	+= isl29028.o
 obj-$(CONFIG_TPS65200)          += tps65200.o
-=======
-obj-$(CONFIG_DS1682)		+= ds1682.o
-obj-$(CONFIG_SENSORS_TSL2550)	+= tsl2550.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 ifeq ($(CONFIG_I2C_DEBUG_CHIP),y)
 EXTRA_CFLAGS += -DDEBUG

@@ -17,11 +17,6 @@
 #define L1_CACHE_SHIFT		(CONFIG_FRV_L1_CACHE_SHIFT)
 #define L1_CACHE_BYTES		(1 << L1_CACHE_SHIFT)
 
-<<<<<<< HEAD
-=======
-#define ARCH_KMALLOC_MINALIGN	L1_CACHE_BYTES
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define __cacheline_aligned	__attribute__((aligned(L1_CACHE_BYTES)))
 #define ____cacheline_aligned	__attribute__((aligned(L1_CACHE_BYTES)))
 

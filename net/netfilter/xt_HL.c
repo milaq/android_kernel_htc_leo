@@ -26,11 +26,7 @@ MODULE_DESCRIPTION("Xtables: Hoplimit/TTL Limit field modification target");
 MODULE_LICENSE("GPL");
 
 static unsigned int
-<<<<<<< HEAD
 ttl_tg(struct sk_buff *skb, const struct xt_action_param *par)
-=======
-ttl_tg(struct sk_buff *skb, const struct xt_target_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct iphdr *iph;
 	const struct ipt_TTL_info *info = par->targinfo;
@@ -70,11 +66,7 @@ ttl_tg(struct sk_buff *skb, const struct xt_target_param *par)
 }
 
 static unsigned int
-<<<<<<< HEAD
 hl_tg6(struct sk_buff *skb, const struct xt_action_param *par)
-=======
-hl_tg6(struct sk_buff *skb, const struct xt_target_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct ipv6hdr *ip6h;
 	const struct ip6t_HL_info *info = par->targinfo;

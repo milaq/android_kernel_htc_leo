@@ -221,11 +221,8 @@ struct ext4_buddy {
 #define EXT4_MB_BITMAP(e4b)	((e4b)->bd_bitmap)
 #define EXT4_MB_BUDDY(e4b)	((e4b)->bd_buddy)
 
-<<<<<<< HEAD
 #define in_range(b, first, len)	((b) >= (first) && (b) <= (first) + (len) - 1)
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline ext4_fsblk_t ext4_grp_offs_to_block(struct super_block *sb,
 					struct ext4_free_extent *fex)
 {

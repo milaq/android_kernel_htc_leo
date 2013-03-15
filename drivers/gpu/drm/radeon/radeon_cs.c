@@ -230,10 +230,6 @@ int radeon_cs_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
 	memset(&parser, 0, sizeof(struct radeon_cs_parser));
 	parser.filp = filp;
 	parser.rdev = rdev;
-<<<<<<< HEAD
-=======
-	parser.dev = rdev->dev;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	r = radeon_cs_parser_init(&parser, data);
 	if (r) {
 		DRM_ERROR("Failed to initialize parser !\n");
@@ -250,12 +246,7 @@ int radeon_cs_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
 	}
 	r = radeon_cs_parser_relocs(&parser);
 	if (r) {
-<<<<<<< HEAD
 		DRM_ERROR("Failed to parse relocation !\n");
-=======
-		if (r != -ERESTARTSYS)
-			DRM_ERROR("Failed to parse relocation %d!\n", r);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		radeon_cs_parser_fini(&parser, r);
 		mutex_unlock(&rdev->cs_mutex);
 		return r;

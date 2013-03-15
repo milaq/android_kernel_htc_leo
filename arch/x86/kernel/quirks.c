@@ -512,10 +512,6 @@ static void __init quirk_amd_nb_node(struct pci_dev *dev)
 {
 	struct pci_dev *nb_ht;
 	unsigned int devfn;
-<<<<<<< HEAD
-=======
-	u32 node;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 val;
 
 	devfn = PCI_DEVFN(PCI_SLOT(dev->devfn), 0);
@@ -524,17 +520,7 @@ static void __init quirk_amd_nb_node(struct pci_dev *dev)
 		return;
 
 	pci_read_config_dword(nb_ht, 0x60, &val);
-<<<<<<< HEAD
 	set_dev_node(&dev->dev, val & 7);
-=======
-	node = val & 7;
-	/*
-	 * Some hardware may return an invalid node ID,
-	 * so check it first:
-	 */
-	if (node_online(node))
-		set_dev_node(&dev->dev, node);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	pci_dev_put(nb_ht);
 }
 

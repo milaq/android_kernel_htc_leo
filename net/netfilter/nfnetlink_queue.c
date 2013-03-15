@@ -420,11 +420,7 @@ nfqnl_enqueue_packet(struct nf_queue_entry *entry, unsigned int queuenum)
 	}
 
 	/* nfnetlink_unicast will either free the nskb or add it to a socket */
-<<<<<<< HEAD
 	err = nfnetlink_unicast(nskb, &init_net, queue->peer_pid, MSG_DONTWAIT);
-=======
-	err = nfnetlink_unicast(nskb, queue->peer_pid, MSG_DONTWAIT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err < 0) {
 		queue->queue_user_dropped++;
 		goto err_out_unlock;

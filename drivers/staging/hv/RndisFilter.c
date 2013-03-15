@@ -756,10 +756,6 @@ static int RndisFilterOpenDevice(struct rndis_device *Device)
 
 	ret = RndisFilterSetPacketFilter(Device,
 					 NDIS_PACKET_TYPE_BROADCAST |
-<<<<<<< HEAD
-=======
-					 NDIS_PACKET_TYPE_ALL_MULTICAST |
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					 NDIS_PACKET_TYPE_DIRECTED);
 	if (ret == 0)
 		Device->State = RNDIS_DEV_DATAINITIALIZED;

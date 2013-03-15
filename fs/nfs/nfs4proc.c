@@ -1067,10 +1067,6 @@ static int nfs4_open_recover(struct nfs4_opendata *opendata, struct nfs4_state *
 	clear_bit(NFS_DELEGATED_STATE, &state->flags);
 	smp_rmb();
 	if (state->n_rdwr != 0) {
-<<<<<<< HEAD
-=======
-		clear_bit(NFS_O_RDWR_STATE, &state->flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = nfs4_open_recover_helper(opendata, FMODE_READ|FMODE_WRITE, &newstate);
 		if (ret != 0)
 			return ret;
@@ -1078,10 +1074,6 @@ static int nfs4_open_recover(struct nfs4_opendata *opendata, struct nfs4_state *
 			return -ESTALE;
 	}
 	if (state->n_wronly != 0) {
-<<<<<<< HEAD
-=======
-		clear_bit(NFS_O_WRONLY_STATE, &state->flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = nfs4_open_recover_helper(opendata, FMODE_WRITE, &newstate);
 		if (ret != 0)
 			return ret;
@@ -1089,10 +1081,6 @@ static int nfs4_open_recover(struct nfs4_opendata *opendata, struct nfs4_state *
 			return -ESTALE;
 	}
 	if (state->n_rdonly != 0) {
-<<<<<<< HEAD
-=======
-		clear_bit(NFS_O_RDONLY_STATE, &state->flags);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		ret = nfs4_open_recover_helper(opendata, FMODE_READ, &newstate);
 		if (ret != 0)
 			return ret;
@@ -1451,11 +1439,6 @@ static int _nfs4_proc_open(struct nfs4_opendata *data)
 		nfs_post_op_update_inode(dir, o_res->dir_attr);
 	} else
 		nfs_refresh_inode(dir, o_res->dir_attr);
-<<<<<<< HEAD
-=======
-	if ((o_res->rflags & NFS4_OPEN_RESULT_LOCKTYPE_POSIX) == 0)
-		server->caps &= ~NFS_CAP_POSIX_LOCK;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if(o_res->rflags & NFS4_OPEN_RESULT_CONFIRM) {
 		status = _nfs4_proc_open_confirm(data);
 		if (status != 0)
@@ -1505,11 +1488,7 @@ static int _nfs4_open_expired(struct nfs_open_context *ctx, struct nfs4_state *s
 	return ret;
 }
 
-<<<<<<< HEAD
 static inline int nfs4_do_open_expired(struct nfs_open_context *ctx, struct nfs4_state *state)
-=======
-static int nfs4_do_open_expired(struct nfs_open_context *ctx, struct nfs4_state *state)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct nfs_server *server = NFS_SERVER(state->inode);
 	struct nfs4_exception exception = { };
@@ -1517,23 +1496,10 @@ static int nfs4_do_open_expired(struct nfs_open_context *ctx, struct nfs4_state 
 
 	do {
 		err = _nfs4_open_expired(ctx, state);
-<<<<<<< HEAD
 		if (err != -NFS4ERR_DELAY)
 			break;
 		nfs4_handle_exception(server, err, &exception);
 	} while (exception.retry);
-=======
-		switch (err) {
-		default:
-			goto out;
-		case -NFS4ERR_GRACE:
-		case -NFS4ERR_DELAY:
-			nfs4_handle_exception(server, err, &exception);
-			err = 0;
-		}
-	} while (exception.retry);
-out:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 
@@ -1607,14 +1573,8 @@ static int _nfs4_do_open(struct inode *dir, struct path *path, fmode_t fmode, in
 	status = PTR_ERR(state);
 	if (IS_ERR(state))
 		goto err_opendata_put;
-<<<<<<< HEAD
 	if ((opendata->o_res.rflags & NFS4_OPEN_RESULT_LOCKTYPE_POSIX) != 0)
 		set_bit(NFS_STATE_POSIX_LOCKS, &state->flags);
-=======
-	if (server->caps & NFS_CAP_POSIX_LOCK)
-		set_bit(NFS_STATE_POSIX_LOCKS, &state->flags);
-	nfs_revalidate_inode(server, state->inode);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	nfs4_opendata_put(opendata);
 	nfs4_put_state_owner(sp);
 	*res = state;
@@ -3171,38 +3131,6 @@ static void buf_to_pages(const void *buf, size_t buflen,
 	}
 }
 
-<<<<<<< HEAD
-=======
-static int buf_to_pages_noslab(const void *buf, size_t buflen,
-		struct page **pages, unsigned int *pgbase)
-{
-	struct page *newpage, **spages;
-	int rc = 0;
-	size_t len;
-	spages = pages;
-
-	do {
-		len = min_t(size_t, PAGE_CACHE_SIZE, buflen);
-		newpage = alloc_page(GFP_KERNEL);
-
-		if (newpage == NULL)
-			goto unwind;
-		memcpy(page_address(newpage), buf, len);
-                buf += len;
-                buflen -= len;
-		*pages++ = newpage;
-		rc++;
-	} while (buflen != 0);
-
-	return rc;
-
-unwind:
-	for(; rc > 0; rc--)
-		__free_page(spages[rc-1]);
-	return -ENOMEM;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 struct nfs4_cached_acl {
 	int cached;
 	size_t len;
@@ -3369,7 +3297,6 @@ static int __nfs4_proc_set_acl(struct inode *inode, const void *buf, size_t bufl
 		.rpc_argp	= &arg,
 		.rpc_resp	= &res,
 	};
-<<<<<<< HEAD
 	int ret;
 
 	if (!nfs4_server_supports_acls(server))
@@ -3377,25 +3304,6 @@ static int __nfs4_proc_set_acl(struct inode *inode, const void *buf, size_t bufl
 	nfs_inode_return_delegation(inode);
 	buf_to_pages(buf, buflen, arg.acl_pages, &arg.acl_pgbase);
 	ret = nfs4_call_sync(server, &msg, &arg, &res, 1);
-=======
-	int ret, i;
-
-	if (!nfs4_server_supports_acls(server))
-		return -EOPNOTSUPP;
-	i = buf_to_pages_noslab(buf, buflen, arg.acl_pages, &arg.acl_pgbase);
-	if (i < 0)
-		return i;
-	nfs_inode_return_delegation(inode);
-	ret = nfs4_call_sync(server, &msg, &arg, &res, 1);
-
-	/*
-	 * Free each page after tx, so the only ref left is
-	 * held by the network stack
-	 */
-	for (; i > 0; i--)
-		put_page(pages[i-1]);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	nfs_access_zap_cache(inode);
 	nfs_zap_acl_cache(inode);
 	return ret;
@@ -4162,23 +4070,10 @@ static int nfs4_lock_expired(struct nfs4_state *state, struct file_lock *request
 		if (test_bit(NFS_DELEGATED_STATE, &state->flags) != 0)
 			return 0;
 		err = _nfs4_do_setlk(state, F_SETLK, request, 0);
-<<<<<<< HEAD
 		if (err != -NFS4ERR_DELAY)
 			break;
 		nfs4_handle_exception(server, err, &exception);
 	} while (exception.retry);
-=======
-		switch (err) {
-		default:
-			goto out;
-		case -NFS4ERR_GRACE:
-		case -NFS4ERR_DELAY:
-			nfs4_handle_exception(server, err, &exception);
-			err = 0;
-		}
-	} while (exception.retry);
-out:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 

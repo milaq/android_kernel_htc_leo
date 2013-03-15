@@ -502,7 +502,6 @@ config ARCH_PROC_KCORE_TEXT
 	def_bool y
 	depends on PROC_KCORE
 
-<<<<<<< HEAD
 config IA32_SUPPORT
 	bool "Support for Linux/x86 binaries"
 	help
@@ -520,8 +519,6 @@ config COMPAT
 config COMPAT_FOR_U64_ALIGNMENT
 	def_bool COMPAT
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config IA64_MCA_RECOVERY
 	tristate "MCA recovery from errors other than TLB."
 

@@ -987,16 +987,10 @@ static void xen_pgd_pin(struct mm_struct *mm)
  */
 void xen_mm_pin_all(void)
 {
-<<<<<<< HEAD
 	unsigned long flags;
 	struct page *page;
 
 	spin_lock_irqsave(&pgd_lock, flags);
-=======
-	struct page *page;
-
-	spin_lock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	list_for_each_entry(page, &pgd_list, lru) {
 		if (!PagePinned(page)) {
@@ -1005,11 +999,7 @@ void xen_mm_pin_all(void)
 		}
 	}
 
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&pgd_lock, flags);
-=======
-	spin_unlock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1110,16 +1100,10 @@ static void xen_pgd_unpin(struct mm_struct *mm)
  */
 void xen_mm_unpin_all(void)
 {
-<<<<<<< HEAD
 	unsigned long flags;
 	struct page *page;
 
 	spin_lock_irqsave(&pgd_lock, flags);
-=======
-	struct page *page;
-
-	spin_lock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	list_for_each_entry(page, &pgd_list, lru) {
 		if (PageSavePinned(page)) {
@@ -1129,11 +1113,7 @@ void xen_mm_unpin_all(void)
 		}
 	}
 
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&pgd_lock, flags);
-=======
-	spin_unlock(&pgd_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 void xen_activate_mm(struct mm_struct *prev, struct mm_struct *next)
@@ -1161,11 +1141,7 @@ static void drop_other_mm_ref(void *info)
 
 	active_mm = percpu_read(cpu_tlbstate.active_mm);
 
-<<<<<<< HEAD
 	if (active_mm == mm)
-=======
-	if (active_mm == mm && percpu_read(cpu_tlbstate.state) != TLBSTATE_OK)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		leave_mm(smp_processor_id());
 
 	/* If this cpu still has a stale cr3 reference, then make sure
@@ -1456,7 +1432,6 @@ static void *xen_kmap_atomic_pte(struct page *page, enum km_type type)
 {
 	pgprot_t prot = PAGE_KERNEL;
 
-<<<<<<< HEAD
 	if (PagePinned(page))
 		prot = PAGE_KERNEL_RO;
 
@@ -1465,17 +1440,6 @@ static void *xen_kmap_atomic_pte(struct page *page, enum km_type type)
 		       page_to_pfn(page), type,
 		       (unsigned long)pgprot_val(prot) & _PAGE_RW ? "WRITE" : "READ");
 
-=======
-	/*
-	 * We disable highmem allocations for page tables so we should never
-	 * see any calls to kmap_atomic_pte on a highmem page.
-	 */
-	BUG_ON(PageHighMem(page));
-
-	if (PagePinned(page))
-		prot = PAGE_KERNEL_RO;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return kmap_atomic_prot(page, type, prot);
 }
 #endif
@@ -1693,15 +1657,8 @@ static __init void xen_map_identity_early(pmd_t *pmd, unsigned long max_pfn)
 		for (pteidx = 0; pteidx < PTRS_PER_PTE; pteidx++, pfn++) {
 			pte_t pte;
 
-<<<<<<< HEAD
 			if (pfn > max_pfn_mapped)
 				max_pfn_mapped = pfn;
-=======
-#ifdef CONFIG_X86_32
-			if (pfn > max_pfn_mapped)
-				max_pfn_mapped = pfn;
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 			if (!pte_none(pte_page[pteidx]))
 				continue;
@@ -1746,15 +1703,6 @@ __init pgd_t *xen_setup_kernel_pagetable(pgd_t *pgd,
 	pud_t *l3;
 	pmd_t *l2;
 
-<<<<<<< HEAD
-=======
-	/* max_pfn_mapped is the last pfn mapped in the initial memory
-	 * mappings. Considering that on Xen after the kernel mappings we
-	 * have the mappings of some pages that don't exist in pfn space, we
-	 * set max_pfn_mapped to the last real pfn mapped. */
-	max_pfn_mapped = PFN_DOWN(__pa(xen_start_info->mfn_list));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Zap identity mapping */
 	init_level4_pgt[0] = __pgd(0);
 

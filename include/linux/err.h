@@ -34,14 +34,11 @@ static inline long IS_ERR(const void *ptr)
 	return IS_ERR_VALUE((unsigned long)ptr);
 }
 
-<<<<<<< HEAD
 static inline long IS_ERR_OR_NULL(const void *ptr)
 {
 	return !ptr || IS_ERR_VALUE((unsigned long)ptr);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * ERR_CAST - Explicitly cast an error-valued pointer to another pointer type
  * @ptr: The pointer to cast.

@@ -87,14 +87,8 @@ struct ehci_hcd {			/* one per controller */
 	int			next_uframe;	/* scan periodic, start here */
 	unsigned		periodic_sched;	/* periodic activity count */
 
-<<<<<<< HEAD
 	/* list of itds completed while clock_frame was still active */
 	struct list_head	cached_itd_list;
-=======
-	/* list of itds & sitds completed while clock_frame was still active */
-	struct list_head	cached_itd_list;
-	struct list_head	cached_sitd_list;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned		clock_frame;
 
 	/* per root hub port */
@@ -135,10 +129,6 @@ struct ehci_hcd {			/* one per controller */
 	unsigned		has_amcc_usb23:1;
 	unsigned		need_io_watchdog:1;
 	unsigned		broken_periodic:1;
-<<<<<<< HEAD
-=======
-	unsigned		amd_l1_fix:1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* required for usb32 quirk */
 	#define OHCI_CTRL_HCFS          (3 << 6)
@@ -205,11 +195,7 @@ timer_action_done (struct ehci_hcd *ehci, enum ehci_timer_action action)
 	clear_bit (action, &ehci->actions);
 }
 
-<<<<<<< HEAD
 static void free_cached_itd_list(struct ehci_hcd *ehci);
-=======
-static void free_cached_lists(struct ehci_hcd *ehci);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*-------------------------------------------------------------------------*/
 
@@ -378,10 +364,6 @@ struct ehci_qh {
 #define NO_FRAME ((unsigned short)~0)			/* pick new start */
 
 	struct usb_device	*dev;		/* access to TT */
-<<<<<<< HEAD
-=======
-	unsigned		is_out:1;	/* bulk or intr OUT */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned		clearing_tt:1;	/* Clear-TT-Buf in progress */
 };
 
@@ -412,14 +394,9 @@ struct ehci_iso_sched {
  * acts like a qh would, if EHCI had them for ISO.
  */
 struct ehci_iso_stream {
-<<<<<<< HEAD
 	/* first two fields match QH, but info1 == 0 */
 	__hc32			hw_next;
 	__hc32			hw_info1;
-=======
-	/* first field matches ehci_hq, but is NULL */
-	struct ehci_qh_hw	*hw;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	u32			refcount;
 	u8			bEndpointAddress;

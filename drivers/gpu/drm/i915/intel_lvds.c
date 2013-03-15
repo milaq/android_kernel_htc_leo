@@ -629,16 +629,6 @@ static const struct dmi_system_id bad_lid_status[] = {
 			DMI_MATCH(DMI_PRODUCT_NAME, "PC-81005"),
 		},
 	},
-<<<<<<< HEAD
-=======
-	{
-		.ident = "Clevo M5x0N",
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "CLEVO Co."),
-			DMI_MATCH(DMI_BOARD_NAME, "M5x0N"),
-		},
-	},
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ }
 };
 
@@ -651,17 +641,8 @@ static const struct dmi_system_id bad_lid_status[] = {
  */
 static enum drm_connector_status intel_lvds_detect(struct drm_connector *connector)
 {
-<<<<<<< HEAD
 	enum drm_connector_status status = connector_status_connected;
 
-=======
-	struct drm_device *dev = connector->dev;
-	enum drm_connector_status status = connector_status_connected;
-
-	if (IS_I8XX(dev))
-		return connector_status_connected;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!acpi_lid_open() && !dmi_check_system(bad_lid_status))
 		status = connector_status_disconnected;
 
@@ -892,54 +873,15 @@ static const struct dmi_system_id intel_no_lvds[] = {
 	},
 	{
 		.callback = intel_no_lvds_dmi_callback,
-<<<<<<< HEAD
-=======
-		.ident = "AOpen i915GMm-HFS",
-		.matches = {
-			DMI_MATCH(DMI_BOARD_VENDOR, "AOpen"),
-			DMI_MATCH(DMI_BOARD_NAME, "i915GMm-HFS"),
-		},
-	},
-	{
-		.callback = intel_no_lvds_dmi_callback,
-                .ident = "AOpen i45GMx-I",
-                .matches = {
-                        DMI_MATCH(DMI_BOARD_VENDOR, "AOpen"),
-                        DMI_MATCH(DMI_BOARD_NAME, "i45GMx-I"),
-                },
-        },
-	{
-		.callback = intel_no_lvds_dmi_callback,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.ident = "Aopen i945GTt-VFA",
 		.matches = {
 			DMI_MATCH(DMI_PRODUCT_VERSION, "AO00001JW"),
 		},
 	},
-<<<<<<< HEAD
-=======
-	{
-		.callback = intel_no_lvds_dmi_callback,
-		.ident = "Clientron U800",
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Clientron"),
-			DMI_MATCH(DMI_PRODUCT_NAME, "U800"),
-		},
-	},
-	{
-		.callback = intel_no_lvds_dmi_callback,
-		.ident = "Asus EeeBox PC EB1007",
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer INC."),
-			DMI_MATCH(DMI_PRODUCT_NAME, "EB1007"),
-		},
-	},
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ }	/* terminating entry */
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_ACPI
 /*
  * check_lid_device -- check whether @handle is an ACPI LID device.
@@ -998,47 +940,6 @@ static int intel_lid_present(void)
 	return 1;
 }
 #endif
-=======
-/*
- * Enumerate the child dev array parsed from VBT to check whether
- * the LVDS is present.
- * If it is present, return 1.
- * If it is not present, return false.
- * If no child dev is parsed from VBT, it assumes that the LVDS is present.
- * Note: The addin_offset should also be checked for LVDS panel.
- * Only when it is non-zero, it is assumed that it is present.
- */
-static int lvds_is_present_in_vbt(struct drm_device *dev)
-{
-	struct drm_i915_private *dev_priv = dev->dev_private;
-	struct child_device_config *p_child;
-	int i, ret;
-
-	if (!dev_priv->child_dev_num)
-		return 1;
-
-	ret = 0;
-	for (i = 0; i < dev_priv->child_dev_num; i++) {
-		p_child = dev_priv->child_dev + i;
-		/*
-		 * If the device type is not LFP, continue.
-		 * If the device type is 0x22, it is also regarded as LFP.
-		 */
-		if (p_child->device_type != DEVICE_TYPE_INT_LFP &&
-			p_child->device_type != DEVICE_TYPE_LFP)
-			continue;
-
-		/* The addin_offset should be checked. Only when it is
-		 * non-zero, it is regarded as present.
-		 */
-		if (p_child->addin_offset) {
-			ret = 1;
-			break;
-		}
-	}
-	return ret;
-}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * intel_lvds_init - setup LVDS connectors on this device
@@ -1063,7 +964,6 @@ void intel_lvds_init(struct drm_device *dev)
 	if (dmi_check_system(intel_no_lvds))
 		return;
 
-<<<<<<< HEAD
 	/* Assume that any device without an ACPI LID device also doesn't
 	 * have an integrated LVDS.  We would be better off parsing the BIOS
 	 * to get a reliable indicator, but that code isn't written yet.
@@ -1073,12 +973,6 @@ void intel_lvds_init(struct drm_device *dev)
 	 */
 	if (!intel_lid_present())
 		return;
-=======
-	if (!lvds_is_present_in_vbt(dev)) {
-		DRM_DEBUG_KMS("LVDS is not present in VBT\n");
-		return;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (IS_IGDNG(dev)) {
 		if ((I915_READ(PCH_LVDS) & LVDS_DETECTED) == 0)

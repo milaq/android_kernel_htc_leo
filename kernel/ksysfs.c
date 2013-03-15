@@ -176,7 +176,6 @@ static int __init ksysfs_init(void)
 			goto group_exit;
 	}
 
-<<<<<<< HEAD
 	/* create the /sys/kernel/uids/ directory */
 	error = uids_sysfs_init();
 	if (error)
@@ -187,10 +186,6 @@ static int __init ksysfs_init(void)
 notes_exit:
 	if (notes_size > 0)
 		sysfs_remove_bin_file(kernel_kobj, &notes_attr);
-=======
-	return 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 group_exit:
 	sysfs_remove_group(kernel_kobj, &kernel_attr_group);
 kset_exit:

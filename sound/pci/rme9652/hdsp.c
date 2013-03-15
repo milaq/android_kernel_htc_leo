@@ -4610,10 +4610,6 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
 		if (err < 0)
 			return err;
 
-<<<<<<< HEAD
-=======
-		memset(&info, 0, sizeof(info));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock_irqsave(&hdsp->lock, flags);
 		info.pref_sync_ref = (unsigned char)hdsp_pref_sync_ref(hdsp);
 		info.wordclock_sync_check = (unsigned char)hdsp_wc_sync_check(hdsp);

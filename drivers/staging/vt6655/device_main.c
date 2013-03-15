@@ -1089,19 +1089,11 @@ device_found1(struct pci_dev *pcid, const struct pci_device_id *ent)
     }
 //2008-07-21-01<Add>by MikeLiu
 //register wpadev
-<<<<<<< HEAD
-=======
-#if 0
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
    if(wpa_set_wpadev(pDevice, 1)!=0) {
      printk("Fail to Register WPADEV?\n");
         unregister_netdev(pDevice->dev);
         free_netdev(dev);
    }
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
     device_print_info(pDevice);
     pci_set_drvdata(pcid, pDevice);
     return 0;

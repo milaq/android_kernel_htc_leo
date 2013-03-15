@@ -310,10 +310,6 @@ void blk_unplug_timeout(unsigned long data)
 	trace_block_unplug_timer(q);
 	kblockd_schedule_work(q, &q->unplug_work);
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(blk_put_queue);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 void blk_unplug(struct request_queue *q)
 {
@@ -616,10 +612,6 @@ int blk_get_queue(struct request_queue *q)
 
 	return 1;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(blk_get_queue);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline void blk_free_request(struct request_queue *q, struct request *rq)
 {
@@ -1568,12 +1560,9 @@ void submit_bio(int rw, struct bio *bio)
 	 * go through the normal accounting stuff before submission.
 	 */
 	if (bio_has_data(bio)) {
-<<<<<<< HEAD
 #if defined(CONFIG_MSM_RMT_STORAGE_SERVER)
 		char bde[BDEVNAME_SIZE];
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (rw & WRITE) {
 			count_vm_events(PGPGOUT, count);
 		} else {
@@ -1583,7 +1572,6 @@ void submit_bio(int rw, struct bio *bio)
 
 		if (unlikely(block_dump)) {
 			char b[BDEVNAME_SIZE];
-<<<<<<< HEAD
 			printk(KERN_DEBUG "%s(%d): %s block %Lu on %s (%u sectors)\n",
 			current->comm, task_pid_nr(current),
 				(rw & WRITE) ? "WRITE" : "READ",
@@ -1606,14 +1594,6 @@ void submit_bio(int rw, struct bio *bio)
 			}
 		}
 #endif
-=======
-			printk(KERN_DEBUG "%s(%d): %s block %Lu on %s\n",
-			current->comm, task_pid_nr(current),
-				(rw & WRITE) ? "WRITE" : "READ",
-				(unsigned long long)bio->bi_sector,
-				bdevname(bio->bi_bdev, b));
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	generic_make_request(bio);

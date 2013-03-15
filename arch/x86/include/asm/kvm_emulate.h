@@ -54,31 +54,13 @@ struct x86_emulate_ctxt;
 struct x86_emulate_ops {
 	/*
 	 * read_std: Read bytes of standard (non-emulated/special) memory.
-<<<<<<< HEAD
 	 *           Used for instruction fetch, stack operations, and others.
-=======
-	 *           Used for descriptor reading.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 *  @addr:  [IN ] Linear address from which to read.
 	 *  @val:   [OUT] Value read from memory, zero-extended to 'u_long'.
 	 *  @bytes: [IN ] Number of bytes to read from memory.
 	 */
 	int (*read_std)(unsigned long addr, void *val,
-<<<<<<< HEAD
 			unsigned int bytes, struct kvm_vcpu *vcpu);
-=======
-			unsigned int bytes, struct kvm_vcpu *vcpu, u32 *error);
-
-	/*
-	 * fetch: Read bytes of standard (non-emulated/special) memory.
-	 *        Used for instruction fetch.
-	 *  @addr:  [IN ] Linear address from which to read.
-	 *  @val:   [OUT] Value read from memory, zero-extended to 'u_long'.
-	 *  @bytes: [IN ] Number of bytes to read from memory.
-	 */
-	int (*fetch)(unsigned long addr, void *val,
-			unsigned int bytes, struct kvm_vcpu *vcpu, u32 *error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * read_emulated: Read bytes from emulated/special memory area.
@@ -117,11 +99,6 @@ struct x86_emulate_ops {
 				unsigned int bytes,
 				struct kvm_vcpu *vcpu);
 
-<<<<<<< HEAD
-=======
-	bool (*get_cpuid)(struct x86_emulate_ctxt *ctxt,
-			 u32 *eax, u32 *ebx, u32 *ecx, u32 *edx);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 /* Type, address-of, and value of an instruction's operand. */
@@ -191,10 +168,6 @@ struct x86_emulate_ctxt {
 
 /* Execution mode, passed to the emulator. */
 #define X86EMUL_MODE_REAL     0	/* Real mode.             */
-<<<<<<< HEAD
-=======
-#define X86EMUL_MODE_VM86     1	/* Virtual 8086 mode.     */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define X86EMUL_MODE_PROT16   2	/* 16-bit protected mode. */
 #define X86EMUL_MODE_PROT32   4	/* 32-bit protected mode. */
 #define X86EMUL_MODE_PROT64   8	/* 64-bit (long) mode.    */
@@ -206,22 +179,6 @@ struct x86_emulate_ctxt {
 #define X86EMUL_MODE_HOST X86EMUL_MODE_PROT64
 #endif
 
-<<<<<<< HEAD
-=======
-/* CPUID vendors */
-#define X86EMUL_CPUID_VENDOR_AuthenticAMD_ebx 0x68747541
-#define X86EMUL_CPUID_VENDOR_AuthenticAMD_ecx 0x444d4163
-#define X86EMUL_CPUID_VENDOR_AuthenticAMD_edx 0x69746e65
-
-#define X86EMUL_CPUID_VENDOR_AMDisbetterI_ebx 0x69444d41
-#define X86EMUL_CPUID_VENDOR_AMDisbetterI_ecx 0x21726574
-#define X86EMUL_CPUID_VENDOR_AMDisbetterI_edx 0x74656273
-
-#define X86EMUL_CPUID_VENDOR_GenuineIntel_ebx 0x756e6547
-#define X86EMUL_CPUID_VENDOR_GenuineIntel_ecx 0x6c65746e
-#define X86EMUL_CPUID_VENDOR_GenuineIntel_edx 0x49656e69
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int x86_decode_insn(struct x86_emulate_ctxt *ctxt,
 		    struct x86_emulate_ops *ops);
 int x86_emulate_insn(struct x86_emulate_ctxt *ctxt,

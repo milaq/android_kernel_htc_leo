@@ -84,23 +84,6 @@ static struct can_bittiming_const sja1000_bittiming_const = {
 	.brp_inc = 1,
 };
 
-<<<<<<< HEAD
-=======
-static void sja1000_write_cmdreg(struct sja1000_priv *priv, u8 val)
-{
-	unsigned long flags;
-
-	/*
-	 * The command register needs some locking and time to settle
-	 * the write_reg() operation - especially on SMP systems.
-	 */
-	spin_lock_irqsave(&priv->cmdreg_lock, flags);
-	priv->write_reg(priv, REG_CMR, val);
-	priv->read_reg(priv, REG_SR);
-	spin_unlock_irqrestore(&priv->cmdreg_lock, flags);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int sja1000_probe_chip(struct net_device *dev)
 {
 	struct sja1000_priv *priv = netdev_priv(dev);
@@ -296,11 +279,7 @@ static netdev_tx_t sja1000_start_xmit(struct sk_buff *skb,
 
 	can_put_echo_skb(skb, dev, 0);
 
-<<<<<<< HEAD
 	priv->write_reg(priv, REG_CMR, CMD_TR);
-=======
-	sja1000_write_cmdreg(priv, CMD_TR);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return NETDEV_TX_OK;
 }
@@ -355,11 +334,7 @@ static void sja1000_rx(struct net_device *dev)
 		cf->data[i++] = 0;
 
 	/* release receive buffer */
-<<<<<<< HEAD
 	priv->write_reg(priv, REG_CMR, CMD_RRB);
-=======
-	sja1000_write_cmdreg(priv, CMD_RRB);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	netif_rx(skb);
 
@@ -393,11 +368,7 @@ static int sja1000_err(struct net_device *dev, uint8_t isrc, uint8_t status)
 		cf->data[1] = CAN_ERR_CRTL_RX_OVERFLOW;
 		stats->rx_over_errors++;
 		stats->rx_errors++;
-<<<<<<< HEAD
 		priv->write_reg(priv, REG_CMR, CMD_CDO);	/* clear bit */
-=======
-		sja1000_write_cmdreg(priv, CMD_CDO);	/* clear bit */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (isrc & IRQ_EI) {

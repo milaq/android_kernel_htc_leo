@@ -56,11 +56,7 @@ struct paca_struct {
 	struct lppaca *lppaca_ptr;	/* Pointer to LpPaca for PLIC */
 #endif /* CONFIG_PPC_BOOK3S */
 	/*
-<<<<<<< HEAD
 	 * MAGIC: the spinlock functions in arch/powerpc/lib/locks.c 
-=======
-	 * MAGIC: the spinlock functions in arch/powerpc/lib/locks.c
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 * load lock_token and paca_index with a single lwz
 	 * instruction.  They must travel together and be properly
 	 * aligned.
@@ -80,10 +76,6 @@ struct paca_struct {
 	s16 hw_cpu_id;			/* Physical processor number */
 	u8 cpu_start;			/* At startup, processor spins until */
 					/* this becomes non-zero. */
-<<<<<<< HEAD
-=======
-	u8 kexec_state;         /* set when kexec down has irqs off */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_PPC_STD_MMU_64
 	struct slb_shadow *slb_shadow_ptr;
 

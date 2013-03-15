@@ -8,20 +8,13 @@
 
 #define __xg(x) ((volatile long *)(x))
 
-<<<<<<< HEAD
 static inline void set_64bit(volatile unsigned long *ptr, unsigned long val)
-=======
-static inline void set_64bit(volatile u64 *ptr, u64 val)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	*ptr = val;
 }
 
-<<<<<<< HEAD
 #define _set_64bit set_64bit
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * Note: no "lock" prefix even on SMP: xchg always implies lock anyway
  * Note 2: xchg has side effect, so that attribute volatile is necessary,
@@ -33,46 +26,26 @@ static inline unsigned long __xchg(unsigned long x, volatile void *ptr,
 	switch (size) {
 	case 1:
 		asm volatile("xchgb %b0,%1"
-<<<<<<< HEAD
 			     : "=q" (x)
 			     : "m" (*__xg(ptr)), "0" (x)
-=======
-			     : "=q" (x), "+m" (*__xg(ptr))
-			     : "0" (x)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		break;
 	case 2:
 		asm volatile("xchgw %w0,%1"
-<<<<<<< HEAD
 			     : "=r" (x)
 			     : "m" (*__xg(ptr)), "0" (x)
-=======
-			     : "=r" (x), "+m" (*__xg(ptr))
-			     : "0" (x)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		break;
 	case 4:
 		asm volatile("xchgl %k0,%1"
-<<<<<<< HEAD
 			     : "=r" (x)
 			     : "m" (*__xg(ptr)), "0" (x)
-=======
-			     : "=r" (x), "+m" (*__xg(ptr))
-			     : "0" (x)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		break;
 	case 8:
 		asm volatile("xchgq %0,%1"
-<<<<<<< HEAD
 			     : "=r" (x)
 			     : "m" (*__xg(ptr)), "0" (x)
-=======
-			     : "=r" (x), "+m" (*__xg(ptr))
-			     : "0" (x)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		break;
 	}
@@ -93,7 +66,6 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
 	unsigned long prev;
 	switch (size) {
 	case 1:
-<<<<<<< HEAD
 		asm volatile(LOCK_PREFIX "cmpxchgb %b1,%2"
 			     : "=a"(prev)
 			     : "q"(new), "m"(*__xg(ptr)), "0"(old)
@@ -115,29 +87,6 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
 		asm volatile(LOCK_PREFIX "cmpxchgq %1,%2"
 			     : "=a"(prev)
 			     : "r"(new), "m"(*__xg(ptr)), "0"(old)
-=======
-		asm volatile(LOCK_PREFIX "cmpxchgb %b2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "q"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 2:
-		asm volatile(LOCK_PREFIX "cmpxchgw %w2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 4:
-		asm volatile(LOCK_PREFIX "cmpxchgl %k2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 8:
-		asm volatile(LOCK_PREFIX "cmpxchgq %2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		return prev;
 	}
@@ -156,7 +105,6 @@ static inline unsigned long __sync_cmpxchg(volatile void *ptr,
 	unsigned long prev;
 	switch (size) {
 	case 1:
-<<<<<<< HEAD
 		asm volatile("lock; cmpxchgb %b1,%2"
 			     : "=a"(prev)
 			     : "q"(new), "m"(*__xg(ptr)), "0"(old)
@@ -172,29 +120,6 @@ static inline unsigned long __sync_cmpxchg(volatile void *ptr,
 		asm volatile("lock; cmpxchgl %1,%2"
 			     : "=a"(prev)
 			     : "r"(new), "m"(*__xg(ptr)), "0"(old)
-=======
-		asm volatile("lock; cmpxchgb %b2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "q"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 2:
-		asm volatile("lock; cmpxchgw %w2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 4:
-		asm volatile("lock; cmpxchgl %k2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 8:
-		asm volatile("lock; cmpxchgq %2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		return prev;
 	}
@@ -208,7 +133,6 @@ static inline unsigned long __cmpxchg_local(volatile void *ptr,
 	unsigned long prev;
 	switch (size) {
 	case 1:
-<<<<<<< HEAD
 		asm volatile("cmpxchgb %b1,%2"
 			     : "=a"(prev)
 			     : "q"(new), "m"(*__xg(ptr)), "0"(old)
@@ -230,29 +154,6 @@ static inline unsigned long __cmpxchg_local(volatile void *ptr,
 		asm volatile("cmpxchgq %1,%2"
 			     : "=a"(prev)
 			     : "r"(new), "m"(*__xg(ptr)), "0"(old)
-=======
-		asm volatile("cmpxchgb %b2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "q"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 2:
-		asm volatile("cmpxchgw %w2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 4:
-		asm volatile("cmpxchgl %k2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
-			     : "memory");
-		return prev;
-	case 8:
-		asm volatile("cmpxchgq %2,%1"
-			     : "=a"(prev), "+m"(*__xg(ptr))
-			     : "r"(new), "0"(old)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			     : "memory");
 		return prev;
 	}

@@ -647,11 +647,8 @@ struct input_absinfo {
 #define ABS_TOOL_WIDTH		0x1c
 #define ABS_VOLUME		0x20
 #define ABS_MISC		0x28
-<<<<<<< HEAD
 #define ABS_MT_POSITION		0x2a	/* Group a set of X and Y */
 #define ABS_MT_AMPLITUDE	0x2b	/* Group a set of Z and W */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define ABS_MT_TOUCH_MAJOR	0x30	/* Major axis of touching ellipse */
 #define ABS_MT_TOUCH_MINOR	0x31	/* Minor axis (omit if circular) */
@@ -664,10 +661,7 @@ struct input_absinfo {
 #define ABS_MT_BLOB_ID		0x38	/* Group a set of packets as a blob */
 #define ABS_MT_TRACKING_ID	0x39	/* Unique ID of initiated contact */
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define ABS_MAX			0x3f
 #define ABS_CNT			(ABS_MAX+1)
 

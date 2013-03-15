@@ -127,10 +127,7 @@
 #include <linux/jhash.h>
 #include <linux/random.h>
 #include <trace/events/napi.h>
-<<<<<<< HEAD
 #include <linux/iface_stat.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include "net-sysfs.h"
 
@@ -1041,29 +1038,13 @@ EXPORT_SYMBOL(netdev_bonding_change);
 void dev_load(struct net *net, const char *name)
 {
 	struct net_device *dev;
-<<<<<<< HEAD
-=======
-	int no_module;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	read_lock(&dev_base_lock);
 	dev = __dev_get_by_name(net, name);
 	read_unlock(&dev_base_lock);
 
-<<<<<<< HEAD
 	if (!dev && capable(CAP_NET_ADMIN))
 		request_module("%s", name);
-=======
-	no_module = !dev;
-	if (no_module && capable(CAP_NET_ADMIN))
-		no_module = request_module("netdev-%s", name);
-	if (no_module && capable(CAP_SYS_MODULE)) {
-		if (!request_module("%s", name))
-			pr_err("Loading kernel module for a network device "
-"with CAP_SYS_MODULE (deprecated).  Use CAP_NET_ADMIN and alias netdev-%s "
-"instead\n", name);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(dev_load);
 
@@ -1145,10 +1126,6 @@ int dev_open(struct net_device *dev)
 		/*
 		 *	... and announce new interface.
 		 */
-<<<<<<< HEAD
-=======
-		add_device_randomness(dev->dev_addr, dev->addr_len);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		call_netdevice_notifiers(NETDEV_UP, dev);
 	}
 
@@ -1508,17 +1485,10 @@ EXPORT_SYMBOL(netif_device_attach);
 
 static bool can_checksum_protocol(unsigned long features, __be16 protocol)
 {
-<<<<<<< HEAD
 	return ((features & NETIF_F_GEN_CSUM) ||
 		((features & NETIF_F_IP_CSUM) &&
 		 protocol == htons(ETH_P_IP)) ||
 		((features & NETIF_F_IPV6_CSUM) &&
-=======
-	return ((features & NETIF_F_NO_CSUM) ||
-		((features & NETIF_F_V4_CSUM) &&
-		 protocol == htons(ETH_P_IP)) ||
-		((features & NETIF_F_V6_CSUM) &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		 protocol == htons(ETH_P_IPV6)) ||
 		((features & NETIF_F_FCOE_CRC) &&
 		 protocol == htons(ETH_P_FCOE)));
@@ -1778,17 +1748,6 @@ gso:
 
 		skb->next = nskb->next;
 		nskb->next = NULL;
-<<<<<<< HEAD
-=======
-
-		/*
-		 * If device doesnt need nskb->dst, release it right now while
-		 * its hot in this cpu cache
-		 */
-		if (dev->priv_flags & IFF_XMIT_DST_RELEASE)
-			skb_dst_drop(nskb);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rc = ops->ndo_start_xmit(nskb, dev);
 		if (unlikely(rc != NETDEV_TX_OK)) {
 			nskb->next = skb->next;
@@ -2561,11 +2520,7 @@ pull:
 			put_page(skb_shinfo(skb)->frags[0].page);
 			memmove(skb_shinfo(skb)->frags,
 				skb_shinfo(skb)->frags + 1,
-<<<<<<< HEAD
 				--skb_shinfo(skb)->nr_frags);
-=======
-				--skb_shinfo(skb)->nr_frags * sizeof(skb_frag_t));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 	}
 
@@ -2644,12 +2599,6 @@ void napi_reuse_skb(struct napi_struct *napi, struct sk_buff *skb)
 {
 	__skb_pull(skb, skb_headlen(skb));
 	skb_reserve(skb, NET_IP_ALIGN - skb_headroom(skb));
-<<<<<<< HEAD
-=======
-	skb->vlan_tci = 0;
-	skb->dev = napi->dev;
-	skb->iif = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	napi->skb = skb;
 }
@@ -4301,10 +4250,6 @@ int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa)
 	err = ops->ndo_set_mac_address(dev, sa);
 	if (!err)
 		call_netdevice_notifiers(NETDEV_CHANGEADDR, dev);
-<<<<<<< HEAD
-=======
-	add_device_randomness(dev->dev_addr, dev->addr_len);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return err;
 }
 EXPORT_SYMBOL(dev_set_mac_address);
@@ -4718,12 +4663,9 @@ static void rollback_registered(struct net_device *dev)
 
 	synchronize_net();
 
-<<<<<<< HEAD
 	/* Store stats for this device in persistent iface_stat */
 	iface_stat_update(dev);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Shutdown queueing discipline. */
 	dev_shutdown(dev);
 
@@ -4914,10 +4856,6 @@ int register_netdevice(struct net_device *dev)
 	dev_init_scheduler(dev);
 	dev_hold(dev);
 	list_netdevice(dev);
-<<<<<<< HEAD
-=======
-	add_device_randomness(dev->dev_addr, dev->addr_len);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Notify protocols, that a new device appeared. */
 	ret = call_netdevice_notifiers(NETDEV_REGISTER, dev);

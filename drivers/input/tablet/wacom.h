@@ -1,11 +1,7 @@
 /*
  * drivers/input/tablet/wacom.h
  *
-<<<<<<< HEAD
  *  USB Wacom Graphire and Wacom Intuos tablet support
-=======
- *  USB Wacom tablet support
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  *  Copyright (c) 2000-2004 Vojtech Pavlik	<vojtech@ucw.cz>
  *  Copyright (c) 2000 Andreas Bach Aaen	<abach@stofanet.dk>
@@ -73,10 +69,6 @@
  *      v1.49 (pc) - Added support for USB Tablet PC (0x90, 0x93, and 0x9A)
  *      v1.50 (pc) - Fixed a TabletPC touch bug in 2.6.28
  *      v1.51 (pc) - Added support for Intuos4
-<<<<<<< HEAD
-=======
- *      v1.52 (pc) - Query Wacom data upon system resume
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 
 /*
@@ -97,15 +89,9 @@
 /*
  * Version Information
  */
-<<<<<<< HEAD
 #define DRIVER_VERSION "v1.51"
 #define DRIVER_AUTHOR "Vojtech Pavlik <vojtech@ucw.cz>"
 #define DRIVER_DESC "USB Wacom Graphire and Wacom Intuos tablet driver"
-=======
-#define DRIVER_VERSION "v1.52"
-#define DRIVER_AUTHOR "Vojtech Pavlik <vojtech@ucw.cz>"
-#define DRIVER_DESC "USB Wacom tablet driver"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define DRIVER_LICENSE "GPL"
 
 MODULE_AUTHOR(DRIVER_AUTHOR);

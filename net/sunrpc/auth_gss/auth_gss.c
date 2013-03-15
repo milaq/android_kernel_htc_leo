@@ -548,21 +548,13 @@ retry:
 	}
 	inode = &gss_msg->inode->vfs_inode;
 	for (;;) {
-<<<<<<< HEAD
 		prepare_to_wait(&gss_msg->waitqueue, &wait, TASK_INTERRUPTIBLE);
-=======
-		prepare_to_wait(&gss_msg->waitqueue, &wait, TASK_KILLABLE);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		spin_lock(&inode->i_lock);
 		if (gss_msg->ctx != NULL || gss_msg->msg.errno < 0) {
 			break;
 		}
 		spin_unlock(&inode->i_lock);
-<<<<<<< HEAD
 		if (signalled()) {
-=======
-		if (fatal_signal_pending(current)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			err = -ERESTARTSYS;
 			goto out_intr;
 		}
@@ -725,30 +717,17 @@ gss_pipe_release(struct inode *inode)
 	struct rpc_inode *rpci = RPC_I(inode);
 	struct gss_upcall_msg *gss_msg;
 
-<<<<<<< HEAD
 	spin_lock(&inode->i_lock);
 	while (!list_empty(&rpci->in_downcall)) {
 
 		gss_msg = list_entry(rpci->in_downcall.next,
 				struct gss_upcall_msg, list);
-=======
-restart:
-	spin_lock(&inode->i_lock);
-	list_for_each_entry(gss_msg, &rpci->in_downcall, list) {
-
-		if (!list_empty(&gss_msg->msg.list))
-			continue;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		gss_msg->msg.errno = -EPIPE;
 		atomic_inc(&gss_msg->count);
 		__gss_unhash_msg(gss_msg);
 		spin_unlock(&inode->i_lock);
 		gss_release_msg(gss_msg);
-<<<<<<< HEAD
 		spin_lock(&inode->i_lock);
-=======
-		goto restart;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	spin_unlock(&inode->i_lock);
 
@@ -1294,14 +1273,9 @@ alloc_enc_pages(struct rpc_rqst *rqstp)
 	rqstp->rq_release_snd_buf = priv_release_snd_buf;
 	return 0;
 out_free:
-<<<<<<< HEAD
 	for (i--; i >= 0; i--) {
 		__free_page(rqstp->rq_enc_pages[i]);
 	}
-=======
-	rqstp->rq_enc_pages_num = i;
-	priv_release_snd_buf(rqstp);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 out:
 	return -EAGAIN;
 }

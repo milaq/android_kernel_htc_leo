@@ -173,14 +173,11 @@ void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
 	task_group_path(tg, path, sizeof(path));
 
 	SEQ_printf(m, "\ncfs_rq[%d]:%s\n", cpu, path);
-<<<<<<< HEAD
 #elif defined(CONFIG_USER_SCHED) && defined(CONFIG_FAIR_GROUP_SCHED)
 	{
 		uid_t uid = cfs_rq->tg->uid;
 		SEQ_printf(m, "\ncfs_rq[%d] for UID: %u\n", cpu, uid);
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else
 	SEQ_printf(m, "\ncfs_rq[%d]:\n", cpu);
 #endif
@@ -426,10 +423,7 @@ void proc_sched_show_task(struct task_struct *p, struct seq_file *m)
 	P(se.nr_failed_migrations_running);
 	P(se.nr_failed_migrations_hot);
 	P(se.nr_forced_migrations);
-<<<<<<< HEAD
 	P(se.nr_forced2_migrations);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	P(se.nr_wakeups);
 	P(se.nr_wakeups_sync);
 	P(se.nr_wakeups_migrate);
@@ -505,10 +499,7 @@ void proc_sched_set_task(struct task_struct *p)
 	p->se.nr_failed_migrations_running	= 0;
 	p->se.nr_failed_migrations_hot		= 0;
 	p->se.nr_forced_migrations		= 0;
-<<<<<<< HEAD
 	p->se.nr_forced2_migrations		= 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	p->se.nr_wakeups			= 0;
 	p->se.nr_wakeups_sync			= 0;
 	p->se.nr_wakeups_migrate		= 0;

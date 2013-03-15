@@ -51,30 +51,19 @@ MODULE_PARM_DESC(ioat_ring_max_alloc_order,
 
 void __ioat2_issue_pending(struct ioat2_dma_chan *ioat)
 {
-<<<<<<< HEAD
 	void * __iomem reg_base = ioat->base.reg_base;
 
 	ioat->pending = 0;
-=======
-	struct ioat_chan_common *chan = &ioat->base;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ioat->dmacount += ioat2_ring_pending(ioat);
 	ioat->issued = ioat->head;
 	/* make descriptor updates globally visible before notifying channel */
 	wmb();
-<<<<<<< HEAD
 	writew(ioat->dmacount, reg_base + IOAT_CHAN_DMACOUNT_OFFSET);
 	dev_dbg(to_dev(&ioat->base),
-=======
-	writew(ioat->dmacount, chan->reg_base + IOAT_CHAN_DMACOUNT_OFFSET);
-	dev_dbg(to_dev(chan),
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		"%s: head: %#x tail: %#x issued: %#x count: %#x\n",
 		__func__, ioat->head, ioat->tail, ioat->issued, ioat->dmacount);
 }
 
-<<<<<<< HEAD
 void ioat2_issue_pending(struct dma_chan *chan)
 {
 	struct ioat2_dma_chan *ioat = to_ioat2_chan(chan);
@@ -83,24 +72,12 @@ void ioat2_issue_pending(struct dma_chan *chan)
 	if (ioat->pending == 1)
 		__ioat2_issue_pending(ioat);
 	spin_unlock_bh(&ioat->ring_lock);
-=======
-void ioat2_issue_pending(struct dma_chan *c)
-{
-	struct ioat2_dma_chan *ioat = to_ioat2_chan(c);
-
-	if (ioat2_ring_pending(ioat)) {
-		spin_lock_bh(&ioat->ring_lock);
-		__ioat2_issue_pending(ioat);
-		spin_unlock_bh(&ioat->ring_lock);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /**
  * ioat2_update_pending - log pending descriptors
  * @ioat: ioat2+ channel
  *
-<<<<<<< HEAD
  * set pending to '1' unless pending is already set to '2', pending == 2
  * indicates that submission is temporarily blocked due to an in-flight
  * reset.  If we are already above the ioat_pending_level threshold then
@@ -116,15 +93,6 @@ static void ioat2_update_pending(struct ioat2_dma_chan *ioat)
 		__ioat2_issue_pending(ioat);
 	else
 		ioat->pending = 1;
-=======
- * Check if the number of unsubmitted descriptors has exceeded the
- * watermark.  Called with ring_lock held
- */
-static void ioat2_update_pending(struct ioat2_dma_chan *ioat)
-{
-	if (ioat2_ring_pending(ioat) > ioat_pending_level)
-		__ioat2_issue_pending(ioat);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __ioat2_start_null_desc(struct ioat2_dma_chan *ioat)
@@ -578,10 +546,7 @@ int ioat2_alloc_chan_resources(struct dma_chan *c)
 	ioat->head = 0;
 	ioat->issued = 0;
 	ioat->tail = 0;
-<<<<<<< HEAD
 	ioat->pending = 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ioat->alloc_order = order;
 	spin_unlock_bh(&ioat->ring_lock);
 
@@ -850,10 +815,7 @@ void ioat2_free_chan_resources(struct dma_chan *c)
 
 	chan->last_completion = 0;
 	chan->completion_dma = 0;
-<<<<<<< HEAD
 	ioat->pending = 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ioat->dmacount = 0;
 }
 

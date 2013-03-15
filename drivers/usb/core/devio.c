@@ -403,11 +403,7 @@ static void async_completed(struct urb *urb)
 		sinfo.si_errno = as->status;
 		sinfo.si_code = SI_ASYNCIO;
 		sinfo.si_addr = as->userurb;
-<<<<<<< HEAD
 		pid = as->pid;
-=======
-		pid = get_pid(as->pid);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		uid = as->uid;
 		euid = as->euid;
 		secid = as->secid;
@@ -420,17 +416,9 @@ static void async_completed(struct urb *urb)
 		cancel_bulk_urbs(ps, as->bulk_addr);
 	spin_unlock(&ps->lock);
 
-<<<<<<< HEAD
 	if (signr)
 		kill_pid_info_as_uid(sinfo.si_signo, &sinfo, pid, uid,
 				      euid, secid);
-=======
-	if (signr) {
-		kill_pid_info_as_uid(sinfo.si_signo, &sinfo, pid, uid,
-				      euid, secid);
-		put_pid(pid);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	wake_up(&ps->wait);
 }
@@ -958,18 +946,10 @@ static int proc_getdriver(struct dev_state *ps, void __user *arg)
 
 static int proc_connectinfo(struct dev_state *ps, void __user *arg)
 {
-<<<<<<< HEAD
 	struct usbdevfs_connectinfo ci;
 
 	ci.devnum = ps->dev->devnum;
 	ci.slow = ps->dev->speed == USB_SPEED_LOW;
-=======
-	struct usbdevfs_connectinfo ci = {
-		.devnum = ps->dev->devnum,
-		.slow = ps->dev->speed == USB_SPEED_LOW
-	};
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (copy_to_user(arg, &ci, sizeof(ci)))
 		return -EFAULT;
 	return 0;
@@ -1196,16 +1176,6 @@ static int proc_do_submiturb(struct dev_state *ps, struct usbdevfs_urb *uurb,
 			free_async(as);
 			return -ENOMEM;
 		}
-<<<<<<< HEAD
-=======
-		/* Isochronous input data may end up being discontiguous
-		 * if some of the packets are short.  Clear the buffer so
-		 * that the gaps don't leak kernel data to userspace.
-		 */
-		if (is_in && uurb->type == USBDEVFS_URB_TYPE_ISO)
-			memset(as->urb->transfer_buffer, 0,
-					uurb->buffer_length);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	as->urb->dev = ps->dev;
 	as->urb->pipe = (uurb->type << 30) |
@@ -1342,21 +1312,10 @@ static int processcompl(struct async *as, void __user * __user *arg)
 	void __user *addr = as->userurb;
 	unsigned int i;
 
-<<<<<<< HEAD
 	if (as->userbuffer && urb->actual_length)
 		if (copy_to_user(as->userbuffer, urb->transfer_buffer,
 				 urb->actual_length))
 			goto err_out;
-=======
-	if (as->userbuffer && urb->actual_length) {
-		if (urb->number_of_packets > 0)		/* Isochronous */
-			i = urb->transfer_buffer_length;
-		else					/* Non-Isoc */
-			i = urb->actual_length;
-		if (copy_to_user(as->userbuffer, urb->transfer_buffer, i))
-			goto err_out;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (put_user(as->status, &userurb->status))
 		goto err_out;
 	if (put_user(urb->actual_length, &userurb->actual_length))
@@ -1481,21 +1440,10 @@ static int processcompl_compat(struct async *as, void __user * __user *arg)
 	void __user *addr = as->userurb;
 	unsigned int i;
 
-<<<<<<< HEAD
 	if (as->userbuffer && urb->actual_length)
 		if (copy_to_user(as->userbuffer, urb->transfer_buffer,
 				 urb->actual_length))
 			return -EFAULT;
-=======
-	if (as->userbuffer && urb->actual_length) {
-		if (urb->number_of_packets > 0)		/* Isochronous */
-			i = urb->transfer_buffer_length;
-		else					/* Non-Isoc */
-			i = urb->actual_length;
-		if (copy_to_user(as->userbuffer, urb->transfer_buffer, i))
-			return -EFAULT;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (put_user(as->status, &userurb->status))
 		return -EFAULT;
 	if (put_user(urb->actual_length, &userurb->actual_length))

@@ -22,11 +22,7 @@ MODULE_ALIAS("ip6t_quota");
 static DEFINE_SPINLOCK(quota_lock);
 
 static bool
-<<<<<<< HEAD
 quota_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-quota_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_quota_info *q = (void *)par->matchinfo;
 	struct xt_quota_priv *priv = q->master;
@@ -47,11 +43,7 @@ quota_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 	return ret;
 }
 
-<<<<<<< HEAD
 static int quota_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool quota_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct xt_quota_info *q = par->matchinfo;
 

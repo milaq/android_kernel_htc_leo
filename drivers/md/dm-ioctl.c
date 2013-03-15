@@ -249,7 +249,6 @@ static void __hash_remove(struct hash_cell *hc)
 
 static void dm_hash_remove_all(int keep_open_devices)
 {
-<<<<<<< HEAD
 	int i, dev_skipped, dev_removed;
 	struct hash_cell *hc;
 	struct list_head *tmp, *n;
@@ -284,48 +283,6 @@ retry:
 	}
 
 	up_write(&_hash_lock);
-=======
-	int i, dev_skipped;
-	struct hash_cell *hc;
-	struct mapped_device *md;
-
-retry:
-	dev_skipped = 0;
-
-	down_write(&_hash_lock);
-
-	for (i = 0; i < NUM_BUCKETS; i++) {
-		list_for_each_entry(hc, _name_buckets + i, name_list) {
-			md = hc->md;
-			dm_get(md);
-
-			if (keep_open_devices && dm_lock_for_deletion(md)) {
-				dm_put(md);
-				dev_skipped++;
-				continue;
-			}
-
-			__hash_remove(hc);
-
-			up_write(&_hash_lock);
-
-			dm_put(md);
-
-			/*
-			 * Some mapped devices may be using other mapped
-			 * devices, so repeat until we make no further
-			 * progress.  If a new mapped device is created
-			 * here it will also get removed.
-			 */
-			goto retry;
-		}
-	}
-
-	up_write(&_hash_lock);
-
-	if (dev_skipped)
-		DMWARN("remove_all left %d open device(s)", dev_skipped);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int dm_hash_rename(uint32_t cookie, const char *old, const char *new)

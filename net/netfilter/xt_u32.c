@@ -87,12 +87,8 @@ static bool u32_match_it(const struct xt_u32 *data,
 	return true;
 }
 
-<<<<<<< HEAD
 static bool u32_mt(const struct sk_buff *skb,
 		   const struct xt_action_param *par)
-=======
-static bool u32_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_u32 *data = par->matchinfo;
 	bool ret;

@@ -80,10 +80,6 @@ static int acpi_sleep_prepare(u32 acpi_state)
 
 #ifdef CONFIG_ACPI_SLEEP
 static u32 acpi_target_sleep_state = ACPI_STATE_S0;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * ACPI 1.0 wants us to execute _PTS before suspending devices, so we allow the
  * user to request that behavior by using the 'acpi_old_suspend_ordering'
@@ -174,7 +170,6 @@ static void acpi_pm_end(void)
 #endif /* CONFIG_ACPI_SLEEP */
 
 #ifdef CONFIG_SUSPEND
-<<<<<<< HEAD
 /*
  * According to the ACPI specification the BIOS should make sure that ACPI is
  * enabled and SCI_EN bit is set on wake-up from S1 - S3 sleep states.  Still,
@@ -187,8 +182,6 @@ static void acpi_pm_end(void)
  */
 static bool set_sci_en_on_resume;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void do_suspend_lowlevel(void);
 
 static u32 acpi_suspend_states[] = {
@@ -255,16 +248,11 @@ static int acpi_suspend_enter(suspend_state_t pm_state)
 		break;
 	}
 
-<<<<<<< HEAD
 	/* If ACPI is not enabled by the BIOS, we need to enable it here. */
 	if (set_sci_en_on_resume)
 		acpi_write_bit_register(ACPI_BITREG_SCI_ENABLE, 1);
 	else
 		acpi_enable();
-=======
-	/* This violates the spec but is required for bug compatibility. */
-	acpi_write_bit_register(ACPI_BITREG_SCI_ENABLE, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Reprogram control registers and execute _BFS */
 	acpi_leave_sleep_state_prep(acpi_state);
@@ -353,15 +341,12 @@ static int __init init_old_suspend_ordering(const struct dmi_system_id *d)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int __init init_set_sci_en_on_resume(const struct dmi_system_id *d)
 {
 	set_sci_en_on_resume = true;
 	return 0;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct dmi_system_id __initdata acpisleep_dmi_table[] = {
 	{
 	.callback = init_old_suspend_ordering,
@@ -380,7 +365,6 @@ static struct dmi_system_id __initdata acpisleep_dmi_table[] = {
 		},
 	},
 	{
-<<<<<<< HEAD
 	.callback = init_set_sci_en_on_resume,
 	.ident = "Apple MacBook 1,1",
 	.matches = {
@@ -397,8 +381,6 @@ static struct dmi_system_id __initdata acpisleep_dmi_table[] = {
 		},
 	},
 	{
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.callback = init_old_suspend_ordering,
 	.ident = "Asus Pundit P1-AH2 (M2N8L motherboard)",
 	.matches = {
@@ -407,7 +389,6 @@ static struct dmi_system_id __initdata acpisleep_dmi_table[] = {
 		},
 	},
 	{
-<<<<<<< HEAD
 	.callback = init_set_sci_en_on_resume,
 	.ident = "Toshiba Satellite L300",
 	.matches = {
@@ -464,8 +445,6 @@ static struct dmi_system_id __initdata acpisleep_dmi_table[] = {
 		},
 	},
 	{
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.callback = init_old_suspend_ordering,
 	.ident = "Panasonic CF51-2L",
 	.matches = {

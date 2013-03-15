@@ -1060,11 +1060,7 @@ static void init_local(void)
 		if (dlm_our_addr(&sas, i))
 			break;
 
-<<<<<<< HEAD
 		addr = kmalloc(sizeof(*addr), GFP_KERNEL);
-=======
-		addr = kmalloc(sizeof(*addr), GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!addr)
 			break;
 		memcpy(addr, &sas, sizeof(*addr));
@@ -1103,11 +1099,7 @@ static int sctp_listen_for_all(void)
 	struct sockaddr_storage localaddr;
 	struct sctp_event_subscribe subscribe;
 	int result = -EINVAL, num = 1, i, addr_len;
-<<<<<<< HEAD
 	struct connection *con = nodeid2con(0, GFP_KERNEL);
-=======
-	struct connection *con = nodeid2con(0, GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int bufsize = NEEDED_RMEM;
 
 	if (!con)
@@ -1179,11 +1171,7 @@ out:
 static int tcp_listen_for_all(void)
 {
 	struct socket *sock = NULL;
-<<<<<<< HEAD
 	struct connection *con = nodeid2con(0, GFP_KERNEL);
-=======
-	struct connection *con = nodeid2con(0, GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int result = -EINVAL;
 
 	if (!con)

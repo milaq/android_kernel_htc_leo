@@ -340,11 +340,7 @@ static int sysfs_open_file(struct inode *inode, struct file *file)
 	char *p;
 
 	p = d_path(&file->f_path, last_sysfs_file, sizeof(last_sysfs_file));
-<<<<<<< HEAD
 	if (p)
-=======
-	if (!IS_ERR(p))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		memmove(last_sysfs_file, p, strlen(p) + 1);
 
 	/* need attr_sd for attr and ops, its parent for kobj */

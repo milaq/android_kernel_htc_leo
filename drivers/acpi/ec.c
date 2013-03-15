@@ -588,21 +588,12 @@ static u32 acpi_ec_gpe_handler(void *data)
 
 static acpi_status
 acpi_ec_space_handler(u32 function, acpi_physical_address address,
-<<<<<<< HEAD
 		      u32 bits, acpi_integer *value,
 		      void *handler_context, void *region_context)
 {
 	struct acpi_ec *ec = handler_context;
 	int result = 0, i;
 	u8 temp = 0;
-=======
-		      u32 bits, acpi_integer *value64,
-		      void *handler_context, void *region_context)
-{
-	struct acpi_ec *ec = handler_context;
-	int result = 0, i, bytes = bits / 8;
-	u8 *value = (u8 *)value64;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if ((address > 0xFF) || !value || !handler_context)
 		return AE_BAD_PARAMETER;
@@ -610,7 +601,6 @@ acpi_ec_space_handler(u32 function, acpi_physical_address address,
 	if (function != ACPI_READ && function != ACPI_WRITE)
 		return AE_BAD_PARAMETER;
 
-<<<<<<< HEAD
 	if (bits != 8 && acpi_strict)
 		return AE_BAD_PARAMETER;
 
@@ -637,17 +627,6 @@ acpi_ec_space_handler(u32 function, acpi_physical_address address,
 	}
 
 	if (EC_FLAGS_MSI)
-=======
-	if (EC_FLAGS_MSI || bits > 8)
-		acpi_ec_burst_enable(ec);
-
-	for (i = 0; i < bytes; ++i, ++address, ++value)
-		result = (function == ACPI_READ) ?
-			acpi_ec_read(ec, address, value) :
-			acpi_ec_write(ec, address, *value);
-
-	if (EC_FLAGS_MSI || bits > 8)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		acpi_ec_burst_disable(ec);
 
 	switch (result) {
@@ -991,12 +970,6 @@ static struct dmi_system_id __initdata ec_dmi_table[] = {
 	ec_flag_msi, "MSI hardware", {
 	DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-Star")}, NULL},
 	{
-<<<<<<< HEAD
-=======
-	ec_flag_msi, "MSI hardware", {
-	DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-STAR")}, NULL},
-	{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ec_validate_ecdt, "ASUS hardware", {
 	DMI_MATCH(DMI_BIOS_VENDOR, "ASUS") }, NULL},
 	{},

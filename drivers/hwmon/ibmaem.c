@@ -429,7 +429,6 @@ static int aem_read_sensor(struct aem_data *data, u8 elt, u8 reg,
 	aem_send_message(ipmi);
 
 	res = wait_for_completion_timeout(&ipmi->read_complete, IPMI_TIMEOUT);
-<<<<<<< HEAD
 	if (!res)
 		return -ETIMEDOUT;
 
@@ -437,17 +436,6 @@ static int aem_read_sensor(struct aem_data *data, u8 elt, u8 reg,
 	    memcmp(&rs_resp->id, &system_x_id, sizeof(system_x_id))) {
 		kfree(rs_resp);
 		return -ENOENT;
-=======
-	if (!res) {
-		res = -ETIMEDOUT;
-		goto out;
-	}
-
-	if (ipmi->rx_result || ipmi->rx_msg_len != rs_size ||
-	    memcmp(&rs_resp->id, &system_x_id, sizeof(system_x_id))) {
-		res = -ENOENT;
-		goto out;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	switch (size) {
@@ -472,16 +460,8 @@ static int aem_read_sensor(struct aem_data *data, u8 elt, u8 reg,
 		break;
 	}
 	}
-<<<<<<< HEAD
 
 	return 0;
-=======
-	res = 0;
-
-out:
-	kfree(rs_resp);
-	return res;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /* Update AEM energy registers */

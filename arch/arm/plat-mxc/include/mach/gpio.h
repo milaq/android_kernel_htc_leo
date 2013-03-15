@@ -19,10 +19,6 @@
 #ifndef __ASM_ARCH_MXC_GPIO_H__
 #define __ASM_ARCH_MXC_GPIO_H__
 
-<<<<<<< HEAD
-=======
-#include <linux/spinlock.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <mach/hardware.h>
 #include <asm-generic/gpio.h>
 
@@ -40,10 +36,6 @@ struct mxc_gpio_port {
 	int virtual_irq_start;
 	struct gpio_chip chip;
 	u32 both_edges;
-<<<<<<< HEAD
-=======
-	spinlock_t lock;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 int mxc_gpio_init(struct mxc_gpio_port*, int);

@@ -697,15 +697,9 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
 	struct inode *inode = file->f_path.dentry->d_inode;
 	int fbidx = iminor(inode);
 	struct fb_info *info = registered_fb[fbidx];
-<<<<<<< HEAD
 	u8 *buffer, *dst;
 	u8 __iomem *src;
 	int c, cnt = 0, err = 0;
-=======
-	u32 *buffer, *dst;
-	u32 __iomem *src;
-	int c, i, cnt = 0, err = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long total_size;
 
 	if (!info || ! info->screen_base)
@@ -736,11 +730,7 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
 	if (!buffer)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	src = (u8 __iomem *) (info->screen_base + p);
-=======
-	src = (u32 __iomem *) (info->screen_base + p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (info->fbops->fb_sync)
 		info->fbops->fb_sync(info);
@@ -748,23 +738,9 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
 	while (count) {
 		c  = (count > PAGE_SIZE) ? PAGE_SIZE : count;
 		dst = buffer;
-<<<<<<< HEAD
 		fb_memcpy_fromfb(dst, src, c);
 		dst += c;
 		src += c;
-=======
-		for (i = c >> 2; i--; )
-			*dst++ = fb_readl(src++);
-		if (c & 3) {
-			u8 *dst8 = (u8 *) dst;
-			u8 __iomem *src8 = (u8 __iomem *) src;
-
-			for (i = c & 3; i--;)
-				*dst8++ = fb_readb(src8++);
-
-			src = (u32 __iomem *) src8;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (copy_to_user(buf, buffer, c)) {
 			err = -EFAULT;
@@ -788,15 +764,9 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 	struct inode *inode = file->f_path.dentry->d_inode;
 	int fbidx = iminor(inode);
 	struct fb_info *info = registered_fb[fbidx];
-<<<<<<< HEAD
 	u8 *buffer, *src;
 	u8 __iomem *dst;
 	int c, cnt = 0, err = 0;
-=======
-	u32 *buffer, *src;
-	u32 __iomem *dst;
-	int c, i, cnt = 0, err = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unsigned long total_size;
 
 	if (!info || !info->screen_base)
@@ -833,11 +803,7 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 	if (!buffer)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	dst = (u8 __iomem *) (info->screen_base + p);
-=======
-	dst = (u32 __iomem *) (info->screen_base + p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (info->fbops->fb_sync)
 		info->fbops->fb_sync(info);
@@ -851,25 +817,9 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 			break;
 		}
 
-<<<<<<< HEAD
 		fb_memcpy_tofb(dst, src, c);
 		dst += c;
 		src += c;
-=======
-		for (i = c >> 2; i--; )
-			fb_writel(*src++, dst++);
-
-		if (c & 3) {
-			u8 *src8 = (u8 *) src;
-			u8 __iomem *dst8 = (u8 __iomem *) dst;
-
-			for (i = c & 3; i--; )
-				fb_writeb(*src8++, dst8++);
-
-			dst = (u32 __iomem *) dst8;
-		}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*ppos += c;
 		buf += c;
 		cnt += c;
@@ -909,7 +859,6 @@ fb_pan_display(struct fb_info *info, struct fb_var_screeninfo *var)
 
 	if ((err = info->fbops->fb_pan_display(var, info)))
 		return err;
-<<<<<<< HEAD
 	info->var.xoffset = var->xoffset;
 	info->var.yoffset = var->yoffset;
 	if (var->vmode & FB_VMODE_YWRAP)
@@ -917,15 +866,6 @@ fb_pan_display(struct fb_info *info, struct fb_var_screeninfo *var)
 	else
 		info->var.vmode &= ~FB_VMODE_YWRAP;
 	return 0;
-=======
-        info->var.xoffset = var->xoffset;
-        info->var.yoffset = var->yoffset;
-        if (var->vmode & FB_VMODE_YWRAP)
-                info->var.vmode |= FB_VMODE_YWRAP;
-        else
-                info->var.vmode &= ~FB_VMODE_YWRAP;
-        return 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
@@ -1480,10 +1420,7 @@ static const struct file_operations fb_fops = {
 #ifdef CONFIG_FB_DEFERRED_IO
 	.fsync =	fb_deferred_io_fsync,
 #endif
-<<<<<<< HEAD
 	.llseek =	default_llseek,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct class *fb_class;
@@ -1514,7 +1451,6 @@ static int fb_check_foreignness(struct fb_info *fi)
 	return 0;
 }
 
-<<<<<<< HEAD
 static bool apertures_overlap(struct aperture *gen, struct aperture *hw)
 {
 	/* is the generic aperture base the same as the HW one */
@@ -1579,18 +1515,6 @@ void remove_conflicting_framebuffers(struct apertures_struct *a,
 }
 EXPORT_SYMBOL(remove_conflicting_framebuffers);
 
-=======
-static bool fb_do_apertures_overlap(struct fb_info *gen, struct fb_info *hw)
-{
-	/* is the generic aperture base the same as the HW one */
-	if (gen->aperture_base == hw->aperture_base)
-		return true;
-	/* is the generic aperture base inside the hw base->hw base+size */
-	if (gen->aperture_base > hw->aperture_base && gen->aperture_base <= hw->aperture_base + hw->aperture_size)
-		return true;
-	return false;
-}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  *	register_framebuffer - registers a frame buffer device
  *	@fb_info: frame buffer info structure

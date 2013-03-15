@@ -224,15 +224,6 @@
  *	unless the tty also has a valid tty->termiox pointer.
  *
  *	Optional: Called under the termios lock
-<<<<<<< HEAD
-=======
- *
- * int (*get_icount)(struct tty_struct *tty, struct serial_icounter *icount);
- *
- *	Called when the device receives a TIOCGICOUNT ioctl. Passed a kernel
- *	structure to complete. This method is optional and will only be called
- *	if provided (otherwise EINVAL will be returned).
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 
 #include <linux/fs.h>
@@ -241,10 +232,6 @@
 
 struct tty_struct;
 struct tty_driver;
-<<<<<<< HEAD
-=======
-struct serial_icounter_struct;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct tty_operations {
 	struct tty_struct * (*lookup)(struct tty_driver *driver,
@@ -281,11 +268,6 @@ struct tty_operations {
 			unsigned int set, unsigned int clear);
 	int (*resize)(struct tty_struct *tty, struct winsize *ws);
 	int (*set_termiox)(struct tty_struct *tty, struct termiox *tnew);
-<<<<<<< HEAD
-=======
-	int (*get_icount)(struct tty_struct *tty,
-				struct serial_icounter_struct *icount);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_CONSOLE_POLL
 	int (*poll_init)(struct tty_driver *driver, int line, char *options);
 	int (*poll_get_char)(struct tty_driver *driver, int line);

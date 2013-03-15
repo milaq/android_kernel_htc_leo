@@ -314,11 +314,7 @@ int ptrace_detach(struct task_struct *child, unsigned int data)
 		child->exit_code = data;
 		dead = __ptrace_detach(current, child);
 		if (!child->exit_state)
-<<<<<<< HEAD
 			wake_up_process(child);
-=======
-			wake_up_state(child, TASK_TRACED | TASK_STOPPED);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	write_unlock_irq(&tasklist_lock);
 

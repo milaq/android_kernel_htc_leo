@@ -116,10 +116,6 @@ MODULE_SUPPORTED_DEVICE("{{Intel, ICH6},"
 			 "{Intel, ICH9},"
 			 "{Intel, ICH10},"
 			 "{Intel, PCH},"
-<<<<<<< HEAD
-=======
-			 "{Intel, CPT},"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			 "{Intel, SCH},"
 			 "{ATI, SB450},"
 			 "{ATI, SB600},"
@@ -441,10 +437,6 @@ struct azx {
 /* driver types */
 enum {
 	AZX_DRIVER_ICH,
-<<<<<<< HEAD
-=======
-	AZX_DRIVER_PCH,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	AZX_DRIVER_SCH,
 	AZX_DRIVER_ATI,
 	AZX_DRIVER_ATIHDMI,
@@ -459,10 +451,6 @@ enum {
 
 static char *driver_short_names[] __devinitdata = {
 	[AZX_DRIVER_ICH] = "HDA Intel",
-<<<<<<< HEAD
-=======
-	[AZX_DRIVER_PCH] = "HDA Intel PCH",
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	[AZX_DRIVER_SCH] = "HDA Intel MID",
 	[AZX_DRIVER_ATI] = "HDA ATI SB",
 	[AZX_DRIVER_ATIHDMI] = "HDA ATI HDMI",
@@ -1051,10 +1039,6 @@ static void azx_init_pci(struct azx *chip)
 				0x01, NVIDIA_HDA_ENABLE_COHBIT);
 		break;
 	case AZX_DRIVER_SCH:
-<<<<<<< HEAD
-=======
-	case AZX_DRIVER_PCH:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		pci_read_config_word(chip->pci, INTEL_SCH_HDA_DEVC, &snoop);
 		if (snoop & INTEL_SCH_HDA_DEVC_NOSNOOP) {
 			pci_write_config_word(chip->pci, INTEL_SCH_HDA_DEVC,
@@ -2238,34 +2222,9 @@ static int azx_dev_free(struct snd_device *device)
  * white/black-listing for position_fix
  */
 static struct snd_pci_quirk position_fix_list[] __devinitdata = {
-<<<<<<< HEAD
 	SND_PCI_QUIRK(0x1028, 0x01cc, "Dell D820", POS_FIX_LPIB),
 	SND_PCI_QUIRK(0x1028, 0x01de, "Dell Precision 390", POS_FIX_LPIB),
 	SND_PCI_QUIRK(0x1043, 0x813d, "ASUS P5AD2", POS_FIX_LPIB),
-=======
-	SND_PCI_QUIRK(0x1025, 0x009f, "Acer Aspire 5110", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1028, 0x01cc, "Dell D820", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1028, 0x01de, "Dell Precision 390", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1028, 0x01f6, "Dell Latitude 131L", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1028, 0x0470, "Dell Inspiron 1120", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x103c, 0x306d, "HP dv3", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1028, 0x01f6, "Dell Latitude 131L", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1043, 0x813d, "ASUS P5AD2", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1043, 0x81b3, "ASUS", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1043, 0x81e7, "ASUS M2V", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1043, 0x8410, "ASUS", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x104d, 0x9069, "Sony VPCS11V9E", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1106, 0x3288, "ASUS M2V-MX SE", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1179, 0xff10, "Toshiba A100-259", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1297, 0x3166, "Shuttle", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1458, 0xa022, "ga-ma770-ud3", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1462, 0x1002, "MSI Wind U115", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1565, 0x820f, "Biostar Microtech", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1565, 0x8218, "Biostar Microtech", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x1849, 0x0888, "775Dual-VSTA", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x8086, 0x2503, "DG965OT AAD63733-203", POS_FIX_LPIB),
-	SND_PCI_QUIRK(0x8086, 0xd601, "eMachines T5212", POS_FIX_LPIB),
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{}
 };
 
@@ -2353,10 +2312,6 @@ static void __devinit check_probe_mask(struct azx *chip, int dev)
 static struct snd_pci_quirk msi_white_list[] __devinitdata = {
 	SND_PCI_QUIRK(0x103c, 0x30f7, "HP Pavilion dv4t-1300", 1),
 	SND_PCI_QUIRK(0x103c, 0x3607, "HP Compa CQ40", 1),
-<<<<<<< HEAD
-=======
-	SND_PCI_QUIRK(0x107b, 0x0380, "Gateway M-6866", 1),
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{}
 };
 
@@ -2373,16 +2328,6 @@ static void __devinit check_msi(struct azx *chip)
 		       "hda_intel: msi for device %04x:%04x set to %d\n",
 		       q->subvendor, q->subdevice, q->value);
 		chip->msi = q->value;
-<<<<<<< HEAD
-=======
-		return;
-	}
-
-	/* NVidia chipsets seem to cause troubles with MSI */
-	if (chip->driver_type == AZX_DRIVER_NVIDIA) {
-		printk(KERN_INFO "hda_intel: Disable MSI for Nvidia chipset\n");
-		chip->msi = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 }
 
@@ -2432,10 +2377,6 @@ static int __devinit azx_create(struct snd_card *card, struct pci_dev *pci,
 	if (bdl_pos_adj[dev] < 0) {
 		switch (chip->driver_type) {
 		case AZX_DRIVER_ICH:
-<<<<<<< HEAD
-=======
-		case AZX_DRIVER_PCH:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			bdl_pos_adj[dev] = 1;
 			break;
 		default:
@@ -2710,12 +2651,6 @@ static struct pci_device_id azx_ids[] = {
 	{ PCI_DEVICE(0x8086, 0x3a6e), .driver_data = AZX_DRIVER_ICH },
 	/* PCH */
 	{ PCI_DEVICE(0x8086, 0x3b56), .driver_data = AZX_DRIVER_ICH },
-<<<<<<< HEAD
-=======
-	{ PCI_DEVICE(0x8086, 0x3b57), .driver_data = AZX_DRIVER_ICH },
-	/* CPT */
-	{ PCI_DEVICE(0x8086, 0x1c20), .driver_data = AZX_DRIVER_PCH },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* SCH */
 	{ PCI_DEVICE(0x8086, 0x811b), .driver_data = AZX_DRIVER_SCH },
 	/* ATI SB 450/600 */

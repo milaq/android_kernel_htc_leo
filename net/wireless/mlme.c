@@ -43,17 +43,10 @@ void cfg80211_send_rx_auth(struct net_device *dev, const u8 *buf, size_t len)
 		}
 	}
 
-<<<<<<< HEAD
 	WARN_ON(!done);
 
 	nl80211_send_rx_auth(rdev, dev, buf, len, GFP_KERNEL);
 	cfg80211_sme_rx_auth(dev, buf, len);
-=======
-	if (done) {
-		nl80211_send_rx_auth(rdev, dev, buf, len, GFP_KERNEL);
-		cfg80211_sme_rx_auth(dev, buf, len);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	wdev_unlock(wdev);
 }

@@ -147,15 +147,11 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
 			   const char *buf, size_t n)
 {
 #ifdef CONFIG_SUSPEND
-<<<<<<< HEAD
 #ifdef CONFIG_EARLYSUSPEND
 	suspend_state_t state = PM_SUSPEND_ON;
 #else
 	suspend_state_t state = PM_SUSPEND_STANDBY;
 #endif
-=======
-	suspend_state_t state = PM_SUSPEND_STANDBY;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	const char * const *s;
 #endif
 	char *p;
@@ -177,7 +173,6 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
 			break;
 	}
 	if (state < PM_SUSPEND_MAX && *s)
-<<<<<<< HEAD
 #ifdef CONFIG_EARLYSUSPEND
 		if (state == PM_SUSPEND_ON || valid_state(state)) {
 			error = 0;
@@ -187,10 +182,6 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
 		error = enter_state(state);
 #endif
 #endif
-=======
-		error = enter_state(state);
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
  Exit:
 	return error ? error : n;
@@ -220,7 +211,6 @@ pm_trace_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return -EINVAL;
 }
 
-<<<<<<< HEAD
 
 power_attr(pm_trace);
 
@@ -254,30 +244,19 @@ power_attr(wake_lock);
 power_attr(wake_unlock);
 #endif
 
-=======
-power_attr(pm_trace);
-#endif /* CONFIG_PM_TRACE */
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct attribute * g[] = {
 	&state_attr.attr,
 #ifdef CONFIG_PM_TRACE
 	&pm_trace_attr.attr,
-<<<<<<< HEAD
 	&pm_trace_mask_attr.attr,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 #if defined(CONFIG_PM_SLEEP) && defined(CONFIG_PM_DEBUG)
 	&pm_test_attr.attr,
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_USER_WAKELOCK
 	&wake_lock_attr.attr,
 	&wake_unlock_attr.attr,
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NULL,
 };
 

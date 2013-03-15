@@ -1051,30 +1051,15 @@ static void nfs4_state_end_reclaim_nograce(struct nfs_client *clp)
 	clear_bit(NFS4CLNT_RECLAIM_NOGRACE, &clp->cl_state);
 }
 
-<<<<<<< HEAD
 static void nfs4_recovery_handle_error(struct nfs_client *clp, int error)
-=======
-static int nfs4_recovery_handle_error(struct nfs_client *clp, int error)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	switch (error) {
 		case -NFS4ERR_CB_PATH_DOWN:
 			nfs_handle_cb_pathdown(clp);
-<<<<<<< HEAD
 			break;
 		case -NFS4ERR_STALE_CLIENTID:
 		case -NFS4ERR_LEASE_MOVED:
 			set_bit(NFS4CLNT_LEASE_EXPIRED, &clp->cl_state);
-=======
-			return 0;
-		case -NFS4ERR_NO_GRACE:
-			nfs4_state_end_reclaim_reboot(clp);
-			return 0;
-		case -NFS4ERR_STALE_CLIENTID:
-		case -NFS4ERR_LEASE_MOVED:
-			set_bit(NFS4CLNT_LEASE_EXPIRED, &clp->cl_state);
-			nfs4_state_end_reclaim_reboot(clp);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			nfs4_state_start_reclaim_reboot(clp);
 			break;
 		case -NFS4ERR_EXPIRED:
@@ -1089,10 +1074,6 @@ static int nfs4_recovery_handle_error(struct nfs_client *clp, int error)
 		case -NFS4ERR_SEQ_MISORDERED:
 			set_bit(NFS4CLNT_SESSION_SETUP, &clp->cl_state);
 	}
-<<<<<<< HEAD
-=======
-	return error;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int nfs4_do_reclaim(struct nfs_client *clp, const struct nfs4_state_recovery_ops *ops)
@@ -1112,12 +1093,8 @@ restart:
 		if (status < 0) {
 			set_bit(ops->owner_flag_bit, &sp->so_flags);
 			nfs4_put_state_owner(sp);
-<<<<<<< HEAD
 			nfs4_recovery_handle_error(clp, status);
 			return status;
-=======
-			return nfs4_recovery_handle_error(clp, status);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		nfs4_put_state_owner(sp);
 		goto restart;
@@ -1147,12 +1124,8 @@ static int nfs4_check_lease(struct nfs_client *clp)
 	status = ops->renew_lease(clp, cred);
 	put_rpccred(cred);
 out:
-<<<<<<< HEAD
 	nfs4_recovery_handle_error(clp, status);
 	return status;
-=======
-	return nfs4_recovery_handle_error(clp, status);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int nfs4_reclaim_lease(struct nfs_client *clp)
@@ -1255,11 +1228,7 @@ static void nfs4_state_manager(struct nfs_client *clp)
 	int status = 0;
 
 	/* Ensure exclusive access to NFSv4 state */
-<<<<<<< HEAD
 	for(;;) {
-=======
-	do {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (test_and_clear_bit(NFS4CLNT_LEASE_EXPIRED, &clp->cl_state)) {
 			/* We're going to have to re-establish a clientid */
 			status = nfs4_reclaim_lease(clp);
@@ -1294,11 +1263,7 @@ static void nfs4_state_manager(struct nfs_client *clp)
 			}
 		}
 		/* First recover reboot state... */
-<<<<<<< HEAD
 		if (test_and_clear_bit(NFS4CLNT_RECLAIM_REBOOT, &clp->cl_state)) {
-=======
-		if (test_bit(NFS4CLNT_RECLAIM_REBOOT, &clp->cl_state)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			status = nfs4_do_reclaim(clp,
 				nfs4_reboot_recovery_ops[clp->cl_minorversion]);
 			if (status == -NFS4ERR_STALE_CLIENTID)
@@ -1339,20 +1304,13 @@ static void nfs4_state_manager(struct nfs_client *clp)
 			break;
 		if (test_and_set_bit(NFS4CLNT_MANAGER_RUNNING, &clp->cl_state) != 0)
 			break;
-<<<<<<< HEAD
 	}
-=======
-	} while (atomic_read(&clp->cl_count) > 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return;
 out_error:
 	printk(KERN_WARNING "Error: state manager failed on NFSv4 server %s"
 			" with error %d\n", clp->cl_hostname, -status);
-<<<<<<< HEAD
 	if (test_bit(NFS4CLNT_RECLAIM_REBOOT, &clp->cl_state))
 		nfs4_state_end_reclaim_reboot(clp);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	nfs4_clear_state_manager_bit(clp);
 }
 

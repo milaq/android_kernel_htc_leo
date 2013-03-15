@@ -1026,15 +1026,12 @@ static void acpi_device_set_id(struct acpi_device *device)
 		if (ACPI_IS_ROOT_DEVICE(device)) {
 			acpi_add_id(device, ACPI_SYSTEM_HID);
 			break;
-<<<<<<< HEAD
 		} else if (ACPI_IS_ROOT_DEVICE(device->parent)) {
 			/* \_SB_, the only root-level namespace device */
 			acpi_add_id(device, ACPI_BUS_HID);
 			strcpy(device->pnp.device_name, ACPI_BUS_DEVICE_NAME);
 			strcpy(device->pnp.device_class, ACPI_BUS_CLASS);
 			break;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		status = acpi_get_object_info(device->handle, &info);
@@ -1067,15 +1064,6 @@ static void acpi_device_set_id(struct acpi_device *device)
 			acpi_add_id(device, ACPI_BAY_HID);
 		else if (ACPI_SUCCESS(acpi_dock_match(device)))
 			acpi_add_id(device, ACPI_DOCK_HID);
-<<<<<<< HEAD
-=======
-		else if (!acpi_device_hid(device) &&
-			 ACPI_IS_ROOT_DEVICE(device->parent)) {
-			acpi_add_id(device, ACPI_BUS_HID); /* \_SB, LNXSYBUS */
-			strcpy(device->pnp.device_name, ACPI_BUS_DEVICE_NAME);
-			strcpy(device->pnp.device_class, ACPI_BUS_CLASS);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		break;
 	case ACPI_BUS_TYPE_POWER:

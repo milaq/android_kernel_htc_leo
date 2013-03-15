@@ -11,11 +11,7 @@ MODULE_ALIAS("ipt_TRACE");
 MODULE_ALIAS("ip6t_TRACE");
 
 static unsigned int
-<<<<<<< HEAD
 trace_tg(struct sk_buff *skb, const struct xt_action_param *par)
-=======
-trace_tg(struct sk_buff *skb, const struct xt_target_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	skb->nf_trace = 1;
 	return XT_CONTINUE;

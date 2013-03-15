@@ -1,11 +1,7 @@
 /*
  * Transparent proxy support for Linux/iptables
  *
-<<<<<<< HEAD
  * Copyright (c) 2006-2010 BalaBit IT Ltd.
-=======
- * Copyright (c) 2006-2007 BalaBit IT Ltd.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Author: Balazs Scheidler, Krisztian Kovacs
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,7 +16,6 @@
 #include <net/checksum.h>
 #include <net/udp.h>
 #include <net/inet_sock.h>
-<<<<<<< HEAD
 #include <linux/inetdevice.h>
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter_ipv4/ip_tables.h>
@@ -129,21 +124,6 @@ tproxy_tg4(struct sk_buff *skb, __be32 laddr, __be16 lport,
 	   u_int32_t mark_mask, u_int32_t mark_value)
 {
 	const struct iphdr *iph = ip_hdr(skb);
-=======
-
-#include <linux/netfilter/x_tables.h>
-#include <linux/netfilter_ipv4/ip_tables.h>
-#include <linux/netfilter/xt_TPROXY.h>
-
-#include <net/netfilter/ipv4/nf_defrag_ipv4.h>
-#include <net/netfilter/nf_tproxy_core.h>
-
-static unsigned int
-tproxy_tg(struct sk_buff *skb, const struct xt_target_param *par)
-{
-	const struct iphdr *iph = ip_hdr(skb);
-	const struct xt_tproxy_target_info *tgi = par->targinfo;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct udphdr _hdr, *hp;
 	struct sock *sk;
 
@@ -151,7 +131,6 @@ tproxy_tg(struct sk_buff *skb, const struct xt_target_param *par)
 	if (hp == NULL)
 		return NF_DROP;
 
-<<<<<<< HEAD
 	/* check if there's an ongoing connection on the packet
 	 * addresses, this happens if the redirect already happened
 	 * and the current packet belongs to an already established
@@ -348,20 +327,10 @@ tproxy_tg6_v1(struct sk_buff *skb, const struct xt_action_param *par)
 
 	/* NOTE: assign_sock consumes our sk reference */
 	if (sk && tproxy_sk_is_transparent(sk)) {
-=======
-	sk = nf_tproxy_get_sock_v4(dev_net(skb->dev), iph->protocol,
-				   iph->saddr, tgi->laddr ? tgi->laddr : iph->daddr,
-				   hp->source, tgi->lport ? tgi->lport : hp->dest,
-				   par->in, true);
-
-	/* NOTE: assign_sock consumes our sk reference */
-	if (sk && nf_tproxy_assign_sock(skb, sk)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		/* This should be in a separate target, but we don't do multiple
 		   targets on the same rule yet */
 		skb->mark = (skb->mark & ~tgi->mark_mask) ^ tgi->mark_value;
 
-<<<<<<< HEAD
 		pr_debug("redirecting: proto %hhu %pI6:%hu -> %pI6:%hu, mark: %x\n",
 				tproto, &iph->saddr, ntohs(hp->source),
 				laddr, ntohs(lport), skb->mark);
@@ -392,21 +361,6 @@ static int tproxy_tg6_check(const struct xt_tgchk_param *par)
 #endif
 
 static int tproxy_tg4_check(const struct xt_tgchk_param *par)
-=======
-		pr_debug("redirecting: proto %u %08x:%u -> %08x:%u, mark: %x\n",
-			 iph->protocol, ntohl(iph->daddr), ntohs(hp->dest),
-			 ntohl(tgi->laddr), ntohs(tgi->lport), skb->mark);
-		return NF_ACCEPT;
-	}
-
-	pr_debug("no socket, dropping: proto %u %08x:%u -> %08x:%u, mark: %x\n",
-		 iph->protocol, ntohl(iph->daddr), ntohs(hp->dest),
-		 ntohl(tgi->laddr), ntohs(tgi->lport), skb->mark);
-	return NF_DROP;
-}
-
-static bool tproxy_tg_check(const struct xt_tgchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct ipt_ip *i = par->entryinfo;
 
@@ -419,7 +373,6 @@ static bool tproxy_tg_check(const struct xt_tgchk_param *par)
 	return false;
 }
 
-<<<<<<< HEAD
 static struct xt_target tproxy_tg_reg[] __read_mostly = {
 	{
 		.name		= "TPROXY",
@@ -457,52 +410,27 @@ static struct xt_target tproxy_tg_reg[] __read_mostly = {
 	},
 #endif
 
-=======
-static struct xt_target tproxy_tg_reg __read_mostly = {
-	.name		= "TPROXY",
-	.family		= AF_INET,
-	.table		= "mangle",
-	.target		= tproxy_tg,
-	.targetsize	= sizeof(struct xt_tproxy_target_info),
-	.checkentry	= tproxy_tg_check,
-	.hooks		= 1 << NF_INET_PRE_ROUTING,
-	.me		= THIS_MODULE,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 static int __init tproxy_tg_init(void)
 {
 	nf_defrag_ipv4_enable();
-<<<<<<< HEAD
 #ifdef XT_TPROXY_HAVE_IPV6
 	nf_defrag_ipv6_enable();
 #endif
 
 	return xt_register_targets(tproxy_tg_reg, ARRAY_SIZE(tproxy_tg_reg));
-=======
-	return xt_register_target(&tproxy_tg_reg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void __exit tproxy_tg_exit(void)
 {
-<<<<<<< HEAD
 	xt_unregister_targets(tproxy_tg_reg, ARRAY_SIZE(tproxy_tg_reg));
-=======
-	xt_unregister_target(&tproxy_tg_reg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 module_init(tproxy_tg_init);
 module_exit(tproxy_tg_exit);
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
 MODULE_AUTHOR("Balazs Scheidler, Krisztian Kovacs");
 MODULE_DESCRIPTION("Netfilter transparent proxy (TPROXY) target module.");
 MODULE_ALIAS("ipt_TPROXY");
 MODULE_ALIAS("ip6t_TPROXY");
-=======
-MODULE_AUTHOR("Krisztian Kovacs");
-MODULE_DESCRIPTION("Netfilter transparent proxy (TPROXY) target module.");
-MODULE_ALIAS("ipt_TPROXY");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

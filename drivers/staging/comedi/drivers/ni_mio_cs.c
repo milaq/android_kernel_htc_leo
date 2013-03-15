@@ -123,11 +123,7 @@ static const struct ni_board_struct ni_boards[] = {
 	 .adbits = 12,
 	 .ai_fifo_depth = 1024,
 	 .alwaysdither = 0,
-<<<<<<< HEAD
 	 .gainlkup = ai_gain_16,
-=======
-	 .gainlkup = ai_gain_4,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 .ai_speed = 5000,
 	 .n_aochan = 2,
 	 .aobits = 12,

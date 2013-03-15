@@ -271,22 +271,12 @@ static int coh901331_resume(struct platform_device *pdev)
 {
 	struct coh901331_port *rtap = dev_get_drvdata(&pdev->dev);
 
-<<<<<<< HEAD
 	if (device_may_wakeup(&pdev->dev))
 		disable_irq_wake(rtap->irq);
 	else
 		clk_enable(rtap->clk);
 		writel(rtap->irqmaskstore, rtap->virtbase + COH901331_IRQ_MASK);
 		clk_disable(rtap->clk);
-=======
-	if (device_may_wakeup(&pdev->dev)) {
-		disable_irq_wake(rtap->irq);
-	} else {
-		clk_enable(rtap->clk);
-		writel(rtap->irqmaskstore, rtap->virtbase + COH901331_IRQ_MASK);
-		clk_disable(rtap->clk);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 #else

@@ -88,10 +88,6 @@ static int bnep_sock_ioctl(struct socket *sock, unsigned int cmd, unsigned long 
 			sockfd_put(nsock);
 			return -EBADFD;
 		}
-<<<<<<< HEAD
-=======
-		ca.device[sizeof(ca.device)-1] = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		err = bnep_add_connection(&ca, nsock);
 		if (!err) {

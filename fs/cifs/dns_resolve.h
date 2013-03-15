@@ -24,15 +24,8 @@
 #define _DNS_RESOLVE_H
 
 #ifdef __KERNEL__
-<<<<<<< HEAD
 #include <linux/key-type.h>
 extern struct key_type key_type_dns_resolver;
-=======
-#include <linux/module.h>
-
-extern int __init cifs_init_dns_resolver(void);
-extern void cifs_exit_dns_resolver(void);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern int dns_resolve_server_name_to_ip(const char *unc, char **ip_addr);
 #endif /* KERNEL */
 

@@ -82,11 +82,7 @@ int dlm_posix_lock(dlm_lockspace_t *lockspace, u64 number, struct file *file,
 	if (!ls)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	xop = kzalloc(sizeof(*xop), GFP_KERNEL);
-=======
-	xop = kzalloc(sizeof(*xop), GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!xop) {
 		rv = -ENOMEM;
 		goto out;
@@ -215,11 +211,7 @@ int dlm_posix_unlock(dlm_lockspace_t *lockspace, u64 number, struct file *file,
 	if (!ls)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	op = kzalloc(sizeof(*op), GFP_KERNEL);
-=======
-	op = kzalloc(sizeof(*op), GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!op) {
 		rv = -ENOMEM;
 		goto out;
@@ -274,11 +266,7 @@ int dlm_posix_get(dlm_lockspace_t *lockspace, u64 number, struct file *file,
 	if (!ls)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	op = kzalloc(sizeof(*op), GFP_KERNEL);
-=======
-	op = kzalloc(sizeof(*op), GFP_NOFS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!op) {
 		rv = -ENOMEM;
 		goto out;

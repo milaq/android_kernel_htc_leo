@@ -161,11 +161,7 @@ static int mv_is_err_intr(u32 intr_cause)
 
 static void mv_xor_device_clear_eoc_cause(struct mv_xor_chan *chan)
 {
-<<<<<<< HEAD
 	u32 val = (1 << (1 + (chan->idx * 16)));
-=======
-	u32 val = ~(1 << (chan->idx * 16));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dev_dbg(chan->device->common.dev, "%s, val 0x%08x\n", __func__, val);
 	__raw_writel(val, XOR_INTR_CAUSE(chan));
 }
@@ -452,11 +448,7 @@ mv_xor_slot_cleanup(struct mv_xor_chan *mv_chan)
 static void mv_xor_tasklet(unsigned long data)
 {
 	struct mv_xor_chan *chan = (struct mv_xor_chan *) data;
-<<<<<<< HEAD
 	__mv_xor_slot_cleanup(chan);
-=======
-	mv_xor_slot_cleanup(chan);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static struct mv_xor_desc_slot *

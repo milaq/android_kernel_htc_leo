@@ -33,13 +33,10 @@ obj-$(CONFIG_SPI_TXX9)			+= spi_txx9.o
 obj-$(CONFIG_SPI_XILINX)		+= xilinx_spi.o
 obj-$(CONFIG_SPI_SH_SCI)		+= spi_sh_sci.o
 obj-$(CONFIG_SPI_STMP3XXX)		+= spi_stmp.o
-<<<<<<< HEAD
 obj-$(CONFIG_SPI_QSD)			+= spi_qsd.o
 obj-$(CONFIG_SPI_QSD_NEW)		+= spi_qsdnew.o
 obj-$(CONFIG_SPI_CRUCIAL_OJ)	        += spi_oj.o
 obj-$(CONFIG_SPI_AIC3254)		+= spi_aic3254.o
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 # 	... add above this line ...
 
 # SPI protocol drivers (device/link on bus)

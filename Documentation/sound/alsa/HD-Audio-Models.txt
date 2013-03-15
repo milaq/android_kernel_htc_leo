@@ -401,8 +401,4 @@ STAC9872
 Cirrus Logic CS4206/4207
 ========================
   mbp55		MacBook Pro 5,5
-<<<<<<< HEAD
-=======
-  imac27	IMac 27 Inch
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
   auto		BIOS setup (default)

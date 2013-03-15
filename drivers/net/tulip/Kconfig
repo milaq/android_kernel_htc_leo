@@ -101,13 +101,6 @@ config TULIP_NAPI_HW_MITIGATION
 
 	  If in doubt, say Y.
 
-<<<<<<< HEAD
-=======
-config TULIP_DM910X
-	def_bool y
-	depends on TULIP && SPARC
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config DE4X5
 	tristate "Generic DECchip & DIGITAL EtherWORKS PCI/EISA"
 	depends on PCI || EISA

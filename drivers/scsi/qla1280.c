@@ -1640,15 +1640,8 @@ qla1280_load_firmware_pio(struct scsi_qla_host *ha)
 	uint16_t mb[MAILBOX_REGISTER_COUNT], i;
 	int err;
 
-<<<<<<< HEAD
 	err = request_firmware(&fw, ql1280_board_tbl[ha->devnum].fwname,
 			       &ha->pdev->dev);
-=======
-	spin_unlock_irq(ha->host->host_lock);
-	err = request_firmware(&fw, ql1280_board_tbl[ha->devnum].fwname,
-			       &ha->pdev->dev);
-	spin_lock_irq(ha->host->host_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err) {
 		printk(KERN_ERR "Failed to load image \"%s\" err %d\n",
 		       ql1280_board_tbl[ha->devnum].fwname, err);
@@ -1706,15 +1699,8 @@ qla1280_load_firmware_dma(struct scsi_qla_host *ha)
 		return -ENOMEM;
 #endif
 
-<<<<<<< HEAD
 	err = request_firmware(&fw, ql1280_board_tbl[ha->devnum].fwname,
 			       &ha->pdev->dev);
-=======
-	spin_unlock_irq(ha->host->host_lock);
-	err = request_firmware(&fw, ql1280_board_tbl[ha->devnum].fwname,
-			       &ha->pdev->dev);
-	spin_lock_irq(ha->host->host_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (err) {
 		printk(KERN_ERR "Failed to load image \"%s\" err %d\n",
 		       ql1280_board_tbl[ha->devnum].fwname, err);

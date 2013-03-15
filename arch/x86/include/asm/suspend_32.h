@@ -15,11 +15,6 @@ static inline int arch_prepare_suspend(void) { return 0; }
 struct saved_context {
 	u16 es, fs, gs, ss;
 	unsigned long cr0, cr2, cr3, cr4;
-<<<<<<< HEAD
-=======
-	u64 misc_enable;
-	bool misc_enable_saved;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct desc_ptr gdt;
 	struct desc_ptr idt;
 	u16 ldt;

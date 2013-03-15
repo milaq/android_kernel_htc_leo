@@ -408,11 +408,7 @@ ENTRY(handle_sys)
 	sw	r9, [r0, PT_EPC]
 
 	cmpi.c	r27, __NR_syscalls 	# check syscall number
-<<<<<<< HEAD
 	bgtu	illegal_syscall
-=======
-	bgeu	illegal_syscall
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	slli	r8, r27, 2		# get syscall routine
 	la	r11, sys_call_table

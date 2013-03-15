@@ -329,10 +329,6 @@ static int prism2_pci_probe(struct pci_dev *pdev,
 
         dev->irq = pdev->irq;
         hw_priv->mem_start = mem;
-<<<<<<< HEAD
-=======
-	dev->base_addr = (unsigned long) mem;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	prism2_pci_cor_sreset(local);
 

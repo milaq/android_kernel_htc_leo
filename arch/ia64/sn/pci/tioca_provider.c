@@ -517,11 +517,7 @@ tioca_dma_unmap(struct pci_dev *pdev, dma_addr_t bus_addr, int dir)
  * use the GART mapped mode.
  */
 static u64
-<<<<<<< HEAD
 tioca_dma_map(struct pci_dev *pdev, u64 paddr, size_t byte_count, int dma_flags)
-=======
-tioca_dma_map(struct pci_dev *pdev, unsigned long paddr, size_t byte_count, int dma_flags)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	u64 mapaddr;
 

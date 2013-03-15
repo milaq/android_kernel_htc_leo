@@ -544,15 +544,12 @@ void dma_cache_maint(const void *start, size_t size, int direction)
 	void (*inner_op)(const void *, const void *);
 	void (*outer_op)(unsigned long, unsigned long);
 
-<<<<<<< HEAD
 	if (!virt_addr_valid(start) || !virt_addr_valid(start + size - 1))
 	{
 		printk(KERN_ERR "%s: %08x not a valid virt address, PAGE_OFFSET=%08x, high_memory=%08x\n", 
 			__func__, (uint32_t)start,(uint32_t)PAGE_OFFSET, (uint32_t)high_memory );
 	}
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	BUG_ON(!virt_addr_valid(start) || !virt_addr_valid(start + size - 1));
 
 	switch (direction) {
@@ -573,7 +570,6 @@ void dma_cache_maint(const void *start, size_t size, int direction)
 	}
 
 	inner_op(start, start + size);
-<<<<<<< HEAD
 
 
 #ifdef CONFIG_OUTER_CACHE
@@ -584,9 +580,6 @@ void dma_cache_maint(const void *start, size_t size, int direction)
         BUG_ON(!virt_addr_valid(start) || !virt_addr_valid(start + size - 1));
 	outer_op(__pa(start), __pa(start) + size);
 #endif
-=======
-	outer_op(__pa(start), __pa(start) + size);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL(dma_cache_maint);
 

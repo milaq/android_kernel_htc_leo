@@ -5239,13 +5239,7 @@ int tcp_rcv_established(struct sock *sk, struct sk_buff *skb,
 			if (tp->copied_seq == tp->rcv_nxt &&
 			    len - tcp_header_len <= tp->ucopy.len) {
 #ifdef CONFIG_NET_DMA
-<<<<<<< HEAD
 				if (tcp_dma_try_early_copy(sk, skb, tcp_header_len)) {
-=======
-				if (tp->ucopy.task == current &&
-				    sock_owned_by_user(sk) &&
-				    tcp_dma_try_early_copy(sk, skb, tcp_header_len)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					copied_early = 1;
 					eaten = 1;
 				}
@@ -5638,11 +5632,6 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
 			goto discard;
 
 		if (th->syn) {
-<<<<<<< HEAD
-=======
-			if (th->fin)
-				goto discard;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (icsk->icsk_af_ops->conn_request(sk, skb) < 0)
 				return 1;
 

@@ -1791,15 +1791,6 @@ static struct ac97_quirk ac97_quirks[] = {
 		.type = AC97_TUNE_HP_ONLY
 	},
 	{
-<<<<<<< HEAD
-=======
-		.subvendor = 0x110a,
-		.subdevice = 0x0079,
-		.name = "Fujitsu Siemens D1289",
-		.type = AC97_TUNE_HP_ONLY
-	},
-	{
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.subvendor = 0x1019,
 		.subdevice = 0x0a81,
 		.name = "ECS K7VTA3",

@@ -80,13 +80,8 @@ static void i2c_pca_pf_writebyte32(void *pd, int reg, int val)
 static int i2c_pca_pf_waitforcompletion(void *pd)
 {
 	struct i2c_pca_pf_data *i2c = pd;
-<<<<<<< HEAD
 	long ret = ~0;
 	unsigned long timeout;
-=======
-	unsigned long timeout;
-	long ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (i2c->irq) {
 		ret = wait_event_timeout(i2c->wait,
@@ -95,20 +90,10 @@ static int i2c_pca_pf_waitforcompletion(void *pd)
 	} else {
 		/* Do polling */
 		timeout = jiffies + i2c->adap.timeout;
-<<<<<<< HEAD
 		while (((i2c->algo_data.read_byte(i2c, I2C_PCA_CON)
 				& I2C_PCA_CON_SI) == 0)
 				&& (ret = time_before(jiffies, timeout)))
 			udelay(100);
-=======
-		do {
-			ret = time_before(jiffies, timeout);
-			if (i2c->algo_data.read_byte(i2c, I2C_PCA_CON)
-					& I2C_PCA_CON_SI)
-				break;
-			udelay(100);
-		} while (ret);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return ret > 0;
@@ -236,11 +221,7 @@ static int __devinit i2c_pca_pf_probe(struct platform_device *pdev)
 
 	if (irq) {
 		ret = request_irq(irq, i2c_pca_pf_handler,
-<<<<<<< HEAD
 			IRQF_TRIGGER_FALLING, i2c->adap.name, i2c);
-=======
-			IRQF_TRIGGER_FALLING, pdev->name, i2c);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (ret)
 			goto e_reqirq;
 	}

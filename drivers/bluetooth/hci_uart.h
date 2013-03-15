@@ -31,29 +31,20 @@
 #define HCIUARTSETPROTO		_IOW('U', 200, int)
 #define HCIUARTGETPROTO		_IOR('U', 201, int)
 #define HCIUARTGETDEVICE	_IOR('U', 202, int)
-<<<<<<< HEAD
 #define HCIUARTSETFLAGS		_IOW('U', 203, int)
 #define HCIUARTGETFLAGS		_IOR('U', 204, int)
 
 /* UART protocols */
 #define HCI_UART_MAX_PROTO	6
-=======
-
-/* UART protocols */
-#define HCI_UART_MAX_PROTO	5
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define HCI_UART_H4	0
 #define HCI_UART_BCSP	1
 #define HCI_UART_3WIRE	2
 #define HCI_UART_H4DS	3
 #define HCI_UART_LL	4
-<<<<<<< HEAD
 #define HCI_UART_ATH3K	5
 
 #define HCI_UART_RAW_DEVICE	0
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct hci_uart;
 
@@ -71,10 +62,7 @@ struct hci_uart {
 	struct tty_struct	*tty;
 	struct hci_dev		*hdev;
 	unsigned long		flags;
-<<<<<<< HEAD
 	unsigned long		hdev_flags;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct hci_uart_proto	*proto;
 	void			*priv;
@@ -84,11 +72,7 @@ struct hci_uart {
 	spinlock_t		rx_lock;
 };
 
-<<<<<<< HEAD
 /* HCI_UART proto flag bits */
-=======
-/* HCI_UART flag bits */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define HCI_UART_PROTO_SET	0
 
 /* TX states  */
@@ -113,11 +97,8 @@ int bcsp_deinit(void);
 int ll_init(void);
 int ll_deinit(void);
 #endif
-<<<<<<< HEAD
 
 #ifdef CONFIG_BT_HCIUART_ATH3K
 int ath_init(void);
 int ath_deinit(void);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

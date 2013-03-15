@@ -673,11 +673,7 @@ dotry:
 		inurb->transfer_buffer_length =
 			inurb->number_of_packets *
 			inurb->iso_frame_desc[0].length;
-<<<<<<< HEAD
 		preempt_disable();
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (u == 0) {
 			int now;
 			struct usb_device *dev = inurb->dev;
@@ -689,29 +685,19 @@ dotry:
 		}
 		err = usb_submit_urb(inurb, GFP_ATOMIC);
 		if (err < 0) {
-<<<<<<< HEAD
 			preempt_enable();
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			snd_printk(KERN_ERR"usb_submit_urb(sk->inurb[%i])"
 				   " returned %i\n", u, err);
 			return err;
 		}
 		err = usb_submit_urb(outurb, GFP_ATOMIC);
 		if (err < 0) {
-<<<<<<< HEAD
 			preempt_enable();
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			snd_printk(KERN_ERR"usb_submit_urb(sk->outurb[%i])"
 				   " returned %i\n", u, err);
 			return err;
 		}
-<<<<<<< HEAD
 		preempt_enable();
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (inurb->start_frame != outurb->start_frame) {
 			snd_printd(KERN_DEBUG
 				   "u[%i] start_frames differ in:%u out:%u\n",

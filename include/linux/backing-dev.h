@@ -105,10 +105,6 @@ void bdi_start_writeback(struct backing_dev_info *bdi, struct super_block *sb,
 				long nr_pages);
 int bdi_writeback_task(struct bdi_writeback *wb);
 int bdi_has_dirty_io(struct backing_dev_info *bdi);
-<<<<<<< HEAD
-=======
-void bdi_arm_supers_timer(void);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 extern spinlock_t bdi_lock;
 extern struct list_head bdi_list;

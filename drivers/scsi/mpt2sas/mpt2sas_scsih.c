@@ -945,11 +945,7 @@ _scsih_build_scatter_gather(struct MPT2SAS_ADAPTER *ioc,
 	u32 chain_offset;
 	u32 chain_length;
 	u32 chain_flags;
-<<<<<<< HEAD
 	u32 sges_left;
-=======
-	int sges_left;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u32 sges_in_segment;
 	u32 sgl_flags;
 	u32 sgl_flags_last_element;
@@ -970,11 +966,7 @@ _scsih_build_scatter_gather(struct MPT2SAS_ADAPTER *ioc,
 
 	sg_scmd = scsi_sglist(scmd);
 	sges_left = scsi_dma_map(scmd);
-<<<<<<< HEAD
 	if (!sges_left) {
-=======
-	if (sges_left < 0) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		sdev_printk(KERN_ERR, scmd->device, "pci_map_sg"
 		" failed: request for %d bytes!\n", scsi_bufflen(scmd));
 		return -ENOMEM;
@@ -2593,12 +2585,9 @@ _scsih_check_topo_delete_events(struct MPT2SAS_ADAPTER *ioc,
 	u16 handle;
 
 	for (i = 0 ; i < event_data->NumEntries; i++) {
-<<<<<<< HEAD
 		if (event_data->PHY[i].PhyStatus &
 		    MPI2_EVENT_SAS_TOPO_PHYSTATUS_VACANT)
 			continue;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		handle = le16_to_cpu(event_data->PHY[i].AttachedDevHandle);
 		if (!handle)
 			continue;
@@ -3159,11 +3148,7 @@ _scsih_smart_predicted_fault(struct MPT2SAS_ADAPTER *ioc, u16 handle)
 	/* insert into event log */
 	sz = offsetof(Mpi2EventNotificationReply_t, EventData) +
 	     sizeof(Mpi2EventDataSasDeviceStatusChange_t);
-<<<<<<< HEAD
 	event_reply = kzalloc(sz, GFP_KERNEL);
-=======
-	event_reply = kzalloc(sz, GFP_ATOMIC);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!event_reply) {
 		printk(MPT2SAS_ERR_FMT "failure at %s:%d/%s()!\n",
 		    ioc->name, __FILE__, __LINE__, __func__);
@@ -5736,11 +5721,6 @@ _scsih_remove(struct pci_dev *pdev)
 	struct _sas_port *mpt2sas_port;
 	struct _sas_device *sas_device;
 	struct _sas_node *expander_sibling;
-<<<<<<< HEAD
-=======
-	struct _raid_device *raid_device, *next;
-	struct MPT2SAS_TARGET *sas_target_priv_data;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct workqueue_struct	*wq;
 	unsigned long flags;
 
@@ -5754,24 +5734,6 @@ _scsih_remove(struct pci_dev *pdev)
 	if (wq)
 		destroy_workqueue(wq);
 
-<<<<<<< HEAD
-=======
-	/* release all the volumes */
-	list_for_each_entry_safe(raid_device, next, &ioc->raid_device_list,
-	    list) {
-		if (raid_device->starget) {
-			sas_target_priv_data =
-			    raid_device->starget->hostdata;
-			sas_target_priv_data->deleted = 1;
-			scsi_remove_target(&raid_device->starget->dev);
-		}
-		printk(MPT2SAS_INFO_FMT "removing handle(0x%04x), wwid"
-		    "(0x%016llx)\n", ioc->name,  raid_device->handle,
-		    (unsigned long long) raid_device->wwid);
-		_scsih_raid_device_remove(ioc, raid_device);
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* free ports attached to the sas_host */
  retry_again:
 	list_for_each_entry(mpt2sas_port,

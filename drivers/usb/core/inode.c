@@ -515,21 +515,13 @@ static int fs_create_by_name (const char *name, mode_t mode,
 	*dentry = NULL;
 	mutex_lock(&parent->d_inode->i_mutex);
 	*dentry = lookup_one_len(name, parent, strlen(name));
-<<<<<<< HEAD
 	if (!IS_ERR(dentry)) {
-=======
-	if (!IS_ERR(*dentry)) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if ((mode & S_IFMT) == S_IFDIR)
 			error = usbfs_mkdir (parent->d_inode, *dentry, mode);
 		else 
 			error = usbfs_create (parent->d_inode, *dentry, mode);
 	} else
-<<<<<<< HEAD
 		error = PTR_ERR(dentry);
-=======
-		error = PTR_ERR(*dentry);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&parent->d_inode->i_mutex);
 
 	return error;

@@ -136,12 +136,6 @@ int ptrace_setxregs(struct task_struct *child, void __user *uregs)
 	elf_xtregs_t *xtregs = uregs;
 	int ret = 0;
 
-<<<<<<< HEAD
-=======
-	if (!access_ok(VERIFY_READ, uregs, sizeof(elf_xtregs_t)))
-		return -EFAULT;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #if XTENSA_HAVE_COPROCESSORS
 	/* Flush all coprocessors before we overwrite them. */
 	coprocessor_flush_all(ti);

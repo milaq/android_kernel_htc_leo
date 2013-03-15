@@ -64,7 +64,6 @@ int uvc_query_ctrl(struct uvc_device *dev, __u8 query, __u8 unit,
 static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
 	struct uvc_streaming_control *ctrl)
 {
-<<<<<<< HEAD
 	struct uvc_format *format;
 	struct uvc_frame *frame = NULL;
 	unsigned int i;
@@ -74,21 +73,6 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
 		return;
 
 	format = &stream->format[ctrl->bFormatIndex - 1];
-=======
-	struct uvc_format *format = NULL;
-	struct uvc_frame *frame = NULL;
-	unsigned int i;
-
-	for (i = 0; i < stream->nformats; ++i) {
-		if (stream->format[i].index == ctrl->bFormatIndex) {
-			format = &stream->format[i];
-			break;
-		}
-	}
-
-	if (format == NULL)
-		return;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	for (i = 0; i < format->nframes; ++i) {
 		if (format->frame[i].bFrameIndex == ctrl->bFrameIndex) {
@@ -1036,25 +1020,10 @@ int uvc_video_suspend(struct uvc_streaming *stream)
  * buffers, making sure userspace applications are notified of the problem
  * instead of waiting forever.
  */
-<<<<<<< HEAD
 int uvc_video_resume(struct uvc_streaming *stream)
 {
 	int ret;
 
-=======
-int uvc_video_resume(struct uvc_streaming *stream, int reset)
-{
-	int ret;
-
-	/* If the bus has been reset on resume, set the alternate setting to 0.
-	 * This should be the default value, but some devices crash or otherwise
-	 * misbehave if they don't receive a SET_INTERFACE request before any
-	 * other video control request.
-	 */
-	if (reset)
-		usb_set_interface(stream->dev->udev, stream->intfnum, 0);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	stream->frozen = 0;
 
 	ret = uvc_commit_video(stream, &stream->ctrl);

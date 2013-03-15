@@ -323,12 +323,8 @@ __nfulnl_send(struct nfulnl_instance *inst)
 			  NLMSG_DONE,
 			  sizeof(struct nfgenmsg));
 
-<<<<<<< HEAD
 	status = nfnetlink_unicast(inst->skb, &init_net, inst->peer_pid,
 				   MSG_DONTWAIT);
-=======
-	status = nfnetlink_unicast(inst->skb, inst->peer_pid, MSG_DONTWAIT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	inst->qlen = 0;
 	inst->skb = NULL;

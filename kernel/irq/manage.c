@@ -200,11 +200,7 @@ static inline int setup_affinity(unsigned int irq, struct irq_desc *desc)
 void __disable_irq(struct irq_desc *desc, unsigned int irq, bool suspend)
 {
 	if (suspend) {
-<<<<<<< HEAD
 		if (!desc->action || (desc->action->flags & IRQF_TIMER))
-=======
-		if (!desc->action || (desc->action->flags & IRQF_NO_SUSPEND))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return;
 		desc->status |= IRQ_SUSPENDED;
 	}
@@ -269,22 +265,8 @@ EXPORT_SYMBOL(disable_irq);
 
 void __enable_irq(struct irq_desc *desc, unsigned int irq, bool resume)
 {
-<<<<<<< HEAD
 	if (resume)
 		desc->status &= ~IRQ_SUSPENDED;
-=======
-	if (resume) {
-		if (!(desc->status & IRQ_SUSPENDED)) {
-			if (!desc->action)
-				return;
-			if (!(desc->action->flags & IRQF_FORCE_RESUME))
-				return;
-			/* Pretend that it got disabled ! */
-			desc->depth++;
-		}
-		desc->status &= ~IRQ_SUSPENDED;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	switch (desc->depth) {
 	case 0:
@@ -454,12 +436,6 @@ int __irq_set_trigger(struct irq_desc *desc, unsigned int irq,
 		/* note that IRQF_TRIGGER_MASK == IRQ_TYPE_SENSE_MASK */
 		desc->status &= ~(IRQ_LEVEL | IRQ_TYPE_SENSE_MASK);
 		desc->status |= flags;
-<<<<<<< HEAD
-=======
-
-		if (chip != desc->chip)
-			irq_chip_set_defaults(desc->chip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return ret;
@@ -487,14 +463,8 @@ static irqreturn_t irq_nested_primary_handler(int irq, void *dev_id)
 
 static int irq_wait_for_interrupt(struct irqaction *action)
 {
-<<<<<<< HEAD
 	while (!kthread_should_stop()) {
 		set_current_state(TASK_INTERRUPTIBLE);
-=======
-	set_current_state(TASK_INTERRUPTIBLE);
-
-	while (!kthread_should_stop()) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (test_and_clear_bit(IRQTF_RUNTHREAD,
 				       &action->thread_flags)) {
@@ -502,13 +472,7 @@ static int irq_wait_for_interrupt(struct irqaction *action)
 			return 0;
 		}
 		schedule();
-<<<<<<< HEAD
 	}
-=======
-		set_current_state(TASK_INTERRUPTIBLE);
-	}
-	__set_current_state(TASK_RUNNING);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return -1;
 }
 
@@ -654,7 +618,6 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 
 	if (desc->chip == &no_irq_chip)
 		return -ENOSYS;
-<<<<<<< HEAD
 	/*
 	 * Some drivers like serial.c use request_irq() heavily,
 	 * so we have to be careful not to interfere with a
@@ -671,8 +634,6 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 		 */
 		rand_initialize_irq(irq);
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Oneshot interrupts are not allowed with shared */
 	if ((new->flags & IRQF_ONESHOT) && (new->flags & IRQF_SHARED))
@@ -1045,10 +1006,7 @@ EXPORT_SYMBOL(free_irq);
  *
  *	IRQF_SHARED		Interrupt is shared
  *	IRQF_DISABLED	Disable local interrupts while processing
-<<<<<<< HEAD
  *	IRQF_SAMPLE_RANDOM	The interrupt can be used for entropy
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *	IRQF_TRIGGER_*		Specify active edge(s) or level
  *
  */
@@ -1118,11 +1076,7 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
 	if (retval)
 		kfree(action);
 
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_SHIRQ
-=======
-#ifdef CONFIG_DEBUG_SHIRQ_FIXME
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (irqflags & IRQF_SHARED) {
 		/*
 		 * It's a shared IRQ -- the driver ought to be prepared for it

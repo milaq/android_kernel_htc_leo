@@ -1123,24 +1123,16 @@ static char __attribute__((aligned(64))) iodc_dbuf[4096];
  */
 int pdc_iodc_print(const unsigned char *str, unsigned count)
 {
-<<<<<<< HEAD
 	static int posx;        /* for simple TAB-Simulation... */
 	unsigned int i;
 	unsigned long flags;
 
 	for (i = 0; i < count && i < 79;) {
-=======
-	unsigned int i;
-	unsigned long flags;
-
-	for (i = 0; i < count;) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		switch(str[i]) {
 		case '\n':
 			iodc_dbuf[i+0] = '\r';
 			iodc_dbuf[i+1] = '\n';
 			i += 2;
-<<<<<<< HEAD
 			posx = 0;
 			goto print;
 		case '\t':
@@ -1154,17 +1146,10 @@ int pdc_iodc_print(const unsigned char *str, unsigned count)
 		default:
 			iodc_dbuf[i] = str[i];
 			i++, posx++;
-=======
-			goto print;
-		default:
-			iodc_dbuf[i] = str[i];
-			i++;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			break;
 		}
 	}
 
-<<<<<<< HEAD
 	/* if we're at the end of line, and not already inserting a newline,
 	 * insert one anyway. iodc console doesn't claim to support >79 char
 	 * lines. don't account for this in the return value.
@@ -1174,8 +1159,6 @@ int pdc_iodc_print(const unsigned char *str, unsigned count)
 		iodc_dbuf[i+1] = '\n';
 	}
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 print:
         spin_lock_irqsave(&pdc_lock, flags);
         real32_call(PAGE0->mem_cons.iodc_io,

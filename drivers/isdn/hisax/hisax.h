@@ -959,10 +959,6 @@ struct IsdnCardState {
 	u_long		event;
 	struct work_struct tqueue;
 	struct timer_list dbusytimer;
-<<<<<<< HEAD
-=======
-	unsigned int	irq_cnt;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef ERROR_STATISTIC
 	int		err_crc;
 	int		err_tx;

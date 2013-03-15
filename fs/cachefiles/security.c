@@ -77,11 +77,6 @@ static int cachefiles_check_cache_dir(struct cachefiles_cache *cache,
 /*
  * check the security details of the on-disk cache
  * - must be called with security override in force
-<<<<<<< HEAD
-=======
- * - must return with a security override in force - even in the case of an
- *   error
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 int cachefiles_determine_cache_security(struct cachefiles_cache *cache,
 					struct dentry *root,
@@ -104,11 +99,6 @@ int cachefiles_determine_cache_security(struct cachefiles_cache *cache,
 	 * which create files */
 	ret = set_create_files_as(new, root->d_inode);
 	if (ret < 0) {
-<<<<<<< HEAD
-=======
-		abort_creds(new);
-		cachefiles_begin_secure(cache, _saved_cred);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		_leave(" = %d [cfa]", ret);
 		return ret;
 	}

@@ -110,10 +110,6 @@
 #include <asm/numa_64.h>
 #endif
 #include <asm/mce.h>
-<<<<<<< HEAD
-=======
-#include <asm/trampoline.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * end_pfn only includes RAM, while max_pfn_mapped includes all e820 entries.
@@ -692,20 +688,6 @@ static struct dmi_system_id __initdata bad_bios_dmi_table[] = {
 			DMI_MATCH(DMI_BOARD_NAME, "DG45FC"),
 		},
 	},
-<<<<<<< HEAD
-=======
-	/*
-	 * The Dell Inspiron Mini 1012 has DMI_BIOS_VENDOR = "Dell Inc.", so
-	 * match on the product name.
-	 */
-	{
-		.callback = dmi_low_memory_corruption,
-		.ident = "Phoenix BIOS",
-		.matches = {
-			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
-		},
-	},
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 	{}
 };
@@ -1005,11 +987,6 @@ void __init setup_arch(char **cmdline_p)
 	paging_init();
 	x86_init.paging.pagetable_setup_done(swapper_pg_dir);
 
-<<<<<<< HEAD
-=======
-	setup_trampoline_page_table();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	tboot_probe();
 
 #ifdef CONFIG_X86_64

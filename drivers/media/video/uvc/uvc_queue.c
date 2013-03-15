@@ -165,11 +165,6 @@ int uvc_free_buffers(struct uvc_video_queue *queue)
 	}
 
 	if (queue->count) {
-<<<<<<< HEAD
-=======
-		uvc_queue_cancel(queue, 0);
-		INIT_LIST_HEAD(&queue->mainqueue);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		vfree(queue->mem);
 		queue->count = 0;
 	}

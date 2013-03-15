@@ -21,10 +21,6 @@
 #include <linux/blkdev.h>
 #include <linux/random.h>
 #include <linux/iocontext.h>
-<<<<<<< HEAD
-=======
-#include <linux/capability.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/div64.h>
 #include "compat.h"
 #include "ctree.h"
@@ -1139,11 +1135,7 @@ int btrfs_rm_device(struct btrfs_root *root, char *device_path)
 		root->fs_info->avail_metadata_alloc_bits;
 
 	if ((all_avail & BTRFS_BLOCK_GROUP_RAID10) &&
-<<<<<<< HEAD
 	    root->fs_info->fs_devices->rw_devices <= 4) {
-=======
-	    root->fs_info->fs_devices->num_devices <= 4) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		printk(KERN_ERR "btrfs: unable to go below four devices "
 		       "on raid10\n");
 		ret = -EINVAL;
@@ -1151,11 +1143,7 @@ int btrfs_rm_device(struct btrfs_root *root, char *device_path)
 	}
 
 	if ((all_avail & BTRFS_BLOCK_GROUP_RAID1) &&
-<<<<<<< HEAD
 	    root->fs_info->fs_devices->rw_devices <= 2) {
-=======
-	    root->fs_info->fs_devices->num_devices <= 2) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		printk(KERN_ERR "btrfs: unable to go below two "
 		       "devices on raid1\n");
 		ret = -EINVAL;
@@ -1446,13 +1434,8 @@ int btrfs_init_new_device(struct btrfs_root *root, char *device_path)
 		return -EINVAL;
 
 	bdev = open_bdev_exclusive(device_path, 0, root->fs_info->bdev_holder);
-<<<<<<< HEAD
 	if (!bdev)
 		return -EIO;
-=======
-	if (IS_ERR(bdev))
-		return PTR_ERR(bdev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (root->fs_info->fs_devices->seeding) {
 		seeding_dev = 1;
@@ -1917,12 +1900,6 @@ int btrfs_balance(struct btrfs_root *dev_root)
 	if (dev_root->fs_info->sb->s_flags & MS_RDONLY)
 		return -EROFS;
 
-<<<<<<< HEAD
-=======
-	if (!capable(CAP_SYS_ADMIN))
-		return -EPERM;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_lock(&dev_root->fs_info->volume_mutex);
 	dev_root = dev_root->fs_info->dev_root;
 
@@ -2232,11 +2209,7 @@ static int __btrfs_alloc_chunk(struct btrfs_trans_handle *trans,
 		max_chunk_size = 10 * calc_size;
 		min_stripe_size = 64 * 1024 * 1024;
 	} else if (type & BTRFS_BLOCK_GROUP_METADATA) {
-<<<<<<< HEAD
 		max_chunk_size = 4 * calc_size;
-=======
-		max_chunk_size = 256 * 1024 * 1024;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		min_stripe_size = 32 * 1024 * 1024;
 	} else if (type & BTRFS_BLOCK_GROUP_SYSTEM) {
 		calc_size = 8 * 1024 * 1024;
@@ -2565,14 +2538,6 @@ int btrfs_chunk_readonly(struct btrfs_root *root, u64 chunk_offset)
 	if (!em)
 		return 1;
 
-<<<<<<< HEAD
-=======
-	if (btrfs_test_opt(root, DEGRADED)) {
-		free_extent_map(em);
-		return 0;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	map = (struct map_lookup *)em->bdev;
 	for (i = 0; i < map->num_stripes; i++) {
 		if (!map->stripes[i].dev->writeable) {
@@ -2684,15 +2649,8 @@ again:
 	em = lookup_extent_mapping(em_tree, logical, *length);
 	read_unlock(&em_tree->lock);
 
-<<<<<<< HEAD
 	if (!em && unplug_page)
 		return 0;
-=======
-	if (!em && unplug_page) {
-		kfree(multi);
-		return 0;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!em) {
 		printk(KERN_CRIT "unable to find logical %llu len %llu\n",

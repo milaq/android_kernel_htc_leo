@@ -2050,36 +2050,6 @@ YAMAHA_DEVICE(0x7010, "UB99"),
 	}
 },
 
-<<<<<<< HEAD
-=======
-/* Access Music devices */
-{
-	/* VirusTI Desktop */
-	USB_DEVICE_VENDOR_SPEC(0x133e, 0x0815),
-	.driver_info = (unsigned long) &(const struct snd_usb_audio_quirk) {
-		.ifnum = QUIRK_ANY_INTERFACE,
-		.type = QUIRK_COMPOSITE,
-		.data = &(const struct snd_usb_audio_quirk[]) {
-			{
-				.ifnum = 3,
-				.type = QUIRK_MIDI_FIXED_ENDPOINT,
-				.data = &(const struct snd_usb_midi_endpoint_info) {
-					.out_cables = 0x0003,
-					.in_cables  = 0x0003
-				}
-			},
-			{
-				.ifnum = 4,
-				.type = QUIRK_IGNORE_INTERFACE
-			},
-			{
-				.ifnum = -1
-			}
-		}
-	}
-},
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* */
 {
 	/* aka. Serato Scratch Live DJ Box */

@@ -213,10 +213,6 @@ register_slot(acpi_handle handle, u32 lvl, void *context, void **rv)
 
 	pdev = pci_get_slot(pbus, PCI_DEVFN(device, function));
 	if (pdev) {
-<<<<<<< HEAD
-=======
-		pdev->current_state = PCI_D0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		slot->flags |= (SLOT_ENABLED | SLOT_POWEREDON);
 		pci_dev_put(pdev);
 	}

@@ -147,7 +147,6 @@ static inline int tcf_skbedit_dump(struct sk_buff *skb, struct tc_action *a,
 {
 	unsigned char *b = skb_tail_pointer(skb);
 	struct tcf_skbedit *d = a->priv;
-<<<<<<< HEAD
 	struct tc_skbedit opt;
 	struct tcf_t t;
 
@@ -155,16 +154,6 @@ static inline int tcf_skbedit_dump(struct sk_buff *skb, struct tc_action *a,
 	opt.refcnt = d->tcf_refcnt - ref;
 	opt.bindcnt = d->tcf_bindcnt - bind;
 	opt.action = d->tcf_action;
-=======
-	struct tc_skbedit opt = {
-		.index   = d->tcf_index,
-		.refcnt  = d->tcf_refcnt - ref,
-		.bindcnt = d->tcf_bindcnt - bind,
-		.action  = d->tcf_action,
-	};
-	struct tcf_t t;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NLA_PUT(skb, TCA_SKBEDIT_PARMS, sizeof(opt), &opt);
 	if (d->flags & SKBEDIT_F_PRIORITY)
 		NLA_PUT(skb, TCA_SKBEDIT_PRIORITY, sizeof(d->priority),

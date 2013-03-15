@@ -7315,41 +7315,25 @@ static int niu_get_ethtool_tcam_all(struct niu *np,
 	struct niu_parent *parent = np->parent;
 	struct niu_tcam_entry *tp;
 	int i, idx, cnt;
-<<<<<<< HEAD
 	u16 n_entries;
 	unsigned long flags;
 
-=======
-	unsigned long flags;
-	int ret = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* put the tcam size here */
 	nfc->data = tcam_get_size(np);
 
 	niu_lock_parent(np, flags);
-<<<<<<< HEAD
 	n_entries = nfc->rule_cnt;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (cnt = 0, i = 0; i < nfc->data; i++) {
 		idx = tcam_get_index(np, i);
 		tp = &parent->tcam[idx];
 		if (!tp->valid)
 			continue;
-<<<<<<< HEAD
-=======
-		if (cnt == nfc->rule_cnt) {
-			ret = -EMSGSIZE;
-			break;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rule_locs[cnt] = i;
 		cnt++;
 	}
 	niu_unlock_parent(np, flags);
 
-<<<<<<< HEAD
 	if (n_entries != cnt) {
 		/* print warning, this should not happen */
 		pr_info(PFX "niu%d: %s In niu_get_ethtool_tcam_all, "
@@ -7358,9 +7342,6 @@ static int niu_get_ethtool_tcam_all(struct niu *np,
 	}
 
 	return 0;
-=======
-	return ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int niu_get_nfc(struct net_device *dev, struct ethtool_rxnfc *cmd,

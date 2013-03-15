@@ -324,10 +324,6 @@ struct dma_async_tx_descriptor *
 async_raid6_2data_recov(int disks, size_t bytes, int faila, int failb,
 			struct page **blocks, struct async_submit_ctl *submit)
 {
-<<<<<<< HEAD
-=======
-	void *scribble = submit->scribble;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int non_zero_srcs, i;
 
 	BUG_ON(faila == failb);
@@ -336,21 +332,11 @@ async_raid6_2data_recov(int disks, size_t bytes, int faila, int failb,
 
 	pr_debug("%s: disks: %d len: %zu\n", __func__, disks, bytes);
 
-<<<<<<< HEAD
 	/* we need to preserve the contents of 'blocks' for the async
 	 * case, so punt to synchronous if a scribble buffer is not available
 	 */
 	if (!submit->scribble) {
 		void **ptrs = (void **) blocks;
-=======
-	/* if a dma resource is not available or a scribble buffer is not
-	 * available punt to the synchronous path.  In the 'dma not
-	 * available' case be sure to use the scribble buffer to
-	 * preserve the content of 'blocks' as the caller intended.
-	 */
-	if (!async_dma_find_channel(DMA_PQ) || !scribble) {
-		void **ptrs = scribble ? scribble : (void **) blocks;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		async_tx_quiesce(&submit->depend_tx);
 		for (i = 0; i < disks; i++)
@@ -420,21 +406,11 @@ async_raid6_datap_recov(int disks, size_t bytes, int faila,
 
 	pr_debug("%s: disks: %d len: %zu\n", __func__, disks, bytes);
 
-<<<<<<< HEAD
 	/* we need to preserve the contents of 'blocks' for the async
 	 * case, so punt to synchronous if a scribble buffer is not available
 	 */
 	if (!scribble) {
 		void **ptrs = (void **) blocks;
-=======
-	/* if a dma resource is not available or a scribble buffer is not
-	 * available punt to the synchronous path.  In the 'dma not
-	 * available' case be sure to use the scribble buffer to
-	 * preserve the content of 'blocks' as the caller intended.
-	 */
-	if (!async_dma_find_channel(DMA_PQ) || !scribble) {
-		void **ptrs = scribble ? scribble : (void **) blocks;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		async_tx_quiesce(&submit->depend_tx);
 		for (i = 0; i < disks; i++)

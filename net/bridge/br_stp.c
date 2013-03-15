@@ -165,12 +165,8 @@ void br_transmit_config(struct net_bridge_port *p)
 	else {
 		struct net_bridge_port *root
 			= br_get_port(br, br->root_port);
-<<<<<<< HEAD
 		bpdu.message_age = br->max_age
 			- (root->message_age_timer.expires - jiffies)
-=======
-		bpdu.message_age = (jiffies - root->designated_age)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			+ MESSAGE_AGE_INCR;
 	}
 	bpdu.max_age = br->max_age;
@@ -194,10 +190,6 @@ static inline void br_record_config_information(struct net_bridge_port *p,
 	p->designated_cost = bpdu->root_path_cost;
 	p->designated_bridge = bpdu->bridge_id;
 	p->designated_port = bpdu->port_id;
-<<<<<<< HEAD
-=======
-	p->designated_age = jiffies + bpdu->message_age;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	mod_timer(&p->message_age_timer, jiffies
 		  + (p->br->max_age - bpdu->message_age));

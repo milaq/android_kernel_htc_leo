@@ -858,10 +858,6 @@ struct v4l2_querymenu {
 #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
 
 /*  User-class control IDs defined by V4L2 */
-<<<<<<< HEAD
-=======
-#define V4L2_CID_MAX_CTRLS		1024
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define V4L2_CID_BASE			(V4L2_CTRL_CLASS_USER | 0x900)
 #define V4L2_CID_USER_BASE 		V4L2_CID_BASE
 /*  IDs reserved for driver specific controls */

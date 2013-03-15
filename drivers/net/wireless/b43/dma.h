@@ -163,11 +163,7 @@ struct b43_dmadesc_generic {
 /* DMA engine tuning knobs */
 #define B43_TXRING_SLOTS		256
 #define B43_RXRING_SLOTS		64
-<<<<<<< HEAD
 #define B43_DMA0_RX_BUFFERSIZE		IEEE80211_MAX_FRAME_LEN
-=======
-#define B43_DMA0_RX_BUFFERSIZE		(B43_DMA0_RX_FRAMEOFFSET + IEEE80211_MAX_FRAME_LEN)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 
 struct sk_buff;

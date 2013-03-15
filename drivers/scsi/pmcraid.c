@@ -3508,12 +3508,6 @@ static long pmcraid_ioctl_passthrough(
 			rc = -EFAULT;
 			goto out_free_buffer;
 		}
-<<<<<<< HEAD
-=======
-	} else if (request_size < 0) {
-		rc = -EINVAL;
-		goto out_free_buffer;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* check if we have any additional command parameters */
@@ -3560,12 +3554,6 @@ static long pmcraid_ioctl_passthrough(
 			pmcraid_err("couldn't build passthrough ioadls\n");
 			goto out_free_buffer;
 		}
-<<<<<<< HEAD
-=======
-	} else if (request_size < 0) {
-		rc = -EINVAL;
-		goto out_free_buffer;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* If data is being written into the device, copy the data from user

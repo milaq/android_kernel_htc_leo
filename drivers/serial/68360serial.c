@@ -1381,33 +1381,6 @@ static void send_break(ser_info_t *info, unsigned int duration)
 }
 
 
-<<<<<<< HEAD
-=======
-/*
- * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
- * Return: write counters to the user passed counter struct
- * NB: both 1->0 and 0->1 transitions are counted except for
- *     RI where only 0->1 is counted.
- */
-static int rs_360_get_icount(struct tty_struct *tty,
-				struct serial_icounter_struct *icount)
-{
-	ser_info_t *info = (ser_info_t *)tty->driver_data;
-	struct async_icount cnow;
-
-	local_irq_disable();
-	cnow = info->state->icount;
-	local_irq_enable();
-
-	icount->cts = cnow.cts;
-	icount->dsr = cnow.dsr;
-	icount->rng = cnow.rng;
-	icount->dcd = cnow.dcd;
-
-	return 0;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int rs_360_ioctl(struct tty_struct *tty, struct file * file,
 		    unsigned int cmd, unsigned long arg)
 {
@@ -1421,11 +1394,7 @@ static int rs_360_ioctl(struct tty_struct *tty, struct file * file,
 	if (serial_paranoia_check(info, tty->name, "rs_ioctl"))
 		return -ENODEV;
 
-<<<<<<< HEAD
 	if ((cmd != TIOCMIWAIT) && (cmd != TIOCGICOUNT)) {
-=======
-	if (cmd != TIOCMIWAIT) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (tty->flags & (1 << TTY_IO_ERROR))
 		    return -EIO;
 	}
@@ -1508,7 +1477,6 @@ static int rs_360_ioctl(struct tty_struct *tty, struct file * file,
 			return 0;
 #endif
 
-<<<<<<< HEAD
 		/* 
 		 * Get counter of input serial line interrupts (DCD,RI,DSR,CTS)
 		 * Return: write counters to the user passed counter struct
@@ -1534,8 +1502,6 @@ static int rs_360_ioctl(struct tty_struct *tty, struct file * file,
 			put_user(cnow.rng, &p_cuser->rng);
 			put_user(cnow.dcd, &p_cuser->dcd);
 			return 0;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		default:
 			return -ENOIOCTLCMD;

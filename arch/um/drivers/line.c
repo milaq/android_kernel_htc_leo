@@ -727,12 +727,6 @@ struct winch {
 
 static void free_winch(struct winch *winch, int free_irq_ok)
 {
-<<<<<<< HEAD
-=======
-	if (free_irq_ok)
-		free_irq(WINCH_IRQ, winch);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	list_del(&winch->list);
 
 	if (winch->pid != -1)
@@ -741,11 +735,8 @@ static void free_winch(struct winch *winch, int free_irq_ok)
 		os_close_file(winch->fd);
 	if (winch->stack != 0)
 		free_stack(winch->stack, 0);
-<<<<<<< HEAD
 	if (free_irq_ok)
 		free_irq(WINCH_IRQ, winch);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(winch);
 }
 

@@ -64,10 +64,6 @@
 #include <linux/magic.h>
 #include <linux/perf_event.h>
 #include <linux/posix-timers.h>
-<<<<<<< HEAD
-=======
-#include <linux/signalfd.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -142,12 +138,9 @@ struct kmem_cache *vm_area_cachep;
 /* SLAB cache for mm_struct structures (tsk->mm) */
 static struct kmem_cache *mm_cachep;
 
-<<<<<<< HEAD
 /* Notifier list called when a task struct is freed */
 static ATOMIC_NOTIFIER_HEAD(task_free_notifier);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void account_kernel_stack(struct thread_info *ti, int account)
 {
 	struct zone *zone = page_zone(virt_to_page(ti));
@@ -166,7 +159,6 @@ void free_task(struct task_struct *tsk)
 }
 EXPORT_SYMBOL(free_task);
 
-<<<<<<< HEAD
 int task_free_register(struct notifier_block *n)
 {
 	return atomic_notifier_chain_register(&task_free_notifier, n);
@@ -179,8 +171,6 @@ int task_free_unregister(struct notifier_block *n)
 }
 EXPORT_SYMBOL(task_free_unregister);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void __put_task_struct(struct task_struct *tsk)
 {
 	WARN_ON(!tsk->exit_state);
@@ -190,10 +180,7 @@ void __put_task_struct(struct task_struct *tsk)
 	exit_creds(tsk);
 	delayacct_tsk_free(tsk);
 
-<<<<<<< HEAD
 	atomic_notifier_call_chain(&task_free_notifier, 0, tsk);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!profile_handoff_task(tsk))
 		free_task(tsk);
 }
@@ -306,11 +293,7 @@ out:
 #ifdef CONFIG_MMU
 static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 {
-<<<<<<< HEAD
 	struct vm_area_struct *mpnt, *tmp, **pprev;
-=======
-	struct vm_area_struct *mpnt, *tmp, *prev, **pprev;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct rb_node **rb_link, *rb_parent;
 	int retval;
 	unsigned long charge;
@@ -338,10 +321,6 @@ static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 	if (retval)
 		goto out;
 
-<<<<<<< HEAD
-=======
-	prev = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (mpnt = oldmm->mmap; mpnt; mpnt = mpnt->vm_next) {
 		struct file *file;
 
@@ -370,11 +349,7 @@ static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 		vma_set_policy(tmp, pol);
 		tmp->vm_flags &= ~VM_LOCKED;
 		tmp->vm_mm = mm;
-<<<<<<< HEAD
 		tmp->vm_next = NULL;
-=======
-		tmp->vm_next = tmp->vm_prev = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		anon_vma_link(tmp);
 		file = tmp->vm_file;
 		if (file) {
@@ -408,11 +383,6 @@ static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 		 */
 		*pprev = tmp;
 		pprev = &tmp->vm_next;
-<<<<<<< HEAD
-=======
-		tmp->vm_prev = prev;
-		prev = tmp;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		__vma_link_rb(mm, tmp, rb_link, rb_parent);
 		rb_link = &tmp->vm_rb.rb_right;
@@ -858,15 +828,8 @@ static int copy_sighand(unsigned long clone_flags, struct task_struct *tsk)
 
 void __cleanup_sighand(struct sighand_struct *sighand)
 {
-<<<<<<< HEAD
 	if (atomic_dec_and_test(&sighand->count))
 		kmem_cache_free(sighand_cachep, sighand);
-=======
-	if (atomic_dec_and_test(&sighand->count)) {
-		signalfd_cleanup(sighand);
-		kmem_cache_free(sighand_cachep, sighand);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 
@@ -937,12 +900,6 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
 	sig->utime = sig->stime = sig->cutime = sig->cstime = cputime_zero;
 	sig->gtime = cputime_zero;
 	sig->cgtime = cputime_zero;
-<<<<<<< HEAD
-=======
-#ifndef CONFIG_VIRT_CPU_ACCOUNTING
-	sig->prev_utime = sig->prev_stime = cputime_zero;
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	sig->nvcsw = sig->nivcsw = sig->cnvcsw = sig->cnivcsw = 0;
 	sig->min_flt = sig->maj_flt = sig->cmin_flt = sig->cmaj_flt = 0;
 	sig->inblock = sig->oublock = sig->cinblock = sig->coublock = 0;
@@ -1286,7 +1243,6 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	/* Need tasklist lock for parent etc handling! */
 	write_lock_irq(&tasklist_lock);
 
-<<<<<<< HEAD
 	/*
 	 * The task hasn't been attached yet, so its cpus_allowed mask will
 	 * not be changed, nor will its assigned CPU.
@@ -1302,8 +1258,6 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 			!cpu_online(task_cpu(p))))
 		set_task_cpu(p, smp_processor_id());
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* CLONE_PARENT re-uses the old parent */
 	if (clone_flags & (CLONE_PARENT|CLONE_THREAD)) {
 		p->real_parent = current->real_parent;
@@ -1370,12 +1324,7 @@ bad_fork_free_pid:
 	if (pid != &init_struct_pid)
 		free_pid(pid);
 bad_fork_cleanup_io:
-<<<<<<< HEAD
 	put_io_context(p->io_context);
-=======
-	if (p->io_context)
-		exit_io_context(p);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 bad_fork_cleanup_namespaces:
 	exit_task_namespaces(p);
 bad_fork_cleanup_mm:

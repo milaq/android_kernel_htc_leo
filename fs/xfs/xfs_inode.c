@@ -177,11 +177,7 @@ xfs_imap_to_bp(
 		if (unlikely(XFS_TEST_ERROR(!di_ok, mp,
 						XFS_ERRTAG_ITOBP_INOTOBP,
 						XFS_RANDOM_ITOBP_INOTOBP))) {
-<<<<<<< HEAD
 			if (iget_flags & XFS_IGET_BULKSTAT) {
-=======
-			if (iget_flags & XFS_IGET_UNTRUSTED) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				xfs_trans_brelse(tp, bp);
 				return XFS_ERROR(EINVAL);
 			}
@@ -791,10 +787,7 @@ xfs_iread(
 	xfs_mount_t	*mp,
 	xfs_trans_t	*tp,
 	xfs_inode_t	*ip,
-<<<<<<< HEAD
 	xfs_daddr_t	bno,
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	uint		iget_flags)
 {
 	xfs_buf_t	*bp;
@@ -804,17 +797,11 @@ xfs_iread(
 	/*
 	 * Fill in the location information in the in-core inode.
 	 */
-<<<<<<< HEAD
 	ip->i_imap.im_blkno = bno;
 	error = xfs_imap(mp, tp, ip->i_ino, &ip->i_imap, iget_flags);
 	if (error)
 		return error;
 	ASSERT(bno == 0 || bno == ip->i_imap.im_blkno);
-=======
-	error = xfs_imap(mp, tp, ip->i_ino, &ip->i_imap, iget_flags);
-	if (error)
-		return error;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Get pointers to the on-disk inode and the buffer containing it.
@@ -2890,13 +2877,8 @@ xfs_iflush(
 	mp = ip->i_mount;
 
 	/*
-<<<<<<< HEAD
 	 * If the inode isn't dirty, then just release the inode
 	 * flush lock and do nothing.
-=======
-	 * If the inode isn't dirty, then just release the inode flush lock and
-	 * do nothing.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 */
 	if (xfs_inode_clean(ip)) {
 		xfs_ifunlock(ip);
@@ -2922,22 +2904,6 @@ xfs_iflush(
 	xfs_iunpin_wait(ip);
 
 	/*
-<<<<<<< HEAD
-=======
-	 * For stale inodes we cannot rely on the backing buffer remaining
-	 * stale in cache for the remaining life of the stale inode and so
-	 * xfs_itobp() below may give us a buffer that no longer contains
-	 * inodes below. We have to check this after ensuring the inode is
-	 * unpinned so that it is safe to reclaim the stale inode after the
-	 * flush call.
-	 */
-	if (xfs_iflags_test(ip, XFS_ISTALE)) {
-		xfs_ifunlock(ip);
-		return 0;
-	}
-
-	/*
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 * This may have been unpinned because the filesystem is shutting
 	 * down forcibly. If that's the case we must not write this inode
 	 * to disk, because the log record didn't make it to disk!

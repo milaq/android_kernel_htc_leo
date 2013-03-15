@@ -1976,11 +1976,8 @@ static void atl1c_tx_map(struct atl1c_adapter *adapter,
 		else {
 			use_tpd = atl1c_get_tpd(adapter, type);
 			memcpy(use_tpd, tpd, sizeof(struct atl1c_tpd_desc));
-<<<<<<< HEAD
 			use_tpd = atl1c_get_tpd(adapter, type);
 			memcpy(use_tpd, tpd, sizeof(struct atl1c_tpd_desc));
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 		buffer_info = atl1c_get_tx_buffer(adapter, use_tpd);
 		buffer_info->length = buf_len - mapped_len;

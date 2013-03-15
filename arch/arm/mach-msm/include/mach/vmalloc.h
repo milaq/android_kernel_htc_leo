@@ -16,16 +16,12 @@
 #ifndef __ASM_ARCH_MSM_VMALLOC_H
 #define __ASM_ARCH_MSM_VMALLOC_H
 
-<<<<<<< HEAD
 /* IO devices are mapped at 0xF8000000 and above */
 #ifdef CONFIG_VMSPLIT_2G
 #define VMALLOC_END	  (PAGE_OFFSET + 0x60000000)
 #else
 #define VMALLOC_END	  (0xF8000000)
 #endif
-=======
-#define VMALLOC_END	  (PAGE_OFFSET + 0x10000000)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif
 

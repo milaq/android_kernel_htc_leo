@@ -240,11 +240,7 @@ static int tcf_nat(struct sk_buff *skb, struct tc_action *a,
 			iph->saddr = new_addr;
 
 		inet_proto_csum_replace4(&icmph->checksum, skb, addr, new_addr,
-<<<<<<< HEAD
 					 1);
-=======
-					 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	}
 	default:
@@ -265,7 +261,6 @@ static int tcf_nat_dump(struct sk_buff *skb, struct tc_action *a,
 {
 	unsigned char *b = skb_tail_pointer(skb);
 	struct tcf_nat *p = a->priv;
-<<<<<<< HEAD
 	struct tc_nat *opt;
 	struct tcf_t t;
 	int s;
@@ -288,40 +283,18 @@ static int tcf_nat_dump(struct sk_buff *skb, struct tc_action *a,
 	opt->bindcnt = p->tcf_bindcnt - bind;
 
 	NLA_PUT(skb, TCA_NAT_PARMS, s, opt);
-=======
-	struct tc_nat opt = {
-		.old_addr = p->old_addr,
-		.new_addr = p->new_addr,
-		.mask     = p->mask,
-		.flags    = p->flags,
-
-		.index    = p->tcf_index,
-		.action   = p->tcf_action,
-		.refcnt   = p->tcf_refcnt - ref,
-		.bindcnt  = p->tcf_bindcnt - bind,
-	};
-	struct tcf_t t;
-
-	NLA_PUT(skb, TCA_NAT_PARMS, sizeof(opt), &opt);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	t.install = jiffies_to_clock_t(jiffies - p->tcf_tm.install);
 	t.lastuse = jiffies_to_clock_t(jiffies - p->tcf_tm.lastuse);
 	t.expires = jiffies_to_clock_t(p->tcf_tm.expires);
 	NLA_PUT(skb, TCA_NAT_TM, sizeof(t), &t);
 
-<<<<<<< HEAD
 	kfree(opt);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return skb->len;
 
 nla_put_failure:
 	nlmsg_trim(skb, b);
-<<<<<<< HEAD
 	kfree(opt);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return -1;
 }
 

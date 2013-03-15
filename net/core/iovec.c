@@ -38,11 +38,7 @@
 
 int verify_iovec(struct msghdr *m, struct iovec *iov, struct sockaddr *address, int mode)
 {
-<<<<<<< HEAD
 	int size, err, ct;
-=======
-	int size, ct, err;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (m->msg_namelen) {
 		if (mode == VERIFY_READ) {
@@ -64,7 +60,6 @@ int verify_iovec(struct msghdr *m, struct iovec *iov, struct sockaddr *address, 
 	err = 0;
 
 	for (ct = 0; ct < m->msg_iovlen; ct++) {
-<<<<<<< HEAD
 		err += iov[ct].iov_len;
 		/*
 		 * Goal is not to verify user data, but to prevent returning
@@ -73,15 +68,6 @@ int verify_iovec(struct msghdr *m, struct iovec *iov, struct sockaddr *address, 
 		 */
 		if (err < 0)
 			return -EMSGSIZE;
-=======
-		size_t len = iov[ct].iov_len;
-
-		if (len > INT_MAX - err) {
-			len = INT_MAX - err;
-			iov[ct].iov_len = len;
-		}
-		err += len;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	return err;

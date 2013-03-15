@@ -17,11 +17,8 @@
 #ifndef __ASM_ARCH_MSM_IRQS_H
 #define __ASM_ARCH_MSM_IRQS_H
 
-<<<<<<< HEAD
 #if defined(CONFIG_ARCH_MSM_ARM11)
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* MSM ARM11 Interrupt Numbers */
 /* See 80-VE113-1 A, pp219-221     */
 
@@ -80,7 +77,6 @@
 #define INT_SDC4_1           (32 + 19)
 #define INT_UART2DM_RX       (32 + 20)
 #define INT_UART2DM_IRQ      (32 + 21)
-<<<<<<< HEAD
 #define INT_VFE              (32 + 22)
 
 /* 22-31 are reserved */
@@ -348,18 +344,4 @@
 #define MSM_INT_TO_GPIO(n) ((n) - NR_MSM_IRQS)
 
 #define MSM_uP_TO_INT(n) (FIRST_MICROP_IRQ + (n))
-=======
-
-/* 22-31 are reserved */
-
-#define MSM_IRQ_BIT(irq)     (1 << ((irq) & 31))
-
-#define NR_MSM_IRQS 64
-#define NR_GPIO_IRQS 122
-#define NR_BOARD_IRQS 64
-#define NR_IRQS (NR_MSM_IRQS + NR_GPIO_IRQS + NR_BOARD_IRQS)
-
-#define MSM_GPIO_TO_INT(n) (NR_MSM_IRQS + (n))
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif

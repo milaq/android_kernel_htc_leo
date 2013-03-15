@@ -11,11 +11,8 @@ source "drivers/gpu/vga/Kconfig"
 
 source "drivers/gpu/drm/Kconfig"
 
-<<<<<<< HEAD
 source "drivers/gpu/msm/Kconfig"
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config VGASTATE
        tristate
        default n
@@ -2131,17 +2128,6 @@ config FB_PRE_INIT_FB
 	  Select this option if display contents should be inherited as set by
 	  the bootloader.
 
-<<<<<<< HEAD
-=======
-config FB_MSM
-	tristate
-	depends on FB && ARCH_MSM
-	select FB_CFB_FILLRECT
-	select FB_CFB_COPYAREA
-	select FB_CFB_IMAGEBLIT
-	default y
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config FB_MX3
 	tristate "MX3 Framebuffer support"
 	depends on FB && MX3_IPU
@@ -2168,11 +2154,8 @@ config FB_BROADSHEET
 	  and could also have been called by other names when coupled with
 	  a bridge adapter.
 
-<<<<<<< HEAD
 source "drivers/video/msm/Kconfig"
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 source "drivers/video/omap/Kconfig"
 
 source "drivers/video/backlight/Kconfig"

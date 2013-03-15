@@ -25,10 +25,6 @@
 #include <linux/posix-timers.h>
 #include <linux/times.h>
 #include <linux/ptrace.h>
-<<<<<<< HEAD
-=======
-#include <linux/module.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/uaccess.h>
 
@@ -498,7 +494,6 @@ asmlinkage long compat_sys_sched_getaffinity(compat_pid_t pid, unsigned int len,
 {
 	int ret;
 	cpumask_var_t mask;
-<<<<<<< HEAD
 	unsigned long *k;
 	unsigned int min_length = cpumask_size();
 
@@ -506,19 +501,12 @@ asmlinkage long compat_sys_sched_getaffinity(compat_pid_t pid, unsigned int len,
 		min_length = sizeof(compat_ulong_t);
 
 	if (len < min_length)
-=======
-
-	if ((len * BITS_PER_BYTE) < nr_cpu_ids)
-		return -EINVAL;
-	if (len & (sizeof(compat_ulong_t)-1))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EINVAL;
 
 	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
 		return -ENOMEM;
 
 	ret = sched_getaffinity(pid, mask);
-<<<<<<< HEAD
 	if (ret < 0)
 		goto out;
 
@@ -529,18 +517,6 @@ asmlinkage long compat_sys_sched_getaffinity(compat_pid_t pid, unsigned int len,
 
 out:
 	free_cpumask_var(mask);
-=======
-	if (ret == 0) {
-		size_t retlen = min_t(size_t, len, cpumask_size());
-
-		if (compat_put_bitmap(user_mask_ptr, cpumask_bits(mask), retlen * 8))
-			ret = -EFAULT;
-		else
-			ret = retlen;
-	}
-	free_cpumask_var(mask);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -1163,27 +1139,3 @@ compat_sys_sysinfo(struct compat_sysinfo __user *info)
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-
-/*
- * Allocate user-space memory for the duration of a single system call,
- * in order to marshall parameters inside a compat thunk.
- */
-void __user *compat_alloc_user_space(unsigned long len)
-{
-	void __user *ptr;
-
-	/* If len would occupy more than half of the entire compat space... */
-	if (unlikely(len > (((compat_uptr_t)~0) >> 1)))
-		return NULL;
-
-	ptr = arch_compat_alloc_user_space(len);
-
-	if (unlikely(!access_ok(VERIFY_WRITE, ptr, len)))
-		return NULL;
-
-	return ptr;
-}
-EXPORT_SYMBOL_GPL(compat_alloc_user_space);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

@@ -14,10 +14,7 @@
 
 #include <linux/kernel.h>
 #include <linux/device.h>
-<<<<<<< HEAD
 #include <linux/usb/android_composite.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include "u_serial.h"
 #include "gadget_chips.h"
@@ -388,17 +385,10 @@ static int acm_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 			usb_ep_disable(acm->notify);
 		} else {
 			VDBG(cdev, "init acm ctrl interface %d\n", intf);
-<<<<<<< HEAD
 		}
 		acm->notify_desc = ep_choose(cdev->gadget,
 				acm->hs.notify,
 				acm->fs.notify);
-=======
-			acm->notify_desc = ep_choose(cdev->gadget,
-					acm->hs.notify,
-					acm->fs.notify);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		usb_ep_enable(acm->notify, acm->notify_desc);
 		acm->notify->driver_data = acm;
 
@@ -408,19 +398,11 @@ static int acm_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 			gserial_disconnect(&acm->port);
 		} else {
 			DBG(cdev, "activate acm ttyGS%d\n", acm->port_num);
-<<<<<<< HEAD
 		}
 		acm->port.in_desc = ep_choose(cdev->gadget,
 				acm->hs.in, acm->fs.in);
 		acm->port.out_desc = ep_choose(cdev->gadget,
 				acm->hs.out, acm->fs.out);
-=======
-			acm->port.in_desc = ep_choose(cdev->gadget,
-					acm->hs.in, acm->fs.in);
-			acm->port.out_desc = ep_choose(cdev->gadget,
-					acm->hs.out, acm->fs.out);
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		gserial_connect(&acm->port, acm->port_num);
 
 	} else
@@ -780,7 +762,6 @@ int __init acm_bind_config(struct usb_configuration *c, u8 port_num)
 		kfree(acm);
 	return status;
 }
-<<<<<<< HEAD
 
 #ifdef CONFIG_USB_ANDROID_ACM
 
@@ -806,5 +787,3 @@ static int __init init(void)
 module_init(init);
 
 #endif /* CONFIG_USB_ANDROID_ACM */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

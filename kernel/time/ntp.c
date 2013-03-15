@@ -28,11 +28,8 @@ unsigned long			tick_nsec;
 u64				tick_length;
 static u64			tick_length_base;
 
-<<<<<<< HEAD
 static struct hrtimer		leap_timer;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define MAX_TICKADJ		500LL		/* usecs */
 #define MAX_TICKADJ_SCALED \
 	(((MAX_TICKADJ * NSEC_PER_USEC) << NTP_SCALE_SHIFT) / NTP_INTERVAL_FREQ)
@@ -111,11 +108,7 @@ static inline s64 ntp_update_offset_fll(s64 offset64, long secs)
 {
 	time_status &= ~STA_MODE;
 
-<<<<<<< HEAD
 	if (secs < MINSEC)
-=======
-	if ((s32)secs < MINSEC)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return 0;
 
 	if (!(time_status & STA_FLL) && (secs <= MAXSEC))
@@ -187,7 +180,6 @@ void ntp_clear(void)
 }
 
 /*
-<<<<<<< HEAD
  * Leap second processing. If in leap-insert state at the end of the
  * day, the system clock is set back one second; if in leap-delete
  * state, the system clock is set ahead one second.
@@ -220,67 +212,12 @@ static enum hrtimer_restart ntp_leap_second(struct hrtimer *timer)
 		time_tai++;
 		time_state = TIME_WAIT;
 		/* fall through */
-=======
- * this routine handles the overflow of the microsecond field
- *
- * The tricky bits of code to handle the accurate clock support
- * were provided by Dave Mills (Mills@UDEL.EDU) of NTP fame.
- * They were originally developed for SUN and DEC kernels.
- * All the kudos should go to Dave for this stuff.
- *
- * Also handles leap second processing, and returns leap offset
- */
-int second_overflow(unsigned long secs)
-{
-	int leap = 0;
-	s64 delta;
-
-	/*
-	 * Leap second processing. If in leap-insert state at the end of the
-	 * day, the system clock is set back one second; if in leap-delete
-	 * state, the system clock is set ahead one second.
-	 */
-	switch (time_state) {
-	case TIME_OK:
-		if (time_status & STA_INS)
-			time_state = TIME_INS;
-		else if (time_status & STA_DEL)
-			time_state = TIME_DEL;
-		break;
-	case TIME_INS:
-		if (!(time_status & STA_INS))
-			time_state = TIME_OK;
-		else if (secs % 86400 == 0) {
-			leap = -1;
-			time_state = TIME_OOP;
-			time_tai++;
-			printk(KERN_NOTICE
-				"Clock: inserting leap second 23:59:60 UTC\n");
-		}
-		break;
-	case TIME_DEL:
-		if (!(time_status & STA_DEL))
-			time_state = TIME_OK;
-		else if ((secs + 1) % 86400 == 0) {
-			leap = 1;
-			time_tai--;
-			time_state = TIME_WAIT;
-			printk(KERN_NOTICE
-				"Clock: deleting leap second 23:59:59 UTC\n");
-		}
-		break;
-	case TIME_OOP:
-		time_state = TIME_WAIT;
-		break;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	case TIME_WAIT:
 		if (!(time_status & (STA_INS | STA_DEL)))
 			time_state = TIME_OK;
 		break;
 	}
 
-<<<<<<< HEAD
 	write_sequnlock(&xtime_lock);
 
 	return res;
@@ -297,8 +234,6 @@ int second_overflow(unsigned long secs)
 void second_overflow(void)
 {
 	s64 delta;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Bump the maxerror field */
 	time_maxerror += MAXFREQ / NSEC_PER_USEC;
@@ -318,40 +253,23 @@ void second_overflow(void)
 	tick_length	+= delta;
 
 	if (!time_adjust)
-<<<<<<< HEAD
 		return;
-=======
-		goto out;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (time_adjust > MAX_TICKADJ) {
 		time_adjust -= MAX_TICKADJ;
 		tick_length += MAX_TICKADJ_SCALED;
-<<<<<<< HEAD
 		return;
-=======
-		goto out;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	if (time_adjust < -MAX_TICKADJ) {
 		time_adjust += MAX_TICKADJ;
 		tick_length -= MAX_TICKADJ_SCALED;
-<<<<<<< HEAD
 		return;
-=======
-		goto out;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	tick_length += (s64)(time_adjust * NSEC_PER_USEC / NTP_INTERVAL_FREQ)
 							 << NTP_SCALE_SHIFT;
 	time_adjust = 0;
-<<<<<<< HEAD
-=======
-out:
-	return leap;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_GENERIC_CMOS_UPDATE
@@ -413,7 +331,6 @@ static void notify_cmos_timer(void)
 static inline void notify_cmos_timer(void) { }
 #endif
 
-<<<<<<< HEAD
 /*
  * Start the leap seconds timer:
  */
@@ -435,8 +352,6 @@ static inline void ntp_start_leap_timer(struct timespec *ts)
 		hrtimer_start(&leap_timer, ktime_set(now, 0), HRTIMER_MODE_ABS);
 	}
 }
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * Propagate a new txc->status value into the NTP state:
@@ -459,7 +374,6 @@ static inline void process_adj_status(struct timex *txc, struct timespec *ts)
 	time_status &= STA_RONLY;
 	time_status |= txc->status & ~STA_RONLY;
 
-<<<<<<< HEAD
 	switch (time_state) {
 	case TIME_OK:
 		ntp_start_leap_timer(ts);
@@ -476,8 +390,6 @@ static inline void process_adj_status(struct timex *txc, struct timespec *ts)
 		hrtimer_restart(&leap_timer);
 		break;
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 /*
  * Called with the xtime lock held, so we can access and modify
@@ -557,12 +469,9 @@ int do_adjtimex(struct timex *txc)
 		    (txc->tick <  900000/USER_HZ ||
 		     txc->tick > 1100000/USER_HZ))
 			return -EINVAL;
-<<<<<<< HEAD
 
 		if (txc->modes & ADJ_STATUS && time_state != TIME_OK)
 			hrtimer_cancel(&leap_timer);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	getnstimeofday(&ts);
@@ -640,9 +549,6 @@ __setup("ntp_tick_adj=", ntp_tick_adj_setup);
 void __init ntp_init(void)
 {
 	ntp_clear();
-<<<<<<< HEAD
 	hrtimer_init(&leap_timer, CLOCK_REALTIME, HRTIMER_MODE_ABS);
 	leap_timer.function = ntp_leap_second;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }

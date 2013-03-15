@@ -14,10 +14,6 @@ CFLAGS_common.o		:= $(nostackp)
 obj-y			:= intel_cacheinfo.o addon_cpuid_features.o
 obj-y			+= proc.o capflags.o powerflags.o common.o
 obj-y			+= vmware.o hypervisor.o sched.o
-<<<<<<< HEAD
-=======
-obj-y			+= rdrand.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 obj-$(CONFIG_X86_32)	+= bugs.o cmpxchg.o
 obj-$(CONFIG_X86_64)	+= bugs_64.o

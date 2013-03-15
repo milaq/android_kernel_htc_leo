@@ -1776,15 +1776,6 @@ static struct ac97_quirk ac97_quirks[] __devinitdata = {
         },
 	{
 		.subvendor = 0x1014,
-<<<<<<< HEAD
-=======
-		.subdevice = 0x0534,
-		.name = "ThinkPad X31",
-		.type = AC97_TUNE_INV_EAPD
-	},
-	{
-		.subvendor = 0x1014,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.subdevice = 0x1f00,
 		.name = "MS-9128",
 		.type = AC97_TUNE_ALC_JACK
@@ -1869,15 +1860,6 @@ static struct ac97_quirk ac97_quirks[] __devinitdata = {
 	},
 	{
 		.subvendor = 0x1028,
-<<<<<<< HEAD
-=======
-		.subdevice = 0x0182,
-		.name = "Dell Latitude D610",	/* STAC9750/51 */
-		.type = AC97_TUNE_HP_ONLY
-	},
-	{
-		.subvendor = 0x1028,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		.subdevice = 0x0186,
 		.name = "Dell Latitude D810", /* cf. Malone #41015 */
 		.type = AC97_TUNE_HP_MUTE_LED

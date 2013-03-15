@@ -49,10 +49,6 @@
 #include <asm/numa.h>
 #include <asm/cacheflush.h>
 #include <asm/init.h>
-<<<<<<< HEAD
-=======
-#include <linux/bootmem.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static unsigned long dma_reserve __initdata;
 
@@ -619,24 +615,6 @@ void __init paging_init(void)
  */
 #ifdef CONFIG_MEMORY_HOTPLUG
 /*
-<<<<<<< HEAD
-=======
- * After memory hotplug the variables max_pfn, max_low_pfn and high_memory need
- * updating.
- */
-static void  update_end_of_memory_vars(u64 start, u64 size)
-{
-	unsigned long end_pfn = PFN_UP(start + size);
-
-	if (end_pfn > max_pfn) {
-		max_pfn = end_pfn;
-		max_low_pfn = end_pfn;
-		high_memory = (void *)__va(max_pfn * PAGE_SIZE - 1) + 1;
-	}
-}
-
-/*
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Memory is added always to NORMAL zone. This means you will never get
  * additional DMA/DMA32 memory.
  */
@@ -655,12 +633,6 @@ int arch_add_memory(int nid, u64 start, u64 size)
 	ret = __add_pages(nid, zone, start_pfn, nr_pages);
 	WARN_ON_ONCE(ret);
 
-<<<<<<< HEAD
-=======
-	/* update max_pfn, max_low_pfn and high_memory */
-	update_end_of_memory_vars(start, size);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 EXPORT_SYMBOL_GPL(arch_add_memory);

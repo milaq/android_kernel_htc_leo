@@ -10,23 +10,17 @@
 #include <linux/init.h>
 #include <linux/sched.h>
 #include <linux/mm.h>
-<<<<<<< HEAD
 #include <linux/smp.h>
 #include <linux/percpu.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <asm/mmu_context.h>
 #include <asm/tlbflush.h>
 
 static DEFINE_SPINLOCK(cpu_asid_lock);
 unsigned int cpu_last_asid = ASID_FIRST_VERSION;
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 DEFINE_PER_CPU(struct mm_struct *, current_mm);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * We fork()ed a process, and we need a new context for the child
@@ -37,7 +31,6 @@ DEFINE_PER_CPU(struct mm_struct *, current_mm);
 void __init_new_context(struct task_struct *tsk, struct mm_struct *mm)
 {
 	mm->context.id = 0;
-<<<<<<< HEAD
 	spin_lock_init(&mm->context.id_lock);
 }
 
@@ -120,16 +113,11 @@ static inline void set_mm_context(struct mm_struct *mm, unsigned int asid)
 
 #endif
 
-=======
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void __new_context(struct mm_struct *mm)
 {
 	unsigned int asid;
 
 	spin_lock(&cpu_asid_lock);
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	/*
 	 * Check the ASID again, in case the change was broadcast from
@@ -146,8 +134,6 @@ void __new_context(struct mm_struct *mm)
 	 * an old ASID) isn't active on any other CPU since the ASIDs
 	 * are changed simultaneously via IPI.
 	 */
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	asid = ++cpu_last_asid;
 	if (asid == 0)
 		asid = cpu_last_asid = ASID_FIRST_VERSION;
@@ -157,7 +143,6 @@ void __new_context(struct mm_struct *mm)
 	 * to start a new version and flush the TLB.
 	 */
 	if (unlikely((asid & ~ASID_MASK) == 0)) {
-<<<<<<< HEAD
 		asid = cpu_last_asid + smp_processor_id() + 1;
 		flush_context();
 #ifdef CONFIG_SMP
@@ -169,22 +154,4 @@ void __new_context(struct mm_struct *mm)
 
 	set_mm_context(mm, asid);
 	spin_unlock(&cpu_asid_lock);
-=======
-		asid = ++cpu_last_asid;
-		/* set the reserved ASID before flushing the TLB */
-		asm("mcr	p15, 0, %0, c13, c0, 1	@ set reserved context ID\n"
-		    :
-		    : "r" (0));
-		isb();
-		flush_tlb_all();
-		if (icache_is_vivt_asid_tagged()) {
-			__flush_icache_all();
-			dsb();
-		}
-	}
-	spin_unlock(&cpu_asid_lock);
-
-	cpumask_copy(mm_cpumask(mm), cpumask_of(smp_processor_id()));
-	mm->context.id = asid;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }

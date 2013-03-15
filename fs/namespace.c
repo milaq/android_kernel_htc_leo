@@ -1119,20 +1119,8 @@ SYSCALL_DEFINE2(umount, char __user *, name, int, flags)
 {
 	struct path path;
 	int retval;
-<<<<<<< HEAD
 
 	retval = user_path(name, &path);
-=======
-	int lookup_flags = 0;
-
-	if (flags & ~(MNT_FORCE | MNT_DETACH | MNT_EXPIRE | UMOUNT_NOFOLLOW))
-		return -EINVAL;
-
-	if (!(flags & UMOUNT_NOFOLLOW))
-		lookup_flags |= LOOKUP_FOLLOW;
-
-	retval = user_path_at(AT_FDCWD, name, lookup_flags, &path);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (retval)
 		goto out;
 	retval = -EINVAL;

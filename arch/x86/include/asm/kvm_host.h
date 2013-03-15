@@ -193,10 +193,6 @@ union kvm_mmu_page_role {
 		unsigned invalid:1;
 		unsigned cr4_pge:1;
 		unsigned nxe:1;
-<<<<<<< HEAD
-=======
-		unsigned cr0_wp:1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	};
 };
 
@@ -260,12 +256,7 @@ struct kvm_mmu {
 	void (*new_cr3)(struct kvm_vcpu *vcpu);
 	int (*page_fault)(struct kvm_vcpu *vcpu, gva_t gva, u32 err);
 	void (*free)(struct kvm_vcpu *vcpu);
-<<<<<<< HEAD
 	gpa_t (*gva_to_gpa)(struct kvm_vcpu *vcpu, gva_t gva);
-=======
-	gpa_t (*gva_to_gpa)(struct kvm_vcpu *vcpu, gva_t gva, u32 access,
-			    u32 *error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	void (*prefetch_page)(struct kvm_vcpu *vcpu,
 			      struct kvm_mmu_page *page);
 	int (*sync_page)(struct kvm_vcpu *vcpu,
@@ -364,12 +355,6 @@ struct kvm_vcpu_arch {
 	struct page *time_page;
 
 	bool singlestep; /* guest is single stepped by KVM */
-<<<<<<< HEAD
-=======
-	u64 last_guest_tsc;
-	u64 last_kernel_ns;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	bool nmi_pending;
 	bool nmi_injected;
 
@@ -616,12 +601,8 @@ int emulator_set_dr(struct x86_emulate_ctxt *ctxt, int dr,
 		    unsigned long value);
 
 void kvm_get_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
-<<<<<<< HEAD
 int kvm_load_segment_descriptor(struct kvm_vcpu *vcpu, u16 selector,
 				int type_bits, int seg);
-=======
-int kvm_load_segment_descriptor(struct kvm_vcpu *vcpu, u16 selector, int seg);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int kvm_task_switch(struct kvm_vcpu *vcpu, u16 tss_selector, int reason);
 
@@ -664,13 +645,6 @@ void __kvm_mmu_free_some_pages(struct kvm_vcpu *vcpu);
 int kvm_mmu_load(struct kvm_vcpu *vcpu);
 void kvm_mmu_unload(struct kvm_vcpu *vcpu);
 void kvm_mmu_sync_roots(struct kvm_vcpu *vcpu);
-<<<<<<< HEAD
-=======
-gpa_t kvm_mmu_gva_to_gpa_read(struct kvm_vcpu *vcpu, gva_t gva, u32 *error);
-gpa_t kvm_mmu_gva_to_gpa_fetch(struct kvm_vcpu *vcpu, gva_t gva, u32 *error);
-gpa_t kvm_mmu_gva_to_gpa_write(struct kvm_vcpu *vcpu, gva_t gva, u32 *error);
-gpa_t kvm_mmu_gva_to_gpa_system(struct kvm_vcpu *vcpu, gva_t gva, u32 *error);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int kvm_emulate_hypercall(struct kvm_vcpu *vcpu);
 
@@ -684,10 +658,6 @@ void kvm_disable_tdp(void);
 
 int load_pdptrs(struct kvm_vcpu *vcpu, unsigned long cr3);
 int complete_pio(struct kvm_vcpu *vcpu);
-<<<<<<< HEAD
-=======
-bool kvm_check_iopl(struct kvm_vcpu *vcpu);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct kvm_memory_slot *gfn_to_memslot_unaliased(struct kvm *kvm, gfn_t gfn);
 
@@ -698,7 +668,6 @@ static inline struct kvm_mmu_page *page_header(hpa_t shadow_page)
 	return (struct kvm_mmu_page *)page_private(page);
 }
 
-<<<<<<< HEAD
 static inline u16 kvm_read_fs(void)
 {
 	u16 seg;
@@ -713,8 +682,6 @@ static inline u16 kvm_read_gs(void)
 	return seg;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline u16 kvm_read_ldt(void)
 {
 	u16 ldt;
@@ -722,7 +689,6 @@ static inline u16 kvm_read_ldt(void)
 	return ldt;
 }
 
-<<<<<<< HEAD
 static inline void kvm_load_fs(u16 sel)
 {
 	asm("mov %0, %%fs" : : "rm"(sel));
@@ -733,8 +699,6 @@ static inline void kvm_load_gs(u16 sel)
 	asm("mov %0, %%gs" : : "rm"(sel));
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline void kvm_load_ldt(u16 sel)
 {
 	asm("lldt %0" : : "rm"(sel));

@@ -194,12 +194,8 @@ static inline void *phys_to_virt(unsigned long x)
 #ifndef __virt_to_bus
 #define __virt_to_bus	__virt_to_phys
 #define __bus_to_virt	__phys_to_virt
-<<<<<<< HEAD
 #define __pfn_to_bus(x)	__pfn_to_phys(x)
 #define __bus_to_pfn(x)	__phys_to_pfn(x)
-=======
-#define __pfn_to_bus(x)	((x) << PAGE_SHIFT)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 static inline __deprecated unsigned long virt_to_bus(void *x)
@@ -310,7 +306,6 @@ static inline __deprecated void *bus_to_virt(unsigned long x)
 #define arch_is_coherent()		0
 #endif
 
-<<<<<<< HEAD
 /*
  * Set if the architecture speculatively fetches data into cache.
  */
@@ -318,8 +313,6 @@ static inline __deprecated void *bus_to_virt(unsigned long x)
 #define arch_has_speculative_dfetch()	0
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 #include <asm-generic/memory_model.h>

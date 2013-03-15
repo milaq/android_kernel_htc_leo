@@ -44,10 +44,6 @@
 #include <linux/rtnetlink.h>
 #include <linux/firmware.h>
 #include <linux/log2.h>
-<<<<<<< HEAD
-=======
-#include <linux/stringify.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/uaccess.h>
 
 #include "common.h"
@@ -993,29 +989,11 @@ static int bind_qsets(struct adapter *adap)
 	return err;
 }
 
-<<<<<<< HEAD
 #define FW_FNAME "cxgb3/t3fw-%d.%d.%d.bin"
 #define TPSRAM_NAME "cxgb3/t3%c_psram-%d.%d.%d.bin"
 #define AEL2005_OPT_EDC_NAME "cxgb3/ael2005_opt_edc.bin"
 #define AEL2005_TWX_EDC_NAME "cxgb3/ael2005_twx_edc.bin"
 #define AEL2020_TWX_EDC_NAME "cxgb3/ael2020_twx_edc.bin"
-=======
-#define FW_VERSION __stringify(FW_VERSION_MAJOR) "."			\
-	__stringify(FW_VERSION_MINOR) "." __stringify(FW_VERSION_MICRO)
-#define FW_FNAME "cxgb3/t3fw-" FW_VERSION ".bin"
-#define TPSRAM_VERSION __stringify(TP_VERSION_MAJOR) "."		\
-	__stringify(TP_VERSION_MINOR) "." __stringify(TP_VERSION_MICRO)
-#define TPSRAM_NAME "cxgb3/t3%c_psram-" TPSRAM_VERSION ".bin"
-#define AEL2005_OPT_EDC_NAME "cxgb3/ael2005_opt_edc.bin"
-#define AEL2005_TWX_EDC_NAME "cxgb3/ael2005_twx_edc.bin"
-#define AEL2020_TWX_EDC_NAME "cxgb3/ael2020_twx_edc.bin"
-MODULE_FIRMWARE(FW_FNAME);
-MODULE_FIRMWARE("cxgb3/t3b_psram-" TPSRAM_VERSION ".bin");
-MODULE_FIRMWARE("cxgb3/t3c_psram-" TPSRAM_VERSION ".bin");
-MODULE_FIRMWARE(AEL2005_OPT_EDC_NAME);
-MODULE_FIRMWARE(AEL2005_TWX_EDC_NAME);
-MODULE_FIRMWARE(AEL2020_TWX_EDC_NAME);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline const char *get_edc_fw_name(int edc_idx)
 {
@@ -1086,7 +1064,6 @@ int t3_get_edc_fw(struct cphy *phy, int edc_idx, int size)
 static int upgrade_fw(struct adapter *adap)
 {
 	int ret;
-<<<<<<< HEAD
 	char buf[64];
 	const struct firmware *fw;
 	struct device *dev = &adap->pdev->dev;
@@ -1097,15 +1074,6 @@ static int upgrade_fw(struct adapter *adap)
 	if (ret < 0) {
 		dev_err(dev, "could not upgrade firmware: unable to load %s\n",
 			buf);
-=======
-	const struct firmware *fw;
-	struct device *dev = &adap->pdev->dev;
-
-	ret = request_firmware(&fw, FW_FNAME, dev);
-	if (ret < 0) {
-		dev_err(dev, "could not upgrade firmware: unable to load %s\n",
-			FW_FNAME);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return ret;
 	}
 	ret = t3_load_fw(adap, fw->data, fw->size);
@@ -1149,12 +1117,8 @@ static int update_tpsram(struct adapter *adap)
 	if (!rev)
 		return 0;
 
-<<<<<<< HEAD
 	snprintf(buf, sizeof(buf), TPSRAM_NAME, rev,
 		 TP_VERSION_MAJOR, TP_VERSION_MINOR, TP_VERSION_MICRO);
-=======
-	snprintf(buf, sizeof(buf), TPSRAM_NAME, rev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ret = request_firmware(&tpsram, buf, dev);
 	if (ret < 0) {
@@ -1310,10 +1274,6 @@ static void cxgb_down(struct adapter *adapter)
 
 	free_irq_resources(adapter);
 	quiesce_rx(adapter);
-<<<<<<< HEAD
-=======
-	t3_sge_stop(adapter);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	flush_workqueue(cxgb3_wq);	/* wait for external IRQ handler */
 }
 
@@ -2314,11 +2274,6 @@ static int cxgb_extension_ioctl(struct net_device *dev, void __user *useraddr)
 	case CHELSIO_GET_QSET_NUM:{
 		struct ch_reg edata;
 
-<<<<<<< HEAD
-=======
-		memset(&edata, 0, sizeof(struct ch_reg));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		edata.cmd = CHELSIO_GET_QSET_NUM;
 		edata.val = pi->nqsets;
 		if (copy_to_user(useraddr, &edata, sizeof(edata)))

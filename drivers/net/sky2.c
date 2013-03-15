@@ -704,30 +704,11 @@ static void sky2_phy_power_down(struct sky2_hw *hw, unsigned port)
 	sky2_write8(hw, B2_TST_CTRL1, TST_CFG_WRITE_OFF);
 }
 
-<<<<<<< HEAD
-=======
-/* Enable Rx/Tx */
-static void sky2_enable_rx_tx(struct sky2_port *sky2)
-{
-	struct sky2_hw *hw = sky2->hw;
-	unsigned port = sky2->port;
-	u16 reg;
-
-	reg = gma_read16(hw, port, GM_GP_CTRL);
-	reg |= GM_GPCR_RX_ENA | GM_GPCR_TX_ENA;
-	gma_write16(hw, port, GM_GP_CTRL, reg);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Force a renegotiation */
 static void sky2_phy_reinit(struct sky2_port *sky2)
 {
 	spin_lock_bh(&sky2->phy_lock);
 	sky2_phy_init(sky2->hw, sky2->port);
-<<<<<<< HEAD
-=======
-	sky2_enable_rx_tx(sky2);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_bh(&sky2->phy_lock);
 }
 
@@ -1027,16 +1008,11 @@ static void sky2_prefetch_init(struct sky2_hw *hw, u32 qaddr,
 static inline struct sky2_tx_le *get_tx_le(struct sky2_port *sky2, u16 *slot)
 {
 	struct sky2_tx_le *le = sky2->tx_le + *slot;
-<<<<<<< HEAD
 	struct tx_ring_info *re = sky2->tx_ring + *slot;
 
 	*slot = RING_NEXT(*slot, sky2->tx_ring_size);
 	re->flags = 0;
 	re->skb = NULL;
-=======
-
-	*slot = RING_NEXT(*slot, sky2->tx_ring_size);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	le->ctrl = 0;
 	return le;
 }
@@ -1604,12 +1580,8 @@ static unsigned tx_le_req(const struct sk_buff *skb)
 	return count;
 }
 
-<<<<<<< HEAD
 static void sky2_tx_unmap(struct pci_dev *pdev,
 			  const struct tx_ring_info *re)
-=======
-static void sky2_tx_unmap(struct pci_dev *pdev, struct tx_ring_info *re)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	if (re->flags & TX_MAP_SINGLE)
 		pci_unmap_single(pdev, pci_unmap_addr(re, mapaddr),
@@ -1619,10 +1591,6 @@ static void sky2_tx_unmap(struct pci_dev *pdev, struct tx_ring_info *re)
 		pci_unmap_page(pdev, pci_unmap_addr(re, mapaddr),
 			       pci_unmap_len(re, maplen),
 			       PCI_DMA_TODEVICE);
-<<<<<<< HEAD
-=======
-	re->flags = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1829,10 +1797,6 @@ static void sky2_tx_complete(struct sky2_port *sky2, u16 done)
 			dev->stats.tx_packets++;
 			dev->stats.tx_bytes += skb->len;
 
-<<<<<<< HEAD
-=======
-			re->skb = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			dev_kfree_skb_any(skb);
 
 			sky2->tx_next = RING_NEXT(idx, sky2->tx_ring_size);
@@ -1967,10 +1931,7 @@ static void sky2_link_up(struct sky2_port *sky2)
 {
 	struct sky2_hw *hw = sky2->hw;
 	unsigned port = sky2->port;
-<<<<<<< HEAD
 	u16 reg;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	static const char *fc_name[] = {
 		[FC_NONE]	= "none",
 		[FC_TX]		= "tx",
@@ -1978,14 +1939,10 @@ static void sky2_link_up(struct sky2_port *sky2)
 		[FC_BOTH]	= "both",
 	};
 
-<<<<<<< HEAD
 	/* enable Rx/Tx */
 	reg = gma_read16(hw, port, GM_GP_CTRL);
 	reg |= GM_GPCR_RX_ENA | GM_GPCR_TX_ENA;
 	gma_write16(hw, port, GM_GP_CTRL, reg);
-=======
-	sky2_enable_rx_tx(sky2);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	gm_phy_write(hw, port, PHY_MARV_INT_MASK, PHY_M_DEF_MSK);
 

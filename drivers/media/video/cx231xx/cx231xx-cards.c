@@ -225,7 +225,6 @@ void cx231xx_pre_card_setup(struct cx231xx *dev)
 		     dev->board.name, dev->model);
 
 	/* set the direction for GPIO pins */
-<<<<<<< HEAD
 	cx231xx_set_gpio_direction(dev, dev->board.tuner_gpio->bit, 1);
 	cx231xx_set_gpio_value(dev, dev->board.tuner_gpio->bit, 1);
 	cx231xx_set_gpio_direction(dev, dev->board.tuner_sif_gpio, 1);
@@ -234,18 +233,6 @@ void cx231xx_pre_card_setup(struct cx231xx *dev)
 
 	/* reset the Tuner */
 	cx231xx_gpio_set(dev, dev->board.tuner_gpio);
-=======
-	if (dev->board.tuner_gpio) {
-		cx231xx_set_gpio_direction(dev, dev->board.tuner_gpio->bit, 1);
-		cx231xx_set_gpio_value(dev, dev->board.tuner_gpio->bit, 1);
-		cx231xx_set_gpio_direction(dev, dev->board.tuner_sif_gpio, 1);
-
-		/* request some modules if any required */
-
-		/* reset the Tuner */
-		cx231xx_gpio_set(dev, dev->board.tuner_gpio);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* set the mode to Analog mode initially */
 	cx231xx_set_mode(dev, CX231XX_ANALOG_MODE);

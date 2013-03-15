@@ -405,7 +405,6 @@ void iwl_init_scan_params(struct iwl_priv *priv)
 
 static int iwl_scan_initiate(struct iwl_priv *priv)
 {
-<<<<<<< HEAD
 	if (!iwl_is_ready_rf(priv)) {
 		IWL_DEBUG_SCAN(priv, "Aborting scan due to not ready.\n");
 		return -EIO;
@@ -421,8 +420,6 @@ static int iwl_scan_initiate(struct iwl_priv *priv)
 		return -EAGAIN;
 	}
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	IWL_DEBUG_INFO(priv, "Starting scan...\n");
 	set_bit(STATUS_SCANNING, &priv->status);
 	priv->scan_start = jiffies;
@@ -453,21 +450,6 @@ int iwl_mac_hw_scan(struct ieee80211_hw *hw,
 		goto out_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-	if (test_bit(STATUS_SCANNING, &priv->status)) {
-		IWL_DEBUG_SCAN(priv, "Scan already in progress.\n");
-		ret = -EAGAIN;
-		goto out_unlock;
-	}
-
-	if (test_bit(STATUS_SCAN_ABORTING, &priv->status)) {
-		IWL_DEBUG_SCAN(priv, "Scan request while abort pending\n");
-		ret = -EAGAIN;
-		goto out_unlock;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* We don't schedule scan within next_scan_jiffies period.
 	 * Avoid scanning during possible EAPOL exchange, return
 	 * success immediately.
@@ -518,18 +500,11 @@ void iwl_bg_scan_check(struct work_struct *data)
 		return;
 
 	mutex_lock(&priv->mutex);
-<<<<<<< HEAD
 	if (test_bit(STATUS_SCANNING, &priv->status) ||
 	    test_bit(STATUS_SCAN_ABORTING, &priv->status)) {
 		IWL_DEBUG_SCAN(priv, "Scan completion watchdog resetting "
 			"adapter (%dms)\n",
 			jiffies_to_msecs(IWL_SCAN_CHECK_WATCHDOG));
-=======
-	if (test_bit(STATUS_SCANNING, &priv->status) &&
-	    !test_bit(STATUS_SCAN_ABORTING, &priv->status)) {
-		IWL_DEBUG_SCAN(priv, "Scan completion watchdog (%dms)\n",
-			       jiffies_to_msecs(IWL_SCAN_CHECK_WATCHDOG));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		if (!test_bit(STATUS_EXIT_PENDING, &priv->status))
 			iwl_send_scan_abort(priv);
@@ -825,19 +800,11 @@ void iwl_bg_abort_scan(struct work_struct *work)
 	    !test_bit(STATUS_GEO_CONFIGURED, &priv->status))
 		return;
 
-<<<<<<< HEAD
 	mutex_lock(&priv->mutex);
 
 	set_bit(STATUS_SCAN_ABORTING, &priv->status);
 	iwl_send_scan_abort(priv);
 
-=======
-	cancel_delayed_work(&priv->scan_check);
-
-	mutex_lock(&priv->mutex);
-	if (test_bit(STATUS_SCAN_ABORTING, &priv->status))
-		iwl_send_scan_abort(priv);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	mutex_unlock(&priv->mutex);
 }
 EXPORT_SYMBOL(iwl_bg_abort_scan);

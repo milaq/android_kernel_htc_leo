@@ -166,11 +166,8 @@ obj-$(CONFIG_VIDEO_IR_I2C)  += ir-kbd-i2c.o
 
 obj-$(CONFIG_ARCH_DAVINCI)	+= davinci/
 
-<<<<<<< HEAD
 obj-$(CONFIG_MSM_CAMERA) += msm/
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 EXTRA_CFLAGS += -Idrivers/media/dvb/dvb-core
 EXTRA_CFLAGS += -Idrivers/media/dvb/frontends
 EXTRA_CFLAGS += -Idrivers/media/common/tuners

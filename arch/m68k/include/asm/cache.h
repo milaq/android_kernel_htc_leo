@@ -8,9 +8,4 @@
 #define        L1_CACHE_SHIFT  4
 #define        L1_CACHE_BYTES  (1<< L1_CACHE_SHIFT)
 
-<<<<<<< HEAD
-=======
-#define ARCH_KMALLOC_MINALIGN	L1_CACHE_BYTES
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif

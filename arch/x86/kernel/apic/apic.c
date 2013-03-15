@@ -51,10 +51,6 @@
 #include <asm/smp.h>
 #include <asm/mce.h>
 #include <asm/kvm_para.h>
-<<<<<<< HEAD
-=======
-#include <asm/tsc.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 unsigned int num_processors;
 
@@ -945,11 +941,7 @@ void disable_local_APIC(void)
 	unsigned int value;
 
 	/* APIC hasn't been mapped yet */
-<<<<<<< HEAD
 	if (!apic_phys)
-=======
-	if (!x2apic_mode && !apic_phys)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 
 	clear_local_APIC();
@@ -1180,18 +1172,8 @@ static void __cpuinit lapic_setup_esr(void)
  */
 void __cpuinit setup_local_APIC(void)
 {
-<<<<<<< HEAD
 	unsigned int value;
 	int i, j;
-=======
-	unsigned int value, queued;
-	int i, j, acked = 0;
-	unsigned long long tsc = 0, ntsc;
-	long long max_loops = cpu_khz;
-
-	if (cpu_has_tsc)
-		rdtscll(tsc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (disable_apic) {
 		arch_disable_smp_support();
@@ -1243,7 +1225,6 @@ void __cpuinit setup_local_APIC(void)
 	 * the interrupt. Hence a vector might get locked. It was noticed
 	 * for timer irq (vector 0x31). Issue an extra EOI to clear ISR.
 	 */
-<<<<<<< HEAD
 	for (i = APIC_ISR_NR - 1; i >= 0; i--) {
 		value = apic_read(APIC_ISR + i*0x10);
 		for (j = 31; j >= 0; j--) {
@@ -1251,34 +1232,6 @@ void __cpuinit setup_local_APIC(void)
 				ack_APIC_irq();
 		}
 	}
-=======
-	do {
-		queued = 0;
-		for (i = APIC_ISR_NR - 1; i >= 0; i--)
-			queued |= apic_read(APIC_IRR + i*0x10);
-
-		for (i = APIC_ISR_NR - 1; i >= 0; i--) {
-			value = apic_read(APIC_ISR + i*0x10);
-			for (j = 31; j >= 0; j--) {
-				if (value & (1<<j)) {
-					ack_APIC_irq();
-					acked++;
-				}
-			}
-		}
-		if (acked > 256) {
-			printk(KERN_ERR "LAPIC pending interrupts after %d EOI\n",
-			       acked);
-			break;
-		}
-		if (cpu_has_tsc) {
-			rdtscll(ntsc);
-			max_loops = (cpu_khz << 10) - (ntsc - tsc);
-		} else
-			max_loops--;
-	} while (queued && max_loops > 0);
-	WARN_ON(max_loops <= 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * Now that we are all set up, enable the APIC
@@ -1383,17 +1336,6 @@ void __cpuinit end_local_APIC_setup(void)
 
 	setup_apic_nmi_watchdog(NULL);
 	apic_pm_activate();
-<<<<<<< HEAD
-=======
-
-	/*
-	 * Now that local APIC setup is completed for BP, configure the fault
-	 * handling for interrupt remapping.
-	 */
-	if (!smp_processor_id() && intr_remapping_enabled)
-		enable_drhd_fault_handling();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #ifdef CONFIG_X86_X2APIC
@@ -1722,13 +1664,8 @@ int __init APIC_init_uniprocessor(void)
 	}
 #endif
 
-<<<<<<< HEAD
 	enable_IR_x2apic();
 #ifdef CONFIG_X86_64
-=======
-#ifndef CONFIG_SMP
-	enable_IR_x2apic();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default_setup_apic_routing();
 #endif
 
@@ -1978,7 +1915,6 @@ void __cpuinit generic_processor_info(int apicid, int version)
 	if (apicid > max_physical_apicid)
 		max_physical_apicid = apicid;
 
-<<<<<<< HEAD
 #ifdef CONFIG_X86_32
 	switch (boot_cpu_data.x86_vendor) {
 	case X86_VENDOR_INTEL:
@@ -1991,8 +1927,6 @@ void __cpuinit generic_processor_info(int apicid, int version)
 	}
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #if defined(CONFIG_SMP) || defined(CONFIG_X86_64)
 	early_per_cpu(x86_cpu_to_apicid, cpu) = apicid;
 	early_per_cpu(x86_bios_cpu_apicid, cpu) = apicid;

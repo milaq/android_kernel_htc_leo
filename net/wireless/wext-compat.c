@@ -1227,14 +1227,10 @@ int cfg80211_wext_giwrate(struct net_device *dev,
 	if (!(sinfo.filled & STATION_INFO_TX_BITRATE))
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	rate->value = 0;
 
 	if (!(sinfo.txrate.flags & RATE_INFO_FLAGS_MCS))
 		rate->value = 100000 * sinfo.txrate.legacy;
-=======
-	rate->value = 100000 * cfg80211_calculate_bitrate(&sinfo.txrate);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	return 0;
 }
@@ -1365,12 +1361,6 @@ int cfg80211_wext_giwessid(struct net_device *dev,
 {
 	struct wireless_dev *wdev = dev->ieee80211_ptr;
 
-<<<<<<< HEAD
-=======
-	data->flags = 0;
-	data->length = 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	switch (wdev->iftype) {
 	case NL80211_IFTYPE_ADHOC:
 		return cfg80211_ibss_wext_giwessid(dev, info, data, ssid);

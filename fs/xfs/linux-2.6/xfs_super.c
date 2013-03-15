@@ -930,7 +930,6 @@ xfs_fs_alloc_inode(
  */
 STATIC void
 xfs_fs_destroy_inode(
-<<<<<<< HEAD
 	struct inode	*inode)
 {
 	xfs_inode_t		*ip = XFS_I(inode);
@@ -938,39 +937,6 @@ xfs_fs_destroy_inode(
 	XFS_STATS_INC(vn_reclaim);
 	if (xfs_reclaim(ip))
 		panic("%s: cannot reclaim 0x%p\n", __func__, inode);
-=======
-	struct inode		*inode)
-{
-	struct xfs_inode	*ip = XFS_I(inode);
-
-	xfs_itrace_entry(ip);
-
-	XFS_STATS_INC(vn_reclaim);
-
-	/* bad inode, get out here ASAP */
-	if (is_bad_inode(inode))
-		goto out_reclaim;
-
-	xfs_ioend_wait(ip);
-
-	ASSERT(XFS_FORCED_SHUTDOWN(ip->i_mount) || ip->i_delayed_blks == 0);
-
-	/*
-	 * We should never get here with one of the reclaim flags already set.
-	 */
-	ASSERT_ALWAYS(!xfs_iflags_test(ip, XFS_IRECLAIMABLE));
-	ASSERT_ALWAYS(!xfs_iflags_test(ip, XFS_IRECLAIM));
-
-	/*
-	 * We always use background reclaim here because even if the
-	 * inode is clean, it still may be under IO and hence we have
-	 * to take the flush lock. The background reclaim path handles
-	 * this more efficiently than we can here, so simply let background
-	 * reclaim tear down all inodes.
-	 */
-out_reclaim:
-	xfs_inode_set_reclaim_tag(ip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*
@@ -1174,10 +1140,6 @@ xfs_fs_put_super(
 
 	xfs_unmountfs(mp);
 	xfs_freesb(mp);
-<<<<<<< HEAD
-=======
-	xfs_inode_shrinker_unregister(mp);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xfs_icsb_destroy_counters(mp);
 	xfs_close_devices(mp);
 	xfs_dmops_put(mp);
@@ -1337,11 +1299,6 @@ xfs_fs_remount(
 
 	/* ro -> rw */
 	if ((mp->m_flags & XFS_MOUNT_RDONLY) && !(*flags & MS_RDONLY)) {
-<<<<<<< HEAD
-=======
-		__uint64_t resblks;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mp->m_flags &= ~XFS_MOUNT_RDONLY;
 		if (mp->m_flags & XFS_MOUNT_BARRIER)
 			xfs_mountfs_check_barriers(mp);
@@ -1359,44 +1316,11 @@ xfs_fs_remount(
 			}
 			mp->m_update_flags = 0;
 		}
-<<<<<<< HEAD
-=======
-
-		/*
-		 * Fill out the reserve pool if it is empty. Use the stashed
-		 * value if it is non-zero, otherwise go with the default.
-		 */
-		if (mp->m_resblks_save) {
-			resblks = mp->m_resblks_save;
-			mp->m_resblks_save = 0;
-		} else {
-			resblks = mp->m_sb.sb_dblocks;
-			do_div(resblks, 20);
-			resblks = min_t(__uint64_t, resblks, 1024);
-		}
-		xfs_reserve_blocks(mp, &resblks, NULL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* rw -> ro */
 	if (!(mp->m_flags & XFS_MOUNT_RDONLY) && (*flags & MS_RDONLY)) {
-<<<<<<< HEAD
 		xfs_quiesce_data(mp);
-=======
-		/*
-		 * After we have synced the data but before we sync the
-		 * metadata, we need to free up the reserve block pool so that
-		 * the used block count in the superblock on disk is correct at
-		 * the end of the remount. Stash the current reserve pool size
-		 * so that if we get remounted rw, we can return it to the same
-		 * size.
-		 */
-		__uint64_t resblks = 0;
-
-		xfs_quiesce_data(mp);
-		mp->m_resblks_save = mp->m_resblks;
-		xfs_reserve_blocks(mp, &resblks, NULL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		xfs_quiesce_attr(mp);
 		mp->m_flags |= XFS_MOUNT_RDONLY;
 	}
@@ -1579,11 +1503,6 @@ xfs_fs_fill_super(
 	if (error)
 		goto fail_vnrele;
 
-<<<<<<< HEAD
-=======
-	xfs_inode_shrinker_register(mp);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(mtpt);
 
 	xfs_itrace_exit(XFS_I(sb->s_root->d_inode));
@@ -1923,10 +1842,6 @@ init_xfs_fs(void)
 		goto out_cleanup_procfs;
 
 	vfs_initquota();
-<<<<<<< HEAD
-=======
-	xfs_inode_shrinker_init();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	error = register_filesystem(&xfs_fs_type);
 	if (error)
@@ -1956,10 +1871,6 @@ exit_xfs_fs(void)
 {
 	vfs_exitquota();
 	unregister_filesystem(&xfs_fs_type);
-<<<<<<< HEAD
-=======
-	xfs_inode_shrinker_destroy();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xfs_sysctl_unregister();
 	xfs_cleanup_procfs();
 	xfs_buf_terminate();

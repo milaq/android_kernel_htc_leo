@@ -281,15 +281,8 @@ static int ttm_bo_add_ttm(struct ttm_buffer_object *bo, bool zero_alloc)
 
 		ret = ttm_tt_set_user(bo->ttm, current,
 				      bo->buffer_start, bo->num_pages);
-<<<<<<< HEAD
 		if (unlikely(ret != 0))
 			ttm_tt_destroy(bo->ttm);
-=======
-		if (unlikely(ret != 0)) {
-			ttm_tt_destroy(bo->ttm);
-			bo->ttm = NULL;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 	default:
 		printk(KERN_ERR TTM_PFX "Illegal buffer object type\n");

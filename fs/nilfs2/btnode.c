@@ -34,7 +34,6 @@
 #include "btnode.h"
 
 
-<<<<<<< HEAD
 void nilfs_btnode_cache_init_once(struct address_space *btnc)
 {
 	memset(btnc, 0, sizeof(*btnc));
@@ -48,8 +47,6 @@ void nilfs_btnode_cache_init_once(struct address_space *btnc)
 	INIT_LIST_HEAD(&btnc->i_mmap_nonlinear);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static const struct address_space_operations def_btnode_aops = {
 	.sync_page		= block_sync_page,
 };

@@ -277,11 +277,7 @@ static int dvb_ca_ioctl(struct inode *inode, struct file *file,
 	{
 		ca_slot_info_t *info=(ca_slot_info_t *)parg;
 
-<<<<<<< HEAD
 		if (info->num > 1)
-=======
-		if (info->num < 0 || info->num > 1)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			return -EINVAL;
 		av7110->ci_slot[info->num].num = info->num;
 		av7110->ci_slot[info->num].type = FW_CI_LL_SUPPORT(av7110->arm_app) ?

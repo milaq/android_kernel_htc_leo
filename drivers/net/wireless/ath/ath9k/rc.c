@@ -757,11 +757,7 @@ static void ath_get_rate(void *priv, struct ieee80211_sta *sta, void *priv_sta,
 	struct ieee80211_tx_rate *rates = tx_info->control.rates;
 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
 	__le16 fc = hdr->frame_control;
-<<<<<<< HEAD
 	u8 try_per_rate, i = 0, rix, nrix;
-=======
-	u8 try_per_rate, i = 0, rix;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int is_probe = 0;
 
 	if (rate_control_send_low(sta, priv_sta, txrc))
@@ -781,43 +777,26 @@ static void ath_get_rate(void *priv, struct ieee80211_sta *sta, void *priv_sta,
 
 	rate_table = sc->cur_rate_table;
 	rix = ath_rc_get_highest_rix(sc, ath_rc_priv, rate_table, &is_probe);
-<<<<<<< HEAD
 	nrix = rix;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (is_probe) {
 		/* set one try for probe rates. For the
 		 * probes don't enable rts */
 		ath_rc_rate_set_series(rate_table, &rates[i++], txrc,
-<<<<<<< HEAD
 				       1, nrix, 0);
-=======
-				       1, rix, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		/* Get the next tried/allowed rate. No RTS for the next series
 		 * after the probe rate
 		 */
-<<<<<<< HEAD
 		ath_rc_get_lower_rix(rate_table, ath_rc_priv, rix, &nrix);
 		ath_rc_rate_set_series(rate_table, &rates[i++], txrc,
 				       try_per_rate, nrix, 0);
-=======
-		ath_rc_get_lower_rix(rate_table, ath_rc_priv, rix, &rix);
-		ath_rc_rate_set_series(rate_table, &rates[i++], txrc,
-				       try_per_rate, rix, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		tx_info->flags |= IEEE80211_TX_CTL_RATE_CTRL_PROBE;
 	} else {
 		/* Set the choosen rate. No RTS for first series entry. */
 		ath_rc_rate_set_series(rate_table, &rates[i++], txrc,
-<<<<<<< HEAD
 				       try_per_rate, nrix, 0);
-=======
-				       try_per_rate, rix, 0);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/* Fill in the other rates for multirate retry */
@@ -826,17 +805,10 @@ static void ath_get_rate(void *priv, struct ieee80211_sta *sta, void *priv_sta,
 		if (i + 1 == 4)
 			try_per_rate = 4;
 
-<<<<<<< HEAD
 		ath_rc_get_lower_rix(rate_table, ath_rc_priv, rix, &nrix);
 		/* All other rates in the series have RTS enabled */
 		ath_rc_rate_set_series(rate_table, &rates[i], txrc,
 				       try_per_rate, nrix, 1);
-=======
-		ath_rc_get_lower_rix(rate_table, ath_rc_priv, rix, &rix);
-		/* All other rates in the series have RTS enabled */
-		ath_rc_rate_set_series(rate_table, &rates[i], txrc,
-				       try_per_rate, rix, 1);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	/*

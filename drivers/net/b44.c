@@ -2175,11 +2175,8 @@ static int __devinit b44_init_one(struct ssb_device *sdev,
 	dev->irq = sdev->irq;
 	SET_ETHTOOL_OPS(dev, &b44_ethtool_ops);
 
-<<<<<<< HEAD
 	netif_carrier_off(dev);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	err = ssb_bus_powerup(sdev->bus, 0);
 	if (err) {
 		dev_err(sdev->dev,
@@ -2219,11 +2216,6 @@ static int __devinit b44_init_one(struct ssb_device *sdev,
 		goto err_out_powerdown;
 	}
 
-<<<<<<< HEAD
-=======
-	netif_carrier_off(dev);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	ssb_set_drvdata(sdev, dev);
 
 	/* Chip reset provides power to the b44 MAC & PCI cores, which

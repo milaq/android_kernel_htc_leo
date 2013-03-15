@@ -261,11 +261,7 @@ static uint8_t radeon_compute_pll_gain(uint16_t ref_freq, uint16_t ref_div,
 	if (!ref_div)
 		return 1;
 
-<<<<<<< HEAD
 	vcoFreq = ((unsigned)ref_freq & fb_div) / ref_div;
-=======
-	vcoFreq = ((unsigned)ref_freq * fb_div) / ref_div;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/*
 	 * This is horribly crude: the VCO frequency range is divided into

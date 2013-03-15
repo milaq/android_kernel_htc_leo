@@ -183,10 +183,6 @@ struct s390_idle_data {
 	unsigned long long idle_count;
 	unsigned long long idle_enter;
 	unsigned long long idle_time;
-<<<<<<< HEAD
-=======
-	int nohz_delay;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 DECLARE_PER_CPU(struct s390_idle_data, s390_idle);
@@ -202,14 +198,4 @@ static inline void s390_idle_check(void)
 		vtime_start_cpu();
 }
 
-<<<<<<< HEAD
-=======
-static inline int s390_nohz_delay(int cpu)
-{
-	return per_cpu(s390_idle, cpu).nohz_delay != 0;
-}
-
-#define arch_needs_cpu(cpu) s390_nohz_delay(cpu)
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* _S390_CPUTIME_H */

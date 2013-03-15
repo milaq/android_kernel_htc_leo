@@ -6,12 +6,7 @@
  */
 
 #ifdef CONFIG_SMP
-<<<<<<< HEAD
 static int select_task_rq_idle(struct task_struct *p, int sd_flag, int flags)
-=======
-static int
-select_task_rq_idle(struct rq *rq, struct task_struct *p, int sd_flag, int flags)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return task_cpu(p); /* IDLE tasks as never migrated */
 }
@@ -102,11 +97,7 @@ static void prio_changed_idle(struct rq *rq, struct task_struct *p,
 		check_preempt_curr(rq, p, 0);
 }
 
-<<<<<<< HEAD
 unsigned int get_rr_interval_idle(struct task_struct *task)
-=======
-unsigned int get_rr_interval_idle(struct rq *rq, struct task_struct *task)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	return 0;
 }

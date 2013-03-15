@@ -267,11 +267,7 @@ usbtmc_abort_bulk_in_status:
 				dev_err(dev, "usb_bulk_msg returned %d\n", rv);
 				goto exit;
 			}
-<<<<<<< HEAD
 		} while ((actual = max_size) &&
-=======
-		} while ((actual == max_size) &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			 (n < USBTMC_MAX_READS_TO_CLEAR_BULK_IN));
 
 	if (actual == max_size) {

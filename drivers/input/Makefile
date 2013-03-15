@@ -23,12 +23,7 @@ obj-$(CONFIG_INPUT_TOUCHSCREEN)	+= touchscreen/
 obj-$(CONFIG_INPUT_MISC)	+= misc/
 
 obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
-<<<<<<< HEAD
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 
 obj-$(CONFIG_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
 obj-$(CONFIG_INPUT_OPTICALJOYSTICK)		+= opticaljoystick/
-=======
-
-obj-$(CONFIG_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

@@ -3459,21 +3459,15 @@ qla2x00_loop_resync(scsi_qla_host_t *vha)
 		req = vha->req;
 	rsp = req->rsp;
 
-<<<<<<< HEAD
 	atomic_set(&vha->loop_state, LOOP_UPDATE);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	clear_bit(ISP_ABORT_RETRY, &vha->dpc_flags);
 	if (vha->flags.online) {
 		if (!(rval = qla2x00_fw_ready(vha))) {
 			/* Wait at most MAX_TARGET RSCNs for a stable link. */
 			wait_time = 256;
 			do {
-<<<<<<< HEAD
 				atomic_set(&vha->loop_state, LOOP_UPDATE);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				/* Issue a marker after FW becomes ready. */
 				qla2x00_marker(vha, req, rsp, 0, 0,
 					MK_SYNC_ALL);

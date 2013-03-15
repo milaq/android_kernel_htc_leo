@@ -581,11 +581,8 @@ static void p54spi_op_stop(struct ieee80211_hw *dev)
 
 	WARN_ON(priv->fw_state != FW_STATE_READY);
 
-<<<<<<< HEAD
 	cancel_work_sync(&priv->work);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	p54spi_power_off(priv);
 	spin_lock_irqsave(&priv->tx_lock, flags);
 	INIT_LIST_HEAD(&priv->tx_pending);
@@ -593,11 +590,6 @@ static void p54spi_op_stop(struct ieee80211_hw *dev)
 
 	priv->fw_state = FW_STATE_OFF;
 	mutex_unlock(&priv->mutex);
-<<<<<<< HEAD
-=======
-
-	cancel_work_sync(&priv->work);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int __devinit p54spi_probe(struct spi_device *spi)
@@ -658,10 +650,6 @@ static int __devinit p54spi_probe(struct spi_device *spi)
 	init_completion(&priv->fw_comp);
 	INIT_LIST_HEAD(&priv->tx_pending);
 	mutex_init(&priv->mutex);
-<<<<<<< HEAD
-=======
-	spin_lock_init(&priv->tx_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	SET_IEEE80211_DEV(hw, &spi->dev);
 	priv->common.open = p54spi_op_start;
 	priv->common.stop = p54spi_op_stop;

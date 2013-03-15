@@ -36,13 +36,8 @@
 #include <linux/regset.h>
 #include <linux/tracehook.h>
 #include <linux/seccomp.h>
-<<<<<<< HEAD
 #include <trace/syscall.h>
 #include <asm/compat.h>
-=======
-#include <linux/compat.h>
-#include <trace/syscall.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <asm/segment.h>
 #include <asm/page.h>
 #include <asm/pgtable.h>
@@ -637,11 +632,7 @@ long compat_arch_ptrace(struct task_struct *child, compat_long_t request,
 
 asmlinkage long do_syscall_trace_enter(struct pt_regs *regs)
 {
-<<<<<<< HEAD
 	long ret;
-=======
-	long ret = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Do the secure computing check first. */
 	secure_computing(regs->gprs[2]);
@@ -650,10 +641,7 @@ asmlinkage long do_syscall_trace_enter(struct pt_regs *regs)
 	 * The sysc_tracesys code in entry.S stored the system
 	 * call number to gprs[2].
 	 */
-<<<<<<< HEAD
 	ret = regs->gprs[2];
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (test_thread_flag(TIF_SYSCALL_TRACE) &&
 	    (tracehook_report_syscall_entry(regs) ||
 	     regs->gprs[2] >= NR_syscalls)) {
@@ -675,11 +663,7 @@ asmlinkage long do_syscall_trace_enter(struct pt_regs *regs)
 				    regs->gprs[2], regs->orig_gpr2,
 				    regs->gprs[3], regs->gprs[4],
 				    regs->gprs[5]);
-<<<<<<< HEAD
 	return ret;
-=======
-	return ret ?: regs->gprs[2];
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 asmlinkage void do_syscall_trace_exit(struct pt_regs *regs)

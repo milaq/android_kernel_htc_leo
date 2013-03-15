@@ -747,7 +747,6 @@ complete_scsi_command( CommandList_struct *cp, int timeout, __u32 tag)
 		{
 			case CMD_TARGET_STATUS:
 				/* Pass it up to the upper layers... */
-<<<<<<< HEAD
 				if( ei->ScsiStatus)
                 		{
 #if 0
@@ -759,9 +758,6 @@ complete_scsi_command( CommandList_struct *cp, int timeout, __u32 tag)
 					cmd->result |= (ei->ScsiStatus < 1);
                 		}
 				else {  /* scsi status is zero??? How??? */
-=======
-				if (!ei->ScsiStatus) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 					
 	/* Ordinarily, this case should never happen, but there is a bug
 	   in some released firmware revisions that allows it to happen

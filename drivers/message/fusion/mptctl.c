@@ -577,16 +577,6 @@ mptctl_event_process(MPT_ADAPTER *ioc, EventNotificationReply_t *pEvReply)
 }
 
 static int
-<<<<<<< HEAD
-=======
-mptctl_release(struct inode *inode, struct file *filep)
-{
-	fasync_helper(-1, filep, 0, &async_queue);
-	return 0;
-}
-
-static int
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 mptctl_fasync(int fd, struct file *filep, int mode)
 {
 	MPT_ADAPTER	*ioc;
@@ -631,16 +621,11 @@ __mptctl_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	 */
 	iocnumX = khdr.iocnum & 0xFF;
 	if (((iocnum = mpt_verify_adapter(iocnumX, &iocp)) < 0) ||
-<<<<<<< HEAD
 	    (iocp == NULL)) {
 		printk(KERN_DEBUG MYNAM "%s::mptctl_ioctl() @%d - ioc%d not found!\n",
 				__FILE__, __LINE__, iocnumX);
 		return -ENODEV;
 	}
-=======
-	    (iocp == NULL))
-		return -ENODEV;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (!iocp->active) {
 		printk(KERN_DEBUG MYNAM "%s::mptctl_ioctl() @%d - Controller disabled.\n",
@@ -2796,10 +2781,6 @@ static const struct file_operations mptctl_fops = {
 	.llseek =	no_llseek,
 	.fasync = 	mptctl_fasync,
 	.unlocked_ioctl = mptctl_ioctl,
-<<<<<<< HEAD
-=======
-	.release =	mptctl_release,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_COMPAT
 	.compat_ioctl = compat_mpctl_ioctl,
 #endif

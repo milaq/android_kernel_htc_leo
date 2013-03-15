@@ -3670,19 +3670,8 @@ sctp_disposition_t sctp_sf_do_asconf_ack(const struct sctp_endpoint *ep,
 				SCTP_TO(SCTP_EVENT_TIMEOUT_T4_RTO));
 
 		if (!sctp_process_asconf_ack((struct sctp_association *)asoc,
-<<<<<<< HEAD
 					     asconf_ack))
 			return SCTP_DISPOSITION_CONSUME;
-=======
-					     asconf_ack)) {
-			/* Successfully processed ASCONF_ACK.  We can
-			 * release the next asconf if we have one.
-			 */
-			sctp_add_cmd_sf(commands, SCTP_CMD_SEND_NEXT_ASCONF,
-					SCTP_NULL());
-			return SCTP_DISPOSITION_CONSUME;
-		}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		abort = sctp_make_abort(asoc, asconf_ack,
 					sizeof(sctp_errhdr_t));

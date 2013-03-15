@@ -308,25 +308,11 @@ int kvm_arch_vcpu_setup(struct kvm_vcpu *vcpu)
 struct kvm_vcpu *kvm_arch_vcpu_create(struct kvm *kvm,
 				      unsigned int id)
 {
-<<<<<<< HEAD
 	struct kvm_vcpu *vcpu = kzalloc(sizeof(struct kvm_vcpu), GFP_KERNEL);
 	int rc = -ENOMEM;
 
 	if (!vcpu)
 		goto out_nomem;
-=======
-	struct kvm_vcpu *vcpu;
-	int rc = -EINVAL;
-
-	if (id >= KVM_MAX_VCPUS)
-		goto out;
-
-	rc = -ENOMEM;
-
-	vcpu = kzalloc(sizeof(struct kvm_vcpu), GFP_KERNEL);
-	if (!vcpu)
-		goto out;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	vcpu->arch.sie_block = (struct kvm_s390_sie_block *)
 					get_zeroed_page(GFP_KERNEL);
@@ -352,26 +338,14 @@ struct kvm_vcpu *kvm_arch_vcpu_create(struct kvm *kvm,
 
 	rc = kvm_vcpu_init(vcpu, kvm, id);
 	if (rc)
-<<<<<<< HEAD
 		goto out_free_cpu;
-=======
-		goto out_free_sie_block;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	VM_EVENT(kvm, 3, "create cpu %d at %p, sie block at %p", id, vcpu,
 		 vcpu->arch.sie_block);
 
 	return vcpu;
-<<<<<<< HEAD
 out_free_cpu:
 	kfree(vcpu);
 out_nomem:
-=======
-out_free_sie_block:
-	free_page((unsigned long)(vcpu->arch.sie_block));
-out_free_cpu:
-	kfree(vcpu);
-out:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ERR_PTR(rc);
 }
 

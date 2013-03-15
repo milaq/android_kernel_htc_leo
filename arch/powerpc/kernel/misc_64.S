@@ -24,10 +24,6 @@
 #include <asm/asm-offsets.h>
 #include <asm/cputable.h>
 #include <asm/thread_info.h>
-<<<<<<< HEAD
-=======
-#include <asm/kexec.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	.text
 
@@ -466,12 +462,7 @@ _GLOBAL(disable_kernel_fp)
  * wait for the flag to change, indicating this kernel is going away but
  * the slave code for the next one is at addresses 0 to 100.
  *
-<<<<<<< HEAD
  * This is used by all slaves.
-=======
- * This is used by all slaves, even those that did not find a matching
- * paca in the secondary startup code.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * Physical (hardware) cpu id should be in r3.
  */
@@ -503,29 +494,15 @@ kexec_flag:
  * note: this is a terminal routine, it does not save lr
  *
  * get phys id from paca
-<<<<<<< HEAD
  * set paca id to -1 to say we got here
  * switch to real mode
-=======
- * switch to real mode
- * mark the paca as no longer used
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * join other cpus in kexec_wait(phys_id)
  */
 _GLOBAL(kexec_smp_wait)
 	lhz	r3,PACAHWCPUID(r13)
-<<<<<<< HEAD
 	li	r4,-1
 	sth	r4,PACAHWCPUID(r13)	/* let others know we left */
 	bl	real_mode
-=======
-	bl	real_mode
-
-	li	r4,KEXEC_STATE_REAL_MODE
-	stb	r4,PACAKEXECSTATE(r13)
-	SYNC
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	b	.kexec_wait
 
 /*

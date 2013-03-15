@@ -17,11 +17,7 @@ MODULE_ALIAS("ipt_connbytes");
 MODULE_ALIAS("ip6t_connbytes");
 
 static bool
-<<<<<<< HEAD
 connbytes_mt(const struct sk_buff *skb, const struct xt_action_param *par)
-=======
-connbytes_mt(const struct sk_buff *skb, const struct xt_match_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_connbytes_info *sinfo = par->matchinfo;
 	const struct nf_conn *ct;
@@ -96,11 +92,7 @@ connbytes_mt(const struct sk_buff *skb, const struct xt_match_param *par)
 		return what >= sinfo->count.from;
 }
 
-<<<<<<< HEAD
 static int connbytes_mt_check(const struct xt_mtchk_param *par)
-=======
-static bool connbytes_mt_check(const struct xt_mtchk_param *par)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	const struct xt_connbytes_info *sinfo = par->matchinfo;
 

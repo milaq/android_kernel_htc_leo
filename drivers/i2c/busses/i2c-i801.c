@@ -41,12 +41,7 @@
   Tolapai               0x5032     32     hard     yes     yes     yes
   ICH10                 0x3a30     32     hard     yes     yes     yes
   ICH10                 0x3a60     32     hard     yes     yes     yes
-<<<<<<< HEAD
   PCH                   0x3b30     32     hard     yes     yes     yes
-=======
-  3400/5 Series (PCH)   0x3b30     32     hard     yes     yes     yes
-  Cougar Point (PCH)    0x1c22     32     hard     yes     yes     yes
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
   Features supported by this driver:
   Software PEC                     no
@@ -420,17 +415,9 @@ static int i801_block_transaction(union i2c_smbus_data *data, char read_write,
 		data->block[0] = 32;	/* max for SMBus block reads */
 	}
 
-<<<<<<< HEAD
 	if ((i801_features & FEATURE_BLOCK_BUFFER)
 	 && !(command == I2C_SMBUS_I2C_BLOCK_DATA
 	      && read_write == I2C_SMBUS_READ)
-=======
-	/* Experience has shown that the block buffer can only be used for
-	   SMBus (not I2C) block transactions, even though the datasheet
-	   doesn't mention this limitation. */
-	if ((i801_features & FEATURE_BLOCK_BUFFER)
-	 && command != I2C_SMBUS_I2C_BLOCK_DATA
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	 && i801_set_block_buffer_mode() == 0)
 		result = i801_block_transaction_by_block(data, read_write,
 							 hwpec);
@@ -591,10 +578,6 @@ static struct pci_device_id i801_ids[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ICH10_4) },
 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ICH10_5) },
 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_PCH_SMBUS) },
-<<<<<<< HEAD
-=======
-	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CPT_SMBUS) },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	{ 0, }
 };
 
@@ -724,10 +707,6 @@ static int __devinit i801_probe(struct pci_dev *dev, const struct pci_device_id 
 	case PCI_DEVICE_ID_INTEL_ICH10_4:
 	case PCI_DEVICE_ID_INTEL_ICH10_5:
 	case PCI_DEVICE_ID_INTEL_PCH_SMBUS:
-<<<<<<< HEAD
-=======
-	case PCI_DEVICE_ID_INTEL_CPT_SMBUS:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		i801_features |= FEATURE_I2C_BLOCK_READ;
 		/* fall through */
 	case PCI_DEVICE_ID_INTEL_82801DB_3:

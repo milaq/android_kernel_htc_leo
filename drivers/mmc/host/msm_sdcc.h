@@ -28,12 +28,9 @@
 #define MCI_CLK_ENABLE		(1 << 8)
 #define MCI_CLK_PWRSAVE		(1 << 9)
 #define MCI_CLK_WIDEBUS		(1 << 10)
-<<<<<<< HEAD
 #define MCI_CLK_WIDEBUS_1	(0 << 10)
 #define MCI_CLK_WIDEBUS_4	(2 << 10)
 #define MCI_CLK_WIDEBUS_8	(3 << 10)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define MCI_CLK_FLOWENA		(1 << 12)
 #define MCI_CLK_INVERTOUT	(1 << 13)
 #define MCI_CLK_SELECTIN	(1 << 14)
@@ -107,7 +104,6 @@
 #define MCI_DATAENDCLR		(1 << 8)
 #define MCI_DATABLOCKENDCLR	(1 << 10)
 
-<<<<<<< HEAD
 
 #define MCI_SDIOINTRCLR		(1 << 22)
 #define MCI_PROGDONECLR		(1 << 23)
@@ -122,8 +118,6 @@
 	MCI_STARTBITERRCLR|MCI_DATABLOCKENDCLR|MCI_SDIOINTRCLR|	\
 	MCI_SDIOINTROPECLR|MCI_PROGDONECLR|MCI_ATACMDCOMPLCLR|	\
 	MCI_CCSTIMEOUTCLR)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define MMCIMASK0		0x03c
 #define MCI_CMDCRCFAILMASK	(1 << 0)
 #define MCI_DATACRCFAILMASK	(1 << 1)
@@ -161,11 +155,7 @@
 #define MCI_IRQENABLE	\
 	(MCI_CMDCRCFAILMASK|MCI_DATACRCFAILMASK|MCI_CMDTIMEOUTMASK|	\
 	MCI_DATATIMEOUTMASK|MCI_TXUNDERRUNMASK|MCI_RXOVERRUNMASK|	\
-<<<<<<< HEAD
 	MCI_CMDRESPENDMASK|MCI_CMDSENTMASK|MCI_DATAENDMASK|MCI_PROGDONEMASK)
-=======
-	MCI_CMDRESPENDMASK|MCI_CMDSENTMASK|MCI_DATAENDMASK)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  * The size of the FIFO in bytes.
@@ -174,11 +164,7 @@
 
 #define MCI_FIFOHALFSIZE (MCI_FIFOSIZE / 2)
 
-<<<<<<< HEAD
 #define NR_SG		128
-=======
-#define NR_SG		32
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct clk;
 
@@ -202,12 +188,9 @@ struct msmsdcc_dma_data {
 	int				channel;
 	struct msmsdcc_host		*host;
 	int				busy; /* Set if DM is busy */
-<<<<<<< HEAD
 	int				active;
 	unsigned int 			result;
 	struct msm_dmov_errdata		err;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct msmsdcc_pio_data {
@@ -224,10 +207,6 @@ struct msmsdcc_curr_req {
 	unsigned int		xfer_remain;	/* Bytes remaining to send */
 	unsigned int		data_xfered;	/* Bytes acked by BLKEND irq */
 	int			got_dataend;
-<<<<<<< HEAD
-=======
-	int			got_datablkend;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int			user_pages;
 };
 
@@ -239,10 +218,7 @@ struct msmsdcc_stats {
 };
 
 struct msmsdcc_host {
-<<<<<<< HEAD
 	struct resource		*irqres;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct resource		*cmd_irqres;
 	struct resource		*pio_irqres;
 	struct resource		*memres;
@@ -257,11 +233,7 @@ struct msmsdcc_host {
 	struct clk		*clk;		/* main MMC bus clock */
 	struct clk		*pclk;		/* SDCC peripheral bus clock */
 	unsigned int		clks_on;	/* set if clocks are enabled */
-<<<<<<< HEAD
 	struct timer_list	busclk_timer;
-=======
-	struct timer_list	command_timer;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	unsigned int		eject;		/* eject state */
 
@@ -281,7 +253,6 @@ struct msmsdcc_host {
 	struct msmsdcc_pio_data	pio;
 	int			cmdpoll;
 	struct msmsdcc_stats	stats;
-<<<<<<< HEAD
 #ifdef CONFIG_HAS_EARLYSUSPEND
 	struct early_suspend early_suspend;
 	int polling_enabled;
@@ -305,8 +276,6 @@ struct msmsdcc_host {
 
 	bool prog_scan;
 	bool prog_enable;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 #endif

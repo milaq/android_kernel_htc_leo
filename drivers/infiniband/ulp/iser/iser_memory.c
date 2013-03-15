@@ -209,11 +209,6 @@ void iser_finalize_rdma_unaligned_sg(struct iscsi_iser_task *iser_task,
 	mem_copy->copy_buf = NULL;
 }
 
-<<<<<<< HEAD
-=======
-#define IS_4K_ALIGNED(addr)	((((unsigned long)addr) & ~MASK_4K) == 0)
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * iser_sg_to_page_vec - Translates scatterlist entries to physical addresses
  * and returns the length of resulting physical address array (may be less than
@@ -226,15 +221,10 @@ void iser_finalize_rdma_unaligned_sg(struct iscsi_iser_task *iser_task,
  * where --few fragments of the same page-- are present in the SG as
  * consecutive elements. Also, it handles one entry SG.
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int iser_sg_to_page_vec(struct iser_data_buf *data,
 			       struct iser_page_vec *page_vec,
 			       struct ib_device *ibdev)
 {
-<<<<<<< HEAD
 	struct scatterlist *sgl = (struct scatterlist *)data->buf;
 	struct scatterlist *sg;
 	u64 first_addr, last_addr, page;
@@ -242,18 +232,10 @@ static int iser_sg_to_page_vec(struct iser_data_buf *data,
 	unsigned int cur_page = 0;
 	unsigned long total_sz = 0;
 	int i;
-=======
-	struct scatterlist *sg, *sgl = (struct scatterlist *)data->buf;
-	u64 start_addr, end_addr, page, chunk_start = 0;
-	unsigned long total_sz = 0;
-	unsigned int dma_len;
-	int i, new_chunk, cur_page, last_ent = data->dma_nents - 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* compute the offset of first element */
 	page_vec->offset = (u64) sgl[0].offset & ~MASK_4K;
 
-<<<<<<< HEAD
 	for_each_sg(sgl, sg, data->dma_nents, i) {
 		unsigned int dma_len = ib_sg_dma_len(ibdev, sg);
 
@@ -289,44 +271,12 @@ static int iser_sg_to_page_vec(struct iser_data_buf *data,
 		}
 
 	}
-=======
-	new_chunk = 1;
-	cur_page  = 0;
-	for_each_sg(sgl, sg, data->dma_nents, i) {
-		start_addr = ib_sg_dma_address(ibdev, sg);
-		if (new_chunk)
-			chunk_start = start_addr;
-		dma_len = ib_sg_dma_len(ibdev, sg);
-		end_addr = start_addr + dma_len;
-		total_sz += dma_len;
-
-		/* collect page fragments until aligned or end of SG list */
-		if (!IS_4K_ALIGNED(end_addr) && i < last_ent) {
-			new_chunk = 0;
-			continue;
-		}
-		new_chunk = 1;
-
-		/* address of the first page in the contiguous chunk;
-		   masking relevant for the very first SG entry,
-		   which might be unaligned */
-		page = chunk_start & MASK_4K;
-		do {
-			page_vec->pages[cur_page++] = page;
-			page += SIZE_4K;
-		} while (page < end_addr);
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	page_vec->data_size = total_sz;
 	iser_dbg("page_vec->data_size:%d cur_page %d\n", page_vec->data_size,cur_page);
 	return cur_page;
 }
 
-<<<<<<< HEAD
 #define IS_4K_ALIGNED(addr)	((((unsigned long)addr) & ~MASK_4K) == 0)
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * iser_data_buf_aligned_len - Tries to determine the maximal correctly aligned
@@ -334,7 +284,6 @@ static int iser_sg_to_page_vec(struct iser_data_buf *data,
  * the number of entries which are aligned correctly. Supports the case where
  * consecutive SG elements are actually fragments of the same physcial page.
  */
-<<<<<<< HEAD
 static unsigned int iser_data_buf_aligned_len(struct iser_data_buf *data,
 					      struct ib_device *ibdev)
 {
@@ -371,42 +320,6 @@ static unsigned int iser_data_buf_aligned_len(struct iser_data_buf *data,
 	}
 	if (i == data->dma_nents)
 		ret_len = cnt;	/* loop ended */
-=======
-static int iser_data_buf_aligned_len(struct iser_data_buf *data,
-				      struct ib_device *ibdev)
-{
-	struct scatterlist *sgl, *sg, *next_sg = NULL;
-	u64 start_addr, end_addr;
-	int i, ret_len, start_check = 0;
-
-	if (data->dma_nents == 1)
-		return 1;
-
-	sgl = (struct scatterlist *)data->buf;
-	start_addr  = ib_sg_dma_address(ibdev, sgl);
-
-	for_each_sg(sgl, sg, data->dma_nents, i) {
-		if (start_check && !IS_4K_ALIGNED(start_addr))
-			break;
-
-		next_sg = sg_next(sg);
-		if (!next_sg)
-			break;
-
-		end_addr    = start_addr + ib_sg_dma_len(ibdev, sg);
-		start_addr  = ib_sg_dma_address(ibdev, next_sg);
-
-		if (end_addr == start_addr) {
-			start_check = 0;
-			continue;
-		} else
-			start_check = 1;
-
-		if (!IS_4K_ALIGNED(end_addr))
-			break;
-	}
-	ret_len = (next_sg) ? i : i+1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	iser_dbg("Found %d aligned entries out of %d in sg:0x%p\n",
 		 ret_len, data->dma_nents, data);
 	return ret_len;

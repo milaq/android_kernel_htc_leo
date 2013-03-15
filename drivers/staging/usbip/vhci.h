@@ -100,12 +100,9 @@ struct vhci_hcd {
 	 * But, the index of this array begins from 0.
 	 */
 	struct vhci_device vdev[VHCI_NPORTS];
-<<<<<<< HEAD
 
 	/* vhci_device which has not been assiged its address yet */
 	int pending_port;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 
@@ -122,12 +119,6 @@ void rh_port_disconnect(int rhport);
 void vhci_rx_loop(struct usbip_task *ut);
 void vhci_tx_loop(struct usbip_task *ut);
 
-<<<<<<< HEAD
-=======
-struct urb *pickup_urb_and_free_priv(struct vhci_device *vdev,
-					    __u32 seqnum);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define hardware		(&the_controller->pdev.dev)
 
 static inline struct vhci_device *port_to_vdev(__u32 port)

@@ -1239,12 +1239,7 @@ static void w83627ehf_device_remove_files(struct device *dev)
 }
 
 /* Get the monitoring functions started */
-<<<<<<< HEAD
 static inline void __devinit w83627ehf_init_device(struct w83627ehf_data *data)
-=======
-static inline void __devinit w83627ehf_init_device(struct w83627ehf_data *data,
-						   enum kinds kind)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int i;
 	u8 tmp, diode;
@@ -1273,23 +1268,10 @@ static inline void __devinit w83627ehf_init_device(struct w83627ehf_data *data,
 		w83627ehf_write_value(data, W83627EHF_REG_VBAT, tmp | 0x01);
 
 	/* Get thermal sensor types */
-<<<<<<< HEAD
 	diode = w83627ehf_read_value(data, W83627EHF_REG_DIODE);
 	for (i = 0; i < 3; i++) {
 		if ((tmp & (0x02 << i)))
 			data->temp_type[i] = (diode & (0x10 << i)) ? 1 : 2;
-=======
-	switch (kind) {
-	case w83627ehf:
-		diode = w83627ehf_read_value(data, W83627EHF_REG_DIODE);
-		break;
-	default:
-		diode = 0x70;
-	}
-	for (i = 0; i < 3; i++) {
-		if ((tmp & (0x02 << i)))
-			data->temp_type[i] = (diode & (0x10 << i)) ? 1 : 3;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		else
 			data->temp_type[i] = 4; /* thermistor */
 	}
@@ -1337,11 +1319,7 @@ static int __devinit w83627ehf_probe(struct platform_device *pdev)
 	}
 
 	/* Initialize the chip */
-<<<<<<< HEAD
 	w83627ehf_init_device(data);
-=======
-	w83627ehf_init_device(data, sio_data->kind);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	data->vrm = vid_which_vrm();
 	superio_enter(sio_data->sioreg);

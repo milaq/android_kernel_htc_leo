@@ -185,10 +185,7 @@ unsigned long __rounddown_pow_of_two(unsigned long n)
 #define rounddown_pow_of_two(n)			\
 (						\
 	__builtin_constant_p(n) ? (		\
-<<<<<<< HEAD
 		(n == 1) ? 0 :			\
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		(1UL << ilog2(n))) :		\
 	__rounddown_pow_of_two(n)		\
  )

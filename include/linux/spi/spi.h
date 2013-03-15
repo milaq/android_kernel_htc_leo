@@ -100,7 +100,6 @@ struct spi_device {
 	 */
 };
 
-<<<<<<< HEAD
 struct spi_msg
 {
 	u8 cmd;
@@ -109,8 +108,6 @@ struct spi_msg
 	unsigned char buffer[128];
 };
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline struct spi_device *to_spi_device(struct device *dev)
 {
 	return dev ? container_of(dev, struct spi_device, dev) : NULL;
@@ -614,7 +611,6 @@ spi_read(struct spi_device *spi, u8 *buf, size_t len)
 extern int spi_write_then_read(struct spi_device *spi,
 		const u8 *txbuf, unsigned n_tx,
 		u8 *rxbuf, unsigned n_rx);
-<<<<<<< HEAD
 /*
  * htc workaround to support multiple clients: add mutex lock to avoid SPI commands conflict.
  * @func: true for spi write, false for spi read
@@ -624,9 +620,6 @@ extern int spi_write_then_read(struct spi_device *spi,
  */
 extern int
 spi_read_write_lock(struct spi_device *spidev, struct spi_msg * msg, char *buf, int size, int func);
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /**
  * spi_w8r8 - SPI synchronous 8 bit write followed by 8 bit read
  * @spi: device with which data will be exchanged
@@ -767,13 +760,10 @@ spi_register_board_info(struct spi_board_info const *info, unsigned n)
 	{ return 0; }
 #endif
 
-<<<<<<< HEAD
 struct spi_platform_data {
 	int clk_rate;
 };
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* If you're hotplugging an adapter with devices (parport, usb, etc)
  * use spi_new_device() to describe each device.  You can also call

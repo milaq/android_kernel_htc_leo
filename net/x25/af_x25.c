@@ -81,44 +81,6 @@ struct compat_x25_subscrip_struct {
 };
 #endif
 
-<<<<<<< HEAD
-=======
-
-int x25_parse_address_block(struct sk_buff *skb,
-		struct x25_address *called_addr,
-		struct x25_address *calling_addr)
-{
-	unsigned char len;
-	int needed;
-	int rc;
-
-	if (skb->len < 1) {
-		/* packet has no address block */
-		rc = 0;
-		goto empty;
-	}
-
-	len = *skb->data;
-	needed = 1 + (len >> 4) + (len & 0x0f);
-
-	if (skb->len < needed) {
-		/* packet is too short to hold the addresses it claims
-		   to hold */
-		rc = -1;
-		goto empty;
-	}
-
-	return x25_addr_ntoa(skb->data, called_addr, calling_addr);
-
-empty:
-	*called_addr->x25_addr = 0;
-	*calling_addr->x25_addr = 0;
-
-	return rc;
-}
-
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 int x25_addr_ntoa(unsigned char *p, struct x25_address *called_addr,
 		  struct x25_address *calling_addr)
 {
@@ -297,12 +259,7 @@ static struct sock *x25_find_listener(struct x25_address *addr,
 			 * Found a listening socket, now check the incoming
 			 * call user data vs this sockets call user data
 			 */
-<<<<<<< HEAD
 			if(skb->len > 0 && x25_sk(s)->cudmatchlength > 0) {
-=======
-			if (x25_sk(s)->cudmatchlength > 0 &&
-				skb->len >= x25_sk(s)->cudmatchlength) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				if((memcmp(x25_sk(s)->calluserdata.cuddata,
 					skb->data,
 					x25_sk(s)->cudmatchlength)) == 0) {
@@ -914,36 +871,16 @@ int x25_rx_call_request(struct sk_buff *skb, struct x25_neigh *nb,
 	/*
 	 *	Extract the X.25 addresses and convert them to ASCII strings,
 	 *	and remove them.
-<<<<<<< HEAD
 	 */
 	addr_len = x25_addr_ntoa(skb->data, &source_addr, &dest_addr);
-=======
-	 *
-	 *	Address block is mandatory in call request packets
-	 */
-	addr_len = x25_parse_address_block(skb, &source_addr, &dest_addr);
-	if (addr_len <= 0)
-		goto out_clear_request;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	skb_pull(skb, addr_len);
 
 	/*
 	 *	Get the length of the facilities, skip past them for the moment
 	 *	get the call user data because this is needed to determine
 	 *	the correct listener
-<<<<<<< HEAD
 	 */
 	len = skb->data[0] + 1;
-=======
-	 *
-	 *	Facilities length is mandatory in call request packets
-	 */
-	if (skb->len < 1)
-		goto out_clear_request;
-	len = skb->data[0] + 1;
-	if (skb->len < len)
-		goto out_clear_request;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	skb_pull(skb,len);
 
 	/*

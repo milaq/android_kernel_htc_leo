@@ -105,23 +105,11 @@ out:
 static ssize_t hidraw_write(struct file *file, const char __user *buffer, size_t count, loff_t *ppos)
 {
 	unsigned int minor = iminor(file->f_path.dentry->d_inode);
-<<<<<<< HEAD
 	/* FIXME: What stops hidraw_table going NULL */
 	struct hid_device *dev = hidraw_table[minor]->hid;
 	__u8 *buf;
 	int ret = 0;
 
-=======
-	struct hid_device *dev;
-	__u8 *buf;
-	int ret = 0;
-
-	if (!hidraw_table[minor])
-		return -ENODEV;
-
-	dev = hidraw_table[minor]->hid;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!dev->hid_output_raw_report)
 		return -ENODEV;
 
@@ -219,22 +207,11 @@ static int hidraw_release(struct inode * inode, struct file * file)
 	unsigned int minor = iminor(inode);
 	struct hidraw *dev;
 	struct hidraw_list *list = file->private_data;
-<<<<<<< HEAD
 
 	if (!hidraw_table[minor]) {
 		printk(KERN_EMERG "hidraw device with minor %d doesn't exist\n",
 				minor);
 		return -ENODEV;
-=======
-	int ret;
-
-	mutex_lock(&minors_lock);
-	if (!hidraw_table[minor]) {
-		printk(KERN_EMERG "hidraw device with minor %d doesn't exist\n",
-				minor);
-		ret = -ENODEV;
-		goto unlock;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	list_del(&list->node);
@@ -248,19 +225,10 @@ static int hidraw_release(struct inode * inode, struct file * file)
 			kfree(list->hidraw);
 		}
 	}
-<<<<<<< HEAD
 
 	kfree(list);
 
 	return 0;
-=======
-	kfree(list);
-	ret = 0;
-unlock:
-	mutex_unlock(&minors_lock);
-
-	return ret;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static long hidraw_ioctl(struct file *file, unsigned int cmd,
@@ -269,24 +237,11 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
 	struct inode *inode = file->f_path.dentry->d_inode;
 	unsigned int minor = iminor(inode);
 	long ret = 0;
-<<<<<<< HEAD
 	/* FIXME: What stops hidraw_table going NULL */
 	struct hidraw *dev = hidraw_table[minor];
 	void __user *user_arg = (void __user*) arg;
 
 	lock_kernel();
-=======
-	struct hidraw *dev;
-	void __user *user_arg = (void __user*) arg;
-
-	lock_kernel();
-	dev = hidraw_table[minor];
-	if (!dev) {
-		ret = -ENODEV;
-		goto out;
-	}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	switch (cmd) {
 		case HIDIOCGRDESCSIZE:
 			if (put_user(dev->hid->rsize, (int __user *)arg))
@@ -359,10 +314,6 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
 
 		ret = -ENOTTY;
 	}
-<<<<<<< HEAD
-=======
-out:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	unlock_kernel();
 	return ret;
 }

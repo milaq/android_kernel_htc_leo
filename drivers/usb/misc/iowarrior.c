@@ -373,11 +373,7 @@ static ssize_t iowarrior_write(struct file *file,
 	case USB_DEVICE_ID_CODEMERCS_IOWPV2:
 	case USB_DEVICE_ID_CODEMERCS_IOW40:
 		/* IOW24 and IOW40 use a synchronous call */
-<<<<<<< HEAD
 		buf = kmalloc(8, GFP_KERNEL);	/* 8 bytes are enough for both products */
-=======
-		buf = kmalloc(count, GFP_KERNEL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!buf) {
 			retval = -ENOMEM;
 			goto exit;
@@ -556,10 +552,6 @@ static long iowarrior_ioctl(struct file *file, unsigned int cmd,
 			/* needed for power consumption */
 			struct usb_config_descriptor *cfg_descriptor = &dev->udev->actconfig->desc;
 
-<<<<<<< HEAD
-=======
-			memset(&info, 0, sizeof(info));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			/* directly from the descriptor */
 			info.vendor = le16_to_cpu(dev->udev->descriptor.idVendor);
 			info.product = dev->product_id;

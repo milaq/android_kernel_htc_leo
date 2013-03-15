@@ -271,11 +271,7 @@ static inline int ntp_synced(void)
 /* Returns how long ticks are at present, in ns / 2^NTP_SCALE_SHIFT. */
 extern u64 tick_length;
 
-<<<<<<< HEAD
 extern void second_overflow(void);
-=======
-extern int second_overflow(unsigned long secs);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern void update_ntp_one_tick(void);
 extern int do_adjtimex(struct timex *);
 

@@ -515,11 +515,7 @@ static const struct net_device_ops smsc_ircc_netdev_ops = {
  *    Try to open driver instance
  *
  */
-<<<<<<< HEAD
 static int __init smsc_ircc_open(unsigned int fir_base, unsigned int sir_base, u8 dma, u8 irq)
-=======
-static int __devinit smsc_ircc_open(unsigned int fir_base, unsigned int sir_base, u8 dma, u8 irq)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct smsc_ircc_cb *self;
 	struct net_device *dev;

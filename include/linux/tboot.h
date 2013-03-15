@@ -150,10 +150,6 @@ extern int tboot_force_iommu(void);
 
 #else
 
-<<<<<<< HEAD
-=======
-#define tboot_enabled()			0
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define tboot_probe()			do { } while (0)
 #define tboot_shutdown(shutdown_type)	do { } while (0)
 #define tboot_sleep(sleep_state, pm1a_control, pm1b_control)	\

@@ -51,13 +51,10 @@ void asmlinkage __attribute__((weak)) early_printk(const char *fmt, ...)
 
 #define __LOG_BUF_LEN	(1 << CONFIG_LOG_BUF_SHIFT)
 
-<<<<<<< HEAD
 #ifdef        CONFIG_DEBUG_LL
 extern void printascii(char *);
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* printk's without a loglevel use this.. */
 #define DEFAULT_MESSAGE_LOGLEVEL 4 /* KERN_WARNING */
 
@@ -264,7 +261,6 @@ static inline void boot_delay_msec(void)
 #endif
 
 /*
-<<<<<<< HEAD
  * Return the number of unread characters in the log buffer.
  */
 static int log_buf_get_len(void)
@@ -312,8 +308,6 @@ int log_buf_copy(char *dest, int idx, int len)
 }
 
 /*
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * Commands to do_syslog:
  *
  * 	0 -- Close the log.  Currently a NOP.
@@ -771,12 +765,9 @@ asmlinkage int vprintk(const char *fmt, va_list args)
 	printed_len += vscnprintf(printk_buf + printed_len,
 				  sizeof(printk_buf) - printed_len, fmt, args);
 
-<<<<<<< HEAD
 #ifdef	CONFIG_DEBUG_LL
 	printascii(printk_buf);
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	p = printk_buf;
 
@@ -1077,11 +1068,6 @@ void printk_tick(void)
 
 int printk_needs_cpu(int cpu)
 {
-<<<<<<< HEAD
-=======
-	if (unlikely(cpu_is_offline(cpu)))
-		printk_tick();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return per_cpu(printk_pending, cpu);
 }
 

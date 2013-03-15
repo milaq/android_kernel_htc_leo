@@ -40,11 +40,6 @@ int hfs_mac2asc(struct super_block *sb, char *out, const struct hfs_name *in)
 
 	src = in->name;
 	srclen = in->len;
-<<<<<<< HEAD
-=======
-	if (srclen > HFS_NAMELEN)
-		srclen = HFS_NAMELEN;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dst = out;
 	dstlen = HFS_MAX_NAMELEN;
 	if (nls_io) {

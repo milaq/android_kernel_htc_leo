@@ -60,11 +60,7 @@ static inline long long timeval_to_ns(const struct timeval *tv)
 long long disable_timer(void)
 {
 	struct itimerval time = ((struct itimerval) { { 0, 0 }, { 0, 0 } });
-<<<<<<< HEAD
 	int remain, max = UM_NSEC_PER_SEC / UM_HZ;
-=======
-	long long remain, max = UM_NSEC_PER_SEC / UM_HZ;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (setitimer(ITIMER_VIRTUAL, &time, &time) < 0)
 		printk(UM_KERN_ERR "disable_timer - setitimer failed, "

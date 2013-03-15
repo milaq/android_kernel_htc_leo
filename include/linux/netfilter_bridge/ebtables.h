@@ -302,11 +302,7 @@ struct ebt_table
 		     ~(__alignof__(struct ebt_replace)-1))
 extern struct ebt_table *ebt_register_table(struct net *net,
 					    const struct ebt_table *table);
-<<<<<<< HEAD
 extern void ebt_unregister_table(struct net *net, struct ebt_table *table);
-=======
-extern void ebt_unregister_table(struct ebt_table *table);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern unsigned int ebt_do_table(unsigned int hook, struct sk_buff *skb,
    const struct net_device *in, const struct net_device *out,
    struct ebt_table *table);

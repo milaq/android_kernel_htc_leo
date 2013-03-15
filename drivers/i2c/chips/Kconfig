@@ -26,7 +26,6 @@ config SENSORS_TSL2550
 	  This driver can also be built as a module.  If so, the module
 	  will be called tsl2550.
 
-<<<<<<< HEAD
 config SENSORS_AKM8976
 	tristate "AKM8976 Compass Driver"
 	depends on I2C
@@ -106,6 +105,4 @@ config INPUT_ISL29028
 	  Say Y here to enable the ISL29028 Short Distance Proximity
 	  Sensor with Ambient Light Sensor.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endmenu

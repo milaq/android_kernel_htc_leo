@@ -48,11 +48,7 @@ struct acpi_power_register {
 	u8 space_id;
 	u8 bit_width;
 	u8 bit_offset;
-<<<<<<< HEAD
 	u8 reserved;
-=======
-	u8 access_size;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	u64 address;
 } __attribute__ ((packed));
 
@@ -78,10 +74,6 @@ struct acpi_processor_cx {
 	u32 power;
 	u32 usage;
 	u64 time;
-<<<<<<< HEAD
-=======
-	u8 bm_sts_skip;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct acpi_processor_cx_policy promotion;
 	struct acpi_processor_cx_policy demotion;
 	char desc[ACPI_CX_DESC_LEN];

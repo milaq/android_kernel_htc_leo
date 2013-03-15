@@ -384,19 +384,12 @@ static int iscsi_prep_scsi_cmd_pdu(struct iscsi_task *task)
 
 	WARN_ON(hdrlength >= 256);
 	hdr->hlength = hdrlength & 0xFF;
-<<<<<<< HEAD
-=======
-	hdr->cmdsn = task->cmdsn = cpu_to_be32(session->cmdsn);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (session->tt->init_task && session->tt->init_task(task))
 		return -EIO;
 
 	task->state = ISCSI_TASK_RUNNING;
-<<<<<<< HEAD
 	hdr->cmdsn = task->cmdsn = cpu_to_be32(session->cmdsn);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	session->cmdsn++;
 
 	conn->scsicmd_pdus_cnt++;
@@ -2830,23 +2823,14 @@ static void iscsi_start_session_recovery(struct iscsi_session *session,
 		session->state = ISCSI_STATE_TERMINATE;
 	else if (conn->stop_stage != STOP_CONN_RECOVER)
 		session->state = ISCSI_STATE_IN_RECOVERY;
-<<<<<<< HEAD
-=======
-
-	old_stop_stage = conn->stop_stage;
-	conn->stop_stage = flag;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	spin_unlock_bh(&session->lock);
 
 	del_timer_sync(&conn->transport_timer);
 	iscsi_suspend_tx(conn);
 
 	spin_lock_bh(&session->lock);
-<<<<<<< HEAD
 	old_stop_stage = conn->stop_stage;
 	conn->stop_stage = flag;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	conn->c_stage = ISCSI_CONN_STOPPED;
 	spin_unlock_bh(&session->lock);
 

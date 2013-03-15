@@ -1768,16 +1768,6 @@ static struct pcmcia_device_id pcnet_ids[] = {
 	PCMCIA_DEVICE_NULL
 };
 MODULE_DEVICE_TABLE(pcmcia, pcnet_ids);
-<<<<<<< HEAD
-=======
-MODULE_FIRMWARE("cis/PCMLM28.cis");
-MODULE_FIRMWARE("cis/DP83903.cis");
-MODULE_FIRMWARE("cis/LA-PCM.cis");
-MODULE_FIRMWARE("PE520.cis");
-MODULE_FIRMWARE("cis/NE2K.cis");
-MODULE_FIRMWARE("cis/PE-200.cis");
-MODULE_FIRMWARE("cis/tamarack.cis");
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static struct pcmcia_driver pcnet_driver = {
 	.drv		= {

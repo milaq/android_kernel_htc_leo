@@ -287,13 +287,7 @@ static int acpi_ac_add(struct acpi_device *device)
 	ac->charger.properties = ac_props;
 	ac->charger.num_properties = ARRAY_SIZE(ac_props);
 	ac->charger.get_property = get_ac_property;
-<<<<<<< HEAD
 	power_supply_register(&ac->device->dev, &ac->charger);
-=======
-	result = power_supply_register(&ac->device->dev, &ac->charger);
-	if (result)
-		goto end;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 
 	printk(KERN_INFO PREFIX "%s [%s] (%s)\n",

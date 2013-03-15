@@ -12,11 +12,7 @@
  * published by the Free Software Foundation.
  *
  */
-<<<<<<< HEAD
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <linux/kernel.h>
 #include <linux/socket.h>
 #include <linux/net.h>
@@ -30,13 +26,9 @@
 
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter_arp.h>
-<<<<<<< HEAD
 #include <linux/netfilter_ipv4/ip_tables.h>
 #include <linux/netfilter_ipv6/ip6_tables.h>
 #include <linux/netfilter_arp/arp_tables.h>
-=======
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Harald Welte <laforge@netfilter.org>");
@@ -62,15 +54,6 @@ struct xt_af {
 
 static struct xt_af *xt;
 
-<<<<<<< HEAD
-=======
-#ifdef DEBUG_IP_FIREWALL_USER
-#define duprintf(format, args...) printk(format , ## args)
-#else
-#define duprintf(format, args...)
-#endif
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static const char *const xt_prefix[NFPROTO_NUMPROTO] = {
 	[NFPROTO_UNSPEC] = "x",
 	[NFPROTO_IPV4]   = "ip",
@@ -79,12 +62,9 @@ static const char *const xt_prefix[NFPROTO_NUMPROTO] = {
 	[NFPROTO_IPV6]   = "ip6",
 };
 
-<<<<<<< HEAD
 /* Allow this many total (re)entries. */
 static const unsigned int xt_jumpstack_multiplier = 2;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Registration hooks for targets. */
 int
 xt_register_target(struct xt_target *target)
@@ -237,7 +217,6 @@ struct xt_match *xt_find_match(u8 af, const char *name, u8 revision)
 }
 EXPORT_SYMBOL(xt_find_match);
 
-<<<<<<< HEAD
 struct xt_match *
 xt_request_find_match(uint8_t nfproto, const char *name, uint8_t revision)
 {
@@ -249,8 +228,6 @@ xt_request_find_match(uint8_t nfproto, const char *name, uint8_t revision)
 }
 EXPORT_SYMBOL_GPL(xt_request_find_match);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* Find target, grabs ref.  Returns ERR_PTR() on error. */
 struct xt_target *xt_find_target(u8 af, const char *name, u8 revision)
 {
@@ -287,13 +264,7 @@ struct xt_target *xt_request_find_target(u8 af, const char *name, u8 revision)
 
 	target = try_then_request_module(xt_find_target(af, name, revision),
 					 "%st_%s", xt_prefix[af], name);
-<<<<<<< HEAD
 	return (target != NULL) ? target : ERR_PTR(-ENOENT);
-=======
-	if (IS_ERR(target) || !target)
-		return NULL;
-	return target;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 EXPORT_SYMBOL_GPL(xt_request_find_target);
 
@@ -692,7 +663,6 @@ void xt_free_table_info(struct xt_table_info *info)
 		else
 			vfree(info->entries[cpu]);
 	}
-<<<<<<< HEAD
 
 	if (info->jumpstack != NULL) {
 		if (sizeof(void *) * info->stacksize > PAGE_SIZE) {
@@ -713,8 +683,6 @@ void xt_free_table_info(struct xt_table_info *info)
 	else
 		kfree(info->stackptr);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(info);
 }
 EXPORT_SYMBOL(xt_free_table_info);
@@ -759,7 +727,6 @@ EXPORT_SYMBOL_GPL(xt_compat_unlock);
 DEFINE_PER_CPU(struct xt_info_lock, xt_info_locks);
 EXPORT_PER_CPU_SYMBOL_GPL(xt_info_locks);
 
-<<<<<<< HEAD
 static int xt_jumpstack_alloc(struct xt_table_info *i)
 {
 	unsigned int size;
@@ -803,8 +770,6 @@ static int xt_jumpstack_alloc(struct xt_table_info *i)
 
 	return 0;
 }
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 struct xt_table_info *
 xt_replace_table(struct xt_table *table,
@@ -813,10 +778,7 @@ xt_replace_table(struct xt_table *table,
 	      int *error)
 {
 	struct xt_table_info *private;
-<<<<<<< HEAD
 	int ret;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Do the substitution. */
 	local_bh_disable();
@@ -824,26 +786,19 @@ xt_replace_table(struct xt_table *table,
 
 	/* Check inside lock: is the old number correct? */
 	if (num_counters != private->number) {
-<<<<<<< HEAD
 		pr_debug("num_counters != table->private->number (%u/%u)\n",
-=======
-		duprintf("num_counters != table->private->number (%u/%u)\n",
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			 num_counters, private->number);
 		local_bh_enable();
 		*error = -EAGAIN;
 		return NULL;
 	}
 
-<<<<<<< HEAD
 	ret = xt_jumpstack_alloc(newinfo);
 	if (ret < 0) {
 		*error = ret;
 		return NULL;
 	}
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	table->private = newinfo;
 	newinfo->initial_entries = private->initial_entries;
 
@@ -868,13 +823,10 @@ struct xt_table *xt_register_table(struct net *net,
 	struct xt_table_info *private;
 	struct xt_table *t, *table;
 
-<<<<<<< HEAD
 	ret = xt_jumpstack_alloc(newinfo);
 	if (ret < 0)
 		return ERR_PTR(ret);
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/* Don't add one object to multiple lists. */
 	table = kmemdup(input_table, sizeof(struct xt_table), GFP_KERNEL);
 	if (!table) {
@@ -901,11 +853,7 @@ struct xt_table *xt_register_table(struct net *net,
 		goto unlock;
 
 	private = table->private;
-<<<<<<< HEAD
 	pr_debug("table->private->number = %u\n", private->number);
-=======
-	duprintf("table->private->number = %u\n", private->number);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* save number of initial entries */
 	private->initial_entries = private->number;

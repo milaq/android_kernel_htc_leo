@@ -476,11 +476,7 @@ EXPORT_SYMBOL(midi_synth_hw_control);
 
 int
 midi_synth_load_patch(int dev, int format, const char __user *addr,
-<<<<<<< HEAD
 		      int offs, int count, int pmgr_flag)
-=======
-		      int count, int pmgr_flag)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int             orig_dev = synth_devs[dev]->midi_dev;
 
@@ -495,7 +491,6 @@ midi_synth_load_patch(int dev, int format, const char __user *addr,
 	if (!prefix_cmd(orig_dev, 0xf0))
 		return 0;
 
-<<<<<<< HEAD
 	if (format != SYSEX_PATCH)
 	{
 /*		  printk("MIDI Error: Invalid patch format (key) 0x%x\n", format);*/
@@ -523,43 +518,12 @@ midi_synth_load_patch(int dev, int format, const char __user *addr,
 	}
   	left = sysex.len;
   	src_offs = 0;
-=======
-	/* Invalid patch format */
-	if (format != SYSEX_PATCH)
-		  return -EINVAL;
-
-	/* Patch header too short */
-	if (count < hdr_size)
-		return -EINVAL;
-
-	count -= hdr_size;
-
-	/*
-	 * Copy the header from user space
-	 */
-
-	if (copy_from_user(&sysex, addr, hdr_size))
-		return -EFAULT;
-
-	/* Sysex record too short */
-	if ((unsigned)count < (unsigned)sysex.len)
-		sysex.len = count;
-
-	left = sysex.len;
-	src_offs = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	for (i = 0; i < left && !signal_pending(current); i++)
 	{
 		unsigned char   data;
 
-<<<<<<< HEAD
 		get_user(*(unsigned char *) &data, (unsigned char __user *) &((addr)[hdr_size + i]));
-=======
-		if (get_user(data,
-		    (unsigned char __user *)(addr + hdr_size + i)))
-			return -EFAULT;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 		eox_seen = (i > 0 && data & 0x80);	/* End of sysex */
 

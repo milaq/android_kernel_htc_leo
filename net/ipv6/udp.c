@@ -1141,11 +1141,7 @@ static struct sk_buff *udp6_ufo_fragment(struct sk_buff *skb, int features)
 	skb->ip_summed = CHECKSUM_NONE;
 
 	/* Check if there is enough headroom to insert fragment header. */
-<<<<<<< HEAD
 	if ((skb_headroom(skb) < frag_hdr_sz) &&
-=======
-	if ((skb_mac_header(skb) < skb->head + frag_hdr_sz) &&
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	    pskb_expand_head(skb, frag_hdr_sz, 0, GFP_ATOMIC))
 		goto out;
 

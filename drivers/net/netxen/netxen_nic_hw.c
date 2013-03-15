@@ -685,12 +685,6 @@ void netxen_p3_nic_set_multi(struct net_device *netdev)
 	struct list_head *head;
 	nx_mac_list_t *cur;
 
-<<<<<<< HEAD
-=======
-	if (adapter->is_up != NETXEN_ADAPTER_UP_MAGIC)
-		return;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	list_splice_tail_init(&adapter->mac_list, &del_list);
 
 	nx_p3_nic_add_mac(adapter, adapter->mac_addr, &del_list);

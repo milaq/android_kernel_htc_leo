@@ -284,13 +284,7 @@ void VmbusOnEvents(void)
 		for (dword = 0; dword < maxdword; dword++) {
 			if (recvInterruptPage[dword]) {
 				for (bit = 0; bit < 32; bit++) {
-<<<<<<< HEAD
 					if (test_and_clear_bit(bit, (unsigned long *)&recvInterruptPage[dword])) {
-=======
-					if (sync_test_and_clear_bit(bit,
-						(unsigned long *)
-						&recvInterruptPage[dword])) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 						relid = (dword << 5) + bit;
 						DPRINT_DBG(VMBUS, "event detected for relid - %d", relid);
 
@@ -335,11 +329,7 @@ int VmbusSetEvent(u32 childRelId)
 	DPRINT_ENTER(VMBUS);
 
 	/* Each u32 represents 32 channels */
-<<<<<<< HEAD
 	set_bit(childRelId & 31,
-=======
-	sync_set_bit(childRelId & 31,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		(unsigned long *)gVmbusConnection.SendInterruptPage +
 		(childRelId >> 5));
 

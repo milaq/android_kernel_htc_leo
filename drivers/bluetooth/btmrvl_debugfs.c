@@ -19,10 +19,7 @@
  **/
 
 #include <linux/debugfs.h>
-<<<<<<< HEAD
 #include <linux/slab.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #include <net/bluetooth/bluetooth.h>
 #include <net/bluetooth/hci_core.h>
@@ -30,17 +27,10 @@
 #include "btmrvl_drv.h"
 
 struct btmrvl_debugfs_data {
-<<<<<<< HEAD
 	struct dentry *config_dir;
 	struct dentry *status_dir;
 
 	/* config */
-=======
-	struct dentry *root_dir, *config_dir, *status_dir;
-
-	/* config */
-	struct dentry *drvdbg;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct dentry *psmode;
 	struct dentry *pscmd;
 	struct dentry *hsmode;
@@ -226,11 +216,7 @@ static const struct file_operations btmrvl_gpiogap_fops = {
 static ssize_t btmrvl_hscmd_write(struct file *file, const char __user *ubuf,
 						size_t count, loff_t *ppos)
 {
-<<<<<<< HEAD
 	struct btmrvl_private *priv = file->private_data;
-=======
-	struct btmrvl_private *priv = (struct btmrvl_private *) file->private_data;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	char buf[16];
 	long result, ret;
 
@@ -379,12 +365,9 @@ void btmrvl_debugfs_init(struct hci_dev *hdev)
 	struct btmrvl_private *priv = hdev->driver_data;
 	struct btmrvl_debugfs_data *dbg;
 
-<<<<<<< HEAD
 	if (!hdev->debugfs)
 		return;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dbg = kzalloc(sizeof(*dbg), GFP_KERNEL);
 	priv->debugfs_data = dbg;
 
@@ -393,13 +376,7 @@ void btmrvl_debugfs_init(struct hci_dev *hdev)
 		return;
 	}
 
-<<<<<<< HEAD
 	dbg->config_dir = debugfs_create_dir("config", hdev->debugfs);
-=======
-	dbg->root_dir = debugfs_create_dir("btmrvl", NULL);
-
-	dbg->config_dir = debugfs_create_dir("config", dbg->root_dir);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	dbg->psmode = debugfs_create_file("psmode", 0644, dbg->config_dir,
 				hdev->driver_data, &btmrvl_psmode_fops);
@@ -414,11 +391,7 @@ void btmrvl_debugfs_init(struct hci_dev *hdev)
 	dbg->hscfgcmd = debugfs_create_file("hscfgcmd", 0644, dbg->config_dir,
 				hdev->driver_data, &btmrvl_hscfgcmd_fops);
 
-<<<<<<< HEAD
 	dbg->status_dir = debugfs_create_dir("status", hdev->debugfs);
-=======
-	dbg->status_dir = debugfs_create_dir("status", dbg->root_dir);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dbg->curpsmode = debugfs_create_file("curpsmode", 0444,
 						dbg->status_dir,
 						hdev->driver_data,
@@ -455,10 +428,5 @@ void btmrvl_debugfs_remove(struct hci_dev *hdev)
 	debugfs_remove(dbg->txdnldready);
 	debugfs_remove(dbg->status_dir);
 
-<<<<<<< HEAD
-=======
-	debugfs_remove(dbg->root_dir);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	kfree(dbg);
 }

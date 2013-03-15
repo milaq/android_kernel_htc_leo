@@ -104,20 +104,10 @@ int __init notsc_setup(char *str)
 
 __setup("notsc", notsc_setup);
 
-<<<<<<< HEAD
-=======
-static int no_sched_irq_time;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int __init tsc_setup(char *str)
 {
 	if (!strcmp(str, "reliable"))
 		tsc_clocksource_reliable = 1;
-<<<<<<< HEAD
-=======
-	if (!strncmp(str, "noirqtime", 9))
-		no_sched_irq_time = 1;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 1;
 }
 
@@ -629,59 +619,13 @@ static void set_cyc2ns_scale(unsigned long cpu_khz, int cpu)
 
 	if (cpu_khz) {
 		*scale = (NSEC_PER_MSEC << CYC2NS_SCALE_FACTOR)/cpu_khz;
-<<<<<<< HEAD
 		*offset = ns_now - (tsc_now * *scale >> CYC2NS_SCALE_FACTOR);
-=======
-		*offset = ns_now - mult_frac(tsc_now, *scale,
-					     (1UL << CYC2NS_SCALE_FACTOR));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 
 	sched_clock_idle_wakeup_event(0);
 	local_irq_restore(flags);
 }
 
-<<<<<<< HEAD
-=======
-static unsigned long long cyc2ns_suspend;
-
-void save_sched_clock_state(void)
-{
-	if (!sched_clock_stable)
-		return;
-
-	cyc2ns_suspend = sched_clock();
-}
-
-/*
- * Even on processors with invariant TSC, TSC gets reset in some the
- * ACPI system sleep states. And in some systems BIOS seem to reinit TSC to
- * arbitrary value (still sync'd across cpu's) during resume from such sleep
- * states. To cope up with this, recompute the cyc2ns_offset for each cpu so
- * that sched_clock() continues from the point where it was left off during
- * suspend.
- */
-void restore_sched_clock_state(void)
-{
-	unsigned long long offset;
-	unsigned long flags;
-	int cpu;
-
-	if (!sched_clock_stable)
-		return;
-
-	local_irq_save(flags);
-
-	__get_cpu_var(cyc2ns_offset) = 0;
-	offset = cyc2ns_suspend - sched_clock();
-
-	for_each_possible_cpu(cpu)
-		per_cpu(cyc2ns_offset, cpu) = offset;
-
-	local_irq_restore(flags);
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #ifdef CONFIG_CPU_FREQ
 
 /* Frequency scaling support. Adjust the TSC based timer when the cpu frequency
@@ -820,10 +764,6 @@ void mark_tsc_unstable(char *reason)
 	if (!tsc_unstable) {
 		tsc_unstable = 1;
 		sched_clock_stable = 0;
-<<<<<<< HEAD
-=======
-		disable_sched_clock_irqtime();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		printk(KERN_INFO "Marking TSC unstable due to %s\n", reason);
 		/* Change only the rating, when not registered */
 		if (clocksource_tsc.mult)
@@ -1012,12 +952,6 @@ void __init tsc_init(void)
 	/* now allow native_sched_clock() to use rdtsc */
 	tsc_disabled = 0;
 
-<<<<<<< HEAD
-=======
-	if (!no_sched_irq_time)
-		enable_sched_clock_irqtime();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	lpj = ((u64)tsc_khz * 1000);
 	do_div(lpj, HZ);
 	lpj_fine = lpj;

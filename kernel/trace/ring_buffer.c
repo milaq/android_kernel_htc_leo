@@ -389,11 +389,7 @@ static inline int test_time_stamp(u64 delta)
 #define BUF_MAX_DATA_SIZE (BUF_PAGE_SIZE - (sizeof(u32) * 2))
 
 /* Max number of timestamps that can fit on a page */
-<<<<<<< HEAD
 #define RB_TIMESTAMPS_PER_PAGE	(BUF_PAGE_SIZE / RB_LEN_TIME_STAMP)
-=======
-#define RB_TIMESTAMPS_PER_PAGE	(BUF_PAGE_SIZE / RB_LEN_TIME_EXTEND)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 int ring_buffer_print_page_header(struct trace_seq *s)
 {
@@ -2241,21 +2237,12 @@ ring_buffer_lock_reserve(struct ring_buffer *buffer, unsigned long length)
 	if (ring_buffer_flags != RB_BUFFERS_ON)
 		return NULL;
 
-<<<<<<< HEAD
 	if (atomic_read(&buffer->record_disabled))
 		return NULL;
 
 	/* If we are tracing schedule, we don't want to recurse */
 	resched = ftrace_preempt_disable();
 
-=======
-	/* If we are tracing schedule, we don't want to recurse */
-	resched = ftrace_preempt_disable();
-
-	if (atomic_read(&buffer->record_disabled))
-		goto out_nocheck;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (trace_recursive_lock())
 		goto out_nocheck;
 
@@ -2487,19 +2474,11 @@ int ring_buffer_write(struct ring_buffer *buffer,
 	if (ring_buffer_flags != RB_BUFFERS_ON)
 		return -EBUSY;
 
-<<<<<<< HEAD
 	if (atomic_read(&buffer->record_disabled))
 		return -EBUSY;
 
 	resched = ftrace_preempt_disable();
 
-=======
-	resched = ftrace_preempt_disable();
-
-	if (atomic_read(&buffer->record_disabled))
-		goto out;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cpu = raw_smp_processor_id();
 
 	if (!cpumask_test_cpu(cpu, buffer->cpumask))

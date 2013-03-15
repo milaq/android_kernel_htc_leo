@@ -661,10 +661,6 @@ static const struct pci_device_id via[] = {
 	{ PCI_VDEVICE(VIA, 0x3164), },
 	{ PCI_VDEVICE(VIA, 0x5324), },
 	{ PCI_VDEVICE(VIA, 0xC409), VIA_IDFLAG_SINGLE },
-<<<<<<< HEAD
-=======
-	{ PCI_VDEVICE(VIA, 0x9001), VIA_IDFLAG_SINGLE },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	{ },
 };

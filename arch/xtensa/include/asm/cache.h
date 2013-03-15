@@ -29,9 +29,5 @@
 # define CACHE_WAY_SIZE ICACHE_WAY_SIZE
 #endif
 
-<<<<<<< HEAD
-=======
-#define ARCH_KMALLOC_MINALIGN	L1_CACHE_BYTES
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #endif	/* _XTENSA_CACHE_H */

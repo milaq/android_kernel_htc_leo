@@ -114,11 +114,7 @@ struct bearer_name {
 
 struct link;
 
-<<<<<<< HEAD
 extern struct bearer *tipc_bearers;
-=======
-extern struct bearer tipc_bearers[];
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 void tipc_media_addr_printf(struct print_buf *pb, struct tipc_media_addr *a);
 struct sk_buff *tipc_media_get_names(void);

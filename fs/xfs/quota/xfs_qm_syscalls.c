@@ -266,11 +266,7 @@ xfs_qm_scall_trunc_qfiles(
 	}
 
 	if ((flags & XFS_DQ_USER) && mp->m_sb.sb_uquotino != NULLFSINO) {
-<<<<<<< HEAD
 		error = xfs_iget(mp, NULL, mp->m_sb.sb_uquotino, 0, 0, &qip, 0);
-=======
-		error = xfs_iget(mp, NULL, mp->m_sb.sb_uquotino, 0, 0, &qip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!error) {
 			error = xfs_truncate_file(mp, qip);
 			IRELE(qip);
@@ -279,11 +275,7 @@ xfs_qm_scall_trunc_qfiles(
 
 	if ((flags & (XFS_DQ_GROUP|XFS_DQ_PROJ)) &&
 	    mp->m_sb.sb_gquotino != NULLFSINO) {
-<<<<<<< HEAD
 		error2 = xfs_iget(mp, NULL, mp->m_sb.sb_gquotino, 0, 0, &qip, 0);
-=======
-		error2 = xfs_iget(mp, NULL, mp->m_sb.sb_gquotino, 0, 0, &qip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!error2) {
 			error2 = xfs_truncate_file(mp, qip);
 			IRELE(qip);
@@ -428,20 +420,12 @@ xfs_qm_scall_getqstat(
 	}
 	if (!uip && mp->m_sb.sb_uquotino != NULLFSINO) {
 		if (xfs_iget(mp, NULL, mp->m_sb.sb_uquotino,
-<<<<<<< HEAD
 					0, 0, &uip, 0) == 0)
-=======
-					0, 0, &uip) == 0)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			tempuqip = B_TRUE;
 	}
 	if (!gip && mp->m_sb.sb_gquotino != NULLFSINO) {
 		if (xfs_iget(mp, NULL, mp->m_sb.sb_gquotino,
-<<<<<<< HEAD
 					0, 0, &gip, 0) == 0)
-=======
-					0, 0, &gip) == 0)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			tempgqip = B_TRUE;
 	}
 	if (uip) {
@@ -909,12 +893,7 @@ xfs_qm_dqrele_all_inodes(
 	uint		 flags)
 {
 	ASSERT(mp->m_quotainfo);
-<<<<<<< HEAD
 	xfs_inode_ag_iterator(mp, xfs_dqrele_inode, flags, XFS_ICI_NO_TAG);
-=======
-	xfs_inode_ag_iterator(mp, xfs_dqrele_inode, flags,
-				XFS_ICI_NO_TAG, 0, NULL);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 /*------------------------------------------------------------------------*/
@@ -1134,14 +1113,10 @@ xfs_qm_internalqcheck_adjust(
 	xfs_ino_t	ino,		/* inode number to get data for */
 	void		__user *buffer,	/* not used */
 	int		ubsize,		/* not used */
-<<<<<<< HEAD
 	void		*private_data,	/* not used */
 	xfs_daddr_t	bno,		/* starting block of inode cluster */
 	int		*ubused,	/* not used */
 	void		*dip,		/* not used */
-=======
-	int		*ubused,	/* not used */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	int		*res)		/* bulkstat result code */
 {
 	xfs_inode_t		*ip;
@@ -1163,11 +1138,7 @@ xfs_qm_internalqcheck_adjust(
 	ipreleased = B_FALSE;
  again:
 	lock_flags = XFS_ILOCK_SHARED;
-<<<<<<< HEAD
 	if ((error = xfs_iget(mp, NULL, ino, 0, lock_flags, &ip, bno))) {
-=======
-	if ((error = xfs_iget(mp, NULL, ino, 0, lock_flags, &ip))) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		*res = BULKSTAT_RV_NOTHING;
 		return (error);
 	}
@@ -1240,7 +1211,6 @@ xfs_qm_internalqcheck(
 		 * Iterate thru all the inodes in the file system,
 		 * adjusting the corresponding dquot counters
 		 */
-<<<<<<< HEAD
 		if ((error = xfs_bulkstat(mp, &lastino, &count,
 				 xfs_qm_internalqcheck_adjust, NULL,
 				 0, NULL, BULKSTAT_FG_IGET, &done))) {
@@ -1250,17 +1220,6 @@ xfs_qm_internalqcheck(
 	if (error) {
 		cmn_err(CE_DEBUG, "Bulkstat returned error 0x%x", error);
 	}
-=======
-		error = xfs_bulkstat(mp, &lastino, &count,
-				 xfs_qm_internalqcheck_adjust,
-				 0, NULL, &done);
-		if (error) {
-			cmn_err(CE_DEBUG, "Bulkstat returned error 0x%x", error);
-			break;
-		}
-	} while (!done);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cmn_err(CE_DEBUG, "Checking results against system dquots");
 	for (i = 0; i < qmtest_hashmask; i++) {
 		h1 = &qmtest_udqtab[i];

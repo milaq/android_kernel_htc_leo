@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #define DRIVER_VERSION "v2.2"
-=======
-#define DRIVER_VERSION "v2.4"
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #define DRIVER_AUTHOR "Bernd Porr, BerndPorr@f2s.com"
 #define DRIVER_DESC "Stirling/ITL USB-DUX -- Bernd.Porr@f2s.com"
 /*
@@ -84,12 +80,6 @@ sampling rate. If you sample two channels you get 4kHz and so on.
  * 2.0:  PWM seems to be stable and is not interfering with the other functions
  * 2.1:  changed PWM API
  * 2.2:  added firmware kernel request to fix an udev problem
-<<<<<<< HEAD
-=======
- * 2.3:  corrected a bug in bulk timeouts which were far too short
- * 2.4:  fixed a bug which causes the driver to hang when it ran out of data.
- *       Thanks to Jan-Matthias Braun and Ian to spot the bug and fix it.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  */
 
@@ -111,13 +101,8 @@ sampling rate. If you sample two channels you get 4kHz and so on.
 
 #define BOARDNAME "usbdux"
 
-<<<<<<< HEAD
 /* timeout for the USB-transfer */
 #define EZTIMEOUT 30
-=======
-/* timeout for the USB-transfer in ms*/
-#define BULK_TIMEOUT 1000
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* constants for "firmware" upload and download */
 #define USBDUXSUB_FIRMWARE 0xA0
@@ -546,10 +531,6 @@ static void usbduxsub_ai_IsocIrq(struct urb *urb)
 		}
 	}
 	/* tell comedi that data is there */
-<<<<<<< HEAD
-=======
-	s->async->events |= COMEDI_CB_BLOCK | COMEDI_CB_EOS;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	comedi_event(this_usbduxsub->comedidev, s);
 }
 
@@ -769,11 +750,7 @@ static int usbduxsub_start(struct usbduxsub *usbduxsub)
 				  /* Length */
 				  1,
 				  /* Timeout */
-<<<<<<< HEAD
 				  EZTIMEOUT);
-=======
-				  BULK_TIMEOUT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (errcode < 0) {
 		dev_err(&usbduxsub->interface->dev,
 			"comedi_: control msg failed (start)\n");
@@ -803,11 +780,7 @@ static int usbduxsub_stop(struct usbduxsub *usbduxsub)
 				  /* Length */
 				  1,
 				  /* Timeout */
-<<<<<<< HEAD
 				  EZTIMEOUT);
-=======
-				  BULK_TIMEOUT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (errcode < 0) {
 		dev_err(&usbduxsub->interface->dev,
 			"comedi_: control msg failed (stop)\n");
@@ -837,11 +810,7 @@ static int usbduxsub_upload(struct usbduxsub *usbduxsub,
 				  /* length */
 				  len,
 				  /* timeout */
-<<<<<<< HEAD
 				  EZTIMEOUT);
-=======
-				  BULK_TIMEOUT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	dev_dbg(&usbduxsub->interface->dev, "comedi_: result=%d\n", errcode);
 	if (errcode < 0) {
 		dev_err(&usbduxsub->interface->dev, "comedi_: upload failed\n");
@@ -1141,11 +1110,7 @@ static int send_dux_commands(struct usbduxsub *this_usbduxsub, int cmd_type)
 			      usb_sndbulkpipe(this_usbduxsub->usbdev,
 					      COMMAND_OUT_EP),
 			      this_usbduxsub->dux_commands, SIZEOFDUXBUFFER,
-<<<<<<< HEAD
 			      &nsent, 10);
-=======
-			      &nsent, BULK_TIMEOUT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (result < 0)
 		dev_err(&this_usbduxsub->interface->dev, "comedi%d: "
 			"could not transmit dux_command to the usb-device, "
@@ -1165,11 +1130,7 @@ static int receive_dux_commands(struct usbduxsub *this_usbduxsub, int command)
 				      usb_rcvbulkpipe(this_usbduxsub->usbdev,
 						      COMMAND_IN_EP),
 				      this_usbduxsub->insnBuffer, SIZEINSNBUF,
-<<<<<<< HEAD
 				      &nrec, 1);
-=======
-				      &nrec, BULK_TIMEOUT);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (result < 0) {
 			dev_err(&this_usbduxsub->interface->dev, "comedi%d: "
 				"insn: USB error %d while receiving DUX command"

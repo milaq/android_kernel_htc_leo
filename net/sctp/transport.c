@@ -108,11 +108,6 @@ static struct sctp_transport *sctp_transport_init(struct sctp_transport *peer,
 			(unsigned long)peer);
 	setup_timer(&peer->hb_timer, sctp_generate_heartbeat_event,
 			(unsigned long)peer);
-<<<<<<< HEAD
-=======
-	setup_timer(&peer->proto_unreach_timer,
-		    sctp_generate_proto_unreach_event, (unsigned long)peer);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Initialize the 64-bit random nonce sent with heartbeat. */
 	get_random_bytes(&peer->hb_nonce, sizeof(peer->hb_nonce));

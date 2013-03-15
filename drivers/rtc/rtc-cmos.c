@@ -36,10 +36,6 @@
 #include <linux/platform_device.h>
 #include <linux/mod_devicetable.h>
 #include <linux/log2.h>
-<<<<<<< HEAD
-=======
-#include <linux/pm.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* this is for "generic access to PC-style RTC" using CMOS_READ/CMOS_WRITE */
 #include <asm-generic/rtc.h>
@@ -727,12 +723,6 @@ cmos_do_probe(struct device *dev, struct resource *ports, int rtc_irq)
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	cmos_rtc.dev = dev;
-	dev_set_drvdata(dev, &cmos_rtc);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	cmos_rtc.rtc = rtc_device_register(driver_name, dev,
 				&cmos_rtc_ops, THIS_MODULE);
 	if (IS_ERR(cmos_rtc.rtc)) {
@@ -740,11 +730,8 @@ cmos_do_probe(struct device *dev, struct resource *ports, int rtc_irq)
 		goto cleanup0;
 	}
 
-<<<<<<< HEAD
 	cmos_rtc.dev = dev;
 	dev_set_drvdata(dev, &cmos_rtc);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	rename_region(ports, dev_name(&cmos_rtc.rtc->dev));
 
 	spin_lock_irq(&rtc_lock);
@@ -867,11 +854,7 @@ static void __exit cmos_do_remove(struct device *dev)
 
 #ifdef	CONFIG_PM
 
-<<<<<<< HEAD
 static int cmos_suspend(struct device *dev, pm_message_t mesg)
-=======
-static int cmos_suspend(struct device *dev)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	struct cmos_rtc	*cmos = dev_get_drvdata(dev);
 	unsigned char	tmp;
@@ -918,11 +901,7 @@ static int cmos_suspend(struct device *dev)
  */
 static inline int cmos_poweroff(struct device *dev)
 {
-<<<<<<< HEAD
 	return cmos_suspend(dev, PMSG_HIBERNATE);
-=======
-	return cmos_suspend(dev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int cmos_resume(struct device *dev)
@@ -969,15 +948,9 @@ static int cmos_resume(struct device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 #else
 #define	cmos_suspend	NULL
 #define	cmos_resume	NULL
-=======
-static SIMPLE_DEV_PM_OPS(cmos_pm_ops, cmos_suspend, cmos_resume);
-
-#else
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 static inline int cmos_poweroff(struct device *dev)
 {
@@ -1113,11 +1086,7 @@ static void __exit cmos_pnp_remove(struct pnp_dev *pnp)
 
 static int cmos_pnp_suspend(struct pnp_dev *pnp, pm_message_t mesg)
 {
-<<<<<<< HEAD
 	return cmos_suspend(&pnp->dev, mesg);
-=======
-	return cmos_suspend(&pnp->dev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static int cmos_pnp_resume(struct pnp_dev *pnp)
@@ -1197,14 +1166,8 @@ static struct platform_driver cmos_platform_driver = {
 	.shutdown	= cmos_platform_shutdown,
 	.driver = {
 		.name		= (char *) driver_name,
-<<<<<<< HEAD
 		.suspend	= cmos_suspend,
 		.resume		= cmos_resume,
-=======
-#ifdef CONFIG_PM
-		.pm		= &cmos_pm_ops,
-#endif
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 };
 

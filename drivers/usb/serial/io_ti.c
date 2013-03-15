@@ -1157,11 +1157,7 @@ static int download_fw(struct edgeport_serial *serial)
 
 			/* Check if we have an old version in the I2C and
 			   update if necessary */
-<<<<<<< HEAD
 			if (download_cur_ver != download_new_ver) {
-=======
-			if (download_cur_ver < download_new_ver) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 				dbg("%s - Update I2C dld from %d.%d to %d.%d",
 				    __func__,
 				    firmware_version->Ver_Major,
@@ -2668,7 +2664,6 @@ cleanup:
 
 static void edge_disconnect(struct usb_serial *serial)
 {
-<<<<<<< HEAD
 	int i;
 	struct edgeport_port *edge_port;
 
@@ -2678,9 +2673,6 @@ static void edge_disconnect(struct usb_serial *serial)
 		edge_port = usb_get_serial_port_data(serial->port[i]);
 		edge_remove_sysfs_attrs(edge_port->port);
 	}
-=======
-	dbg("%s", __func__);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void edge_release(struct usb_serial *serial)
@@ -2935,10 +2927,6 @@ static struct usb_serial_driver edgeport_1port_device = {
 	.disconnect		= edge_disconnect,
 	.release		= edge_release,
 	.port_probe		= edge_create_sysfs_attrs,
-<<<<<<< HEAD
-=======
-	.port_remove		= edge_remove_sysfs_attrs,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.ioctl			= edge_ioctl,
 	.set_termios		= edge_set_termios,
 	.tiocmget		= edge_tiocmget,
@@ -2969,10 +2957,6 @@ static struct usb_serial_driver edgeport_2port_device = {
 	.disconnect		= edge_disconnect,
 	.release		= edge_release,
 	.port_probe		= edge_create_sysfs_attrs,
-<<<<<<< HEAD
-=======
-	.port_remove		= edge_remove_sysfs_attrs,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.ioctl			= edge_ioctl,
 	.set_termios		= edge_set_termios,
 	.tiocmget		= edge_tiocmget,

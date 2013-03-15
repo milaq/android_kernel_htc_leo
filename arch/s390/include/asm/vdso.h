@@ -7,11 +7,7 @@
 #define VDSO32_LBASE	0
 #define VDSO64_LBASE	0
 
-<<<<<<< HEAD
 #define VDSO_VERSION_STRING	LINUX_2.6.26
-=======
-#define VDSO_VERSION_STRING	LINUX_2.6.29
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #ifndef __ASSEMBLY__
 

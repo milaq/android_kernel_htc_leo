@@ -92,10 +92,6 @@ struct snd_usb_caiaqdev {
 	int input_panic, output_panic, warned;
 	char *audio_in_buf, *audio_out_buf;
 	unsigned int samplerates, bpp;
-<<<<<<< HEAD
-=======
-	unsigned long outurb_active_mask;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	struct snd_pcm_substream *sub_playback[MAX_STREAMS];
 	struct snd_pcm_substream *sub_capture[MAX_STREAMS];

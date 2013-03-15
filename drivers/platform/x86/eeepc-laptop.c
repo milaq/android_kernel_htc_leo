@@ -34,10 +34,6 @@
 #include <linux/rfkill.h>
 #include <linux/pci.h>
 #include <linux/pci_hotplug.h>
-<<<<<<< HEAD
-=======
-#include <linux/dmi.h>
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 #define EEEPC_LAPTOP_VERSION	"0.1"
 
@@ -139,11 +135,6 @@ struct eeepc_hotk {
 	acpi_handle handle;		/* the handle of the hotk device */
 	u32 cm_supported;		/* the control methods supported
 					   by this BIOS */
-<<<<<<< HEAD
-=======
-	bool cpufv_disabled;
-	bool hotplug_disabled;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	uint init_flag;			/* Init flags */
 	u16 event_count[128];		/* count for each event */
 	struct input_dev *inputdev;
@@ -260,17 +251,6 @@ MODULE_AUTHOR("Corentin Chary, Eric Cooper");
 MODULE_DESCRIPTION(EEEPC_HOTK_NAME);
 MODULE_LICENSE("GPL");
 
-<<<<<<< HEAD
-=======
-static bool hotplug_disabled;
-
-module_param(hotplug_disabled, bool, 0644);
-MODULE_PARM_DESC(hotplug_disabled,
-		 "Disable hotplug for wireless device. "
-		 "If your laptop need that, please report to "
-		 "acpi4asus-user@lists.sourceforge.net.");
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * ACPI Helpers
  */
@@ -487,11 +467,6 @@ static ssize_t store_cpufv(struct device *dev,
 	struct eeepc_cpufv c;
 	int rv, value;
 
-<<<<<<< HEAD
-=======
-	if (ehotk->cpufv_disabled)
-		return -EPERM;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (get_cpufv(&c))
 		return -ENODEV;
 	rv = parse_arg(buf, count, &value);
@@ -503,41 +478,6 @@ static ssize_t store_cpufv(struct device *dev,
 	return rv;
 }
 
-<<<<<<< HEAD
-=======
-static ssize_t show_cpufv_disabled(struct device *dev,
-			  struct device_attribute *attr,
-			  char *buf)
-{
-	return sprintf(buf, "%d\n", ehotk->cpufv_disabled);
-}
-
-static ssize_t store_cpufv_disabled(struct device *dev,
-			   struct device_attribute *attr,
-			   const char *buf, size_t count)
-{
-	int rv, value;
-
-	rv = parse_arg(buf, count, &value);
-	if (rv < 0)
-		return rv;
-
-	switch (value) {
-	case 0:
-		if (ehotk->cpufv_disabled)
-			pr_warning("cpufv enabled (not officially supported "
-				"on this model)\n");
-		ehotk->cpufv_disabled = false;
-		return rv;
-	case 1:
-		return -EPERM;
-	default:
-		return -EINVAL;
-	}
-}
-
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct device_attribute dev_attr_cpufv = {
 	.attr = {
 		.name = "cpufv",
@@ -553,28 +493,12 @@ static struct device_attribute dev_attr_available_cpufv = {
 	.show   = show_available_cpufv
 };
 
-<<<<<<< HEAD
-=======
-static struct device_attribute dev_attr_cpufv_disabled = {
-	.attr = {
-		.name = "cpufv_disabled",
-		.mode = 0644 },
-	.show   = show_cpufv_disabled,
-	.store  = store_cpufv_disabled
-};
-
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static struct attribute *platform_attributes[] = {
 	&dev_attr_camera.attr,
 	&dev_attr_cardr.attr,
 	&dev_attr_disp.attr,
 	&dev_attr_cpufv.attr,
 	&dev_attr_available_cpufv.attr,
-<<<<<<< HEAD
-=======
-	&dev_attr_cpufv_disabled.attr,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	NULL
 };
 
@@ -640,57 +564,6 @@ static int eeepc_setkeycode(struct input_dev *dev, int scancode, int keycode)
 	return -EINVAL;
 }
 
-<<<<<<< HEAD
-=======
-static void eeepc_dmi_check(void)
-{
-	const char *model;
-
-	model = dmi_get_system_info(DMI_PRODUCT_NAME);
-	if (!model)
-		return;
-
-	/*
-	 * Blacklist for setting cpufv (cpu speed).
-	 *
-	 * EeePC 4G ("701") implements CFVS, but it is not supported
-	 * by the pre-installed OS, and the original option to change it
-	 * in the BIOS setup screen was removed in later versions.
-	 *
-	 * Judging by the lack of "Super Hybrid Engine" on Asus product pages,
-	 * this applies to all "701" models (4G/4G Surf/2G Surf).
-	 *
-	 * So Asus made a deliberate decision not to support it on this model.
-	 * We have several reports that using it can cause the system to hang
-	 *
-	 * The hang has also been reported on a "702" (Model name "8G"?).
-	 *
-	 * We avoid dmi_check_system() / dmi_match(), because they use
-	 * substring matching.  We don't want to affect the "701SD"
-	 * and "701SDX" models, because they do support S.H.E.
-	 */
-	if (strcmp(model, "701") == 0 || strcmp(model, "702") == 0) {
-		ehotk->cpufv_disabled = true;
-		pr_info("model %s does not officially support setting cpu "
-			"speed\n", model);
-		pr_info("cpufv disabled to avoid instability\n");
-	}
-
-	/*
-	 * Blacklist for wlan hotplug
-	 *
-	 * Eeepc 1005HA doesn't work like others models and don't need the
-	 * hotplug code. In fact, current hotplug code seems to unplug another
-	 * device...
-	 */
-	if (strcmp(model, "1005HA") == 0 || strcmp(model, "1201N") == 0 ||
-	    strcmp(model, "1005PE") == 0) {
-		ehotk->hotplug_disabled = true;
-		pr_info("wlan hotplug disabled\n");
-	}
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static void cmsg_quirk(int cm, const char *name)
 {
 	int dummy;
@@ -776,11 +649,6 @@ static void eeepc_rfkill_hotplug(void)
 	struct pci_dev *dev;
 	struct pci_bus *bus;
 	bool blocked = eeepc_wlan_rfkill_blocked();
-<<<<<<< HEAD
-=======
-	bool absent;
-	u32 l;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (ehotk->wlan_rfkill)
 		rfkill_set_sw_state(ehotk->wlan_rfkill, blocked);
@@ -794,25 +662,6 @@ static void eeepc_rfkill_hotplug(void)
 			goto out_unlock;
 		}
 
-<<<<<<< HEAD
-=======
-		if (pci_bus_read_config_dword(bus, 0, PCI_VENDOR_ID, &l)) {
-			pr_err("Unable to read PCI config space?\n");
-			goto out_unlock;
-		}
-		absent = (l == 0xffffffff);
-
-		if (blocked != absent) {
-			pr_warning("BIOS says wireless lan is %s, "
-					"but the pci device is %s\n",
-				blocked ? "blocked" : "unblocked",
-				absent ? "absent" : "present");
-			pr_warning("skipped wireless hotplug as probably "
-					"inappropriate for this model\n");
-			goto out_unlock;
-		}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (!blocked) {
 			dev = pci_get_slot(bus, 0);
 			if (dev) {
@@ -1246,12 +1095,6 @@ static int eeepc_rfkill_init(struct device *dev)
 	if (result && result != -ENODEV)
 		goto exit;
 
-<<<<<<< HEAD
-=======
-	if (ehotk->hotplug_disabled)
-		return 0;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	result = eeepc_setup_pci_hotplug();
 	/*
 	 * If we get -EBUSY then something else is handling the PCI hotplug -
@@ -1365,13 +1208,6 @@ static int __devinit eeepc_hotk_add(struct acpi_device *device)
 	device->driver_data = ehotk;
 	ehotk->device = device;
 
-<<<<<<< HEAD
-=======
-	ehotk->hotplug_disabled = hotplug_disabled;
-
-	eeepc_dmi_check();
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	result = eeepc_hotk_check();
 	if (result)
 		goto fail_platform_driver;

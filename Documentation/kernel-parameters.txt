@@ -241,11 +241,7 @@ and is between 256 and 4096 characters. It is defined in the file
 
 	acpi_sleep=	[HW,ACPI] Sleep options
 			Format: { s3_bios, s3_mode, s3_beep, s4_nohwsig,
-<<<<<<< HEAD
 				  old_ordering, s4_nonvs }
-=======
-				  old_ordering, s4_nonvs, sci_force_enable }
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			See Documentation/power/video.txt for information on
 			s3_bios and s3_mode.
 			s3_beep is for debugging; it makes the PC's speaker beep
@@ -258,12 +254,6 @@ and is between 256 and 4096 characters. It is defined in the file
 			of _PTS is used by default).
 			s4_nonvs prevents the kernel from saving/restoring the
 			ACPI NVS memory during hibernation.
-<<<<<<< HEAD
-=======
-			sci_force_enable causes the kernel to set SCI_EN directly
-			on resume from S1/S3 (which is against the ACPI spec,
-			but some broken systems don't work without it).
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	acpi_use_timer_override [HW,ACPI]
 			Use timer override. For some broken Nvidia NF5 boards
@@ -885,10 +875,6 @@ and is between 256 and 4096 characters. It is defined in the file
 	i8042.panicblink=
 			[HW] Frequency with which keyboard LEDs should blink
 			     when kernel panics (default is 0.5 sec)
-<<<<<<< HEAD
-=======
-	i8042.notimeout	[HW] Ignore timeout condition signalled by conroller
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	i8042.reset	[HW] Reset the controller during init and cleanup
 	i8042.unlock	[HW] Unlock (ignore) the keylock
 
@@ -1735,14 +1721,6 @@ and is between 256 and 4096 characters. It is defined in the file
 
 	noresidual	[PPC] Don't use residual data on PReP machines.
 
-<<<<<<< HEAD
-=======
-	nordrand	[X86] Disable the direct use of the RDRAND
-			instruction even if it is supported by the
-			processor.  RDRAND is still available to user
-			space applications.
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	noresume	[SWSUSP] Disables resume and restores original swap
 			space.
 
@@ -2596,13 +2574,6 @@ and is between 256 and 4096 characters. It is defined in the file
 			disables clocksource verification at runtime.
 			Used to enable high-resolution timer mode on older
 			hardware, and in virtualized environment.
-<<<<<<< HEAD
-=======
-			[x86] noirqtime: Do not use TSC to do irq accounting.
-			Used to run time disable IRQ_TIME_ACCOUNTING on any
-			platforms where RDTSC is slow and this accounting
-			can add overhead.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	turbografx.map[2|3]=	[HW,JOY]
 			TurboGraFX parallel port interface
@@ -2697,16 +2668,6 @@ and is between 256 and 4096 characters. It is defined in the file
 					medium is write-protected).
 			Example: quirks=0419:aaf5:rl,0421:0433:rc
 
-<<<<<<< HEAD
-=======
-	userpte=
-			[X86] Flags controlling user PTE allocations.
-
-				nohigh = do not allocate PTE pages in
-					HIGHMEM regardless of setting
-					of CONFIG_HIGHPTE.
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	vdso=		[X86,SH]
 			vdso=2: enable compat VDSO (default with COMPAT_VDSO)
 			vdso=1: enable VDSO (default)

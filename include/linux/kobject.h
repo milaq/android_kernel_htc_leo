@@ -106,11 +106,7 @@ extern char *kobject_get_path(struct kobject *kobj, gfp_t flag);
 
 struct kobj_type {
 	void (*release)(struct kobject *kobj);
-<<<<<<< HEAD
 	const struct sysfs_ops *sysfs_ops;
-=======
-	struct sysfs_ops *sysfs_ops;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	struct attribute **default_attrs;
 };
 

@@ -74,13 +74,8 @@ static struct nla_policy nl80211_policy[NL80211_ATTR_MAX+1] __read_mostly = {
 	[NL80211_ATTR_IFINDEX] = { .type = NLA_U32 },
 	[NL80211_ATTR_IFNAME] = { .type = NLA_NUL_STRING, .len = IFNAMSIZ-1 },
 
-<<<<<<< HEAD
 	[NL80211_ATTR_MAC] = { .type = NLA_BINARY, .len = ETH_ALEN },
 	[NL80211_ATTR_PREV_BSSID] = { .type = NLA_BINARY, .len = ETH_ALEN },
-=======
-	[NL80211_ATTR_MAC] = { .len = ETH_ALEN },
-	[NL80211_ATTR_PREV_BSSID] = { .len = ETH_ALEN },
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	[NL80211_ATTR_KEY] = { .type = NLA_NESTED, },
 	[NL80211_ATTR_KEY_DATA] = { .type = NLA_BINARY,
@@ -1567,7 +1562,6 @@ static int parse_station_flags(struct genl_info *info,
 	return 0;
 }
 
-<<<<<<< HEAD
 static u16 nl80211_calculate_bitrate(struct rate_info *rate)
 {
 	int modulation, streams, bitrate;
@@ -1601,8 +1595,6 @@ static u16 nl80211_calculate_bitrate(struct rate_info *rate)
 	return (bitrate + 50000) / 100000;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
 				int flags, struct net_device *dev,
 				u8 *mac_addr, struct station_info *sinfo)
@@ -1649,13 +1641,8 @@ static int nl80211_send_station(struct sk_buff *msg, u32 pid, u32 seq,
 		if (!txrate)
 			goto nla_put_failure;
 
-<<<<<<< HEAD
 		/* nl80211_calculate_bitrate will return 0 for mcs >= 32 */
 		bitrate = nl80211_calculate_bitrate(&sinfo->txrate);
-=======
-		/* cfg80211_calculate_bitrate will return 0 for mcs >= 32 */
-		bitrate = cfg80211_calculate_bitrate(&sinfo->txrate);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		if (bitrate > 0)
 			NLA_PUT_U16(msg, NL80211_RATE_INFO_BITRATE, bitrate);
 
@@ -3041,21 +3028,12 @@ static int nl80211_trigger_scan(struct sk_buff *skb, struct genl_info *info)
 	i = 0;
 	if (info->attrs[NL80211_ATTR_SCAN_SSIDS]) {
 		nla_for_each_nested(attr, info->attrs[NL80211_ATTR_SCAN_SSIDS], tmp) {
-<<<<<<< HEAD
 			if (request->ssids[i].ssid_len > IEEE80211_MAX_SSID_LEN) {
 				err = -EINVAL;
 				goto out_free;
 			}
 			memcpy(request->ssids[i].ssid, nla_data(attr), nla_len(attr));
 			request->ssids[i].ssid_len = nla_len(attr);
-=======
-			if (nla_len(attr) > IEEE80211_MAX_SSID_LEN) {
-				err = -EINVAL;
-				goto out_free;
-			}
-			request->ssids[i].ssid_len = nla_len(attr);
-			memcpy(request->ssids[i].ssid, nla_data(attr), nla_len(attr));
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			i++;
 		}
 	}
@@ -3419,18 +3397,9 @@ static int nl80211_crypto_settings(struct genl_info *info,
 		if (len % sizeof(u32))
 			return -EINVAL;
 
-<<<<<<< HEAD
 		memcpy(settings->akm_suites, data, len);
 
 		for (i = 0; i < settings->n_ciphers_pairwise; i++)
-=======
-		if (settings->n_akm_suites > NL80211_MAX_NR_AKM_SUITES)
-			return -EINVAL;
-
-		memcpy(settings->akm_suites, data, len);
-
-		for (i = 0; i < settings->n_akm_suites; i++)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			if (!nl80211_valid_akm_suite(settings->akm_suites[i]))
 				return -EINVAL;
 	}

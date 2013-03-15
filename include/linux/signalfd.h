@@ -60,26 +60,13 @@ static inline void signalfd_notify(struct task_struct *tsk, int sig)
 		wake_up(&tsk->sighand->signalfd_wqh);
 }
 
-<<<<<<< HEAD
-=======
-extern void signalfd_cleanup(struct sighand_struct *sighand);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #else /* CONFIG_SIGNALFD */
 
 static inline void signalfd_notify(struct task_struct *tsk, int sig) { }
 
-<<<<<<< HEAD
-=======
-static inline void signalfd_cleanup(struct sighand_struct *sighand) { }
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_SIGNALFD */
 
 #endif /* __KERNEL__ */
 
 #endif /* _LINUX_SIGNALFD_H */
-<<<<<<< HEAD
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

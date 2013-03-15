@@ -673,16 +673,10 @@ xfs_ioc_bulkstat(
 		error = xfs_bulkstat_single(mp, &inlast,
 						bulkreq.ubuffer, &done);
 	else	/* XFS_IOC_FSBULKSTAT */
-<<<<<<< HEAD
 		error = xfs_bulkstat(mp, &inlast, &count,
 			(bulkstat_one_pf)xfs_bulkstat_one, NULL,
 			sizeof(xfs_bstat_t), bulkreq.ubuffer,
 			BULKSTAT_FG_QUICK, &done);
-=======
-		error = xfs_bulkstat(mp, &inlast, &count, xfs_bulkstat_one,
-				     sizeof(xfs_bstat_t), bulkreq.ubuffer,
-				     &done);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (error)
 		return -error;
@@ -704,7 +698,6 @@ xfs_ioc_fsgeometry_v1(
 	xfs_mount_t		*mp,
 	void			__user *arg)
 {
-<<<<<<< HEAD
 	xfs_fsop_geom_v1_t	fsgeo;
 	int			error;
 
@@ -713,21 +706,6 @@ xfs_ioc_fsgeometry_v1(
 		return -error;
 
 	if (copy_to_user(arg, &fsgeo, sizeof(fsgeo)))
-=======
-	xfs_fsop_geom_t         fsgeo;
-	int			error;
-
-	error = xfs_fs_geometry(mp, &fsgeo, 3);
-	if (error)
-		return -error;
-
-	/*
-	 * Caller should have passed an argument of type
-	 * xfs_fsop_geom_v1_t.  This is a proper subset of the
-	 * xfs_fsop_geom_t that xfs_fs_geometry() fills in.
-	 */
-	if (copy_to_user(arg, &fsgeo, sizeof(xfs_fsop_geom_v1_t)))
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -XFS_ERROR(EFAULT);
 	return 0;
 }
@@ -811,11 +789,6 @@ xfs_ioc_fsgetxattr(
 {
 	struct fsxattr		fa;
 
-<<<<<<< HEAD
-=======
-	memset(&fa, 0, sizeof(struct fsxattr));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	xfs_ilock(ip, XFS_ILOCK_SHARED);
 	fa.fsx_xflags = xfs_ip2xflags(ip);
 	fa.fsx_extsize = ip->i_d.di_extsize << ip->i_mount->m_sb.sb_blocklog;

@@ -195,7 +195,6 @@ __account_scheduler_latency(struct task_struct *tsk, int usecs, int inter)
 
 	account_global_scheduler_latency(tsk, &lat);
 
-<<<<<<< HEAD
 	/*
 	 * short term hack; if we're > 32 we stop; future we recycle:
 	 */
@@ -204,9 +203,6 @@ __account_scheduler_latency(struct task_struct *tsk, int usecs, int inter)
 		goto out_unlock;
 
 	for (i = 0; i < LT_SAVECOUNT; i++) {
-=======
-	for (i = 0; i < tsk->latency_record_count; i++) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		struct latency_record *mylat;
 		int same = 1;
 
@@ -232,19 +228,8 @@ __account_scheduler_latency(struct task_struct *tsk, int usecs, int inter)
 		}
 	}
 
-<<<<<<< HEAD
 	/* Allocated a new one: */
 	i = tsk->latency_record_count;
-=======
-	/*
-	 * short term hack; if we're > 32 we stop; future we recycle:
-	 */
-	if (tsk->latency_record_count >= LT_SAVECOUNT)
-		goto out_unlock;
-
-	/* Allocated a new one: */
-	i = tsk->latency_record_count++;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	memcpy(&tsk->latency_record[i], &lat, sizeof(struct latency_record));
 
 out_unlock:

@@ -45,17 +45,10 @@
 
 #define MAX_ADDR_STR 32
 
-<<<<<<< HEAD
 static struct media *media_list = NULL;
 static u32 media_count = 0;
 
 struct bearer *tipc_bearers = NULL;
-=======
-static struct media media_list[MAX_MEDIA];
-static u32 media_count = 0;
-
-struct bearer tipc_bearers[MAX_BEARERS];
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /**
  * media_name_valid - validate media name
@@ -115,17 +108,9 @@ int  tipc_register_media(u32 media_type,
 	int res = -EINVAL;
 
 	write_lock_bh(&tipc_net_lock);
-<<<<<<< HEAD
 	if (!media_list)
 		goto exit;
 
-=======
-
-	if (tipc_mode != TIPC_NET_MODE) {
-		warn("Media <%s> rejected, not in networked mode yet\n", name);
-		goto exit;
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!media_name_valid(name)) {
 		warn("Media <%s> rejected, illegal name\n", name);
 		goto exit;
@@ -675,7 +660,6 @@ int tipc_disable_bearer(const char *name)
 
 
 
-<<<<<<< HEAD
 int tipc_bearer_init(void)
 {
 	int res;
@@ -696,18 +680,13 @@ int tipc_bearer_init(void)
 	return res;
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 void tipc_bearer_stop(void)
 {
 	u32 i;
 
-<<<<<<< HEAD
 	if (!tipc_bearers)
 		return;
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	for (i = 0; i < MAX_BEARERS; i++) {
 		if (tipc_bearers[i].active)
 			tipc_bearers[i].publ.blocked = 1;
@@ -716,13 +695,10 @@ void tipc_bearer_stop(void)
 		if (tipc_bearers[i].active)
 			bearer_disable(tipc_bearers[i].publ.name);
 	}
-<<<<<<< HEAD
 	kfree(tipc_bearers);
 	kfree(media_list);
 	tipc_bearers = NULL;
 	media_list = NULL;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	media_count = 0;
 }
 

@@ -2692,13 +2692,6 @@ static int bond_arp_rcv(struct sk_buff *skb, struct net_device *dev, struct pack
 	if (!slave || !slave_do_arp_validate(bond, slave))
 		goto out_unlock;
 
-<<<<<<< HEAD
-=======
-	skb = skb_share_check(skb, GFP_ATOMIC);
-	if (!skb)
-		goto out_unlock;
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!pskb_may_pull(skb, arp_hdr_len(dev)))
 		goto out_unlock;
 

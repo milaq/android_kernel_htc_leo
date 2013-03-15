@@ -706,11 +706,7 @@ SYSCALL_DEFINE4(mq_open, const char __user *, u_name, int, oflag, mode_t, mode,
 	dentry = lookup_one_len(name, ipc_ns->mq_mnt->mnt_root, strlen(name));
 	if (IS_ERR(dentry)) {
 		error = PTR_ERR(dentry);
-<<<<<<< HEAD
 		goto out_err;
-=======
-		goto out_putfd;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	}
 	mntget(ipc_ns->mq_mnt);
 
@@ -748,10 +744,7 @@ out:
 	mntput(ipc_ns->mq_mnt);
 out_putfd:
 	put_unused_fd(fd);
-<<<<<<< HEAD
 out_err:
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	fd = error;
 out_upsem:
 	mutex_unlock(&ipc_ns->mq_mnt->mnt_root->d_inode->i_mutex);

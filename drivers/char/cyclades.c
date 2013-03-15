@@ -2798,7 +2798,6 @@ cy_ioctl(struct tty_struct *tty, struct file *file,
 		 * NB: both 1->0 and 0->1 transitions are counted except for
 		 *     RI where only 0->1 is counted.
 		 */
-<<<<<<< HEAD
 	case TIOCGICOUNT: {
 		struct serial_icounter_struct sic = { };
 
@@ -2822,8 +2821,6 @@ cy_ioctl(struct tty_struct *tty, struct file *file,
 			ret_val = -EFAULT;
 		break;
 	}
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	default:
 		ret_val = -ENOIOCTLCMD;
 	}
@@ -2835,34 +2832,6 @@ cy_ioctl(struct tty_struct *tty, struct file *file,
 	return ret_val;
 }				/* cy_ioctl */
 
-<<<<<<< HEAD
-=======
-static int cy_get_icount(struct tty_struct *tty,
-				struct serial_icounter_struct *sic)
-{
-	struct cyclades_port *info = tty->driver_data;
-	struct cyclades_icount cnow;	/* Used to snapshot */
-	unsigned long flags;
-
-	spin_lock_irqsave(&info->card->card_lock, flags);
-	cnow = info->icount;
-	spin_unlock_irqrestore(&info->card->card_lock, flags);
-
-	sic->cts = cnow.cts;
-	sic->dsr = cnow.dsr;
-	sic->rng = cnow.rng;
-	sic->dcd = cnow.dcd;
-	sic->rx = cnow.rx;
-	sic->tx = cnow.tx;
-	sic->frame = cnow.frame;
-	sic->overrun = cnow.overrun;
-	sic->parity = cnow.parity;
-	sic->brk = cnow.brk;
-	sic->buf_overrun = cnow.buf_overrun;
-	return 0;
-}
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /*
  * This routine allows the tty driver to be notified when
  * device's termios settings have changed.  Note that a
@@ -4129,10 +4098,6 @@ static const struct tty_operations cy_ops = {
 	.wait_until_sent = cy_wait_until_sent,
 	.tiocmget = cy_tiocmget,
 	.tiocmset = cy_tiocmset,
-<<<<<<< HEAD
-=======
-	.get_icount = cy_get_icount,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	.proc_fops = &cyclades_proc_fops,
 };
 

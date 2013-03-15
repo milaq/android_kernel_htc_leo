@@ -214,11 +214,7 @@ static inline int ccid_hc_rx_getsockopt(struct ccid *ccid, struct sock *sk,
 					u32 __user *optval, int __user *optlen)
 {
 	int rc = -ENOPROTOOPT;
-<<<<<<< HEAD
 	if (ccid->ccid_ops->ccid_hc_rx_getsockopt != NULL)
-=======
-	if (ccid != NULL && ccid->ccid_ops->ccid_hc_rx_getsockopt != NULL)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rc = ccid->ccid_ops->ccid_hc_rx_getsockopt(sk, optname, len,
 						 optval, optlen);
 	return rc;
@@ -229,11 +225,7 @@ static inline int ccid_hc_tx_getsockopt(struct ccid *ccid, struct sock *sk,
 					u32 __user *optval, int __user *optlen)
 {
 	int rc = -ENOPROTOOPT;
-<<<<<<< HEAD
 	if (ccid->ccid_ops->ccid_hc_tx_getsockopt != NULL)
-=======
-	if (ccid != NULL && ccid->ccid_ops->ccid_hc_tx_getsockopt != NULL)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		rc = ccid->ccid_ops->ccid_hc_tx_getsockopt(sk, optname, len,
 						 optval, optlen);
 	return rc;

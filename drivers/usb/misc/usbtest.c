@@ -1382,10 +1382,7 @@ static void iso_callback (struct urb *urb)
 			break;
 		}
 	}
-<<<<<<< HEAD
 	simple_free_urb (urb);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	ctx->pending--;
 	if (ctx->pending == 0) {
@@ -1502,10 +1499,6 @@ test_iso_queue (struct usbtest_dev *dev, struct usbtest_param *param,
 			}
 
 			simple_free_urb (urbs [i]);
-<<<<<<< HEAD
-=======
-			urbs[i] = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			context.pending--;
 			context.submit_error = 1;
 			break;
@@ -1515,13 +1508,6 @@ test_iso_queue (struct usbtest_dev *dev, struct usbtest_param *param,
 
 	wait_for_completion (&context.done);
 
-<<<<<<< HEAD
-=======
-	for (i = 0; i < param->sglen; i++) {
-		if (urbs[i])
-			simple_free_urb(urbs[i]);
-	}
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	/*
 	 * Isochronous transfers are expected to fail sometimes.  As an
 	 * arbitrary limit, we will report an error if any submissions

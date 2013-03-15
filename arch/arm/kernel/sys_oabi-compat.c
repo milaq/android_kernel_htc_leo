@@ -311,11 +311,7 @@ asmlinkage long sys_oabi_semtimedop(int semid,
 	long err;
 	int i;
 
-<<<<<<< HEAD
 	if (nsops < 1)
-=======
-	if (nsops < 1 || nsops > SEMOPM)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return -EINVAL;
 	sops = kmalloc(sizeof(*sops) * nsops, GFP_KERNEL);
 	if (!sops)

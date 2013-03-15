@@ -1033,11 +1033,7 @@ init_cifs(void)
 		goto out_unregister_filesystem;
 #endif
 #ifdef CONFIG_CIFS_DFS_UPCALL
-<<<<<<< HEAD
 	rc = register_key_type(&key_type_dns_resolver);
-=======
-	rc = cifs_init_dns_resolver();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (rc)
 		goto out_unregister_key_type;
 #endif
@@ -1049,11 +1045,7 @@ init_cifs(void)
 
  out_unregister_resolver_key:
 #ifdef CONFIG_CIFS_DFS_UPCALL
-<<<<<<< HEAD
 	unregister_key_type(&key_type_dns_resolver);
-=======
-	cifs_exit_dns_resolver();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  out_unregister_key_type:
 #endif
 #ifdef CONFIG_CIFS_UPCALL
@@ -1079,11 +1071,7 @@ exit_cifs(void)
 	cifs_proc_clean();
 #ifdef CONFIG_CIFS_DFS_UPCALL
 	cifs_dfs_release_automount_timer();
-<<<<<<< HEAD
 	unregister_key_type(&key_type_dns_resolver);
-=======
-	cifs_exit_dns_resolver();
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif
 #ifdef CONFIG_CIFS_UPCALL
 	unregister_key_type(&cifs_spnego_key_type);

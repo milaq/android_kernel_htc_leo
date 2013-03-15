@@ -228,10 +228,7 @@ ipt_get_target(struct ipt_entry *e)
 	return (void *)e + e->target_offset;
 }
 
-<<<<<<< HEAD
 #ifndef __KERNEL__
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* fn returns 0 to continue iteration */
 #define IPT_MATCH_ITERATE(e, fn, args...) \
 	XT_MATCH_ITERATE(struct ipt_entry, e, fn, ## args)
@@ -239,10 +236,7 @@ ipt_get_target(struct ipt_entry *e)
 /* fn returns 0 to continue iteration */
 #define IPT_ENTRY_ITERATE(entries, size, fn, args...) \
 	XT_ENTRY_ITERATE(struct ipt_entry, entries, size, fn, ## args)
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  *	Main firewall chains definitions and global var's definitions.
@@ -255,11 +249,7 @@ extern void ipt_init(void) __init;
 extern struct xt_table *ipt_register_table(struct net *net,
 					   const struct xt_table *table,
 					   const struct ipt_replace *repl);
-<<<<<<< HEAD
 extern void ipt_unregister_table(struct net *net, struct xt_table *table);
-=======
-extern void ipt_unregister_table(struct xt_table *table);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Standard entry. */
 struct ipt_standard
@@ -302,10 +292,7 @@ struct ipt_error
 	.target.errorname = "ERROR",					       \
 }
 
-<<<<<<< HEAD
 extern void *ipt_alloc_initial_table(const struct xt_table *);
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 extern unsigned int ipt_do_table(struct sk_buff *skb,
 				 unsigned int hook,
 				 const struct net_device *in,
@@ -337,22 +324,6 @@ compat_ipt_get_target(struct compat_ipt_entry *e)
 
 #define COMPAT_IPT_ALIGN(s) 	COMPAT_XT_ALIGN(s)
 
-<<<<<<< HEAD
-=======
-/* fn returns 0 to continue iteration */
-#define COMPAT_IPT_MATCH_ITERATE(e, fn, args...) \
-	XT_MATCH_ITERATE(struct compat_ipt_entry, e, fn, ## args)
-
-/* fn returns 0 to continue iteration */
-#define COMPAT_IPT_ENTRY_ITERATE(entries, size, fn, args...) \
-	XT_ENTRY_ITERATE(struct compat_ipt_entry, entries, size, fn, ## args)
-
-/* fn returns 0 to continue iteration */
-#define COMPAT_IPT_ENTRY_ITERATE_CONTINUE(entries, size, n, fn, args...) \
-	XT_ENTRY_ITERATE_CONTINUE(struct compat_ipt_entry, entries, size, n, \
-				  fn, ## args)
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* CONFIG_COMPAT */
 #endif /*__KERNEL__*/
 #endif /* _IPTABLES_H */

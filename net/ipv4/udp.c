@@ -440,15 +440,9 @@ void __udp4_lib_err(struct sk_buff *skb, u32 info, struct udp_table *udptable)
 	if (!inet->recverr) {
 		if (!harderr || sk->sk_state != TCP_ESTABLISHED)
 			goto out;
-<<<<<<< HEAD
 	} else {
 		ip_icmp_error(sk, skb, err, uh->dest, info, (u8 *)(uh+1));
 	}
-=======
-	} else
-		ip_icmp_error(sk, skb, err, uh->dest, info, (u8 *)(uh+1));
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	sk->sk_err = err;
 	sk->sk_error_report(sk);
 out:

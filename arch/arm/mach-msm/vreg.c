@@ -61,7 +61,6 @@ static struct vreg vregs[] = {
 	VREG("s3",	29),
 	VREG("rfubm",	30),
 	VREG("ncp",	31),
-<<<<<<< HEAD
 #if defined(CONFIG_ARCH_MSM7X30)
 	VREG("gp7",	32),
 	VREG("gp8",	33),
@@ -81,8 +80,6 @@ static struct vreg vregs[] = {
 	VREG("lvsw0",	47),
 	VREG("lvsw1",	48),
 #endif
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 };
 
 struct vreg *vreg_get(struct device *dev, const char *id)
@@ -106,19 +103,11 @@ int vreg_enable(struct vreg *vreg)
 	return msm_proc_comm(PCOM_VREG_SWITCH, &id, &enable);
 }
 
-<<<<<<< HEAD
 int vreg_disable(struct vreg *vreg)
 {
 	unsigned id = vreg->id;
 	unsigned enable = 0;
 	return msm_proc_comm(PCOM_VREG_SWITCH, &id, &enable);
-=======
-void vreg_disable(struct vreg *vreg)
-{
-	unsigned id = vreg->id;
-	unsigned enable = 0;
-	msm_proc_comm(PCOM_VREG_SWITCH, &id, &enable);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 int vreg_set_level(struct vreg *vreg, unsigned mv)

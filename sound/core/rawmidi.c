@@ -530,23 +530,13 @@ static int snd_rawmidi_release(struct inode *inode, struct file *file)
 {
 	struct snd_rawmidi_file *rfile;
 	struct snd_rawmidi *rmidi;
-<<<<<<< HEAD
-=======
-	struct module *module;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	rfile = file->private_data;
 	rmidi = rfile->rmidi;
 	rawmidi_release_priv(rfile);
 	kfree(rfile);
-<<<<<<< HEAD
 	snd_card_file_remove(rmidi->card, file);
 	module_put(rmidi->card->module);
-=======
-	module = rmidi->card->module;
-	snd_card_file_remove(rmidi->card, file);
-	module_put(module);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return 0;
 }
 

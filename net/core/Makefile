@@ -3,11 +3,7 @@
 #
 
 obj-y := sock.o request_sock.o skbuff.o iovec.o datagram.o stream.o scm.o \
-<<<<<<< HEAD
 	 gen_stats.o gen_estimator.o net_namespace.o
-=======
-	 gen_stats.o gen_estimator.o net_namespace.o secure_seq.o
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 obj-$(CONFIG_SYSCTL) += sysctl_net_core.o
 obj-$(CONFIG_HAS_DMA) += skb_dma_map.o

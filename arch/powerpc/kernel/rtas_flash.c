@@ -93,17 +93,12 @@ struct flash_block_list {
 	struct flash_block_list *next;
 	struct flash_block blocks[FLASH_BLOCKS_PER_NODE];
 };
-<<<<<<< HEAD
 struct flash_block_list_header { /* just the header of flash_block_list */
 	unsigned long num_blocks;
 	struct flash_block_list *next;
 };
 
 static struct flash_block_list_header rtas_firmware_flash_list = {0, NULL};
-=======
-
-static struct flash_block_list *rtas_firmware_flash_list;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Use slab cache to guarantee 4k alignment */
 static struct kmem_cache *flash_block_cache = NULL;
@@ -112,23 +107,13 @@ static struct kmem_cache *flash_block_cache = NULL;
 
 /* Local copy of the flash block list.
  * We only allow one open of the flash proc file and create this
-<<<<<<< HEAD
  * list as we go.  This list will be put in the
  * rtas_firmware_flash_list var once it is fully read.
-=======
- * list as we go.  The rtas_firmware_flash_list varable will be
- * set once the data is fully read.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  *
  * For convenience as we build the list we use virtual addrs,
  * we do not fill in the version number, and the length field
  * is treated as the number of entries currently in the block
-<<<<<<< HEAD
  * (i.e. not a byte count).  This is all fixed on release.
-=======
- * (i.e. not a byte count).  This is all fixed when calling
- * the flash routine.
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  */
 
 /* Status int must be first member of struct */
@@ -215,26 +200,16 @@ static int rtas_flash_release(struct inode *inode, struct file *file)
 	if (uf->flist) {    
 		/* File was opened in write mode for a new flash attempt */
 		/* Clear saved list */
-<<<<<<< HEAD
 		if (rtas_firmware_flash_list.next) {
 			free_flash_list(rtas_firmware_flash_list.next);
 			rtas_firmware_flash_list.next = NULL;
-=======
-		if (rtas_firmware_flash_list) {
-			free_flash_list(rtas_firmware_flash_list);
-			rtas_firmware_flash_list = NULL;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		}
 
 		if (uf->status != FLASH_AUTH)  
 			uf->status = flash_list_valid(uf->flist);
 
 		if (uf->status == FLASH_IMG_READY) 
-<<<<<<< HEAD
 			rtas_firmware_flash_list.next = uf->flist;
-=======
-			rtas_firmware_flash_list = uf->flist;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		else
 			free_flash_list(uf->flist);
 
@@ -617,11 +592,7 @@ static void rtas_flash_firmware(int reboot_type)
 	unsigned long rtas_block_list;
 	int i, status, update_token;
 
-<<<<<<< HEAD
 	if (rtas_firmware_flash_list.next == NULL)
-=======
-	if (rtas_firmware_flash_list == NULL)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;		/* nothing to do */
 
 	if (reboot_type != SYS_RESTART) {
@@ -638,7 +609,6 @@ static void rtas_flash_firmware(int reboot_type)
 		return;
 	}
 
-<<<<<<< HEAD
 	/* NOTE: the "first" block list is a global var with no data
 	 * blocks in the kernel data segment.  We do this because
 	 * we want to ensure this block_list addr is under 4GB.
@@ -648,30 +618,11 @@ static void rtas_flash_firmware(int reboot_type)
 	rtas_block_list = virt_to_abs(flist);
 	if (rtas_block_list >= 4UL*1024*1024*1024) {
 		printk(KERN_ALERT "FLASH: kernel bug...flash list header addr above 4GB\n");
-=======
-	/*
-	 * NOTE: the "first" block must be under 4GB, so we create
-	 * an entry with no data blocks in the reserved buffer in
-	 * the kernel data segment.
-	 */
-	spin_lock(&rtas_data_buf_lock);
-	flist = (struct flash_block_list *)&rtas_data_buf[0];
-	flist->num_blocks = 0;
-	flist->next = rtas_firmware_flash_list;
-	rtas_block_list = virt_to_abs(flist);
-	if (rtas_block_list >= 4UL*1024*1024*1024) {
-		printk(KERN_ALERT "FLASH: kernel bug...flash list header addr above 4GB\n");
-		spin_unlock(&rtas_data_buf_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return;
 	}
 
 	printk(KERN_ALERT "FLASH: preparing saved firmware image for flash\n");
 	/* Update the block_list in place. */
-<<<<<<< HEAD
-=======
-	rtas_firmware_flash_list = NULL; /* too hard to backout on error */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	image_size = 0;
 	for (f = flist; f; f = next) {
 		/* Translate data addrs to absolute */
@@ -712,10 +663,6 @@ static void rtas_flash_firmware(int reboot_type)
 		printk(KERN_ALERT "FLASH: unknown flash return code %d\n", status);
 		break;
 	}
-<<<<<<< HEAD
-=======
-	spin_unlock(&rtas_data_buf_lock);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 static void remove_flash_pde(struct proc_dir_entry *dp)

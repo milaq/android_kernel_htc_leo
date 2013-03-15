@@ -1207,11 +1207,7 @@ xfs_mountfs(
 	 * Get and sanity-check the root inode.
 	 * Save the pointer to it in the mount structure.
 	 */
-<<<<<<< HEAD
 	error = xfs_iget(mp, NULL, sbp->sb_rootino, 0, XFS_ILOCK_EXCL, &rip, 0);
-=======
-	error = xfs_iget(mp, NULL, sbp->sb_rootino, 0, XFS_ILOCK_EXCL, &rip);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (error) {
 		cmn_err(CE_WARN, "XFS: failed to read root inode");
 		goto out_log_dealloc;
@@ -1475,11 +1471,7 @@ xfs_log_sbcount(
 	if (!xfs_sb_version_haslazysbcount(&mp->m_sb))
 		return 0;
 
-<<<<<<< HEAD
 	tp = _xfs_trans_alloc(mp, XFS_TRANS_SB_COUNT);
-=======
-	tp = _xfs_trans_alloc(mp, XFS_TRANS_SB_COUNT, KM_SLEEP);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	error = xfs_trans_reserve(tp, 0, mp->m_sb.sb_sectsize + 128, 0, 0,
 					XFS_DEFAULT_LOG_COUNT);
 	if (error) {

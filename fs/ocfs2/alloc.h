@@ -317,12 +317,4 @@ int ocfs2_path_bh_journal_access(handle_t *handle,
 int ocfs2_journal_access_path(struct ocfs2_caching_info *ci,
 			      handle_t *handle,
 			      struct ocfs2_path *path);
-<<<<<<< HEAD
-=======
-int ocfs2_find_cpos_for_right_leaf(struct super_block *sb,
-				   struct ocfs2_path *path, u32 *cpos);
-int ocfs2_find_subtree_root(struct ocfs2_extent_tree *et,
-			    struct ocfs2_path *left,
-			    struct ocfs2_path *right);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #endif /* OCFS2_ALLOC_H */

@@ -968,10 +968,6 @@ static int svc_tcp_recv_record(struct svc_sock *svsk, struct svc_rqst *rqstp)
 	return len;
  err_delete:
 	set_bit(XPT_CLOSE, &svsk->sk_xprt.xpt_flags);
-<<<<<<< HEAD
-=======
-	svc_xprt_received(&svsk->sk_xprt);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  err_again:
 	return -EAGAIN;
 }

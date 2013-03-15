@@ -158,17 +158,9 @@ drivers-$(CONFIG_OPROFILE)	+= arch/powerpc/oprofile/
 # Default to zImage, override when needed
 all: zImage
 
-<<<<<<< HEAD
 BOOT_TARGETS = zImage zImage.initrd uImage zImage% dtbImage% treeImage.% cuImage.% simpleImage.%
 
 PHONY += $(BOOT_TARGETS)
-=======
-# With make 3.82 we cannot mix normal and wildcard targets
-BOOT_TARGETS1 := zImage zImage.initrd uImage
-BOOT_TARGETS2 := zImage% dtbImage% treeImage.% cuImage.% simpleImage.%
-
-PHONY += $(BOOT_TARGETS1) $(BOOT_TARGETS2)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 boot := arch/$(ARCH)/boot
 
@@ -183,23 +175,10 @@ relocs_check: arch/powerpc/relocs_check.pl vmlinux
 zImage: relocs_check
 endif
 
-<<<<<<< HEAD
 $(BOOT_TARGETS): vmlinux
 	$(Q)$(MAKE) ARCH=ppc64 $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
 
 bootwrapper_install %.dtb:
-=======
-$(BOOT_TARGETS1): vmlinux
-	$(Q)$(MAKE) ARCH=ppc64 $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
-$(BOOT_TARGETS2): vmlinux
-	$(Q)$(MAKE) ARCH=ppc64 $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
-
-
-bootwrapper_install:
-	$(Q)$(MAKE) ARCH=ppc64 $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
-
-%.dtb:
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	$(Q)$(MAKE) ARCH=ppc64 $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
 
 define archhelp

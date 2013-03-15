@@ -193,7 +193,6 @@ static int put_video_window32(struct video_window *kp, struct video_window32 __u
 struct video_code32 {
 	char		loadwhat[16];	/* name or tag of file being passed */
 	compat_int_t	datasize;
-<<<<<<< HEAD
 	unsigned char	*data;
 };
 
@@ -205,26 +204,6 @@ static int get_microcode32(struct video_code *kp, struct video_code32 __user *up
 		copy_from_user(kp->data, up->data, up->datasize))
 			return -EFAULT;
 	return 0;
-=======
-	compat_uptr_t	data;
-};
-
-static struct video_code __user *get_microcode32(struct video_code32 *kp)
-{
-	struct video_code __user *up;
-
-	up = compat_alloc_user_space(sizeof(*up));
-
-	/*
-	 * NOTE! We don't actually care if these fail. If the
-	 * user address is invalid, the native ioctl will do
-	 * the error handling for us
-	 */
-	(void) copy_to_user(up->loadwhat, kp->loadwhat, sizeof(up->loadwhat));
-	(void) put_user(kp->datasize, &up->datasize);
-	(void) put_user(compat_ptr(kp->data), &up->data);
-	return up;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #define VIDIOCGTUNER32		_IOWR('v', 4, struct video_tuner32)
@@ -762,11 +741,7 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 		struct video_tuner vt;
 		struct video_buffer vb;
 		struct video_window vw;
-<<<<<<< HEAD
 		struct video_code vc;
-=======
-		struct video_code32 vc;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		struct video_audio va;
 #endif
 		struct v4l2_format v2f;
@@ -845,16 +820,8 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 		break;
 
 	case VIDIOCSMICROCODE:
-<<<<<<< HEAD
 		err = get_microcode32(&karg.vc, up);
 		compatible_arg = 0;
-=======
-		/* Copy the 32-bit "video_code32" to kernel space */
-		if (copy_from_user(&karg.vc, up, sizeof(karg.vc)))
-			return -EFAULT;
-		/* Convert the 32-bit version to a 64-bit version in user space */
-		up = get_microcode32(&karg.vc);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		break;
 
 	case VIDIOCSFREQ:

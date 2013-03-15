@@ -138,11 +138,7 @@ struct vm_area_struct {
 					   within vm_mm. */
 
 	/* linked list of VM areas per task, sorted by address */
-<<<<<<< HEAD
 	struct vm_area_struct *vm_next;
-=======
-	struct vm_area_struct *vm_next, *vm_prev;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	pgprot_t vm_page_prot;		/* Access permissions of this VMA. */
 	unsigned long vm_flags;		/* Flags, see mm.h. */

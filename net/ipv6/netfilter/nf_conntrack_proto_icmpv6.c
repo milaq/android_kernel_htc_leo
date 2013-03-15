@@ -23,10 +23,7 @@
 #include <net/netfilter/nf_conntrack_tuple.h>
 #include <net/netfilter/nf_conntrack_l4proto.h>
 #include <net/netfilter/nf_conntrack_core.h>
-<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 #include <net/netfilter/ipv6/nf_conntrack_icmpv6.h>
 #include <net/netfilter/nf_log.h>
 
@@ -132,11 +129,7 @@ static bool icmpv6_new(struct nf_conn *ct, const struct sk_buff *skb,
 }
 
 static int
-<<<<<<< HEAD
 icmpv6_error_message(struct net *net, struct nf_conn *tmpl,
-=======
-icmpv6_error_message(struct net *net,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		     struct sk_buff *skb,
 		     unsigned int icmp6off,
 		     enum ip_conntrack_info *ctinfo,
@@ -145,10 +138,7 @@ icmpv6_error_message(struct net *net,
 	struct nf_conntrack_tuple intuple, origtuple;
 	const struct nf_conntrack_tuple_hash *h;
 	const struct nf_conntrack_l4proto *inproto;
-<<<<<<< HEAD
 	u16 zone = tmpl ? nf_ct_zone(tmpl) : NF_CT_DEFAULT_ZONE;
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	NF_CT_ASSERT(skb->nfct == NULL);
 
@@ -175,11 +165,7 @@ icmpv6_error_message(struct net *net,
 
 	*ctinfo = IP_CT_RELATED;
 
-<<<<<<< HEAD
 	h = nf_conntrack_find_get(net, zone, &intuple);
-=======
-	h = nf_conntrack_find_get(net, &intuple);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (!h) {
 		pr_debug("icmpv6_error: no match\n");
 		return -NF_ACCEPT;
@@ -195,12 +181,8 @@ icmpv6_error_message(struct net *net,
 }
 
 static int
-<<<<<<< HEAD
 icmpv6_error(struct net *net, struct nf_conn *tmpl,
 	     struct sk_buff *skb, unsigned int dataoff,
-=======
-icmpv6_error(struct net *net, struct sk_buff *skb, unsigned int dataoff,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	     enum ip_conntrack_info *ctinfo, u_int8_t pf, unsigned int hooknum)
 {
 	const struct icmp6hdr *icmp6h;
@@ -226,11 +208,7 @@ icmpv6_error(struct net *net, struct sk_buff *skb, unsigned int dataoff,
 	type = icmp6h->icmp6_type - 130;
 	if (type >= 0 && type < sizeof(noct_valid_new) &&
 	    noct_valid_new[type]) {
-<<<<<<< HEAD
 		skb->nfct = &nf_ct_untracked_get()->ct_general;
-=======
-		skb->nfct = &nf_conntrack_untracked.ct_general;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		skb->nfctinfo = IP_CT_NEW;
 		nf_conntrack_get(skb->nfct);
 		return NF_ACCEPT;
@@ -240,11 +218,7 @@ icmpv6_error(struct net *net, struct sk_buff *skb, unsigned int dataoff,
 	if (icmp6h->icmp6_type >= 128)
 		return NF_ACCEPT;
 
-<<<<<<< HEAD
 	return icmpv6_error_message(net, tmpl, skb, dataoff, ctinfo, hooknum);
-=======
-	return icmpv6_error_message(net, skb, dataoff, ctinfo, hooknum);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 }
 
 #if defined(CONFIG_NF_CT_NETLINK) || defined(CONFIG_NF_CT_NETLINK_MODULE)

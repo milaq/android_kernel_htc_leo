@@ -218,27 +218,21 @@ static inline void lru_cache_add_anon(struct page *page)
 	__lru_cache_add(page, LRU_INACTIVE_ANON);
 }
 
-<<<<<<< HEAD
 static inline void lru_cache_add_active_anon(struct page *page)
 {
 	__lru_cache_add(page, LRU_ACTIVE_ANON);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 static inline void lru_cache_add_file(struct page *page)
 {
 	__lru_cache_add(page, LRU_INACTIVE_FILE);
 }
 
-<<<<<<< HEAD
 static inline void lru_cache_add_active_file(struct page *page)
 {
 	__lru_cache_add(page, LRU_ACTIVE_FILE);
 }
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 /* linux/mm/vmscan.c */
 extern unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
 					gfp_t gfp_mask, nodemask_t *mask);

@@ -821,26 +821,12 @@ int netlink_attachskb(struct sock *sk, struct sk_buff *skb,
 	return 0;
 }
 
-<<<<<<< HEAD
 int netlink_sendskb(struct sock *sk, struct sk_buff *skb)
-=======
-static int __netlink_sendskb(struct sock *sk, struct sk_buff *skb)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 {
 	int len = skb->len;
 
 	skb_queue_tail(&sk->sk_receive_queue, skb);
 	sk->sk_data_ready(sk, len);
-<<<<<<< HEAD
-=======
-	return len;
-}
-
-int netlink_sendskb(struct sock *sk, struct sk_buff *skb)
-{
-	int len = __netlink_sendskb(sk, skb);
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	sock_put(sk);
 	return len;
 }
@@ -965,12 +951,8 @@ static inline int netlink_broadcast_deliver(struct sock *sk,
 	if (atomic_read(&sk->sk_rmem_alloc) <= sk->sk_rcvbuf &&
 	    !test_bit(0, &nlk->state)) {
 		skb_set_owner_r(skb, sk);
-<<<<<<< HEAD
 		skb_queue_tail(&sk->sk_receive_queue, skb);
 		sk->sk_data_ready(sk, skb->len);
-=======
-		__netlink_sendskb(sk, skb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return atomic_read(&sk->sk_rmem_alloc) > sk->sk_rcvbuf;
 	}
 	return -1;
@@ -1683,15 +1665,10 @@ static int netlink_dump(struct sock *sk)
 
 		if (sk_filter(sk, skb))
 			kfree_skb(skb);
-<<<<<<< HEAD
 		else {
 			skb_queue_tail(&sk->sk_receive_queue, skb);
 			sk->sk_data_ready(sk, skb->len);
 		}
-=======
-		else
-			__netlink_sendskb(sk, skb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return 0;
 	}
 
@@ -1703,15 +1680,10 @@ static int netlink_dump(struct sock *sk)
 
 	if (sk_filter(sk, skb))
 		kfree_skb(skb);
-<<<<<<< HEAD
 	else {
 		skb_queue_tail(&sk->sk_receive_queue, skb);
 		sk->sk_data_ready(sk, skb->len);
 	}
-=======
-	else
-		__netlink_sendskb(sk, skb);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (cb->done)
 		cb->done(cb);

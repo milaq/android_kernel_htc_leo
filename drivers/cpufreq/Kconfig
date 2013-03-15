@@ -110,7 +110,6 @@ config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	  Be aware that not all cpufreq drivers support the conservative
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
-<<<<<<< HEAD
 
 config CPU_FREQ_DEFAULT_GOV_SMARTASS
 	bool "smartass"
@@ -144,10 +143,6 @@ config CPU_FREQ_DEFAULT_GOV_SMARTASS2
   help
    Use the CPUFreq governor 'smartassV2' as default.
 
-=======
-endchoice
-
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config CPU_FREQ_GOV_PERFORMANCE
 	tristate "'performance' governor"
 	help
@@ -203,7 +198,6 @@ config CPU_FREQ_GOV_ONDEMAND
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_FREQ_GOV_INTERACTIVE
 	tristate "'interactive' cpufreq governor"
 	help
@@ -222,8 +216,6 @@ config CPU_FREQ_GOV_SMARTASS2
     'smartassV2' - a "smart" optimized governor for the hero!
     If in doubt, say N.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config CPU_FREQ_GOV_CONSERVATIVE
 	tristate "'conservative' cpufreq governor"
 	depends on CPU_FREQ
@@ -247,7 +239,6 @@ config CPU_FREQ_GOV_CONSERVATIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_FREQ_VDD_LEVELS
 	bool "CPU Vdd levels sysfs interface"
 	depends on CPU_FREQ_STAT
@@ -271,6 +262,4 @@ config CPU_FREQ_MIN_TICKS
 	help
 	  Minimum number of ticks between polling interval for governors.
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 endif	# CPU_FREQ

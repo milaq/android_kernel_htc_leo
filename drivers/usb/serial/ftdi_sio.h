@@ -1,16 +1,7 @@
 /*
-<<<<<<< HEAD
  * Definitions for the FTDI USB Single Port Serial Converter -
  * known as FTDI_SIO (Serial Input/Output application of the chipset)
  *
-=======
- * Driver definitions for the FTDI USB Single Port Serial Converter -
- * known as FTDI_SIO (Serial Input/Output application of the chipset)
- *
- * For USB vendor/product IDs (VID/PID), please see ftdi_sio_ids.h
- *
- *
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
  * The example I have is known as the USC-1000 which is available from
  * http://www.dse.co.nz - cat no XH4214 It looks similar to this:
  * http://www.dansdata.com/usbser.htm but I can't be sure There are other
@@ -26,7 +17,6 @@
  * Bill Ryder - bryder@sgi.com formerly of Silicon Graphics, Inc.- wrote the
  * FTDI_SIO implementation.
  *
-<<<<<<< HEAD
  * Philipp Gühring - pg@futureware.at - added the Device ID of the USB relais
  * from Rudolf Gugler
  *
@@ -901,9 +891,6 @@
 /* Alti-2 products  http://www.alti-2.com */
 #define ALTI2_VID	0x1BC9
 #define ALTI2_N3_PID	0x6001	/* Neptune 3 */
-=======
- */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /* Commands */
 #define FTDI_SIO_RESET 		0 /* Reset the port */
@@ -923,7 +910,6 @@
 #define INTERFACE_C		3
 #define INTERFACE_D		4
 
-<<<<<<< HEAD
 /*
  * FIC / OpenMoko, Inc. http://wiki.openmoko.org/wiki/Neo1973_Debug_Board_v3
  * Submitted by Harald Welte <laforge@openmoko.org>
@@ -1004,8 +990,6 @@
  */
 #define        HAMEG_HO820_PID         0xed74
 #define        HAMEG_HO870_PID         0xed71
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 /*
  *   BmRequestType:  1100 0000b
@@ -1520,7 +1504,4 @@ typedef enum {
  * B2..7	Length of message - (not including Byte 0)
  *
  */
-<<<<<<< HEAD
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e

@@ -50,13 +50,8 @@ struct nf_conntrack_l4proto
 	/* Called when a conntrack entry is destroyed */
 	void (*destroy)(struct nf_conn *ct);
 
-<<<<<<< HEAD
 	int (*error)(struct net *net, struct nf_conn *tmpl, struct sk_buff *skb,
 		     unsigned int dataoff, enum ip_conntrack_info *ctinfo,
-=======
-	int (*error)(struct net *net, struct sk_buff *skb, unsigned int dataoff,
-		     enum ip_conntrack_info *ctinfo,
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		     u_int8_t pf, unsigned int hooknum);
 
 	/* Print out the per-protocol part of the tuple. Return like seq_* */

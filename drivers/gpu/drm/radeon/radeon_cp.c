@@ -417,14 +417,8 @@ static int radeon_do_wait_for_idle(drm_radeon_private_t * dev_priv)
 	return -EBUSY;
 }
 
-<<<<<<< HEAD
 static void radeon_init_pipes(drm_radeon_private_t *dev_priv)
 {
-=======
-static void radeon_init_pipes(struct drm_device *dev)
-{
-	drm_radeon_private_t *dev_priv = dev->dev_private;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	uint32_t gb_tile_config, gb_pipe_sel = 0;
 
 	if ((dev_priv->flags & RADEON_FAMILY_MASK) == CHIP_RV530) {
@@ -442,20 +436,11 @@ static void radeon_init_pipes(struct drm_device *dev)
 		dev_priv->num_gb_pipes = ((gb_pipe_sel >> 12) & 0x3) + 1;
 	} else {
 		/* R3xx */
-<<<<<<< HEAD
 		if (((dev_priv->flags & RADEON_FAMILY_MASK) == CHIP_R300) ||
 		    ((dev_priv->flags & RADEON_FAMILY_MASK) == CHIP_R350)) {
 			dev_priv->num_gb_pipes = 2;
 		} else {
 			/* R3Vxx */
-=======
-		if (((dev_priv->flags & RADEON_FAMILY_MASK) == CHIP_R300 &&
-		     dev->pdev->device != 0x4144) ||
-		    ((dev_priv->flags & RADEON_FAMILY_MASK) == CHIP_R350)) {
-			dev_priv->num_gb_pipes = 2;
-		} else {
-			/* RV3xx/R300 AD */
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 			dev_priv->num_gb_pipes = 1;
 		}
 	}
@@ -751,11 +736,7 @@ static int radeon_do_engine_reset(struct drm_device * dev)
 
 	/* setup the raster pipes */
 	if ((dev_priv->flags & RADEON_FAMILY_MASK) >= CHIP_R300)
-<<<<<<< HEAD
 	    radeon_init_pipes(dev_priv);
-=======
-	    radeon_init_pipes(dev);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	/* Reset the CP ring */
 	radeon_do_cp_reset(dev_priv);
@@ -1663,10 +1644,6 @@ static int radeon_do_resume_cp(struct drm_device *dev, struct drm_file *file_pri
 	radeon_cp_load_microcode(dev_priv);
 	radeon_cp_init_ring_buffer(dev, dev_priv, file_priv);
 
-<<<<<<< HEAD
-=======
-	dev_priv->have_z_offset = 0;
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	radeon_do_engine_reset(dev);
 	radeon_irq_set_state(dev, RADEON_SW_INT_ENABLE, 1);
 

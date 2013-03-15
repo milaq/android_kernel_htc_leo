@@ -189,17 +189,10 @@ struct multicall_space __xen_mc_entry(size_t args)
 	unsigned argidx = roundup(b->argidx, sizeof(u64));
 
 	BUG_ON(preemptible());
-<<<<<<< HEAD
 	BUG_ON(b->argidx > MC_ARGS);
 
 	if (b->mcidx == MC_BATCH ||
 	    (argidx + args) > MC_ARGS) {
-=======
-	BUG_ON(b->argidx >= MC_ARGS);
-
-	if (b->mcidx == MC_BATCH ||
-	    (argidx + args) >= MC_ARGS) {
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		mc_stats_flush(b->mcidx == MC_BATCH ? FL_SLOTS : FL_ARGS);
 		xen_mc_flush();
 		argidx = roundup(b->argidx, sizeof(u64));
@@ -213,11 +206,7 @@ struct multicall_space __xen_mc_entry(size_t args)
 	ret.args = &b->args[argidx];
 	b->argidx = argidx + args;
 
-<<<<<<< HEAD
 	BUG_ON(b->argidx > MC_ARGS);
-=======
-	BUG_ON(b->argidx >= MC_ARGS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 
@@ -227,11 +216,7 @@ struct multicall_space xen_mc_extend_args(unsigned long op, size_t size)
 	struct multicall_space ret = { NULL, NULL };
 
 	BUG_ON(preemptible());
-<<<<<<< HEAD
 	BUG_ON(b->argidx > MC_ARGS);
-=======
-	BUG_ON(b->argidx >= MC_ARGS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 	if (b->mcidx == 0)
 		return ret;
@@ -239,22 +224,14 @@ struct multicall_space xen_mc_extend_args(unsigned long op, size_t size)
 	if (b->entries[b->mcidx - 1].op != op)
 		return ret;
 
-<<<<<<< HEAD
 	if ((b->argidx + size) > MC_ARGS)
-=======
-	if ((b->argidx + size) >= MC_ARGS)
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 		return ret;
 
 	ret.mc = &b->entries[b->mcidx - 1];
 	ret.args = &b->args[b->argidx];
 	b->argidx += size;
 
-<<<<<<< HEAD
 	BUG_ON(b->argidx > MC_ARGS);
-=======
-	BUG_ON(b->argidx >= MC_ARGS);
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	return ret;
 }
 

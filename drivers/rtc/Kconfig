@@ -109,7 +109,6 @@ config RTC_INTF_DEV_UIE_EMUL
 	  clock several times per second, please enable this option
 	  only if you know that you really need it.
 
-<<<<<<< HEAD
 config RTC_INTF_ALARM
 	bool "Android alarm driver"
 	depends on RTC_CLASS
@@ -128,8 +127,6 @@ config RTC_INTF_ALARM_DEV
 	  Exports the alarm interface to user-space.
 
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config RTC_DRV_TEST
 	tristate "Test driver/device"
 	help
@@ -597,7 +594,6 @@ config RTC_DRV_AB3100
 
 comment "on-CPU RTC drivers"
 
-<<<<<<< HEAD
 config RTC_DRV_MSM7X00A
 	tristate "MSM7X00A"
 	depends on ARCH_MSM
@@ -605,8 +601,6 @@ config RTC_DRV_MSM7X00A
 	help
 	  RTC driver for Qualcomm MSM7K chipsets
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 config RTC_DRV_OMAP
 	tristate "TI OMAP1"
 	depends on ARCH_OMAP15XX || ARCH_OMAP16XX || ARCH_OMAP730

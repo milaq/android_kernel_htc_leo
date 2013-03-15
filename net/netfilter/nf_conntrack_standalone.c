@@ -26,10 +26,7 @@
 #include <net/netfilter/nf_conntrack_expect.h>
 #include <net/netfilter/nf_conntrack_helper.h>
 #include <net/netfilter/nf_conntrack_acct.h>
-<<<<<<< HEAD
 #include <net/netfilter/nf_conntrack_zones.h>
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 
 MODULE_LICENSE("GPL");
 
@@ -175,14 +172,11 @@ static int ct_seq_show(struct seq_file *s, void *v)
 		goto release;
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_NF_CONNTRACK_ZONES
 	if (seq_printf(s, "zone=%u ", nf_ct_zone(ct)))
 		goto release;
 #endif
 
-=======
->>>>>>> 3ed9fdb7ac17e98f8501bcbcf78d5374a929ef0e
 	if (seq_printf(s, "use=%u\n", atomic_read(&ct->ct_general.use)))
 		goto release;
 
