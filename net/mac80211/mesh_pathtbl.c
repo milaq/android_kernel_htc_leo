@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2009 open80211s Ltd.
+ * Copyright (c) 2008 open80211s Ltd.
  * Author:     Luis Carlos Cobo <luisca@cozybit.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -10,7 +10,6 @@
 #include <linux/etherdevice.h>
 #include <linux/list.h>
 #include <linux/random.h>
-#include <linux/slab.h>
 #include <linux/spinlock.h>
 #include <linux/string.h>
 #include <net/mac80211.h>
@@ -245,7 +244,7 @@ struct mesh_path *mesh_path_lookup_by_idx(int idx, struct ieee80211_sub_if_data 
  * @addr: destination address of the path (ETH_ALEN length)
  * @sdata: local subif
  *
- * Returns: 0 on success
+ * Returns: 0 on sucess
  *
  * State: the initial state of the new path is set to 0
  */
@@ -261,7 +260,7 @@ int mesh_path_add(u8 *dst, struct ieee80211_sub_if_data *sdata)
 	int err = 0;
 	u32 hash_idx;
 
-	if (memcmp(dst, sdata->vif.addr, ETH_ALEN) == 0)
+	if (memcmp(dst, sdata->dev->dev_addr, ETH_ALEN) == 0)
 		/* never add ourselves as neighbours */
 		return -ENOTSUPP;
 
@@ -315,7 +314,7 @@ int mesh_path_add(u8 *dst, struct ieee80211_sub_if_data *sdata)
 	read_unlock(&pathtbl_resize_lock);
 	if (grow) {
 		set_bit(MESH_WORK_GROW_MPATH_TABLE,  &ifmsh->wrkq_flags);
-		ieee80211_queue_work(&local->hw, &sdata->work);
+		ieee80211_queue_work(&local->hw, &ifmsh->work);
 	}
 	return 0;
 
@@ -378,7 +377,7 @@ int mpp_path_add(u8 *dst, u8 *mpp, struct ieee80211_sub_if_data *sdata)
 	int err = 0;
 	u32 hash_idx;
 
-	if (memcmp(dst, sdata->vif.addr, ETH_ALEN) == 0)
+	if (memcmp(dst, sdata->dev->dev_addr, ETH_ALEN) == 0)
 		/* never add ourselves as neighbours */
 		return -ENOTSUPP;
 
@@ -425,7 +424,7 @@ int mpp_path_add(u8 *dst, u8 *mpp, struct ieee80211_sub_if_data *sdata)
 	read_unlock(&pathtbl_resize_lock);
 	if (grow) {
 		set_bit(MESH_WORK_GROW_MPP_TABLE,  &ifmsh->wrkq_flags);
-		ieee80211_queue_work(&local->hw, &sdata->work);
+		ieee80211_queue_work(&local->hw, &ifmsh->work);
 	}
 	return 0;
 
@@ -450,7 +449,6 @@ err_path_alloc:
  */
 void mesh_plink_broken(struct sta_info *sta)
 {
-	static const u8 bcast[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 	struct mesh_path *mpath;
 	struct mpath_node *node;
 	struct hlist_node *p;
@@ -465,12 +463,11 @@ void mesh_plink_broken(struct sta_info *sta)
 		    mpath->flags & MESH_PATH_ACTIVE &&
 		    !(mpath->flags & MESH_PATH_FIXED)) {
 			mpath->flags &= ~MESH_PATH_ACTIVE;
-			++mpath->sn;
+			++mpath->dsn;
 			spin_unlock_bh(&mpath->state_lock);
-			mesh_path_error_tx(sdata->u.mesh.mshcfg.element_ttl,
-					mpath->dst, cpu_to_le32(mpath->sn),
-					cpu_to_le16(PERR_RCODE_DEST_UNREACH),
-					bcast, sdata);
+			mesh_path_error_tx(mpath->dst,
+					cpu_to_le32(mpath->dsn),
+					sdata->dev->broadcast, sdata);
 		} else
 		spin_unlock_bh(&mpath->state_lock);
 	}
@@ -533,7 +530,7 @@ static void mesh_path_node_reclaim(struct rcu_head *rp)
  * @addr: dst address (ETH_ALEN length)
  * @sdata: local subif
  *
- * Returns: 0 if successful
+ * Returns: 0 if succesful
  */
 int mesh_path_del(u8 *addr, struct ieee80211_sub_if_data *sdata)
 {
@@ -604,19 +601,17 @@ void mesh_path_discard_frame(struct sk_buff *skb,
 {
 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
 	struct mesh_path *mpath;
-	u32 sn = 0;
+	u32 dsn = 0;
 
-	if (memcmp(hdr->addr4, sdata->vif.addr, ETH_ALEN) != 0) {
+	if (memcmp(hdr->addr4, sdata->dev->dev_addr, ETH_ALEN) != 0) {
 		u8 *ra, *da;
 
 		da = hdr->addr3;
 		ra = hdr->addr1;
 		mpath = mesh_path_lookup(da, sdata);
 		if (mpath)
-			sn = ++mpath->sn;
-		mesh_path_error_tx(sdata->u.mesh.mshcfg.element_ttl, skb->data,
-				   cpu_to_le32(sn),
-				   cpu_to_le16(PERR_RCODE_NO_ROUTE), ra, sdata);
+			dsn = ++mpath->dsn;
+		mesh_path_error_tx(skb->data, cpu_to_le32(dsn), ra, sdata);
 	}
 
 	kfree_skb(skb);
@@ -651,7 +646,7 @@ void mesh_path_fix_nexthop(struct mesh_path *mpath, struct sta_info *next_hop)
 {
 	spin_lock_bh(&mpath->state_lock);
 	mesh_path_assign_nexthop(mpath, next_hop);
-	mpath->sn = 0xffff;
+	mpath->dsn = 0xffff;
 	mpath->metric = 0;
 	mpath->hop_count = 0;
 	mpath->exp_time = 0;
