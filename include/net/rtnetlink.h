@@ -55,15 +55,13 @@ struct rtnl_link_ops {
 	int			(*validate)(struct nlattr *tb[],
 					    struct nlattr *data[]);
 
-	int			(*newlink)(struct net *src_net,
-					   struct net_device *dev,
+	int			(*newlink)(struct net_device *dev,
 					   struct nlattr *tb[],
 					   struct nlattr *data[]);
 	int			(*changelink)(struct net_device *dev,
 					      struct nlattr *tb[],
 					      struct nlattr *data[]);
-	void			(*dellink)(struct net_device *dev,
-					   struct list_head *head);
+	void			(*dellink)(struct net_device *dev);
 
 	size_t			(*get_size)(const struct net_device *dev);
 	int			(*fill_info)(struct sk_buff *skb,
@@ -84,11 +82,8 @@ extern void	rtnl_kill_links(struct net *net, struct rtnl_link_ops *ops);
 extern int	rtnl_link_register(struct rtnl_link_ops *ops);
 extern void	rtnl_link_unregister(struct rtnl_link_ops *ops);
 
-extern struct net *rtnl_link_get_net(struct net *src_net, struct nlattr *tb[]);
-extern struct net_device *rtnl_create_link(struct net *src_net, struct net *net,
-	char *ifname, const struct rtnl_link_ops *ops, struct nlattr *tb[]);
-extern int rtnl_configure_link(struct net_device *dev,
-			       const struct ifinfomsg *ifm);
+extern struct net_device *rtnl_create_link(struct net *net, char *ifname,
+		const struct rtnl_link_ops *ops, struct nlattr *tb[]);
 extern const struct nla_policy ifla_policy[IFLA_MAX+1];
 
 #define MODULE_ALIAS_RTNL_LINK(kind) MODULE_ALIAS("rtnl-link-" kind)
