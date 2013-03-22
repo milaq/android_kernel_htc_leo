@@ -277,13 +277,13 @@ EXPORT_SYMBOL_GPL(rtnl_link_register);
 static void __rtnl_kill_links(struct net *net, struct rtnl_link_ops *ops)
 {
 	struct net_device *dev;
-	LIST_HEAD(list_kill);
-
+restart:
 	for_each_netdev(net, dev) {
-		if (dev->rtnl_link_ops == ops)
-			ops->dellink(dev, &list_kill);
+		if (dev->rtnl_link_ops == ops) {
+			ops->dellink(dev);
+			goto restart;
+		}
 	}
-//	unregister_netdevice_many(&list_kill);
 }
 
 void rtnl_kill_links(struct net *net, struct rtnl_link_ops *ops)
@@ -940,7 +940,6 @@ static int rtnl_dellink(struct sk_buff *skb, struct nlmsghdr *nlh, void *arg)
 	char ifname[IFNAMSIZ];
 	struct nlattr *tb[IFLA_MAX+1];
 	int err;
-	LIST_HEAD(list_kill);
 
 	err = nlmsg_parse(nlh, sizeof(*ifm), tb, IFLA_MAX, ifla_policy);
 	if (err < 0)
@@ -964,14 +963,12 @@ static int rtnl_dellink(struct sk_buff *skb, struct nlmsghdr *nlh, void *arg)
 	if (!ops)
 		return -EOPNOTSUPP;
 
-	ops->dellink(dev, &list_kill);
-//	unregister_netdevice_many(&list_kill);
-	list_del(&list_kill);
+	ops->dellink(dev);
 	return 0;
 }
 
-struct net_device *rtnl_create_link(struct net *src_net, struct net *net,
-	char *ifname, const struct rtnl_link_ops *ops, struct nlattr *tb[])
+struct net_device *rtnl_create_link(struct net *net, char *ifname,
+		const struct rtnl_link_ops *ops, struct nlattr *tb[])
 {
 	int err;
 	struct net_device *dev;
@@ -1074,7 +1071,6 @@ replay:
 
 	if (1) {
 		struct nlattr *attr[ops ? ops->maxtype + 1 : 0], **data = NULL;
-		struct net *dest_net;
 
 		if (ops) {
 			if (ops->maxtype && linkinfo[IFLA_INFO_DATA]) {
@@ -1138,16 +1134,13 @@ replay:
 
 		if (!ifname[0])
 			snprintf(ifname, IFNAMSIZ, "%s%%d", ops->kind);
-		dest_net = rtnl_link_get_net(net, tb);
-		if (IS_ERR(dest_net))
-			return PTR_ERR(dest_net);
 
-		dev = rtnl_create_link(net, dest_net, ifname, ops, tb);
+		dev = rtnl_create_link(net, ifname, ops, tb);
 
 		if (IS_ERR(dev))
 			err = PTR_ERR(dev);
 		else if (ops->newlink)
-			err = ops->newlink(net, dev, tb, data);
+			err = ops->newlink(dev, tb, data);
 		else
 			err = register_netdevice(dev);
 
@@ -1419,5 +1412,5 @@ EXPORT_SYMBOL(rtnl_is_locked);
 EXPORT_SYMBOL(rtnl_unicast);
 EXPORT_SYMBOL(rtnl_notify);
 EXPORT_SYMBOL(rtnl_set_sk_err);
-//EXPORT_SYMBOL(rtnl_create_link);
+EXPORT_SYMBOL(rtnl_create_link);
 EXPORT_SYMBOL(ifla_policy);
