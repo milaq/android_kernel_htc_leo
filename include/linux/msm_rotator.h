@@ -28,7 +28,7 @@
  */
 
 #ifndef __MSM_ROTATOR_H__
-#ifdef CONFIG_MSM_MDP40
+#define __MSM_ROTATOR_H__
 
 #include <linux/types.h>
 #include <linux/msm_mdp.h>
@@ -41,6 +41,8 @@
 		_IOW(MSM_ROTATOR_IOCTL_MAGIC, 2, struct msm_rotator_data_info)
 #define MSM_ROTATOR_IOCTL_FINISH   \
 		_IOW(MSM_ROTATOR_IOCTL_MAGIC, 3, int)
+
+#define ROTATOR_VERSION_01	0xA5B4C301
 
 enum rotator_clk_type {
 	ROTATOR_AXICLK_CLK,
@@ -63,6 +65,11 @@ struct msm_rotator_data_info {
 	int session_id;
 	struct msmfb_data src;
 	struct msmfb_data dst;
+#ifndef CONFIG_MSM_ROTATOR_LEGACY
+	unsigned int version_key;
+	struct msmfb_data src_chroma;
+	struct msmfb_data dst_chroma;
+#endif
 };
 
 struct msm_rot_clocks {
@@ -77,6 +84,5 @@ struct msm_rotator_platform_data {
 	struct msm_rot_clocks *rotator_clks;
 	const char *regulator_name;
 };
-#endif
 #endif
 
